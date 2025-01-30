@@ -1,6 +1,6 @@
 # A counterfactual simulation model of causal language
 
-This repository contains materials for the [paper](https://osf.io/preprints/psyarxiv/xv8hf) "A counterfactual simulation model of causal language" by Ari Beller and Tobias Gerstenberg.
+This repository contains materials for the Cognitive Science Proceedings 2025 [paper]() "Lay Copyrightability of Artificial Intelligence Assisted Visual Artwork"" by David G. Kamper, Alice Lin, and Keith J. Holyoak.
 
 ## Introduction
 
@@ -12,11 +12,10 @@ We test our model in a series of experiments. In a first set of psycholinguistic
 
 ## Preregistrations
 
-Preregistrations for all studies in Experiment 1 are available on the Open Science Framework:
+Preregistrations for all experiments are available on the Open Science Framework:
 
-- [Experiment 1A (norming study)](https://osf.io/kx5fg)
-- [Experiment 1B (semantics study)](https://osf.io/2un9v)
-- [Experiment 1C (pragmatics study)](https://osf.io/ak5yd)
+- [Experiment 1 (initial study)](https://osf.io/kx5fg)
+- [Experiment 2 (effort study)](https://osf.io/2un9v)
 
 ## Repository Structure
 
@@ -168,19 +167,19 @@ R package versions are indicated in the knitted analysis file `code/R/analysis.h
 
 [What is a CRediT author statement?](https://www.elsevier.com/researcher/author/policies-and-guidelines/credit-author-statement)
 
-| Term                       | Ari Beller | Tobias Gerstenberg |
-|----------------------------|------------|--------------------|
-| Conceptualization          | X          | X                  |
-| Methodology                | X          | X                  |
+| Term                       | David G. Kamper | Alice Lin | Keith J. Holyoak |
+|----------------------------|------------|--------------------|--------------------|
+| Conceptualization          | X          |                    | X
+| Methodology                | X          | X                  | X
 | Software                   | X          | X                  |
 | Validation                 | X          | X                  |
-| Formal analysis            | X          | X                  |
+| Formal analysis            | X          |                    |
 | Investigation              | X          |                    |
-| Resources                  |            |                    |
-| Data Curation              | X          |                    |
+| Resources                  | X          |                    |
+| Data Curation              | X          | X                  |
 | Writing - Original Draft   | X          |                    |
-| Writing - Review & Editing | X          | X                  |
+| Writing - Review & Editing | X          | X                  | X
 | Visualization              | X          |                    |
-| Supervision                |            | X                  |
-| Project administration     |            | X                  |
-| Funding acquisition        |            | X                  |
+| Supervision                |            |                    | X
+| Project administration     | X          |                    | 
+| Funding acquisition        | X          |                    | X
