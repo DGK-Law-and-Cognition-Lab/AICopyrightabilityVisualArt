@@ -20,34 +20,38 @@ To investigate these questions, we conducted two preregistered experiments. Stud
 
 Preregistrations for all experiments are available on the Open Science Framework:
 
-- [Experiment 1 (initial study)]()
-- [Experiment 2 (effort study)]()
+- [Experiment 1]()
+- [Experiment 2]()
 
 ## Repository Structure
 
 ```
 .
 ├── README.md
-├── code
+├── Code
 │   └──  R
-├── qualtrics
-├── data
+├── Qualtrics
+├── Data
 │   ├── Study 1
 │   └── Study 2
-└── figures
+└── Figures
 ```
 
-### code
+### Code
 
 #### R
 
-1. `analysis.Rmd` is the primary analysis file. Contains analyses and visualizations for all experiments in the paper.
+`AIArtStudy1.Rmd` and `AIArtStudy2.Rmd` are the primary analyses files. They Contains analyses and visualizations for all experiments in the paper.
 
-### data
+### Qualtrics
+
+Contains survey flow and questions.
+
+### Data
 
 Contains raw data files for each of the experiments.
 
-### figures
+### Figures
 
 1. `paper_figures` contains data visualizations generated in R and included in the paper.
 
@@ -65,18 +69,18 @@ R package versions are indicated in the knitted analysis file at `code/R/AIArtSt
 [What is a CRediT author statement?](https://www.elsevier.com/researcher/author/policies-and-guidelines/credit-author-statement)
 
 | Term                       | David G. Kamper | Alice Lin | Keith J. Holyoak |
-|----------------------------|------------|--------------------|--------------------|
-| Conceptualization          | X          |                    | X
-| Methodology                | X          | X                  | X
-| Software                   | X          | X                  |
-| Validation                 | X          | X                  |
-| Formal analysis            | X          |                    |
-| Investigation              | X          |                    |
-| Resources                  | X          |                    |
-| Data Curation              | X          | X                  |
-| Writing - Original Draft   | X          |                    |
-| Writing - Review & Editing | X          | X                  | X
-| Visualization              | X          |                    |
-| Supervision                |            |                    | X
-| Project administration     | X          |                    | 
-| Funding acquisition        | X          |                    | X
+|----------------------------|-----------------|-----------|------------------|
+| Conceptualization          | X               |           | X
+| Methodology                | X               | X         | X
+| Software                   | X               | X         |
+| Validation                 | X               | X         | X
+| Formal analysis            | X               |           |
+| Investigation              | X               |           |
+| Resources                  | X               |           |
+| Data Curation              | X               | X         |
+| Writing - Original Draft   | X               |           |
+| Writing - Review & Editing | X               | X         | X
+| Visualization              | X               |           |
+| Supervision                |                 |           | X
+| Project administration     | X               |           | 
+| Funding acquisition        | X               |           | X
