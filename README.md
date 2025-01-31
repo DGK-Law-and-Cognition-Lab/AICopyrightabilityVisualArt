@@ -41,7 +41,7 @@ Preregistrations for all experiments are available on the Open Science Framework
 
 #### R
 
-`AIArtStudy1.Rmd` and `AIArtStudy2.Rmd` are the primary analyses files. They Contains analyses and visualizations for all experiments in the paper.
+`AIArtStudy1.Rmd` and `AIArtStudy2.Rmd` are the primary analyses files. They contain the analyses and visualizations for all experiments in the paper.
 
 ### Qualtrics
 
