@@ -53,7 +53,7 @@ Contains raw data files for each of the experiments.
 
 ### Figures
 
-1. `paper_figures` contains data visualizations generated in R and included in the paper.
+These contain the data visualizations generated in R and included in the paper.
 
 ### Paper Results
 All results is analyzed and in visualized `code/R/AIArtStudy1.Rmd` and `code/R/AIArtStudy2.Rmd` All paper results are included in the document. Knitted document can be viewed `code/R/AIArtStudy1.html` and `code/R/AIArtStudy2.html`
