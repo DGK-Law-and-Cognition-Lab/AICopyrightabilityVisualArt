@@ -32,8 +32,6 @@ Preregistrations for all experiments are available on the Open Science Framework
 │   └──  R
 ├── Qualtrics
 ├── Data
-│   ├── Study 1
-│   └── Study 2
 └── Figures
 ```
 
