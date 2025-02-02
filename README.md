@@ -56,13 +56,13 @@ Contains raw data files for each of the experiments.
 These contain the data visualizations generated in R and included in the paper.
 
 ### Paper Results
-All results is analyzed and in visualized `code/R/AIArtStudy1.Rmd` and `code/R/AIArtStudy2.Rmd` All paper results are included in the document. Knitted document can be viewed `code/R/AIArtStudy1.html` and `code/R/AIArtStudy2.html`
+All results is analyzed and in visualized `code/R/AIArtStudy1_Final.Rmd` and `code/R/AIArtStudy2_Final.Rmd` All paper results are included in the document. Knitted document can be viewed `code/R/AIArtStudy1.html` and `code/R/AIArtStudy2.html`
 
 ## Software versions 
 
 Analysis was performed in R version 4.2.2.
 
-R package versions are indicated in the knitted analysis file at `code/R/AIArtStudy1.html` and `code/R/AIArtStudy2.html`.
+R package versions are indicated in the knitted analysis file at `code/R/AIArtStudy1_Final.html` and `code/R/AIArtStudy2_Final.html`.
 
 ## CRediT author statement
 
