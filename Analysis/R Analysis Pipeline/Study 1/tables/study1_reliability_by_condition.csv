@@ -1,0 +1,7 @@
+dimension,Type,n_participants,cronbach_alpha
+creativity,Human,56,0.7916716942176459
+creativity,AI,55,0.9038075823875206
+effort,Human,56,0.7355512001915396
+effort,AI,55,0.9518041205637381
+creativity,pooled (inflated by condition effect; do not report),111,0.8763045162260474
+effort,pooled (inflated by condition effect; do not report),111,0.9250550118984232

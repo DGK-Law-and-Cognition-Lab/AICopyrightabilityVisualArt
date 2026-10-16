@@ -1,0 +1,12 @@
+item,value
+run_id,20261015T205712Z-67bfab03
+python,3.12.3
+platform,macOS-26.6.2-arm64-arm-64bit
+pandas,2.2.2
+numpy,1.26.4
+scikit-learn,1.5.2
+scipy,1.13.0
+sentence-transformers,3.3.1
+torch,2.5.1
+embedding_model,"sentence-transformers/all-mpnet-base-v2, loaded from the local copy"
+kmeans_openmp_threads,1

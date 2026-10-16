@@ -1,0 +1,7 @@
+step,n,removed,registered_n,match
+records in export,140,NA,140,TRUE
+"preview records, which are test runs (Status is Survey Preview)",133,7,133,TRUE
+unfinished records,125,8,125,TRUE
+"any seriousness answer but Yes, I did, a blank included",119,6,119,TRUE
+wrong answers to What does 8+7 equal? (a blank passes),119,0,119,TRUE
+records that are not a valid completion,117,2,117,TRUE

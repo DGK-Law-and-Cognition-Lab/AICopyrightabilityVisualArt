@@ -1,0 +1,11 @@
+dimension,term,est_primary,est_maximal,se_maximal,p_maximal,by_stim_type_slope_sd,singular,optimizer,converged,fit_error,lme4_messages,fit_note
+creativity,(Intercept),3.371428571428467,3.3714285714279555,0.24035202802447173,4.255209289820393e-8,0.07576633605339209,TRUE,bobyqa,TRUE,FALSE,boundary (singular) fit: see help('isSingular'),
+creativity,TypeAI,-0.4077922077922403,-0.4077922077920506,0.14177617591461045,0.005087294477621654,0.07576633605339209,TRUE,bobyqa,TRUE,FALSE,boundary (singular) fit: see help('isSingular'),
+creativity,stimulus_typeFigure,0.3500000000000487,0.35000000000049386,0.31870465393785985,0.3038055260765815,0.07576633605339209,TRUE,bobyqa,TRUE,FALSE,boundary (singular) fit: see help('isSingular'),
+creativity,TypeAI:stimulus_typeFigure,-0.08090909090909097,-0.08090909090918633,0.1096173919455065,0.46845696580585794,0.07576633605339209,TRUE,bobyqa,TRUE,FALSE,boundary (singular) fit: see help('isSingular'),
+creativity,"H1 marginal contrast: Human - AI, averaged over image kind",0.44824675324678576,0.44824675324664376,0.1305471902528883,8.628838224376043e-4,0.07576633605339209,TRUE,bobyqa,TRUE,FALSE,boundary (singular) fit: see help('isSingular'),
+effort,(Intercept),3.717857142857392,3.717857142857809,0.1826398932915883,1.1430549982281475e-12,0.01555707484567538,TRUE,bobyqa,TRUE,FALSE,boundary (singular) fit: see help('isSingular'),
+effort,TypeAI,-0.9105844155845251,-0.910584415584705,0.1553860681993683,4.9294301906009063e-8,0.01555707484567538,TRUE,bobyqa,TRUE,FALSE,boundary (singular) fit: see help('isSingular'),
+effort,stimulus_typeFigure,0.08928571428570972,0.08928571428513302,0.2176947325776173,0.6924271899581469,0.01555707484567538,TRUE,bobyqa,TRUE,FALSE,boundary (singular) fit: see help('isSingular'),
+effort,TypeAI:stimulus_typeFigure,-0.020194805194802566,-0.020194805194726446,0.09638979054579275,0.8342114640338358,0.01555707484567538,TRUE,bobyqa,TRUE,FALSE,boundary (singular) fit: see help('isSingular'),
+effort,"H1 marginal contrast: Human - AI, averaged over image kind",0.9206818181819264,0.9206818181820683,0.15158765287467757,1.867982244696662e-8,0.01555707484567538,TRUE,bobyqa,TRUE,FALSE,boundary (singular) fit: see help('isSingular'),

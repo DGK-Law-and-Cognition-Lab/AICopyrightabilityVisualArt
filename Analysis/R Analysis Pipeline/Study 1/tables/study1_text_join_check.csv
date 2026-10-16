@@ -1,0 +1,9 @@
+quantity,value
+rows in ratings file,2220
+rows in flags file,2220
+rows after join,2220
+responses with text but no rating match,0
+ratings with no text (dropped),0
+participants,111
+participants in Human arm,56
+participants in AI arm,55

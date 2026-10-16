@@ -1,0 +1,1173 @@
+====================================================================================================
+STUDY 1 TEXT MEASURES: CANDIDATE WORDS FOR EACH RULE
+====================================================================================================
+
+WHAT THIS FILE SHOWS
+
+Each rule below is followed by up to 30 words. They are words over-represented in
+the responses that rule flags, compared with the rest of the corpus, and not named
+by the rule itself: the words that behave like the rule's own words without being
+on its list.
+
+The list is reported so that a reader can judge the rules' coverage. A word here
+that plainly names a rule's topic shows a hole in that rule's vocabulary; a word that
+merely sits beside the rule's subject shows nothing of the kind, and most words are
+expected to be of that second kind. No word is ever added to a rule after the data
+have been seen: the rules stand as written in text_rules.txt, whatever this list
+holds, and nothing in the notebook reads this file back.
+
+The example under each word is a real response containing it, taken from the
+responses the rule does NOT flag, so it shows the response the rule would
+have caught had the word been on its list. Where a word appears only inside
+already-flagged responses, the example is labelled as such.
+
+WHAT THIS FILE IS NOT. It does not measure recall, the share of its subject a rule
+catches. Measuring that would need a person to read responses the rule stayed silent
+on and judge them one at a time, because a response can be a miss without containing
+any unusual word: it can say the thing plainly, in common words. This file shows
+phrasings a rule may have missed. It produces no percentage, no confidence interval
+and no denominator, and none should be reported from it.
+
+Words are ranked by the log-odds score described in section 8 of the notebook. A
+higher score means more concentrated in the flagged responses. Words appearing in
+fewer than 5 responses are not listed.
+
+Also not listed, whatever their score: alex, art, artwork, image, picture, piece, work,
+effort, effortful, creative, creativity, rating, rate, involved, production, much,
+minimal, moderate, significant, great, deal, lot, and their plurals. These words are the
+task's own (the vignette's name, the words of the two rating questions and their scale
+anchors, and the words describing the artworks) and cannot name any rule's topic, so
+they are not listed.
+
+====================================================================================================
+RULE: says_detail. In plain words: mentions visible detail, intricacy, complexity, texture, shading, brushwork, or quantity of content
+====================================================================================================
+responses this rule flags: 703 of 2220;   candidate words listed: 30
+
+   1. taken              score   4.39   appears in  53 responses ( 36 already flagged,  17 not)
+           example, from a response this rule does not flag:
+             The painting mustve taken a long time to make
+
+   2. background         score   3.98   appears in  68 responses ( 42 already flagged,  26 not)
+           example, from a response this rule does not flag:
+             It doesn't look that effortful, the background is basic.
+
+   3. attention          score   3.81   appears in  30 responses ( 22 already flagged,   8 not)
+           example, from a response this rule does not flag:
+             I felt as the other images before caught my attention more then this one.
+
+   4. color              score   3.22   appears in  70 responses ( 40 already flagged,  30 not)
+           example, from a response this rule does not flag:
+             Imaginative scene with lots of color
+
+   5. amount             score   3.09   appears in  81 responses ( 44 already flagged,  37 not)
+           example, from a response this rule does not flag:
+             Does not take a high amount of effort to plug a prompt into AI
+
+   6. part               score   2.78   appears in  27 responses ( 18 already flagged,   9 not)
+           example, from a response this rule does not flag:
+             There is something going on in every little part of the image
+
+   7. technique          score   2.78   appears in  14 responses ( 11 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             Some technique looks difficult but overall not crazy.
+
+   8. patterns           score   2.78   appears in  12 responses (  9 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             I think there was minimal effort because it looked repetitive with the same
+             colors and patterns.
+
+   9. reflection         score   2.77   appears in  19 responses ( 14 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             The use of painting a reflection in the mirror and the actual demon behind the
+             boy shows creatvity becaue of the facial expressions too.
+
+  10. buildings          score   2.59   appears in  17 responses ( 12 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             I think this didn't seem very difficult to create digitally, particularly
+             because the image only spotlights a few colors in buildings that looked the
+             same. Nothing really seemed to stand out.
+
+  11. coloring           score   2.58   appears in  10 responses (  8 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             The color was very creative for the sunset- non mimetic coloring to show the
+             sky.
+
+  12. included           score   2.58   appears in  11 responses (  9 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             It was colorful, included different angles of teddy bears, looked like a novel
+             piece of work.
+
+  13. face               score   2.53   appears in  36 responses ( 21 already flagged,  15 not)
+           example, from a response this rule does not flag:
+             I like how they did the face, and it's really cool how the background is
+             similar.
+
+  14. lighting           score   2.49   appears in  31 responses ( 17 already flagged,  14 not)
+           example, from a response this rule does not flag:
+             The lighting and perspective is creative
+
+  15. get                score   2.46   appears in  41 responses ( 21 already flagged,  20 not)
+           example, from a response this rule does not flag:
+             did he get this from hunger games? odd.
+
+  16. additionally       score   2.40   appears in  10 responses (  8 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             I felt that the final result could only be achieved if a person carefully
+             prompted how each object should be arranged within the composition.
+             Additionally, the artwork had a high level of completeness.
+
+  17. water              score   2.34   appears in  30 responses ( 16 already flagged,  14 not)
+           example, from a response this rule does not flag:
+             Just added palm trees and water to the desert
+
+  18. realism            score   2.33   appears in   8 responses (  7 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             Again, the hyper-realism is incredible and would take a very long time to draw.
+
+  19. draw               score   2.30   appears in  30 responses ( 18 already flagged,  12 not)
+           example, from a response this rule does not flag:
+             The armor looks quite difficult to draw.
+
+  20. planning           score   2.20   appears in   8 responses (  6 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             This is like a futuristic city in which a lot of creativity had to go into
+             planning what the future would look like that
+
+  21. highly             score   2.19   appears in  13 responses (  9 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             i don't find art produced by ai highly creative
+
+  22. back               score   2.19   appears in  15 responses ( 10 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             The northern lights in the back, and snow look harder to produce
+
+  23. body               score   2.15   appears in   7 responses (  6 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             This would have required moderate creativity due to the focus on the different
+             aspects. We see a sunset in a desert. We also see some travelers with their
+             camels as they have arrived at an oasis. We see trees and that there is a body
+             of water here, which reflects the sunset.
+
+  24. decent             score   2.15   appears in   7 responses (  6 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             All art takes effort if you are digitally creating it on art platforms like
+             procreate, so I would assume there was a decent amount of effort put into
+             making this entire scene and creating the vibe associated with it (cold and
+             warm with snow and cabins).
+
+  25. include            score   2.15   appears in   7 responses (  6 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             Made an effort to include different shadings and look like pencil.
+
+  26. considering        score   2.15   appears in   7 responses (  6 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             The individual who made this seemed to put a ton of effort considering that
+             each stuffed animal is different. The painting also seemed like the colors on
+             the canvas were not mixed but more of a brush effect that looked like it took
+             awhile.
+
+  27. execute            score   2.15   appears in   7 responses (  6 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             Even though it is just black and white their depth perception can sometimes be
+             hard to execute and I feel like he did a really good job at that
+
+  28. armor              score   2.07   appears in  23 responses ( 14 already flagged,   9 not)
+           example, from a response this rule does not flag:
+             The armor looks quite difficult to draw.
+
+  29. right              score   2.01   appears in  18 responses ( 10 already flagged,   8 not)
+           example, from a response this rule does not flag:
+             It would require some additional prompts to get the right idea
+
+  30. scheme             score   1.96   appears in   8 responses (  6 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             The color scheme with the colorful skies along with the warm tones coming from
+             the houses matches well.
+
+
+====================================================================================================
+RULE: says_time. In plain words: mentions time, hours, duration, speed, or tediousness
+====================================================================================================
+responses this rule flags: 108 of 2220;   candidate words listed: 30
+
+   1. take               score   4.67   appears in  49 responses ( 13 already flagged,  36 not)
+           example, from a response this rule does not flag:
+             AI does not take a lot of effort to use
+
+   2. taken              score   4.42   appears in  53 responses ( 14 already flagged,  39 not)
+           example, from a response this rule does not flag:
+             The work is detailed so it must have taken some creativity on his part
+
+   3. make               score   3.44   appears in  88 responses ( 14 already flagged,  74 not)
+           example, from a response this rule does not flag:
+             Using AI to make art is not creative
+
+   4. takes              score   3.17   appears in  33 responses (  8 already flagged,  25 not)
+           example, from a response this rule does not flag:
+             creating art with ai takes much less effort
+
+   5. first              score   2.91   appears in  11 responses (  4 already flagged,   7 not)
+           example, from a response this rule does not flag:
+             It seemed creative at first, but it looks AI generated.
+
+   6. ton                score   2.91   appears in  11 responses (  4 already flagged,   7 not)
+           example, from a response this rule does not flag:
+             A ton of light and high tech design
+
+   7. create             score   2.87   appears in  81 responses ( 13 already flagged,  68 not)
+           example, from a response this rule does not flag:
+             He didn't paint or create the image manually
+
+   8. draw               score   2.80   appears in  30 responses (  7 already flagged,  23 not)
+           example, from a response this rule does not flag:
+             lots of effort to draw the details
+
+   9. process            score   2.73   appears in   7 responses (  3 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             This artwork seems to have a more clear message and elicit more emotions/
+             feelings, which makes me think there was more intention and creativity in the
+             artist's process.
+
+  10. perfect            score   2.40   appears in   9 responses (  3 already flagged,   6 not)
+           example, from a response this rule does not flag:
+             The water looks perfect and the trees in the back look realistic. The man looks
+             happy being there which I think takes some creativity.
+
+  11. effect             score   2.29   appears in  15 responses (  3 already flagged,  12 not)
+           example, from a response this rule does not flag:
+             Minimal color way but the smoke effect is cool.
+
+  12. glass              score   2.25   appears in   9 responses (  2 already flagged,   7 not)
+           example, from a response this rule does not flag:
+             Looks really good and the hour glass concept is nice.
+
+  13. definitely         score   2.18   appears in  31 responses (  6 already flagged,  25 not)
+           example, from a response this rule does not flag:
+             It has a lot of details so more effort is definitely needed
+
+  14. final              score   2.16   appears in   5 responses (  2 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             There wasn’t many commands that I can imagine Alex forcing AI to do in order to
+             accomplish the final product.
+
+  15. brush              score   2.12   appears in  32 responses (  6 already flagged,  26 not)
+           example, from a response this rule does not flag:
+             I could see the brush strokes.
+
+  16. armor              score   2.04   appears in  23 responses (  4 already flagged,  19 not)
+           example, from a response this rule does not flag:
+             The armor looks quite difficult to draw.
+
+  17. looked             score   1.99   appears in  57 responses (  9 already flagged,  48 not)
+           example, from a response this rule does not flag:
+             It looked like a futuristic world.
+
+  18. man's              score   1.96   appears in   6 responses (  2 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             It's interesting to see the time as fire and the man's expression as he watches
+             it
+
+  19. cyberpunk          score   1.96   appears in   6 responses (  2 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             Seems like every other cyberpunk city concept photo posted on the internet.
+
+  20. precision          score   1.96   appears in   6 responses (  2 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             This piece is a lot more detailed and impressive in terms of detail and
+             precision than the others, which makes me think that it has a lot more effort
+             put into it.
+
+  21. actually           score   1.86   appears in  13 responses (  3 already flagged,  10 not)
+           example, from a response this rule does not flag:
+             He put in moderate effort by refining the AI prompts, but did not actually draw
+             the art piece.
+
+  22. probably           score   1.79   appears in  55 responses (  8 already flagged,  47 not)
+           example, from a response this rule does not flag:
+             probably has been done many times before
+
+  23. needs              score   1.78   appears in   7 responses (  2 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             He barely needs to say anything for AI to make a pretty image.
+
+  24. placed             score   1.78   appears in   7 responses (  2 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             This picture has insane detail, bright colors, and many elements that are
+             meticulously placed and depicted with high precision and the overall picture is
+             so vibrant and busy
+
+  25. considering        score   1.78   appears in   7 responses (  2 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             there seemed to be a lot of effort, considering the facial detail, the smoke
+             fumes or air (not sure what it was) are typically very hard to draw/paint.
+
+  26. write              score   1.78   appears in   6 responses (  2 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             It does not take a lot of effort to write the prompt in the AI generator, it
+             does most of the work for you
+
+  27. addition           score   1.78   appears in   7 responses (  2 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             Again, I liked the addition of the detail involving the visibility of paint
+             strokes.
+
+  28. actual             score   1.75   appears in  14 responses (  3 already flagged,  11 not)
+           example, from a response this rule does not flag:
+             the ai produced the actual artwork
+
+  29. fact               score   1.73   appears in  22 responses (  4 already flagged,  18 not)
+           example, from a response this rule does not flag:
+             The piece itself like I said is creative but the fact it's not fully human
+             makes me think of it as slightly less creative.
+
+  30. creating           score   1.66   appears in  48 responses (  7 already flagged,  41 not)
+           example, from a response this rule does not flag:
+             creating art with ai takes much less effort
+
+
+====================================================================================================
+RULE: says_skill. In plain words: mentions skill, craft, technique, talent, training, mastery, or hand execution
+====================================================================================================
+responses this rule flags: 56 of 2220;   candidate words listed: 30
+
+   1. lighting           score   4.66   appears in  31 responses (  7 already flagged,  24 not)
+           example, from a response this rule does not flag:
+             The lighting and perspective is creative
+
+   2. planning           score   4.63   appears in   8 responses (  5 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             The planning and the illustrations seem intricate and effortful
+
+   3. composition        score   4.18   appears in   9 responses (  5 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             It was a harmonious painting of a desert, light, and a river. While it was
+             difficult to find truly original ideas, I was impressed by the overall balance
+             of the composition.
+
+   4. realistic          score   3.93   appears in  42 responses (  5 already flagged,  37 not)
+           example, from a response this rule does not flag:
+             lots of details, shadowing to make it look realistic
+
+   5. blending           score   3.75   appears in   7 responses (  4 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             there are lots of color and there is depth and pretty blending of nature
+
+   6. make               score   3.61   appears in  88 responses (  9 already flagged,  79 not)
+           example, from a response this rule does not flag:
+             Using AI to make art is not creative
+
+   7. shading            score   3.38   appears in  36 responses (  6 already flagged,  30 not)
+           example, from a response this rule does not flag:
+             it had lots of detail and shading
+
+   8. painting           score   3.05   appears in  68 responses (  8 already flagged,  60 not)
+           example, from a response this rule does not flag:
+             it looked like a real painting not ai
+
+   9. light              score   2.90   appears in  19 responses (  4 already flagged,  15 not)
+           example, from a response this rule does not flag:
+             A ton of light and high tech design
+
+  10. attention          score   2.75   appears in  30 responses (  5 already flagged,  25 not)
+           example, from a response this rule does not flag:
+             A lot of attention to detail
+
+  11. requires           score   2.68   appears in  31 responses (  5 already flagged,  26 not)
+           example, from a response this rule does not flag:
+             AI art requires little to no effort.
+
+  12. texture            score   2.62   appears in  32 responses (  6 already flagged,  26 not)
+           example, from a response this rule does not flag:
+             colors and texture probably took time
+
+  13. way                score   2.42   appears in  27 responses (  5 already flagged,  22 not)
+           example, from a response this rule does not flag:
+             Minimal color way but the smoke effect is cool.
+
+  14. computer           score   2.40   appears in   5 responses (  2 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             I mean, north pole... snow.. etc. Looks like an old computer desktop
+             background.
+
+  15. suggests           score   2.40   appears in   5 responses (  2 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             It was a painting where dynamic human actions met a tranquil lake. This
+             suggests that the prompting was likely quite detailed.
+
+  16. truly              score   2.40   appears in   5 responses (  2 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             It was a harmonious painting of a desert, light, and a river. While it was
+             difficult to find truly original ideas, I was impressed by the overall balance
+             of the composition.
+
+  17. subjects           score   2.32   appears in  11 responses (  3 already flagged,   8 not)
+           example, from a response this rule does not flag:
+             There were many details, but less subjects in this image
+
+  18. right              score   2.30   appears in  18 responses (  2 already flagged,  16 not)
+           example, from a response this rule does not flag:
+             It would require some additional prompts to get the right idea
+
+  19. level              score   2.22   appears in  30 responses (  5 already flagged,  25 not)
+           example, from a response this rule does not flag:
+             There seems to be a story being told visually and the level of detail used
+             shows creativity.
+
+  20. point              score   2.22   appears in   6 responses (  2 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             The effort is good to the point that it looks like it could have taken a long
+             time to have created it.
+
+  21. careful            score   2.22   appears in   6 responses (  2 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             This image was very unique and specific, meaning there was quite a lot of
+             careful thought needed to input the AI generator.
+
+  22. understanding      score   2.22   appears in   6 responses (  2 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             Once again, the fact that AI is generating these images decreases the
+             creativity aspect of the image. In this case, Alex did not edit it (from my
+             understanding) and only guided the prompts.
+
+  23. windows            score   2.22   appears in   5 responses (  1 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             It must've taken a lot of effort with color choice and having the windows evoke
+             a feeling of such liveliness within the city.
+
+  24. tool               score   2.22   appears in   6 responses (  2 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             I think there is little effort because the piece seems simple and easy to
+             prompt an AI tool to create.
+
+  25. reflection         score   2.14   appears in  19 responses (  3 already flagged,  16 not)
+           example, from a response this rule does not flag:
+             I liked the detail in the water and the reflection. I like how you can see the
+             ripples in the water
+
+  26. clear              score   1.99   appears in  15 responses (  3 already flagged,  12 not)
+           example, from a response this rule does not flag:
+             The image told a clear creative story
+
+  27. get                score   1.96   appears in  41 responses (  4 already flagged,  37 not)
+           example, from a response this rule does not flag:
+             did he get this from hunger games? odd.
+
+  28. water              score   1.92   appears in  30 responses (  5 already flagged,  25 not)
+           example, from a response this rule does not flag:
+             Just added palm trees and water to the desert
+
+  29. making             score   1.92   appears in  34 responses (  5 already flagged,  29 not)
+           example, from a response this rule does not flag:
+             Still ai but just making prompts
+
+  30. sunset             score   1.91   appears in  21 responses (  2 already flagged,  19 not)
+           example, from a response this rule does not flag:
+             A sunset doesn't seem to creative to me.
+
+
+====================================================================================================
+RULE: says_concept. In plain words: mentions the idea, meaning, message, story, symbolism, or thought behind the work
+====================================================================================================
+responses this rule flags: 365 of 2220;   candidate words listed: 30
+
+   1. original           score   5.31   appears in 100 responses ( 43 already flagged,  57 not)
+           example, from a response this rule does not flag:
+             Not original at all and clearly AI>
+
+   2. come               score   3.69   appears in  28 responses ( 15 already flagged,  13 not)
+           example, from a response this rule does not flag:
+             very detailed, image seems to come to life
+
+   3. clear              score   3.54   appears in  15 responses ( 10 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             There were clear and detailed aspects of the image.
+
+   4. unique             score   3.47   appears in 103 responses ( 35 already flagged,  68 not)
+           example, from a response this rule does not flag:
+             The image is striking and very unique.
+
+   5. hourglass          score   2.84   appears in  30 responses ( 12 already flagged,  18 not)
+           example, from a response this rule does not flag:
+             not much going on, just a man with a hourglass
+
+   6. shows              score   2.81   appears in  25 responses ( 11 already flagged,  14 not)
+           example, from a response this rule does not flag:
+             I think that there were a lot of details that shows the amount of effort being
+             used
+
+   7. boy                score   2.81   appears in  19 responses ( 10 already flagged,   9 not)
+           example, from a response this rule does not flag:
+             I saw two different perspectives from the boy in this study
+
+   8. telling            score   2.64   appears in   6 responses (  5 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             Alex had to be creative in telling the generator what type of art style he
+             wanted. I think this needs a little more creativity in ensuring that the exact
+             image is produced.
+
+   9. told               score   2.64   appears in   6 responses (  5 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             This is actually so realistic that if someone told me it was AI-generated I
+             could believe them, which I think reflects how much work and effort must have
+             gone into it to make it so hyper-realistic.
+
+  10. space              score   2.54   appears in  35 responses ( 14 already flagged,  21 not)
+           example, from a response this rule does not flag:
+             Creative scene and non mimetic figure in the space
+
+  11. holding            score   2.53   appears in  13 responses (  7 already flagged,   6 not)
+           example, from a response this rule does not flag:
+             I think because it is only a man holding the sand time thing with the light.
+
+  12. eyes               score   2.51   appears in  14 responses (  6 already flagged,   8 not)
+           example, from a response this rule does not flag:
+             It shows a human like eyes with a face that is covered by other material than a
+             real human face
+
+  13. common             score   2.50   appears in  35 responses ( 14 already flagged,  21 not)
+           example, from a response this rule does not flag:
+             unlike any common real life image
+
+  14. envisioned         score   2.37   appears in   5 responses (  4 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             It definitely took a large amount of prompts in order to produce this exact
+             image. Alex probably had to specify a lot of the details in order to get
+             exactly what he envisioned, and there were probably countless trials and error
+             attempts.
+
+  15. level              score   2.32   appears in  30 responses ( 12 already flagged,  18 not)
+           example, from a response this rule does not flag:
+             Moderate effort because there seems that he would've needed to ask the AI more
+             in order to get this level of detail.
+
+  16. cool               score   2.28   appears in  43 responses ( 16 already flagged,  27 not)
+           example, from a response this rule does not flag:
+             Seems pretty cool still even if it's AI
+
+  17. way                score   2.28   appears in  27 responses ( 11 already flagged,  16 not)
+           example, from a response this rule does not flag:
+             Minimal color way but the smoke effect is cool.
+
+  18. relatively         score   2.24   appears in   6 responses (  4 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             Although it's very creative, his work can be remade by others as it looks
+             relatively simple.
+
+  19. necessarily        score   2.24   appears in   6 responses (  4 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             It resembles the North Pole/christmas time which isnt something that is new or
+             necessarily creative
+
+  20. monsters           score   2.20   appears in  27 responses (  9 already flagged,  18 not)
+           example, from a response this rule does not flag:
+             There was detail on the mirrors and the monsters
+
+  21. adds               score   2.20   appears in   9 responses (  5 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             I think significant effort was involved because you can see strokes from a
+             paintbrush that adds a human touch.
+
+  22. novel              score   2.17   appears in  15 responses (  7 already flagged,   8 not)
+           example, from a response this rule does not flag:
+             Didn't seem super detailed, colorful, or particularly novel.
+
+  23. trying             score   2.17   appears in  12 responses (  6 already flagged,   6 not)
+           example, from a response this rule does not flag:
+             Imagine trying to explain to an AI that amount of detail? A girl gardening,
+             planets floating around her world
+
+  24. bubble             score   2.07   appears in  20 responses (  8 already flagged,  12 not)
+           example, from a response this rule does not flag:
+             Looked cool. The thought of living on another planet but in a bubble was a cool
+             thought.
+
+  25. teddy              score   2.04   appears in  19 responses (  8 already flagged,  11 not)
+           example, from a response this rule does not flag:
+             its is just teddy bears and colors
+
+  26. earth              score   2.01   appears in   7 responses (  4 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             This is very beautiful it evokes mother earth
+
+  27. write              score   2.01   appears in   6 responses (  3 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             It does not take a lot of effort to write the prompt in the AI generator, it
+             does most of the work for you
+
+  28. simply             score   1.99   appears in  13 responses (  6 already flagged,   7 not)
+           example, from a response this rule does not flag:
+             It is complex but feels very simply put together.
+
+  29. hanging            score   1.99   appears in  26 responses ( 10 already flagged,  16 not)
+           example, from a response this rule does not flag:
+             It's interesting to see the bears hanging by their bows
+
+  30. interesting        score   1.97   appears in  65 responses ( 20 already flagged,  45 not)
+           example, from a response this rule does not flag:
+             The art was interesting and very detailed.
+
+
+====================================================================================================
+RULE: says_prompt. In plain words: mentions prompting, typing, generating, or names a machine or image generator
+====================================================================================================
+responses this rule flags: 540 of 2220;   candidate words listed: 30
+
+   1. using              score   5.57   appears in  34 responses ( 27 already flagged,   7 not)
+           example, from a response this rule does not flag:
+             I rated minimal effort using the same logic as I did for creativity.
+
+   2. probably           score   5.38   appears in  55 responses ( 33 already flagged,  22 not)
+           example, from a response this rule does not flag:
+             colors and texture probably took time
+
+   3. likely             score   4.92   appears in  29 responses ( 20 already flagged,   9 not)
+           example, from a response this rule does not flag:
+             The image is very detailed and defined, so moderate effort was likely employed
+
+   4. order              score   4.56   appears in  21 responses ( 17 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             It is different and Alex had to come up with ideas in order for a result
+
+   5. created            score   4.33   appears in  74 responses ( 37 already flagged,  37 not)
+           example, from a response this rule does not flag:
+             concept has been created many times
+
+   6. specific           score   4.07   appears in  29 responses ( 19 already flagged,  10 not)
+           example, from a response this rule does not flag:
+             we can see specific pen strokes and the little details in the mirror frames.
+
+   7. produced           score   3.85   appears in  15 responses ( 13 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             The human behind the piece seems to have had some clear theme pertaining to the
+             stuffed animals in mind, although the work that was produced still looks
+             unnatural in some aspects.
+
+   8. get                score   3.80   appears in  41 responses ( 22 already flagged,  19 not)
+           example, from a response this rule does not flag:
+             did he get this from hunger games? odd.
+
+   9. produce            score   3.37   appears in  17 responses ( 11 already flagged,   6 not)
+           example, from a response this rule does not flag:
+             The northern lights in the back, and snow look harder to produce
+
+  10. used               score   3.17   appears in  68 responses ( 30 already flagged,  38 not)
+           example, from a response this rule does not flag:
+             I used the same logic as above.
+
+  11. create             score   3.14   appears in  81 responses ( 33 already flagged,  48 not)
+           example, from a response this rule does not flag:
+             He didn't paint or create the image manually
+
+  12. require            score   3.14   appears in  57 responses ( 26 already flagged,  31 not)
+           example, from a response this rule does not flag:
+             Theres a lot of small details which require patience
+
+  13. reflect            score   3.13   appears in  10 responses (  9 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             Again, its incredibly detailed and must have taken a long time to draw and
+             actually create the idea and reflect it on his screen.
+
+  14. artist             score   3.12   appears in  44 responses ( 20 already flagged,  24 not)
+           example, from a response this rule does not flag:
+             This was a unique idea that would require a clear vision from the artist.
+
+  15. creation           score   3.08   appears in  15 responses ( 10 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             No ingenuity behind the creation of this piece.
+
+  16. given              score   3.03   appears in  10 responses (  8 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             The effort appears to be moderate, with attention given to the details of the
+             armor and the lighting effects. While the piece shows skill, the level of
+             complexity and refinement could determine how much effort was put into its
+             creation.
+
+  17. reason             score   2.93   appears in  26 responses ( 14 already flagged,  12 not)
+           example, from a response this rule does not flag:
+             Similar reasoning as the above reason for the creativity rankling.
+
+  18. exact              score   2.92   appears in  16 responses ( 10 already flagged,   6 not)
+           example, from a response this rule does not flag:
+             This took some effort to get the exact image due to trying to get certain
+             textures portrayed and the style of painting.
+
+  19. human              score   2.84   appears in  61 responses ( 28 already flagged,  33 not)
+           example, from a response this rule does not flag:
+             Looks more detailed and made by a human
+
+  20. fact               score   2.76   appears in  22 responses ( 12 already flagged,  10 not)
+           example, from a response this rule does not flag:
+             The piece itself like I said is creative but the fact it's not fully human
+             makes me think of it as slightly less creative.
+
+  21. refine             score   2.67   appears in  10 responses (  7 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             not as much detail but it has a lot of elements and it looks refine
+
+  22. simple             score   2.62   appears in  44 responses ( 20 already flagged,  24 not)
+           example, from a response this rule does not flag:
+             simple but creative and seems basic
+
+  23. write              score   2.62   appears in   6 responses (  5 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             The reason I believe this required minimal effort is due to its simplicity.
+             There is not many characteristics that I think would take a lot of effort to
+             write or edit code for.
+
+  24. made               score   2.59   appears in  67 responses ( 27 already flagged,  40 not)
+           example, from a response this rule does not flag:
+             Looks more detailed and made by a human
+
+  25. easily             score   2.58   appears in  18 responses ( 10 already flagged,   8 not)
+           example, from a response this rule does not flag:
+             It seemed like this could've been easily copied.
+
+  26. clearly            score   2.57   appears in  13 responses (  8 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             I think all art takes effort from the artist and even with digital productions,
+             there was clearly time spent creating the final piece.
+
+  27. gave               score   2.57   appears in   8 responses (  6 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             There were many details that gave rise to an impressive image.
+
+  28. wanted             score   2.48   appears in  15 responses (  9 already flagged,   6 not)
+           example, from a response this rule does not flag:
+             It likely took some effort to create this image and refine it to be exactly
+             what the artist wanted.
+
+  29. help               score   2.40   appears in   6 responses (  5 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             I say moderate creativity because he used a digital artwork system to help him
+             create his artwork, and his creativity came from using the digital system and
+             having an idea but he did not create the intricacies of it himself.
+
+  30. needed             score   2.39   appears in  30 responses ( 14 already flagged,  16 not)
+           example, from a response this rule does not flag:
+             It has a lot of details so more effort is definitely needed
+
+
+====================================================================================================
+RULE: prior_exposure. In plain words: says the work looks familiar, already seen, generic or derivative (asserted), explicitly denies it (negated), or neither
+====================================================================================================
+responses this rule flags: 270 of 2220;   candidate words listed: 30
+
+   1. feel               score   6.75   appears in  99 responses ( 40 already flagged,  59 not)
+           example, from a response this rule does not flag:
+             i feel like i see this kind of thing all the time
+
+   2. christmas          score   4.44   appears in  24 responses ( 12 already flagged,  12 not)
+           example, from a response this rule does not flag:
+             Looks like any basic Christmas card.
+
+   3. movies             score   4.08   appears in  13 responses (  8 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             Not creative, is like seen in movies
+
+   4. fi                 score   3.68   appears in   9 responses (  7 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             This scene seemed less original. It reminded me of every sci-fi depiction of
+             the future, whether in movies or books. The buildings also looked very
+             homogenous across the image, making it stand out less.
+
+   5. generate           score   3.59   appears in  35 responses ( 14 already flagged,  21 not)
+           example, from a response this rule does not flag:
+             It shouldn’t require more prompts to generate that image
+
+   6. desert             score   3.50   appears in  28 responses ( 10 already flagged,  18 not)
+           example, from a response this rule does not flag:
+             Just a scene from a desert. Not much to it
+
+   7. using              score   3.50   appears in  34 responses ( 13 already flagged,  21 not)
+           example, from a response this rule does not flag:
+             Using AI to make art is not creative
+
+   8. scene              score   3.45   appears in  97 responses ( 25 already flagged,  72 not)
+           example, from a response this rule does not flag:
+             Seems like a pretty normal scene
+
+   9. unlike             score   3.43   appears in   8 responses (  6 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             Extremely creative, prompt unlike what has been shown
+
+  10. sci                score   3.37   appears in   8 responses (  6 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             This scene seemed less original. It reminded me of every sci-fi depiction of
+             the future, whether in movies or books. The buildings also looked very
+             homogenous across the image, making it stand out less.
+
+  11. winter             score   3.17   appears in  13 responses (  6 already flagged,   7 not)
+           example, from a response this rule does not flag:
+             Basic winter scene. Exists for the sake of existing
+
+  12. dr                 score   3.10   appears in  11 responses (  6 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             The scene seems original enough, although some ideation seems borrowed (à la
+             Dr. Suess)
+
+  13. land               score   2.88   appears in  15 responses (  6 already flagged,   9 not)
+           example, from a response this rule does not flag:
+             If they just put in a candy land cartoon theme I feel like you would get this
+             picture.
+
+  14. village            score   2.78   appears in   5 responses (  4 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             A great deal of effort was involved because a specific amount of adjustments
+             had to be made to capture the colors. The way the colors are portrayed makes
+             the village and plants seem surreal.
+
+  15. suess              score   2.78   appears in   5 responses (  4 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             The scene seems original enough, although some ideation seems borrowed (à la
+             Dr. Suess)
+
+  16. game               score   2.75   appears in   6 responses (  4 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             His work looks like it came from a movie or the candyland board game.
+
+  17. futuristic         score   2.69   appears in  42 responses ( 12 already flagged,  30 not)
+           example, from a response this rule does not flag:
+             It looked like a futuristic world.
+
+  18. first              score   2.51   appears in  11 responses (  5 already flagged,   6 not)
+           example, from a response this rule does not flag:
+             It seemed creative at first, but it looks AI generated.
+
+  19. candy              score   2.49   appears in  20 responses (  7 already flagged,  13 not)
+           example, from a response this rule does not flag:
+             Not a lot of dimension, only one focus which is hills and candy.
+
+  20. setting            score   2.47   appears in  19 responses (  7 already flagged,  12 not)
+           example, from a response this rule does not flag:
+             The setting seemed new and different because of the sky.
+
+  21. inspiration        score   2.40   appears in   8 responses (  4 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             Not a lot of creativity, can see the inspiration
+
+  22. felt               score   2.34   appears in  12 responses (  5 already flagged,   7 not)
+           example, from a response this rule does not flag:
+             I felt as the other images before caught my attention more then this one.
+
+  23. originality        score   2.34   appears in  12 responses (  5 already flagged,   7 not)
+           example, from a response this rule does not flag:
+             This piece showed more creativity and originality compared to the other ones,
+             but it was still generated using the AI.
+
+  24. dystopian          score   2.29   appears in   5 responses (  3 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             The details of the piece seems to be moderately creative because it is
+             imagining a futuristic and dystopian-like world.
+
+  25. somewhat           score   2.19   appears in  16 responses (  5 already flagged,  11 not)
+           example, from a response this rule does not flag:
+             It had a lot of factors and a detailed background; somewhat symmetrical.
+
+  26. simply             score   2.18   appears in  13 responses (  5 already flagged,   8 not)
+           example, from a response this rule does not flag:
+             It is complex but feels very simply put together.
+
+  27. themes             score   2.08   appears in   6 responses (  3 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             Lots of creativity because you can see the emergence of two different themes,
+             both incapsulated in nature and having space on the outside. You can see a lot
+             of stories
+
+  28. mean               score   2.08   appears in   6 responses (  3 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             i mean its not too crazy unique but they did a good job
+
+  29. oasis              score   2.08   appears in   6 responses (  3 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             This is slightly creative because even though a desert setting with camels and
+             an oasis is easily predicted, the color choice is more vibrant. I would have
+             expected some more orange/sand like tones.
+
+  30. appears            score   2.06   appears in  18 responses (  6 already flagged,  12 not)
+           example, from a response this rule does not flag:
+             It appears to a scene that anyone could come up with as it is a desert scene.
+
+
+====================================================================================================
+RULE: anchor_echo. In plain words: contains the rating scale's own wording
+====================================================================================================
+responses this rule flags: 322 of 2220;   candidate words listed: 30
+
+   1. reason             score   3.69   appears in  26 responses ( 15 already flagged,  11 not)
+           example, from a response this rule does not flag:
+             Similar reasoning as the above reason for the creativity rankling.
+
+   2. think              score   3.52   appears in 280 responses ( 88 already flagged, 192 not)
+           example, from a response this rule does not flag:
+             I think it was very intricate
+
+   3. make               score   3.32   appears in  88 responses ( 29 already flagged,  59 not)
+           example, from a response this rule does not flag:
+             Using AI to make art is not creative
+
+   4. realistic          score   3.26   appears in  42 responses ( 14 already flagged,  28 not)
+           example, from a response this rule does not flag:
+             lots of details, shadowing to make it look realistic
+
+   5. take               score   3.25   appears in  49 responses ( 22 already flagged,  27 not)
+           example, from a response this rule does not flag:
+             It looks like it didnt take much to get this image
+
+   6. fact               score   3.12   appears in  22 responses ( 12 already flagged,  10 not)
+           example, from a response this rule does not flag:
+             The piece itself like I said is creative but the fact it's not fully human
+             makes me think of it as slightly less creative.
+
+   7. produce            score   2.90   appears in  17 responses ( 10 already flagged,   7 not)
+           example, from a response this rule does not flag:
+             The northern lights in the back, and snow look harder to produce
+
+   8. components         score   2.62   appears in  16 responses (  8 already flagged,   8 not)
+           example, from a response this rule does not flag:
+             the concept was very original, none like i've seen before, and it had so many
+             different components to it.
+
+   9. planning           score   2.61   appears in   8 responses (  5 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             The planning and the illustrations seem intricate and effortful
+
+  10. requires           score   2.57   appears in  31 responses ( 13 already flagged,  18 not)
+           example, from a response this rule does not flag:
+             Requires more effort for details especially the smoke
+
+  11. believe            score   2.56   appears in  47 responses ( 18 already flagged,  29 not)
+           example, from a response this rule does not flag:
+             Even if the image is common, I still believe it requires effort
+
+  12. adjustments        score   2.55   appears in   6 responses (  5 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             There is not striking details in which I would see the need to re-prompt the AI
+             generator and make several adjustments.
+
+  13. appears            score   2.46   appears in  18 responses (  9 already flagged,   9 not)
+           example, from a response this rule does not flag:
+             Appears like a generic North Pole prompt
+
+  14. input              score   2.43   appears in  25 responses ( 10 already flagged,  15 not)
+           example, from a response this rule does not flag:
+             This could have easily been made in one round of input.
+
+  15. required           score   2.29   appears in  53 responses ( 20 already flagged,  33 not)
+           example, from a response this rule does not flag:
+             I think it required more thinking than the last one
+
+  16. heavily            score   2.28   appears in   5 responses (  4 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             It is an interesting drawing and not too AI like but the face still heavily
+             looks like AI did it.
+
+  17. enhance            score   2.28   appears in   5 responses (  4 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             The level of effort appears moderate, with clear attention to detail and
+             execution. The work reflects a solid understanding of technique and
+             composition, indicating a dedicated approach. However, while the effort is
+             evident, there may be opportunities to refine or expand upon certain aspects to
+             enhance the overall impact.
+
+  18. rated              score   2.28   appears in   5 responses (  4 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             I think the amount of detail made into this piece of art is extraordinary which
+             why I rated him the highest.
+
+  19. illustrates        score   2.28   appears in   5 responses (  4 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             The creativity of this artwork is significant as it illustrates an image of a
+             future city that does not exist today. It shows creative advancements the world
+             may develop in the future. It is very pleasing to the eye and is very eye
+             opening with the colors and details.
+
+  20. facial             score   2.21   appears in  11 responses (  6 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             The facial structure of the person looks AI so not that creative.
+
+  21. portrayed          score   2.21   appears in  11 responses (  6 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             This took some effort to get the exact image due to trying to get certain
+             textures portrayed and the style of painting.
+
+  22. features           score   2.17   appears in  14 responses (  7 already flagged,   7 not)
+           example, from a response this rule does not flag:
+             The plants are rich in detail, with many different types and unique features
+
+  23. touch              score   2.15   appears in  17 responses (  8 already flagged,   9 not)
+           example, from a response this rule does not flag:
+             it looks like you could get this image with one or two touch ups
+
+  24. involves           score   2.13   appears in   6 responses (  4 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             involves effort but may be less if digital
+
+  25. tool               score   2.13   appears in   6 responses (  4 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             I think there is little effort because the piece seems simple and easy to
+             prompt an AI tool to create.
+
+  26. building           score   2.05   appears in   9 responses (  5 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             There are a lot of small, fine details in the building and a lot of layering
+             throughout the piece
+
+  27. due                score   1.97   appears in  43 responses ( 16 already flagged,  27 not)
+           example, from a response this rule does not flag:
+             Effort is significant due to the intricacies of the scene and certain aspects.
+
+  28. say                score   1.90   appears in  26 responses ( 11 already flagged,  15 not)
+           example, from a response this rule does not flag:
+             He barely needs to say anything for AI to make a pretty image.
+
+  29. needs              score   1.89   appears in   7 responses (  4 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             He barely needs to say anything for AI to make a pretty image.
+
+  30. character          score   1.81   appears in  10 responses (  3 already flagged,   7 not)
+           example, from a response this rule does not flag:
+             I'd never seen a monster? or character such as the one shown
+
+
+====================================================================================================
+RULE: says_machine_made. In plain words: mentions a machine, a program or an image generator making the work, whether stated, denied or supposed
+====================================================================================================
+responses this rule flags: 264 of 2220;   candidate words listed: 30
+
+   1. reflect            score   4.08   appears in  10 responses (  8 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             The AI is doing the majority of the actual art creation, so this does not
+             reflect much human effort.
+
+   2. human              score   3.47   appears in  61 responses ( 19 already flagged,  42 not)
+           example, from a response this rule does not flag:
+             Looks more detailed and made by a human
+
+   3. actually           score   2.98   appears in  13 responses (  6 already flagged,   7 not)
+           example, from a response this rule does not flag:
+             I don't think someone spent time actually creating it.
+
+   4. revise             score   2.88   appears in   5 responses (  3 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             The reasoning for rating this as minimal effort is because he only needs to
+             write the input and revise it. He is not painting it himself as he has only
+             come up with the idea.
+
+   5. mostly             score   2.88   appears in   5 responses (  4 already flagged,   1 not)
+           example, from a response this rule does not flag:
+             For creativity, it seems there was somwhat thought put into it, but its mostly
+             just green background from a forest.
+
+   6. find               score   2.86   appears in  10 responses (  5 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             the landscape resembles what you would find in real life, except for the palm
+             trees and fun colors, so I found it to be moderately creative
+
+   7. refine             score   2.86   appears in  10 responses (  5 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             Using AI requires no effort, except asking it to refine the image
+
+   8. given              score   2.86   appears in  10 responses (  5 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             Given the details, there might have been quite a few re-prompting needed to get
+             the image right which would require more 'effort'.
+
+   9. produce            score   2.84   appears in  17 responses (  7 already flagged,  10 not)
+           example, from a response this rule does not flag:
+             The northern lights in the back, and snow look harder to produce
+
+  10. input              score   2.80   appears in  25 responses (  9 already flagged,  16 not)
+           example, from a response this rule does not flag:
+             This could have easily been made in one round of input.
+
+  11. gave               score   2.56   appears in   8 responses (  4 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             There were many details that gave rise to an impressive image.
+
+  12. terms              score   2.55   appears in  16 responses (  6 already flagged,  10 not)
+           example, from a response this rule does not flag:
+             I feel like this is something a human can think of in terms of a photoshoot
+
+  13. wanted             score   2.55   appears in  15 responses (  6 already flagged,   9 not)
+           example, from a response this rule does not flag:
+             It likely took some effort to create this image and refine it to be exactly
+             what the artist wanted.
+
+  14. exact              score   2.55   appears in  16 responses (  6 already flagged,  10 not)
+           example, from a response this rule does not flag:
+             The AI is not creative, but that exact image has never been created before.
+
+  15. heavily            score   2.42   appears in   5 responses (  3 already flagged,   2 not)
+           example, from a response this rule does not flag:
+             It is heavily detailed and realistic looking, which takes a lot of effort to
+             replicate effectively.
+
+  16. hand               score   2.41   appears in  16 responses (  6 already flagged,  10 not)
+           example, from a response this rule does not flag:
+             The texture, colors, blending, etc. Looks hand painted.
+
+  17. order              score   2.35   appears in  21 responses (  7 already flagged,  14 not)
+           example, from a response this rule does not flag:
+             It is different and Alex had to come up with ideas in order for a result
+
+  18. give               score   2.08   appears in  15 responses (  5 already flagged,  10 not)
+           example, from a response this rule does not flag:
+             I like the strokes in the sunset to give it texture
+
+  19. consider           score   2.00   appears in   7 responses (  3 already flagged,   4 not)
+           example, from a response this rule does not flag:
+             I think it must've taken a great amount of effort to consider what unique
+             aspects and textures to include.
+
+  20. looks              score   1.98   appears in 239 responses ( 43 already flagged, 196 not)
+           example, from a response this rule does not flag:
+             looks like a generated ai picture
+
+  21. drawn              score   1.95   appears in  28 responses (  8 already flagged,  20 not)
+           example, from a response this rule does not flag:
+             It's very detailed and the image is well drawn.
+
+  22. less               score   1.90   appears in  34 responses (  9 already flagged,  25 not)
+           example, from a response this rule does not flag:
+             involves effort but may be less if digital
+
+  23. multiple           score   1.86   appears in  12 responses (  4 already flagged,   8 not)
+           example, from a response this rule does not flag:
+             There is a lot of create lighting and a mix of multiple levels.
+
+  24. touch              score   1.82   appears in  17 responses (  5 already flagged,  12 not)
+           example, from a response this rule does not flag:
+             it looks like you could get this image with one or two touch ups
+
+  25. typically          score   1.80   appears in   8 responses (  3 already flagged,   5 not)
+           example, from a response this rule does not flag:
+             The objects used in this artwork is very fantastical and whimsical; something
+             that wouldn't typically be seen in real life.
+
+  26. say                score   1.74   appears in  26 responses (  6 already flagged,  20 not)
+           example, from a response this rule does not flag:
+             I would say there is little effort because I think there are obvious mistakes
+             in the AI.
+
+  27. words              score   1.61   appears in   9 responses (  3 already flagged,   6 not)
+           example, from a response this rule does not flag:
+             The artwork is very strange. In other words, the idea is very original and
+             presents itself as uncanny and disturbing.
+
+  28. specific           score   1.56   appears in  29 responses (  7 already flagged,  22 not)
+           example, from a response this rule does not flag:
+             we can see specific pen strokes and the little details in the mirror frames.
+
+  29. adding             score   1.55   appears in   5 responses (  2 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             More effort could have been put in, such as adding people or opening up the
+             space.
+
+  30. assuming           score   1.55   appears in   5 responses (  2 already flagged,   3 not)
+           example, from a response this rule does not flag:
+             I like the use of color and the animals were very cute, so I'm assuming there
+             was some small level of creativity in creating it, but it probably wasn't a
+             lot.
+
+

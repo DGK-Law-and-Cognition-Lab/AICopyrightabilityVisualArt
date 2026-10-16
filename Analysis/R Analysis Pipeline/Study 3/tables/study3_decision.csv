@@ -1,0 +1,3 @@
+dimension,interaction_p_holm,interaction_survives,gap_under_1_hour,gap_100_hours,gap_smaller_at_100,equivalence_registered,slope_requirement,equivalence_slopes,equivalence_passes,gap_100_ci95_low,gap_100_ci95_high,ci95_above_zero,verdict,note
+creativity,0.9936541938452377,FALSE,0.3502880646781756,0.3643002140142168,FALSE,FALSE,"waived: the random-slope refit is singular, so it cannot estimate all its variance terms",FALSE,FALSE,0.06022012622530243,0.6683803018031311,TRUE,the gap persists,
+effort,0.21412285631228695,FALSE,0.5807258940512902,0.49107288717526876,TRUE,FALSE,"waived: the random-slope refit is singular, so it cannot estimate all its variance terms",FALSE,FALSE,0.14372082823500992,0.8384249461155275,TRUE,the gap persists,

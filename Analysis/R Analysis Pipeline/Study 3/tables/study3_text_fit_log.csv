@@ -1,0 +1,22 @@
+step,dimension,kind,usable,fit_error,converged,singular,lme4_messages
+"4.2 valence ~ source x rating, creativity",creativity,linear mixed model,TRUE,FALSE,TRUE,FALSE,
+"4.2 arousal ~ source x rating, creativity",creativity,linear mixed model,TRUE,FALSE,TRUE,FALSE,
+"4.2 dominance ~ source x rating, creativity",creativity,linear mixed model,TRUE,FALSE,TRUE,FALSE,
+"4.2 concreteness ~ source x rating, creativity",creativity,linear mixed model,TRUE,FALSE,TRUE,FALSE,
+"4.2 valence ~ source x rating, effort",effort,linear mixed model,TRUE,FALSE,TRUE,TRUE,boundary (singular) fit: see help('isSingular')
+"4.2 arousal ~ source x rating, effort",effort,linear mixed model,TRUE,FALSE,TRUE,TRUE,boundary (singular) fit: see help('isSingular')
+"4.2 dominance ~ source x rating, effort",effort,linear mixed model,TRUE,FALSE,TRUE,FALSE,
+"4.2 concreteness ~ source x rating, effort",effort,linear mixed model,TRUE,FALSE,TRUE,FALSE,
+"4.3 topic 1 weight ~ source + rating, creativity",creativity,linear mixed model,TRUE,FALSE,TRUE,FALSE,
+"4.3 topic 2 weight ~ source + rating, creativity",creativity,linear mixed model,TRUE,FALSE,TRUE,FALSE,
+"4.3 topic 3 weight ~ source + rating, creativity",creativity,linear mixed model,TRUE,FALSE,TRUE,FALSE,
+"4.3 topic 4 weight ~ source + rating, creativity",creativity,linear mixed model,TRUE,FALSE,TRUE,FALSE,
+"4.3 topic 5 weight ~ source + rating, creativity",creativity,linear mixed model,TRUE,FALSE,TRUE,FALSE,
+"4.3 topic 1 weight ~ source + rating, effort",effort,linear mixed model,TRUE,FALSE,TRUE,FALSE,
+"4.3 topic 2 weight ~ source + rating, effort",effort,linear mixed model,TRUE,FALSE,TRUE,FALSE,
+"4.3 topic 3 weight ~ source + rating, effort",effort,linear mixed model,TRUE,FALSE,TRUE,FALSE,
+"4.3 topic 4 weight ~ source + rating, effort",effort,linear mixed model,TRUE,FALSE,TRUE,FALSE,
+3.1 recoverability,creativity,ridge regressions,TRUE,FALSE,TRUE,NA,status ok; no warning from any observed fit
+3.1 recoverability,effort,ridge regressions,TRUE,FALSE,TRUE,NA,status ok; no warning from any observed fit
+3.2 within-person overlap,creativity,ordinary least squares,TRUE,FALSE,TRUE,NA,status ok; ordinary least squares
+3.2 within-person overlap,effort,ordinary least squares,TRUE,FALSE,TRUE,NA,status ok; ordinary least squares

@@ -1,0 +1,3 @@
+dimension,arm,estimate,ci_lo,ci_hi,B,n_valid,resampled
+effort,Human,0.15357142857142858,0.10415683962264151,0.2020031914893617,2000,2000,"participants, with replacement"
+effort,AI,0.5054545454545455,0.40740514905149045,0.6033377192982456,2000,2000,"participants, with replacement"

@@ -1,0 +1,5 @@
+dimension,unit,n_refits,n_refits_usable,est_full,min_est,max_est,max_abs_delta,worst_case,all_same_sign,quantity
+creativity,id,111,111,0.44824675324678576,0.41494708994715956,0.472354497354547,0.03329966329962619,100579,TRUE,"H1 marginal contrast: Human - AI, averaged over image kind"
+creativity,stimulus_id,10,10,0.44824675324678576,0.42564123376622404,0.4869642857142785,0.038717532467492766,NonFigure_3,TRUE,"H1 marginal contrast: Human - AI, averaged over image kind"
+effort,id,111,111,0.9206818181819264,0.8865740740740006,0.9587962962962028,0.03811447811427637,100338,TRUE,"H1 marginal contrast: Human - AI, averaged over image kind"
+effort,stimulus_id,10,10,0.9206818181819264,0.8931168831169707,0.9466071428570871,0.02756493506495572,Figure_3,TRUE,"H1 marginal contrast: Human - AI, averaged over image kind"

@@ -1,0 +1,5 @@
+variable,test,statistic,df,p,n_used,levels
+Age,Welch t,1.8770400082069842,92.08358393520155,0.06367872168693695,111,
+Gender (Female/Male/Other),Fisher exact,NA,NA,0.5185409424890746,111,Female|Male|Other
+Artistic experience (ordinal 0-4),Wilcoxon rank-sum,1579,NA,0.8092292175488749,111,No formal training or experience|A little formal training or experience|Moderate formal training or experience|Extensive formal training or experience|Very extensive formal training or experience
+Race (top 4 + collapsed other),"Fisher exact (simulated p, B = 1e4)",NA,NA,0.9916008399160084,111,"Asian|White or Caucasian|Other|White or Caucasian,Asian|Other/multiracial (collapsed)"

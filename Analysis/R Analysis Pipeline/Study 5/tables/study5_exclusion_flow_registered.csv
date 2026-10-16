@@ -1,0 +1,7 @@
+step,n,removed
+records in export,259,NA
+1. Survey test runs,259,0
+2. Unfinished records,242,17
+"3. Seriousness answers other than ""Yes, I did"", blanks included",226,16
+"4. Wrong answers to ""What does 8+7 equal?""",225,1
+5. Records with no condition,223,2

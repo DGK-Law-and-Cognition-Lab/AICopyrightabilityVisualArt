@@ -1,0 +1,3 @@
+quantity,estimate,p_value,n_images
+spearman_rho_concept,0.5045895154293746,0.13691667651382153,10
+spearman_rho_execution,0.15218565576384788,0.6746975883602999,10

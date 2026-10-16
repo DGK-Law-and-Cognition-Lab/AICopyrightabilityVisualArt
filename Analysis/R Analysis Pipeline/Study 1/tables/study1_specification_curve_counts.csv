@@ -1,0 +1,3 @@
+dimension,n_specs,n_converged,n_not_converged,n_failed,n_skipped,n_singular,n_sign_flips,n_sig_p05,rating_est_min,rating_est_max,logit_est_min,logit_est_max,estimand
+creativity,18,18,0,0,0,0,0,18,0.44248678293908494,0.4792351146574513,1.1110175573283556,1.1861628478945998,"H1 contrast: Human - AI, averaged over image kind"
+effort,18,18,0,0,0,3,0,18,0.894779867773114,0.9206818181819012,2.1994475443694363,2.2609464056931152,"H1 contrast: Human - AI, averaged over image kind"

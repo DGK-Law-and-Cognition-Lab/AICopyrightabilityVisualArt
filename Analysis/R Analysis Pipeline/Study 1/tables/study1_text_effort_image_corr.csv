@@ -1,0 +1,2 @@
+quantity,estimate,ci_lo,ci_hi,B,n_valid,resampled,arm,dimension,n_images,note
+pearson_r,0.7952648806131987,0.3942777226444994,0.9136255719467643,2000,2000,"participants, with replacement",Human,effort,10,10 images; interval reflects participant sampling only

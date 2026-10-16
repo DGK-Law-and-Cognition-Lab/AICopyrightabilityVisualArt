@@ -1,0 +1,5 @@
+arm,dimension,quantity,estimate,ci_lo,ci_hi,B,n_valid,resampled,n_responses,n_participants
+Human,effort,detail,0.625,0.5642857142857143,0.6875,2000,2000,"participants, with replacement",560,56
+Human,effort,time,0.1,0.06607142857142857,0.1375,2000,2000,"participants, with replacement",560,56
+Human,effort,skill,0.05178571428571429,0.02142857142857143,0.09107142857142857,2000,2000,"participants, with replacement",560,56
+Human,effort,none_of_the_three,0.3196428571428571,0.26781249999999995,0.3732142857142857,2000,2000,"participants, with replacement",560,56

@@ -1,0 +1,1754 @@
+---
+title: "Cross-study: The Source Penalty Across Modification Levels"
+subtitle: "Beyond the Original Sin | How Humans Evaluate Creative Contribution in AI-Assisted Artworks"
+author: "David G. Kamper, Alice Lin, Keith J. Holyoak"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    theme: flatly
+    highlight: tango
+---
+
+```{r knitr-options, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = TRUE,
+                      fig.align = "center")
+```
+
+**Exploratory analysis. None of the five registrations contains a pooled
+model across studies. This analysis was specified on 9 October 2026, after the
+registered results of all five studies were known (Study 1 on 7 October 2026;
+Studies 2 to 5 on 8 October 2026), and nothing in it changes a registered
+verdict.**
+
+# 0. What this file does
+
+In Study 1, telling participants that the artist Alex made an artwork by
+prompting an AI system lowered its rated creativity by 0.448 points on a
+five-point scale. Studies 2, 4 and 5 then showed participants second works
+that Alex made by hand from such a first artwork, at three levels of
+modification: None (the first work shown again unchanged), Slight (colour and
+contrast adjustments) and Dramatic (substantial changes by hand). Each study
+estimated the source penalty, the Human minus AI difference in the ratings of
+the second work, at each level. Each did so on its own sample, so none could
+say with much precision what shape the penalty takes as modification grows.
+This file pools the three studies to ask that question.
+
+Three accounts predict different shapes. If an AI origin taints whatever is
+built on it, the penalty is the same at every level (taint). If raters judge
+only what Alex added, there is no penalty at any level (severance). If raters
+credit Alex less when more of the second work still comes from the first, the
+penalty is largest at None and shrinks as modification grows (discounting).
+The program memorandum of 4 September 2026 proposed this comparison as an
+exploratory "propagation curve" (`Docs/Study 2/AI_Art_Copyright_Program_Memorandum.md`,
+Part IV.D), and said that the None level discriminates among the accounts.
+
+**Status.** The analysis is exploratory. None of the five registrations in
+`Docs/Preregistration/AsPredicted/` contains a pooled model across studies. It
+was specified on 9 October 2026, after the registered results of Study 1 (7
+October 2026) and of Studies 2 to 5 (8 October 2026) were known, and nothing in
+it changes a registered verdict. Every p-value below is uncorrected, that is,
+not adjusted for the number of tests run, and carries no verdict. The
+memorandum proposed comparing the accounts as nested models, each adding terms
+to the one before, scored by leave-one-out cross-validation, which asks how
+well a model predicts each observation from a fit that leaves that observation
+out. Section 7 compares the same nested models by likelihood-ratio tests and
+by two information criteria, scores of fit with a charge for each parameter;
+one of them, AIC, approximates the leave-one-out score in large samples.
+
+This file:
+
+1. reads each study's deposited long data file and checks that it carries the
+   real labels and reproduces the study's registered analysed sample
+   (section 2);
+2. stacks the three derivative studies, keeping each study's own exclusions
+   and scoring and dropping the six-point transformativeness items as each
+   study's primary analysis does (section 3);
+3. fits one pooled model per measure and estimates the penalty at each level,
+   pooled over studies and within each study (section 4), its trend across
+   the levels (section 5) and whether it lies inside the registered
+   equivalence bound of plus or minus 0.224 rating points (section 6);
+4. compares the three accounts as nested models (section 7);
+5. sets the creativity penalty on original artworks, from Studies 1 and 3,
+   beside the penalty on second works (section 8), and draws the figures
+   (section 9);
+6. checks the pooled penalties with an ordinal model, one that treats the five
+   answers as ordered categories, with each study left out in turn, against
+   each study's own registered estimates, and within each time level of
+   Studies 4 and 5 (section 10);
+7. records the status of every fit, says what the numbers show, and records
+   the run (sections 11 to 13).
+
+Creativity comes first and is the primary measure, because it is the one
+measure rated for original artworks and second works alike. Transformativeness
+and essence change follow.
+
+Four limits apply throughout.
+
+- Study 2's creativity item carried no definition, while Studies 4 and 5 used
+  Study 1's definition. Study 2's registration says that creativity
+  comparisons across studies are exploratory for that reason.
+- At None the second work is the first unchanged, and the creativity question
+  asks how much creativity went into producing it. Ratings there sit near the
+  bottom of the scale (section 4 gives the means), which leaves little room
+  for a penalty to show. The None level therefore discriminates less sharply
+  than the memorandum assumed.
+- Study 4 also varied source time (the hours Alex is said to have spent on the
+  first artwork) and Study 5 editing time (the hours he is said to have spent
+  on the second). The pooled model leaves both out and so averages over them.
+  Section 10.4 reads each study's registered tests of these factors and shows
+  the penalty at each time.
+- Each study counts once in a pooled estimate, whatever its size.
+
+# 1. Setup
+
+## 1.1 Packages
+
+```{r packages}
+# dplyr, tidyr, tibble and readr build and write the tables. jsonlite reads
+# the three survey files. lme4 fits the linear mixed models and lmerTest
+# supplies Satterthwaite degrees of freedom. emmeans gives estimated marginal
+# means and the contrasts between them. ordinal fits the cumulative-link mixed
+# model of section 10. ggplot2 draws the figures and knitr prints the tables.
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(tidyr)
+  library(tibble)
+  library(readr)
+  library(lme4)
+  library(lmerTest)
+  library(emmeans)
+  library(ordinal)
+  library(ggplot2)
+})
+```
+
+## 1.2 Paths and constants
+
+```{r paths}
+# Every path is found from this file's own folder, which is the working
+# directory when the file is knitted. These environment variables override
+# the defaults:
+#   CROSS_STUDY_DIR           this folder, where the outputs go
+#   PIPELINE_DIR              the analysis pipeline folder, one level up
+#   STUDY_SHARED_R            the folder of the shared R helpers
+#   STUDY1_DIR to STUDY5_DIR  the five study folders
+#   CROSS_STUDY_PROJECT_ROOT  the project root, the folder that holds Data
+#                             and Analysis
+#   PAPER_FIGURES_DIR         the figures folder of the manuscript
+# Printed paths are relative to the project root, so no printed line names a
+# folder particular to one machine.
+CROSS_DIR    <- normalizePath(Sys.getenv("CROSS_STUDY_DIR", getwd()), mustWork = TRUE)
+PIPELINE_DIR <- normalizePath(Sys.getenv("PIPELINE_DIR", file.path(CROSS_DIR, "..")),
+                              mustWork = TRUE)
+SHARED_R     <- Sys.getenv("STUDY_SHARED_R", file.path(PIPELINE_DIR, "shared", "R"))
+source(file.path(SHARED_R, "fit_status.R"))
+
+PROJECT_ROOT <- find_project_root(start = CROSS_DIR,
+                                  env_var = "CROSS_STUDY_PROJECT_ROOT")
+STUDIES <- paste("Study", 1:5)
+STUDY_DIRS <- setNames(lapply(1:5, function(n) {
+  normalizePath(Sys.getenv(paste0("STUDY", n, "_DIR"),
+                           file.path(PIPELINE_DIR, paste("Study", n))),
+                mustWork = TRUE)
+}), STUDIES)
+PAPER_FIG_DIR <- Sys.getenv("PAPER_FIGURES_DIR",
+                            file.path(PROJECT_ROOT, "Docs", "Writing",
+                                      "Final Paper", "figures"))
+OUT_TABLES  <- file.path(CROSS_DIR, "tables")
+OUT_FIGURES <- file.path(CROSS_DIR, "figures")
+for (p in c(OUT_TABLES, OUT_FIGURES, PAPER_FIG_DIR)) {
+  dir.create(p, recursive = TRUE, showWarnings = FALSE)
+}
+
+# The inputs. Each study's long data file is the one its own first R Markdown
+# file wrote on the real labels. The run manifests prove which run wrote it.
+# The registered tables are read for the originals reference (section 8) and
+# for the checks of section 10. The survey files show which images were shown.
+in_study <- function(s, ...) file.path(STUDY_DIRS[[s]], ...)
+IN <- c(
+  study1_long      = in_study("Study 1", "study1_long_with_text.csv"),
+  study1_family    = in_study("Study 1", "tables", "study1_confirmatory_family.csv"),
+  study1_manifest  = in_study("Study 1", "tables", "study1_quant_run_manifest.csv"),
+  study2_long      = in_study("Study 2", "study2_long_with_text.csv"),
+  study2_manifest  = in_study("Study 2", "tables", "study2_quant_run_manifest.csv"),
+  study2_by_level  = in_study("Study 2", "tables", "study2_source_by_modification.csv"),
+  study2_survey    = in_study("Study 2", "Final_-_AI_Copyright_-_Study_2.qsf"),
+  study3_long      = in_study("Study 3", "study3_long_with_text.csv"),
+  study3_manifest  = in_study("Study 3", "tables", "study3_quant_run_manifest.csv"),
+  study3_ftests    = in_study("Study 3", "tables", "study3_lmm_ftests.csv"),
+  study4_long      = in_study("Study 4", "study4_long_with_text.csv"),
+  study4_manifest  = in_study("Study 4", "tables", "study4_quant_run_manifest.csv"),
+  study4_by_level  = in_study("Study 4", "tables", "study4_secondary_label_by_modification.csv"),
+  study4_family    = in_study("Study 4", "tables", "study4_confirmatory_family.csv"),
+  study4_survey    = in_study("Study 4", "Final_-_AI_Copyright_-_Study_4.qsf"),
+  study5_long      = in_study("Study 5", "study5_long_with_text.csv"),
+  study5_manifest  = in_study("Study 5", "tables", "study5_quant_run_manifest.csv"),
+  study5_by_level  = in_study("Study 5", "tables", "study5_equivalence_source.csv"),
+  study5_family    = in_study("Study 5", "tables", "study5_confirmatory_family.csv"),
+  study5_survey    = in_study("Study 5", "Final_-_AI_Copyright_-_Study_5.qsf"))
+
+for (s in STUDIES) cat(s, "folder:", relative_path(STUDY_DIRS[[s]], PROJECT_ROOT), "\n")
+cat("Tables to: ", relative_path(OUT_TABLES, PROJECT_ROOT), "\n")
+cat("Figures to:", relative_path(OUT_FIGURES, PROJECT_ROOT), "and",
+    relative_path(PAPER_FIG_DIR, PROJECT_ROOT), "\n")
+
+# The constants.
+EQ_BOUND  <- 0.224    # the registered bound of Studies 2, 4 and 5: half of 0.448
+ALPHA     <- 0.05
+MEASURES  <- c("creativity", "transformativeness", "essence_change")
+MEASURE_LABELS <- c(creativity = "Creativity",
+                    transformativeness = "Transformativeness",
+                    essence_change = "Essence change")
+SOURCE_LEVELS <- c("Human", "AI")
+MOD_LEVELS    <- c("None", "Slight", "Dramatic")
+DERIV_STUDIES <- c("Study 2", "Study 4", "Study 5")
+ANALYSIS_STATUS <- paste("exploratory; specified on 9 October 2026, after the",
+                         "registered results were known; changes no registered verdict")
+CAPTION_LEAD <- paste("Exploratory, specified after the registered results were",
+                      "known; changes no registered verdict.")
+# emmeans switches off Satterthwaite degrees of freedom above 3,000
+# observations unless told otherwise, so the limit is raised above the size of
+# any model here.
+LMER_DF <- list(lmer.df = "satterthwaite", lmerTest.limit = 1e5)
+```
+
+## 1.3 Run record and table helpers
+
+```{r run-record}
+# The run record ties every output to this run. It stores the SHA-256
+# checksum of each input (a 64-character fingerprint of the file's exact
+# bytes), deletes the previous run's manifest now, deletes each output's
+# previous copy before the chunk that writes it, and writes the manifest last.
+# A manifest on disk therefore means the run reached its end. The figure
+# copies in the manuscript folder are listed under their own label.
+run <- start_run_record(
+  IN, file.path(OUT_TABLES, "crossstudy_run_manifest.csv"), CROSS_DIR,
+  other_dirs = c("Docs/Writing/Final Paper/figures" = PAPER_FIG_DIR))
+cat("Run identifier:", run$run_id, "\n")
+
+# Every table, the run record's included, carries the analysis status in its
+# last column, so a table read on its own still says what it is.
+table_path <- function(name) file.path(OUT_TABLES, name)
+write_table <- function(df, name) {
+  readr::write_csv(mutate(df, analysis_status = ANALYSIS_STATUS),
+                   table_path(name), na = "NA")
+}
+# The input record: one row per input file, with its size and checksum.
+run_clear_outputs(run, table_path("crossstudy_run_inputs.csv"))
+write_table(run$inputs, "crossstudy_run_inputs.csv")
+# Every table printed in this report opens its caption with the same status.
+show_table <- function(df, caption, digits = 3) {
+  knitr::kable(df, digits = digits, caption = paste(CAPTION_LEAD, caption))
+}
+
+# The fit log collects one row per model fitted in this file. Section 11
+# writes it.
+fit_log <- list()
+log_fit <- function(status, role, measure, model, d, max_abs_gradient = NA_real_) {
+  fit_log[[length(fit_log) + 1]] <<- tibble(
+    role = role, measure = measure, model = model, n_obs = nrow(d),
+    fit_error = status$fit_error, converged = status$converged,
+    singular = status$singular, usable = fit_usable(status),
+    max_abs_gradient = max_abs_gradient,
+    messages = if ("lme4_messages" %in% names(status)) status$lme4_messages
+               else status$messages)
+}
+```
+
+# 2. Inputs and checks
+
+## 2.1 The long data files carry the real labels
+
+```{r read-inputs}
+read_long <- function(path) {
+  readr::read_csv(path, show_col_types = FALSE, progress = FALSE, guess_max = 1e6)
+}
+long <- list(
+  "Study 1" = read_long(IN[["study1_long"]]),
+  "Study 2" = read_long(IN[["study2_long"]]),
+  "Study 3" = read_long(IN[["study3_long"]]),
+  "Study 4" = read_long(IN[["study4_long"]]),
+  "Study 5" = read_long(IN[["study5_long"]]))
+
+# A file is the one a study's real run wrote when its checksum equals the one
+# listed in the run manifest in that study's tables/ folder. A blind run
+# writes its manifest to tables/blind_run/ instead, so a match here can only
+# come from a real run. Study 1 had no blind mode.
+manifest_row <- function(manifest_path, label, path) {
+  m <- readr::read_csv(manifest_path, show_col_types = FALSE, progress = FALSE)
+  row <- m[m$file == label, ]
+  sha <- unname(tools::sha256sum(path))
+  nrow(row) == 1 && isTRUE(as.logical(row$written_this_run)) &&
+    identical(row$sha256, sha)
+}
+check <- function(study, quantity, expected, observed) {
+  tibble(study = study, quantity = quantity,
+         expected = as.character(expected), observed = as.character(observed),
+         pass = identical(as.character(expected), as.character(observed)))
+}
+n_people <- function(d) n_distinct(d$id)
+n_five   <- function(d) sum(d$k_points == 5 & !is.na(d$rating))
+n_six    <- function(d) sum(d$k_points == 6 & !is.na(d$rating))
+all_real <- function(d) "label_mode" %in% names(d) && all(d$label_mode == "real")
+
+input_checks <- bind_rows(
+  check("Study 1", "long file equals the one listed in the real run manifest", TRUE,
+        manifest_row(IN[["study1_manifest"]], "study1_long_with_text.csv", IN[["study1_long"]])),
+  check("Study 1", "confirmatory table equals the one listed in the same manifest", TRUE,
+        manifest_row(IN[["study1_manifest"]], "tables/study1_confirmatory_family.csv",
+                     IN[["study1_family"]])),
+  check("Study 1", "participants", 111, n_people(long[["Study 1"]])),
+  check("Study 2", "long file equals the one listed in the real run manifest", TRUE,
+        manifest_row(IN[["study2_manifest"]], "study2_long_with_text.csv", IN[["study2_long"]])),
+  check("Study 2", "label_mode says real on every row", TRUE, all_real(long[["Study 2"]])),
+  check("Study 2", "participants", 235, n_people(long[["Study 2"]])),
+  check("Study 2", "analysed ratings, after the two six-point items", 20659,
+        n_five(long[["Study 2"]])),
+  check("Study 2", "six-point ratings left in the file", 0, n_six(long[["Study 2"]])),
+  check("Study 3", "long file equals the one listed in the real run manifest", TRUE,
+        manifest_row(IN[["study3_manifest"]], "study3_long_with_text.csv", IN[["study3_long"]])),
+  check("Study 3", "participants", 85, n_people(long[["Study 3"]])),
+  check("Study 4", "long file equals the one listed in the real run manifest", TRUE,
+        manifest_row(IN[["study4_manifest"]], "study4_long_with_text.csv", IN[["study4_long"]])),
+  check("Study 4", "label_mode says real on every row", TRUE, all_real(long[["Study 4"]])),
+  check("Study 4", "participants", 117, n_people(long[["Study 4"]])),
+  check("Study 4", "analysed ratings, after the two six-point items", 6178,
+        n_five(long[["Study 4"]])),
+  check("Study 4", "six-point ratings, left out", 140, n_six(long[["Study 4"]])),
+  check("Study 5", "long file equals the one listed in the real run manifest", TRUE,
+        manifest_row(IN[["study5_manifest"]], "study5_long_with_text.csv", IN[["study5_long"]])),
+  check("Study 5", "label_mode says real on every row", TRUE, all_real(long[["Study 5"]])),
+  check("Study 5", "participants", 223, n_people(long[["Study 5"]])),
+  check("Study 5", "ratings in the file", 12042, sum(!is.na(long[["Study 5"]]$rating))),
+  check("Study 5", "six-point ratings, left out of the primary analysis", 274,
+        n_six(long[["Study 5"]])),
+  check("Study 5", "analysed ratings in the primary analysis", 11768,
+        n_five(long[["Study 5"]])))
+```
+
+## 2.2 The three derivative studies showed the same images
+
+```{r image-check}
+# The pooled model gives each source image and each second work one
+# intercept shared by all three studies, which is right only if the studies
+# showed the same images. Each survey file names the image graphic that each
+# question displays. The check reads every question that displays a graphic
+# and requires the same questions to display the same graphics in all three
+# surveys.
+survey_images <- function(qsf) {
+  q <- jsonlite::fromJSON(qsf, simplifyVector = FALSE)
+  rows <- lapply(q$SurveyElements, function(el) {
+    if (!identical(el$Element, "SQ")) return(NULL)
+    text <- el$Payload$QuestionText
+    tag  <- el$Payload$DataExportTag
+    if (is.null(text) || is.null(tag)) return(NULL)
+    ims <- regmatches(text, gregexpr("IM_[A-Za-z0-9]+", text))[[1]]
+    if (length(ims) == 0) return(NULL)
+    tibble(tag = tag, graphics = paste(ims, collapse = " "))
+  })
+  bind_rows(rows) %>% distinct() %>% arrange(tag, graphics)
+}
+images <- lapply(c("Study 2" = "study2_survey", "Study 4" = "study4_survey",
+                   "Study 5" = "study5_survey"),
+                 function(k) survey_images(IN[[k]]))
+same_images <- identical(images[["Study 2"]], images[["Study 4"]]) &&
+  identical(images[["Study 2"]], images[["Study 5"]])
+cat("Questions that display a graphic, per survey:",
+    paste(vapply(images, nrow, integer(1)), collapse = ", "),
+    "| distinct graphics:", n_distinct(images[["Study 2"]]$graphics), "\n")
+
+# The ten source images also carry the same names in the three long files.
+image_names <- list(sort(unique(long[["Study 2"]]$image)),
+                    sort(unique(long[["Study 4"]]$source)),
+                    sort(unique(long[["Study 5"]]$image)))
+same_names <- length(image_names[[1]]) == 10 &&
+  identical(image_names[[1]], image_names[[2]]) &&
+  identical(image_names[[1]], image_names[[3]])
+
+input_checks <- bind_rows(
+  input_checks,
+  check("Studies 2, 4 and 5", "the same questions display the same graphics in the three surveys",
+        TRUE, same_images),
+  check("Studies 2, 4 and 5", "the ten source images carry the same names in the three long files",
+        TRUE, same_names))
+```
+
+```{r write-input-checks}
+run_clear_outputs(run, table_path("crossstudy_input_checks.csv"))
+write_table(input_checks, "crossstudy_input_checks.csv")
+show_table(input_checks, "Table 2.1. Every input check. The run stops if any fails.")
+if (!all(input_checks$pass)) stop("Some input disagrees with its study's registered sample.")
+```
+
+# 3. The pooled data
+
+```{r pooled-data}
+# One row per participant, second work and measure from the three derivative
+# studies. The columns are named differently across studies: in Study 4 the
+# column source names the source image and label names Human or AI, while
+# Studies 2 and 5 call these image and source. Each column is picked by name.
+pool_study <- function(d, study, source_col, image_col) {
+  tibble(study = study, id = d$id, source = d[[source_col]], image = d[[image_col]],
+         modification = d$modification, measure = d$dimension,
+         k_points = d$k_points, rating = d$rating)
+}
+pooled <- bind_rows(
+  pool_study(long[["Study 2"]], "Study 2", "source", "image"),
+  pool_study(long[["Study 4"]], "Study 4", "label",  "source"),
+  pool_study(long[["Study 5"]], "Study 5", "source", "image")) %>%
+  # Each study's primary analysis keeps the five-point items only, so the two
+  # six-point transformativeness items are dropped here as there.
+  filter(k_points == 5, !is.na(rating)) %>%
+  mutate(study        = factor(study, levels = DERIV_STUDIES),
+         source       = factor(source, levels = SOURCE_LEVELS),
+         modification = factor(modification, levels = MOD_LEVELS),
+         measure      = factor(measure, levels = MEASURES),
+         id           = factor(id),
+         image        = factor(image))
+stopifnot(!anyNA(pooled$study), !anyNA(pooled$source),
+          !anyNA(pooled$modification), !anyNA(pooled$measure))
+
+# The rows analysed in each study equal its registered analysed ratings.
+rows_by_study <- count(pooled, study)
+stopifnot(identical(rows_by_study$n, c(20659L, 6178L, 11768L)))
+
+# Numeric codes for the model comparison of section 7. src is +1 for Human
+# and -1 for AI, as sum-to-zero contrasts code the source. st1 and st2 are the
+# sum-to-zero codes of the three studies. modlin codes None, Slight and
+# Dramatic as -1, 0 and 1 (a straight line), and modquad as 1, -2 and 1 (a
+# bend at Slight), so the two together allow any shape across the levels.
+pooled <- pooled %>%
+  mutate(src     = ifelse(source == "Human", 1, -1),
+         st1     = unname(c("Study 2" = 1, "Study 4" = 0, "Study 5" = -1)[as.character(study)]),
+         st2     = unname(c("Study 2" = 0, "Study 4" = 1, "Study 5" = -1)[as.character(study)]),
+         modlin  = unname(c(None = -1, Slight = 0, Dramatic = 1)[as.character(modification)]),
+         modquad = unname(c(None = 1, Slight = -2, Dramatic = 1)[as.character(modification)]))
+stopifnot(identical(unname(as.matrix(distinct(pooled, study, st1, st2) %>%
+                                       arrange(study) %>% select(st1, st2))),
+                    unname(contr.sum(3)) * 1))
+
+pooled_counts <- pooled %>%
+  group_by(measure, study) %>%
+  summarise(participants = n_distinct(id),
+            human_participants = n_distinct(id[source == "Human"]),
+            ai_participants = n_distinct(id[source == "AI"]),
+            ratings = n(), .groups = "drop")
+show_table(pooled_counts, "Table 3.1. Participants and analysed ratings in the pooled data.")
+```
+
+# 4. The pooled model and the penalty at each level
+
+A linear mixed model is a regression that gives each participant and each
+image its own baseline, so that ratings from the same person or of the same
+image are not treated as independent. Each measure gets one pooled model:
+
+`rating ~ source * modification * study + (1 | study:id) + (1 | image) + (1 | image:modification)`
+
+The fixed part lets the penalty differ by level and by study. The three
+random intercepts give a baseline to each participant within each study, to
+each of the ten source images, and to each of the thirty second works (one
+image at one level). Every factor uses sum-to-zero contrasts, a coding in
+which a factor's effects add to zero across its levels, so each effect is read
+against the average of the others. The fit is by restricted maximum likelihood
+(REML, the usual estimator of the variances in a mixed model) with the bobyqa
+optimizer, the numerical routine that searches for the estimates, as in each
+study. Studies 4 and 5 are averaged over their time
+factors, which the model leaves out.
+
+An estimated marginal mean is the model's predicted mean for a cell, averaged
+equally over the factors not named. The penalty at a level is the Human mean
+minus the AI mean at that level. The pooled penalty averages the three
+studies' penalties with equal weight. Satterthwaite degrees of freedom are an
+approximation to the degrees of freedom a test in a mixed model has. Each
+interval is a 95 percent confidence interval, the range of values compatible
+with the data at that level.
+
+```{r pooled-fits}
+SUM_CONTRASTS  <- list(source = "contr.sum", modification = "contr.sum",
+                       study = "contr.sum")
+POOLED_RE      <- "(1 | study:id) + (1 | image) + (1 | image:modification)"
+POOLED_TEXT    <- paste("rating ~ source * modification * study +", POOLED_RE)
+POOLED_FORMULA <- as.formula(POOLED_TEXT)
+
+# fit_with_status() keeps every warning and records whether the fit stopped
+# with an error, whether it converged and whether it is singular (a variance
+# estimated at zero). Only the contrasts of factors in the formula are passed,
+# because lme4 warns about any other and the warning would count as a failure
+# to converge.
+fit_lmm <- function(formula, d, reml, contrasts) {
+  res <- fit_with_status(lmerTest::lmer(
+    formula, data = d, REML = reml, contrasts = contrasts,
+    control = lme4::lmerControl(optimizer = "bobyqa")))
+  res$data <- d
+  res
+}
+data_by_measure <- setNames(lapply(MEASURES, function(m) {
+  pooled %>% filter(measure == m) %>% droplevels()
+}), MEASURES)
+pooled_fits <- lapply(data_by_measure, function(d) {
+  fit_lmm(POOLED_FORMULA, d, reml = TRUE, contrasts = SUM_CONTRASTS)
+})
+for (m in MEASURES) {
+  st <- pooled_fits[[m]]$status
+  log_fit(st, "pooled model, REML", m, POOLED_TEXT, data_by_measure[[m]])
+  cat(sprintf("%-18s rows %5d | fit error %s | converged %s | singular %s\n",
+              m, nrow(data_by_measure[[m]]), st$fit_error, st$converged, st$singular))
+  print(lme4::VarCorr(pooled_fits[[m]]$fit))
+}
+```
+
+A singular fit here is one in which the source-image variance is estimated at
+zero: once each second work has its own baseline, the ten source images add no
+further spread. A singular fit that converged keeps its numbers.
+
+```{r penalties}
+run_clear_outputs(run, table_path("crossstudy_penalty_by_level.csv"))
+
+# The estimated marginal means of all eighteen cells of source, modification
+# and study.
+emm_cells <- function(res) {
+  do.call(emmeans::emmeans,
+          c(list(object = res$fit, specs = ~ source * modification * study,
+                 data = res$data), LMER_DF))
+}
+
+# Contrast weights are matched to the cells by their labels, so no weight
+# depends on the order emmeans lists the cells in. A penalty weight is +1 on
+# the Human cell and -1 on the AI cell at the level, in each named study,
+# divided by the number of studies named, which gives each study equal weight.
+cell_weights <- function(g, level, studies, sign_human = 1, sign_ai = -1) {
+  s <- ifelse(g$source == "Human", sign_human, sign_ai)
+  as.numeric(g$modification == level) * s *
+    as.numeric(g$study %in% studies) / length(studies)
+}
+penalty_w <- function(g, level, studies) cell_weights(g, level, studies)
+mean_w    <- function(g, level, studies, which) {
+  cell_weights(g, level, studies, sign_human = as.numeric(which == "Human"),
+               sign_ai = as.numeric(which == "AI"))
+}
+
+# One row per contrast, with its 95 percent and 90 percent intervals. A fit
+# that stopped with an error or did not converge keeps its estimate but loses
+# its p-value and intervals.
+contrast_rows <- function(emm, weights, status) {
+  ct  <- emmeans::contrast(emm, method = weights, adjust = "none")
+  s95 <- as_tibble(summary(ct, infer = c(TRUE, TRUE), level = 0.95))
+  s90 <- as_tibble(summary(ct, infer = c(TRUE, FALSE), level = 0.90))
+  lo95 <- intersect(c("lower.CL", "asymp.LCL"), names(s95))
+  hi95 <- intersect(c("upper.CL", "asymp.UCL"), names(s95))
+  stat <- intersect(c("t.ratio", "z.ratio"), names(s95))
+  tibble(contrast    = as.character(s95$contrast),
+         estimate    = s95$estimate, se = s95$SE, df = s95$df,
+         statistic   = s95[[stat]],
+         p_two_sided = na_unless_usable(s95$p.value, status),
+         ci95_lo     = na_unless_usable(s95[[lo95]], status),
+         ci95_hi     = na_unless_usable(s95[[hi95]], status),
+         ci90_lo     = na_unless_usable(s90[[lo95]], status),
+         ci90_hi     = na_unless_usable(s90[[hi95]], status))
+}
+
+# The scopes of every penalty: the pooled estimate over the studies in the
+# fit, then each study on its own.
+scopes_of <- function(studies) {
+  c(setNames(list(studies), "pooled"), setNames(as.list(studies), studies))
+}
+penalty_table <- function(res, m, studies) {
+  emm <- emm_cells(res)
+  g <- as.data.frame(emm@grid)
+  scopes <- scopes_of(studies)
+  keys <- expand.grid(level = MOD_LEVELS, scope = names(scopes),
+                      stringsAsFactors = FALSE)
+  w_pen <- lapply(seq_len(nrow(keys)), function(i) {
+    penalty_w(g, keys$level[i], scopes[[keys$scope[i]]])
+  })
+  names(w_pen) <- paste(keys$scope, keys$level, sep = " | ")
+  w_hum <- lapply(seq_len(nrow(keys)), function(i) {
+    mean_w(g, keys$level[i], scopes[[keys$scope[i]]], "Human")
+  })
+  w_ai <- lapply(seq_len(nrow(keys)), function(i) {
+    mean_w(g, keys$level[i], scopes[[keys$scope[i]]], "AI")
+  })
+  names(w_hum) <- names(w_ai) <- names(w_pen)
+  pen <- contrast_rows(emm, w_pen, res$status)
+  hum <- contrast_rows(emm, w_hum, res$status)
+  ai  <- contrast_rows(emm, w_ai, res$status)
+  tibble(measure = m, scope = ifelse(keys$scope == "pooled", "pooled", "within study"),
+         study = ifelse(keys$scope == "pooled",
+                        paste(studies, collapse = ", "), keys$scope),
+         modification = keys$level,
+         human_mean = hum$estimate, ai_mean = ai$estimate) %>%
+    bind_cols(select(pen, -contrast)) %>%
+    mutate(contrast = "Human minus AI", weighting = "each study weighted equally",
+           converged = res$status$converged, singular = res$status$singular,
+           note = fit_note(res$status), .after = modification)
+}
+
+penalties <- bind_rows(lapply(MEASURES, function(m) {
+  penalty_table(pooled_fits[[m]], m, DERIV_STUDIES)
+}))
+stopifnot(nrow(penalties) == 3 * 4 * 3)
+write_table(penalties, "crossstudy_penalty_by_level.csv")
+show_table(penalties %>%
+             select(measure, study, modification, human_mean, ai_mean, estimate,
+                    se, df, ci95_lo, ci95_hi, p_two_sided),
+           paste("Table 4.1. The Human minus AI penalty on each second work, in",
+                 "rating points, at each modification level: pooled over Studies 2,",
+                 "4 and 5 with equal weight, and within each study, from the pooled",
+                 "model. Human and AI means are the model's cell means. Intervals",
+                 "are 95 percent; p-values are two-sided and uncorrected."))
+```
+
+# 5. The trend of the penalty across the levels
+
+The trend is the slope of the straight line fitted through the three
+penalties placed at -1, 0 and 1 for None, Slight and Dramatic: the change in
+the penalty for each step up in modification, which equals half of the
+Dramatic penalty minus the None penalty. Discounting predicts a negative slope, taint and severance a slope of
+zero. The curvature is the Slight penalty minus the mean of the None and
+Dramatic penalties: how far the middle level sits off the straight line.
+
+```{r trend}
+run_clear_outputs(run, table_path("crossstudy_penalty_trend.csv"))
+trend_table <- function(res, m, studies) {
+  emm <- emm_cells(res)
+  g <- as.data.frame(emm@grid)
+  scopes <- scopes_of(studies)
+  w <- list()
+  for (sc in names(scopes)) {
+    pn <- penalty_w(g, "None", scopes[[sc]])
+    ps <- penalty_w(g, "Slight", scopes[[sc]])
+    pd <- penalty_w(g, "Dramatic", scopes[[sc]])
+    w[[paste(sc, "slope", sep = " | ")]]     <- (pd - pn) / 2
+    w[[paste(sc, "curvature", sep = " | ")]] <- ps - (pn + pd) / 2
+  }
+  rows <- contrast_rows(emm, w, res$status)
+  parts <- strsplit(rows$contrast, " | ", fixed = TRUE)
+  sc <- vapply(parts, `[`, "", 1)
+  tibble(measure = m,
+         scope = ifelse(sc == "pooled", "pooled", "within study"),
+         study = ifelse(sc == "pooled", paste(studies, collapse = ", "), sc),
+         quantity = vapply(parts, `[`, "", 2)) %>%
+    mutate(definition = ifelse(quantity == "slope",
+                               "change in the penalty per step, (Dramatic minus None) / 2, codes -1, 0, 1",
+                               "Slight penalty minus the mean of the None and Dramatic penalties")) %>%
+    bind_cols(select(rows, -contrast, -ci90_lo, -ci90_hi)) %>%
+    mutate(dramatic_minus_none = ifelse(quantity == "slope", 2 * estimate, NA_real_),
+           converged = res$status$converged, singular = res$status$singular,
+           note = fit_note(res$status))
+}
+trends <- bind_rows(lapply(MEASURES, function(m) {
+  trend_table(pooled_fits[[m]], m, DERIV_STUDIES)
+}))
+stopifnot(nrow(trends) == 3 * 4 * 2)
+write_table(trends, "crossstudy_penalty_trend.csv")
+show_table(trends %>% select(measure, study, quantity, estimate, se, df, ci95_lo,
+                             ci95_hi, p_two_sided),
+           paste("Table 5.1. The slope of the penalty across None, Slight and",
+                 "Dramatic (change per step, codes -1, 0, 1) and its curvature at",
+                 "Slight, pooled and within each study, in rating points, with 95",
+                 "percent intervals and uncorrected two-sided p-values."))
+```
+
+# 6. The equivalence reading of the pooled penalty
+
+An equivalence test asks whether a difference lies inside a stated bound. It
+runs two one-sided tests: one asks whether the penalty lies above -0.224, the
+other whether it lies below +0.224. Both pass at .05 exactly when the 90
+percent interval lies inside the bound, and the larger of the two one-sided
+p-values is the test's p-value. The bound, plus or minus 0.224 rating points,
+is the one Studies 2, 4 and 5 registered: half of Study 1's creativity penalty
+of 0.448. A pass means that less than half of that penalty reaches the second
+work at that level; it does not mean the penalty is zero. The reading follows
+Study 5's registered wording: a penalty is called absent or small only when
+the equivalence test passes, and a penalty neither significant nor equivalent
+is inconclusive. Here the reading is a description and carries no registered
+weight.
+
+```{r equivalence}
+run_clear_outputs(run, table_path("crossstudy_penalty_equivalence.csv"))
+tost <- function(est, se, df, bound) {
+  p_lower <- pt((est + bound) / se, df, lower.tail = FALSE)
+  p_upper <- pt((est - bound) / se, df, lower.tail = TRUE)
+  tibble(p_lower = p_lower, p_upper = p_upper, p_tost = pmax(p_lower, p_upper))
+}
+reading_of <- function(significant, equivalent) {
+  case_when(
+    is.na(significant) | is.na(equivalent) ~ NA_character_,
+    significant & !equivalent  ~ "significant, not inside the bound",
+    significant & equivalent   ~ "significant and inside the bound",
+    !significant & equivalent  ~ "absent or small: inside the bound",
+    TRUE                       ~ "inconclusive: neither significant nor equivalent")
+}
+equivalence <- penalties %>%
+  filter(scope == "pooled") %>%
+  select(measure, study, modification, estimate, se, df, ci90_lo, ci90_hi,
+         p_two_sided, converged, singular, note) %>%
+  bind_cols(tost(.$estimate, .$se, .$df, EQ_BOUND)) %>%
+  mutate(bound = EQ_BOUND,
+         p_tost = ifelse(is.na(ci90_lo), NA_real_, p_tost),
+         equivalent = p_tost < ALPHA,
+         interval_inside_bound = ci90_lo > -EQ_BOUND & ci90_hi < EQ_BOUND,
+         significant = p_two_sided < ALPHA,
+         reading = reading_of(significant, equivalent),
+         pass_means = "less than half of Study 1's creativity penalty reaches the second work at this level") %>%
+  relocate(bound, .after = ci90_hi)
+stopifnot(nrow(equivalence) == 9,
+          all(equivalence$equivalent == equivalence$interval_inside_bound, na.rm = TRUE))
+write_table(equivalence, "crossstudy_penalty_equivalence.csv")
+show_table(equivalence %>% select(measure, modification, estimate, ci90_lo, ci90_hi,
+                                  p_tost, p_two_sided, reading),
+           paste("Table 6.1. Equivalence of the pooled penalty at each level against",
+                 "plus or minus 0.224 rating points, by two one-sided tests on the",
+                 "90 percent interval, beside the uncorrected two-sided test."))
+```
+
+# 7. The three accounts as nested models
+
+Maximum likelihood (ML) chooses the parameter values under which the observed
+ratings are most probable; unlike REML, it lets models with different fixed
+effects be compared on the same rows. Four models share the random intercepts
+of section 4 and the modification by study part, which lets the average rating
+at each level differ by study. They differ only in how the source enters:
+
+- severance has no source term: no penalty at any level in any study;
+- taint has one penalty per study, the same at None, Slight and Dramatic;
+- discounting lets each study's penalty change in a straight line from None to
+  Dramatic. Discounting predicts that the line falls; the model also allows it
+  to rise, so its slope has to be read with it (section 5);
+- the free shape lets each study's penalty take any value at each level.
+
+Each model adds three parameters to the one before it, so they are nested: the
+likelihood-ratio test compares each with the next simpler one by twice the
+gain in log-likelihood (the log of the probability the model gives the data),
+read against a chi-square distribution with three degrees of freedom, the
+spread that quantity has when the three added terms are truly zero. AIC (the
+Akaike information criterion) and BIC (the Bayesian information criterion)
+score each model by its fit with a charge for each parameter; lower is better.
+BIC's charge grows with the number of observations and is far heavier here, so
+BIC favours simpler models than AIC does. The weights rescale each criterion
+into a share of support among the four models that adds to one. The glosses
+follow two rough conventions: for AIC differences, that of Burnham and
+Anderson (2002), whose bands leave gaps between 2 and 4 and between 7 and 10
+that are filled here; for BIC differences, that of Raftery (1995).
+
+The free-shape model is the pooled model of section 4 written with the numeric
+codes of section 3, and the run checks that the two give the same likelihood.
+A comparison of four models on three studies describes which shape the data
+sit closest to. It does not test a registered prediction.
+
+```{r model-comparison}
+run_clear_outputs(run, table_path("crossstudy_model_comparison.csv"))
+CMP_CONTRASTS <- list(modification = "contr.sum", study = "contr.sum")
+CMP_TERMS <- list(
+  severance   = character(0),
+  taint       = c("src", "src:st1", "src:st2"),
+  discounting = c("src", "src:st1", "src:st2",
+                  "src:modlin", "src:modlin:st1", "src:modlin:st2"),
+  free        = c("src", "src:st1", "src:st2",
+                  "src:modlin", "src:modlin:st1", "src:modlin:st2",
+                  "src:modquad", "src:modquad:st1", "src:modquad:st2"))
+CMP_TEXT <- vapply(CMP_TERMS, function(t) {
+  paste("rating ~", paste(c("modification * study", t), collapse = " + "), "+", POOLED_RE)
+}, character(1))
+ACCOUNT <- c(severance = "severance", taint = "taint", discounting = "discounting",
+             free = "free shape")
+ALLOWS <- c(
+  severance   = "no penalty at any level in any study",
+  taint       = "one penalty per study, the same at every level",
+  discounting = "a penalty per study that changes in a straight line from None to Dramatic",
+  free        = "a penalty per study at each level, any shape")
+LRT_QUESTION <- c(
+  taint       = "Does one penalty per study, constant across the levels, improve on no penalty?",
+  discounting = "Does letting the penalty change in a straight line improve on a constant penalty?",
+  free        = "Does letting the penalty take any shape improve on a straight line?")
+
+aic_gloss <- function(delta) {
+  case_when(delta == 0 ~ "best by AIC",
+            delta <= 2 ~ "close to the best by AIC: substantial support",
+            delta <= 4 ~ "some support by AIC, less than the best",
+            delta <= 7 ~ "considerably less support by AIC",
+            delta <= 10 ~ "little support by AIC",
+            TRUE ~ "essentially no support by AIC")
+}
+bic_gloss <- function(delta) {
+  case_when(delta == 0 ~ "best by BIC",
+            delta <= 2 ~ "weak evidence against it by BIC",
+            delta <= 6 ~ "positive evidence against it by BIC",
+            delta <= 10 ~ "strong evidence against it by BIC",
+            TRUE ~ "very strong evidence against it by BIC")
+}
+
+cmp_fits <- list()
+comparison <- bind_rows(lapply(MEASURES, function(m) {
+  d <- data_by_measure[[m]]
+  fits <- lapply(names(CMP_TERMS), function(k) {
+    fit_lmm(as.formula(CMP_TEXT[[k]]), d, reml = FALSE, contrasts = CMP_CONTRASTS)
+  })
+  names(fits) <- names(CMP_TERMS)
+  for (k in names(fits)) {
+    log_fit(fits[[k]]$status, paste0("model comparison, ML: ", ACCOUNT[[k]]), m,
+            CMP_TEXT[[k]], d)
+  }
+  # The free-shape model written with numeric codes equals the pooled model
+  # written with factors, fitted by ML.
+  factor_ml <- fit_lmm(POOLED_FORMULA, d, reml = FALSE, contrasts = SUM_CONTRASTS)
+  log_fit(factor_ml$status, "model comparison, ML: pooled model with factor coding, a check",
+          m, POOLED_TEXT, d)
+  stopifnot(abs(as.numeric(logLik(factor_ml$fit)) -
+                  as.numeric(logLik(fits$free$fit))) < 1e-3)
+  cmp_fits[[m]] <<- fits
+
+  ll   <- vapply(fits, function(f) as.numeric(logLik(f$fit)), numeric(1))
+  npar <- vapply(fits, function(f) attr(logLik(f$fit), "df"), numeric(1))
+  aic  <- vapply(fits, function(f) AIC(f$fit), numeric(1))
+  bic  <- vapply(fits, function(f) BIC(f$fit), numeric(1))
+  usable <- vapply(fits, function(f) fit_usable(f$status), logical(1))
+  out <- tibble(measure = m, model = names(fits), account = unname(ACCOUNT),
+                allows = unname(ALLOWS), formula = unname(CMP_TEXT),
+                n_obs = nrow(d), n_parameters = npar, log_likelihood = ll,
+                AIC = aic, BIC = bic) %>%
+    mutate(delta_AIC = AIC - min(AIC), delta_BIC = BIC - min(BIC),
+           AIC_weight = exp(-delta_AIC / 2) / sum(exp(-delta_AIC / 2)),
+           BIC_weight = exp(-delta_BIC / 2) / sum(exp(-delta_BIC / 2)),
+           compared_with = c(NA, "severance", "taint", "discounting"),
+           lrt_question = c(NA, unname(LRT_QUESTION)),
+           lrt_chisq = c(NA, 2 * diff(ll)),
+           lrt_df = c(NA, diff(npar)),
+           lrt_p = pchisq(lrt_chisq, lrt_df, lower.tail = FALSE),
+           aic_reading = aic_gloss(delta_AIC),
+           bic_reading = bic_gloss(delta_BIC),
+           lrt_reading = case_when(
+             is.na(lrt_p) ~ NA_character_,
+             lrt_p < ALPHA ~ "yes: the gain in fit is larger than chance would give at .05",
+             TRUE ~ "no: the gain in fit is within what chance would give at .05"),
+           converged = usable[model],
+           singular = vapply(fits, function(f) isTRUE(f$status$singular), logical(1)))
+  # The likelihood-ratio tests equal those of lme4's anova() on the same fits.
+  a <- anova(fits$severance$fit, fits$taint$fit, fits$discounting$fit,
+             fits$free$fit, refit = FALSE)
+  stopifnot(max(abs(a$Chisq[-1] - out$lrt_chisq[-1])) < 1e-6)
+  # No reading rests on a fit that did not converge.
+  if (!all(usable)) {
+    out <- out %>% mutate(across(c(lrt_p, aic_reading, bic_reading, lrt_reading),
+                                 ~ replace(.x, rep(TRUE, length(.x)), NA)))
+  }
+  out
+}))
+stopifnot(nrow(comparison) == 12, all(comparison$lrt_df[-c(1, 5, 9)] == 3))
+write_table(comparison, "crossstudy_model_comparison.csv")
+show_table(comparison %>% select(measure, account, n_parameters, log_likelihood,
+                                 AIC, delta_AIC, AIC_weight, BIC, delta_BIC,
+                                 BIC_weight, lrt_chisq, lrt_df, lrt_p),
+           paste("Table 7.1. The four models of the source penalty, fitted by maximum",
+                 "likelihood on the same rows. Each likelihood-ratio test compares a",
+                 "model with the one above it. A description of which shape the data",
+                 "sit closest to, not a test of a registered prediction."),
+           digits = 3)
+show_table(comparison %>% filter(!is.na(lrt_question)) %>%
+             select(measure, lrt_question, lrt_reading, aic_reading, bic_reading),
+           "Table 7.2. The model comparison in words.")
+```
+
+# 8. The penalty on original artworks
+
+Creativity is the one measure rated for original artworks as well as second
+works, so the creativity penalty on originals can stand beside the penalty on
+second works. Two studies supply it. Study 1's registered H1 contrast, the
+Human minus AI difference in creativity averaged over image kind (whether the
+artwork shows a human or humanoid figure), is read from its deposited table;
+its 95 percent interval is computed here from the standard error and degrees
+of freedom in that table. Study 3 registered F tests, which ask whether a
+factor's levels differ at all, and an equivalence test at 100 hours, not this
+contrast, so its Human minus AI
+difference averaged over stated time (the hours Alex is said to have spent on
+the work) is recomputed here from its registered model, with the same formula,
+contrasts and optimizer, and labelled as recomputed. The run checks that the
+recomputed contrast reproduces Study 3's registered F test of source: for a
+factor with two levels the F statistic is the square of the t statistic.
+
+```{r originals}
+run_clear_outputs(run, table_path("crossstudy_originals_reference.csv"))
+
+# Study 1: the registered H1 contrast on creativity.
+s1_family <- readr::read_csv(IN[["study1_family"]], show_col_types = FALSE, progress = FALSE)
+h1 <- s1_family %>% filter(hypothesis == "H1", grepl("creativity", test))
+stopifnot(nrow(h1) == 1, round(h1$estimate, 3) == 0.448)
+crit1 <- qt(0.975, h1$df)
+study1_row <- tibble(
+  study = "Study 1", artwork = "original", measure = "creativity",
+  source_of_number = "registered H1 contrast, read from tables/study1_confirmatory_family.csv",
+  contrast = "Human minus AI, averaged over image kind",
+  estimate = h1$estimate, se = h1$se, df = h1$df, statistic = h1$statistic,
+  p_two_sided = h1$p_raw,
+  ci95_lo = h1$estimate - crit1 * h1$se, ci95_hi = h1$estimate + crit1 * h1$se,
+  interval_note = "95 percent interval computed here from the table's standard error and degrees of freedom",
+  n_participants = n_distinct(long[["Study 1"]]$id))
+
+# Study 3: the registered creativity model, refitted.
+d3 <- long[["Study 3"]] %>%
+  filter(dimension == "creativity", !is.na(rating)) %>%
+  mutate(Type = factor(Type, levels = SOURCE_LEVELS),
+         time = factor(time, levels = c("under 1 hour", "10 hours", "100 hours")),
+         id = factor(id), stimulus_id = factor(stimulus_id))
+stopifnot(!anyNA(d3$Type), !anyNA(d3$time))
+contrasts(d3$Type) <- contr.sum(2)
+contrasts(d3$time) <- contr.sum(3)
+S3_TEXT <- "rating ~ Type * time + (1 | id) + (1 | stimulus_id)"
+s3 <- fit_with_status(lmerTest::lmer(as.formula(S3_TEXT), data = d3, REML = TRUE,
+                                     control = lme4::lmerControl(optimizer = "bobyqa")))
+log_fit(s3$status, "Study 3 registered model, refitted for the originals reference",
+        "creativity", S3_TEXT, d3)
+emm3 <- do.call(emmeans::emmeans, c(list(object = s3$fit, specs = ~ Type, data = d3), LMER_DF))
+stopifnot(identical(as.character(emm3@grid$Type), SOURCE_LEVELS))
+ct3 <- as_tibble(summary(emmeans::contrast(emm3, list("Human minus AI" = c(1, -1)),
+                                           adjust = "none"),
+                         infer = c(TRUE, TRUE), level = 0.95))
+
+# The recomputed contrast reproduces Study 3's registered F test of source.
+s3_f <- readr::read_csv(IN[["study3_ftests"]], show_col_types = FALSE, progress = FALSE) %>%
+  filter(dimension == "creativity", term == "Type")
+stopifnot(nrow(s3_f) == 1, abs(ct3$t.ratio^2 - s3_f$F) / s3_f$F < 1e-4,
+          abs(ct3$df - s3_f$den_df) < 1e-2)
+cat("Study 3 recomputed t squared:", signif(ct3$t.ratio^2, 6),
+    "| registered F of source:", signif(s3_f$F, 6), "\n")
+
+study3_row <- tibble(
+  study = "Study 3", artwork = "original", measure = "creativity",
+  source_of_number = "recomputed here from Study 3's registered model (rating ~ Type * time + (1 | id) + (1 | stimulus_id), sum-to-zero contrasts, REML, bobyqa); not a registered contrast",
+  contrast = "Human minus AI, averaged over stated time",
+  estimate = ct3$estimate, se = ct3$SE, df = ct3$df, statistic = ct3$t.ratio,
+  p_two_sided = na_unless_usable(ct3$p.value, s3$status),
+  ci95_lo = na_unless_usable(ct3$lower.CL, s3$status),
+  ci95_hi = na_unless_usable(ct3$upper.CL, s3$status),
+  interval_note = "95 percent interval, Satterthwaite degrees of freedom; its t squared equals Study 3's registered F test of source",
+  n_participants = n_distinct(d3$id))
+
+originals <- bind_rows(study1_row, study3_row)
+write_table(originals, "crossstudy_originals_reference.csv")
+show_table(originals %>% select(study, contrast, estimate, se, df, ci95_lo, ci95_hi,
+                                p_two_sided, source_of_number),
+           "Table 8.1. The creativity penalty on original artworks, in rating points.")
+```
+
+# 9. The figures
+
+```{r theme}
+# The greyscale theme of Study 1's figures, with a legend at the foot, since
+# these figures distinguish studies by the shape of their points.
+theme_paper <- function(base_size = 11) {
+  theme_classic(base_size = base_size) +
+    theme(
+      legend.position    = "bottom",
+      legend.title       = element_blank(),
+      strip.background   = element_blank(),
+      strip.placement    = "outside",
+      strip.text         = element_text(size = base_size, face = "bold"),
+      axis.line          = element_line(color = "black", linewidth = 0.4),
+      axis.ticks         = element_line(color = "black", linewidth = 0.4),
+      axis.text          = element_text(color = "black"),
+      panel.grid         = element_blank(),
+      plot.title         = element_text(size = base_size, face = "bold", hjust = 0),
+      plot.caption       = element_text(size = base_size - 2, color = "grey30",
+                                        hjust = 0),
+      plot.caption.position = "plot",
+      plot.margin        = margin(8, 8, 8, 8))
+}
+# Each figure file states its status in a line at its foot, so a copy used on
+# its own still says what it is.
+FIG_STATUS <- paste("Exploratory analysis, specified after the registered results",
+                    "were known; it changes no registered verdict.")
+
+# Each series has its own point shape and grey. Open points are original
+# artworks, grey points single studies of second works, and the black diamond
+# the pooled estimate.
+SERIES <- c("Study 1", "Study 3", "Study 2", "Study 4", "Study 5", "Pooled")
+SERIES_LABELS <- c("Study 1" = "Study 1, originals", "Study 3" = "Study 3, originals",
+                   "Study 2" = "Study 2", "Study 4" = "Study 4", "Study 5" = "Study 5",
+                   "Pooled" = "Pooled, Studies 2, 4 and 5")
+SERIES_SHAPES <- c("Study 1" = 21, "Study 3" = 25, "Study 2" = 21, "Study 4" = 22,
+                   "Study 5" = 24, "Pooled" = 23)
+SERIES_FILLS  <- c("Study 1" = "white", "Study 3" = "white", "Study 2" = "#A1A1A1",
+                   "Study 4" = "#A1A1A1", "Study 5" = "#A1A1A1", "Pooled" = "black")
+SERIES_SIZES  <- c("Study 1" = 2.2, "Study 3" = 2.2, "Study 2" = 2.2, "Study 4" = 2.2,
+                   "Study 5" = 2.2, "Pooled" = 3)
+# Points sit at x = 0 for originals and 1, 2 and 3 for None, Slight and
+# Dramatic, each series shifted sideways so that the intervals do not overlap.
+OFFSET <- c("Study 1" = -0.12, "Study 3" = 0.12, "Study 2" = -0.24,
+            "Study 4" = -0.08, "Study 5" = 0.08, "Pooled" = 0.24)
+LEVEL_X <- c(Original = 0, None = 1, Slight = 2, Dramatic = 3)
+
+series_scales <- list(
+  scale_shape_manual(values = SERIES_SHAPES, labels = SERIES_LABELS, breaks = SERIES),
+  scale_fill_manual(values = SERIES_FILLS, labels = SERIES_LABELS, breaks = SERIES),
+  scale_size_manual(values = SERIES_SIZES, labels = SERIES_LABELS, breaks = SERIES))
+
+second_work_points <- function(m) {
+  penalties %>%
+    filter(measure == m) %>%
+    transmute(series = ifelse(scope == "pooled", "Pooled", study),
+              level = modification, estimate, ci95_lo, ci95_hi)
+}
+```
+
+Figure 1 sets the creativity penalty on original artworks beside the penalty
+on second works at each level. Each point is a Human minus AI difference in
+rating points with its 95 percent interval. The dashed line marks no penalty,
+and the shaded band marks plus or minus 0.224, half of Study 1's penalty on
+originals and the bound Studies 2, 4 and 5 registered. The line joins the
+pooled estimates.
+
+```{r figure-1, fig.width=7.2, fig.height=4.1, fig.cap="Figure 1. Exploratory, specified after the registered results were known; changes no registered verdict. The creativity penalty (Human minus AI, rating points, 95 percent intervals) on original artworks (Studies 1 and 3) and on second works at each level of modification (Studies 2, 4 and 5, and their pooled estimate). Dashed line: no penalty. Shaded band: plus or minus 0.224 rating points."}
+FIG1 <- "crossstudy_fig1_creativity_penalty_curve"
+fig1_paths <- as.vector(outer(c(OUT_FIGURES, PAPER_FIG_DIR),
+                              paste0(FIG1, c(".pdf", ".png")), file.path))
+run_clear_outputs(run, fig1_paths)
+
+fig1_data <- bind_rows(
+  originals %>% transmute(series = study, level = "Original", estimate, ci95_lo, ci95_hi),
+  second_work_points("creativity")) %>%
+  mutate(panel = factor(ifelse(level == "Original", "Original artworks", "Second works"),
+                        levels = c("Original artworks", "Second works")),
+         x = LEVEL_X[level] + OFFSET[series],
+         series = factor(series, levels = SERIES))
+stopifnot(nrow(fig1_data) == 2 + 12, !anyNA(fig1_data$x), !anyNA(fig1_data$ci95_lo))
+
+fig1 <- ggplot(fig1_data, aes(x = x, y = estimate)) +
+  annotate("rect", xmin = -Inf, xmax = Inf, ymin = -EQ_BOUND, ymax = EQ_BOUND,
+           fill = "grey92") +
+  geom_hline(yintercept = 0, linetype = "dashed", linewidth = 0.4) +
+  geom_line(data = filter(fig1_data, series == "Pooled"), linewidth = 0.4) +
+  geom_linerange(aes(ymin = ci95_lo, ymax = ci95_hi), linewidth = 0.45) +
+  geom_point(aes(shape = series, fill = series, size = series), stroke = 0.5) +
+  facet_grid(. ~ panel, scales = "free_x", space = "free_x") +
+  scale_x_continuous(breaks = unname(LEVEL_X), labels = names(LEVEL_X),
+                     expand = expansion(add = 0.45)) +
+  series_scales +
+  guides(shape = guide_legend(nrow = 1), fill = guide_legend(nrow = 1),
+         size = guide_legend(nrow = 1)) +
+  labs(x = NULL, y = "Human minus AI creativity rating (points)", caption = FIG_STATUS) +
+  theme_paper(base_size = 10)
+fig1
+
+# 7.2 in is about 18.3 cm, the Nature Communications double-column width.
+ggsave(file.path(OUT_FIGURES, paste0(FIG1, ".pdf")), fig1, width = 7.2, height = 4.1,
+       device = cairo_pdf)
+ggsave(file.path(OUT_FIGURES, paste0(FIG1, ".png")), fig1, width = 7.2, height = 4.1,
+       dpi = 300)
+```
+
+Figure 2 shows the same penalty on the two measures rated for second works
+only.
+
+```{r figure-2, fig.width=7.2, fig.height=3.2, fig.cap="Figure 2. Exploratory, specified after the registered results were known; changes no registered verdict. The penalty on transformativeness and essence change (Human minus AI, rating points, 95 percent intervals) at each level of modification, in Studies 2, 4 and 5 and pooled. Dashed line: no penalty. Shaded band: plus or minus 0.224 rating points."}
+FIG2 <- "crossstudy_fig2_other_measures_penalty_curve"
+fig2_paths <- as.vector(outer(c(OUT_FIGURES, PAPER_FIG_DIR),
+                              paste0(FIG2, c(".pdf", ".png")), file.path))
+run_clear_outputs(run, fig2_paths)
+
+fig2_data <- bind_rows(lapply(c("transformativeness", "essence_change"), function(m) {
+  second_work_points(m) %>% mutate(measure = MEASURE_LABELS[[m]])
+})) %>%
+  mutate(measure = factor(measure, levels = c("Transformativeness", "Essence change")),
+         x = LEVEL_X[level] + OFFSET[series],
+         series = factor(series, levels = SERIES))
+stopifnot(nrow(fig2_data) == 24, !anyNA(fig2_data$x))
+
+fig2 <- ggplot(fig2_data, aes(x = x, y = estimate)) +
+  annotate("rect", xmin = -Inf, xmax = Inf, ymin = -EQ_BOUND, ymax = EQ_BOUND,
+           fill = "grey92") +
+  geom_hline(yintercept = 0, linetype = "dashed", linewidth = 0.4) +
+  geom_line(data = filter(fig2_data, series == "Pooled"), linewidth = 0.4) +
+  geom_linerange(aes(ymin = ci95_lo, ymax = ci95_hi), linewidth = 0.45) +
+  geom_point(aes(shape = series, fill = series, size = series), stroke = 0.5) +
+  facet_wrap(~ measure, nrow = 1) +
+  scale_x_continuous(breaks = 1:3, labels = MOD_LEVELS, expand = expansion(add = 0.45)) +
+  series_scales +
+  guides(shape = guide_legend(nrow = 1), fill = guide_legend(nrow = 1),
+         size = guide_legend(nrow = 1)) +
+  labs(x = NULL, y = "Human minus AI rating (points)", caption = FIG_STATUS) +
+  theme_paper(base_size = 10)
+fig2
+
+ggsave(file.path(OUT_FIGURES, paste0(FIG2, ".pdf")), fig2, width = 7.2, height = 3.2,
+       device = cairo_pdf)
+ggsave(file.path(OUT_FIGURES, paste0(FIG2, ".png")), fig2, width = 7.2, height = 3.2,
+       dpi = 300)
+```
+
+```{r figure-copies}
+# The manuscript copies are byte-for-byte copies of the files above.
+for (f in c(paste0(FIG1, c(".pdf", ".png")), paste0(FIG2, c(".pdf", ".png")))) {
+  stopifnot(file.copy(file.path(OUT_FIGURES, f), file.path(PAPER_FIG_DIR, f),
+                      overwrite = TRUE))
+  stopifnot(identical(unname(tools::sha256sum(file.path(OUT_FIGURES, f))),
+                      unname(tools::sha256sum(file.path(PAPER_FIG_DIR, f)))))
+}
+cat("Figures copied to", relative_path(PAPER_FIG_DIR, PROJECT_ROOT), "\n")
+```
+
+# 10. Robustness
+
+## 10.1 An ordinal model of creativity
+
+The linear model treats the five answers as evenly spaced numbers. A
+cumulative-link mixed model instead treats them as ordered categories: it
+estimates where the cut points between neighbouring answers fall on an
+underlying scale, with a logistic curve for the chance of answering above each
+cut point. The model has the same fixed and random terms as the pooled model,
+with the participant and the second work entered as factors equal to
+`study:id` and `image:modification`. The penalties are given on two scales: the
+underlying scale itself, in logit units (the log of the odds of answering above
+a cut point), and the expected rating in points,
+computed for an average participant and second work (random effects at zero).
+A fit counts as converged when the optimizer returns code 0 and raises no
+warning about convergence or the Hessian (the matrix of second derivatives the
+standard errors come from), as in Studies 1, 4 and 5; a singular fit is one
+with a random-effect standard deviation below 0.0001. A fit that did not
+converge keeps its estimates as description only, with no p-value or interval.
+
+```{r ordinal}
+run_clear_outputs(run, table_path("crossstudy_ordinal_check.csv"))
+d_ord <- data_by_measure$creativity %>%
+  mutate(rating_ord  = factor(rating, levels = 1:5, ordered = TRUE),
+         participant = factor(paste(study, id, sep = ":")),
+         work        = factor(paste(image, modification, sep = "_")))
+ORD_TEXT <- paste("ordered rating ~ source * modification * study + (1 | study:id)",
+                  "+ (1 | image) + (1 | image:modification), logit link, Laplace approximation")
+fit_clmm <- function(d) {
+  warns <- character(0)
+  fit <- withCallingHandlers(
+    tryCatch(ordinal::clmm(rating_ord ~ source * modification * study +
+                             (1 | participant) + (1 | image) + (1 | work),
+                           data = d, link = "logit", Hess = TRUE,
+                           contrasts = SUM_CONTRASTS),
+             error = function(e) e),
+    warning = function(w) {
+      warns <<- c(warns, conditionMessage(w))
+      invokeRestart("muffleWarning")
+    })
+  failed <- inherits(fit, "error")
+  list(fit = fit, data = d,
+       status = tibble(
+         fit_error = failed,
+         converged = !failed && isTRUE(fit$optRes$convergence == 0) &&
+           !any(grepl("converge|Hessian", warns, ignore.case = TRUE)),
+         singular  = if (failed) NA else
+           any(vapply(ordinal::VarCorr(fit), function(v) any(attr(v, "stddev") < 1e-4),
+                      logical(1))),
+         messages  = paste(unique(c(if (failed) conditionMessage(fit) else fit$optRes$message,
+                                    warns)), collapse = " | ")),
+       max_abs_gradient = if (failed) NA_real_ else max(abs(fit$gradient)))
+}
+t_ord <- system.time(ord <- fit_clmm(d_ord))
+log_fit(ord$status, "ordinal check, creativity", "creativity", ORD_TEXT, d_ord,
+        ord$max_abs_gradient)
+cat("Cumulative-link fit:", round(t_ord[["elapsed"]]), "seconds | fit error",
+    ord$status$fit_error, "| converged", ord$status$converged, "| singular",
+    ord$status$singular, "| largest absolute gradient", signif(ord$max_abs_gradient, 3), "\n")
+cat("Messages:", ord$status$messages, "\n")
+if (!ord$status$fit_error) print(ordinal::VarCorr(ord$fit))
+
+ordinal_scale <- function(mode, label) {
+  if (ord$status$fit_error) {
+    return(tibble(scale = label, modification = MOD_LEVELS, note = fit_note(ord$status)))
+  }
+  emm <- emmeans::emmeans(ord$fit, ~ source * modification * study, data = d_ord,
+                          mode = mode)
+  g <- as.data.frame(emm@grid)
+  w <- setNames(lapply(MOD_LEVELS, function(l) penalty_w(g, l, DERIV_STUDIES)), MOD_LEVELS)
+  rows <- contrast_rows(emm, w, ord$status)
+  tibble(scale = label, modification = MOD_LEVELS) %>%
+    bind_cols(select(rows, estimate, se, statistic, p_two_sided, ci95_lo, ci95_hi))
+}
+ordinal_check <- bind_rows(
+  ordinal_scale("latent", "underlying scale, logit units"),
+  ordinal_scale("mean.class", "expected rating in points, random effects at zero")) %>%
+  left_join(penalties %>% filter(measure == "creativity", scope == "pooled") %>%
+              select(modification, lmm_estimate = estimate, lmm_p = p_two_sided),
+            by = "modification") %>%
+  mutate(measure = "creativity", pooled_over = "Studies 2, 4 and 5, equal weights",
+         same_direction_as_lmm = sign(estimate) == sign(lmm_estimate),
+         converged = ord$status$converged, singular = ord$status$singular,
+         max_abs_gradient = ord$max_abs_gradient,
+         note = if (fit_usable(ord$status)) "" else
+           "the fit did not converge under the rule, so its estimates are description only and carry no p-value or interval",
+         model = ORD_TEXT, .before = 1)
+stopifnot(nrow(ordinal_check) == 6)
+write_table(ordinal_check, "crossstudy_ordinal_check.csv")
+show_table(ordinal_check %>% select(scale, modification, estimate, se, statistic,
+                                    p_two_sided, ci95_lo, ci95_hi, lmm_estimate),
+           paste("Table 10.1. The pooled creativity penalty at each level from the",
+                 "cumulative-link mixed model, beside the linear model's estimate in",
+                 "rating points."))
+```
+
+## 10.2 Each study left out in turn
+
+Each pooled model is fitted again three times per measure, each time without
+one of the three studies, and the pooled penalty at each level is recomputed
+over the two that remain, with equal weight. The table also says whether the
+90 percent interval of each recomputed penalty still lies inside plus or minus
+0.224.
+
+```{r leave-one-out}
+run_clear_outputs(run, table_path("crossstudy_leave_one_study_out.csv"))
+loso <- bind_rows(lapply(MEASURES, function(m) {
+  bind_rows(lapply(DERIV_STUDIES, function(out) {
+    kept <- setdiff(DERIV_STUDIES, out)
+    d <- data_by_measure[[m]] %>% filter(study %in% kept) %>% droplevels()
+    res <- fit_lmm(POOLED_FORMULA, d, reml = TRUE, contrasts = SUM_CONTRASTS)
+    log_fit(res$status, paste("leave one study out, REML, without", out), m,
+            POOLED_TEXT, d)
+    penalty_table(res, m, kept) %>%
+      filter(scope == "pooled") %>%
+      mutate(left_out = out, .after = measure)
+  }))
+})) %>%
+  left_join(penalties %>% filter(scope == "pooled") %>%
+              select(measure, modification, all_three_estimate = estimate),
+            by = c("measure", "modification")) %>%
+  mutate(change_from_all_three = estimate - all_three_estimate,
+         interval_inside_bound = ci90_lo > -EQ_BOUND & ci90_hi < EQ_BOUND)
+stopifnot(nrow(loso) == 27)
+write_table(loso, "crossstudy_leave_one_study_out.csv")
+show_table(loso %>% select(measure, left_out, modification, estimate, ci95_lo, ci95_hi,
+                           p_two_sided, interval_inside_bound, all_three_estimate),
+           paste("Table 10.2. The pooled penalty at each level with each study left",
+                 "out in turn, beside the estimate from all three studies, in rating",
+                 "points with 95 percent intervals."))
+```
+
+## 10.3 The pooled model against each study's registered estimates
+
+The pooled model differs from each study's own model in two ways. Its terms
+differ: it gives each second work its own baseline, which none of the studies'
+models does, and it leaves out image kind and the time factors, which they
+include. And it estimates one set of variances for the three studies together.
+Its within-study penalties are therefore set beside the estimates each study
+reported from its registered model: Study 2's exploratory source contrast at
+each level, Study 4's secondary label effect at each level, and Study 5's
+registered source contrast at each level. Each study is also fitted on its own
+with the pooled model's terms,
+`rating ~ source * modification + (1 | id) + (1 | image) + (1 | image:modification)`.
+That fit splits each difference in two: the registered estimate and the
+study-alone estimate differ only by the terms, and the study-alone estimate and
+the pooled model's differ only by the shared variances.
+
+```{r reconciliation}
+run_clear_outputs(run, table_path("crossstudy_registered_reconciliation.csv"))
+rd <- function(k) readr::read_csv(IN[[k]], show_col_types = FALSE, progress = FALSE)
+registered_by_level <- bind_rows(
+  rd("study2_by_level") %>%
+    transmute(study = "Study 2", measure, modification, registered_estimate = estimate,
+              registered_table = "Study 2/tables/study2_source_by_modification.csv"),
+  rd("study4_by_level") %>%
+    transmute(study = "Study 4", measure, modification, registered_estimate = estimate,
+              registered_table = "Study 4/tables/study4_secondary_label_by_modification.csv"),
+  rd("study5_by_level") %>%
+    transmute(study = "Study 5", measure = rating, modification,
+              registered_estimate = estimate,
+              registered_table = "Study 5/tables/study5_equivalence_source.csv"))
+# Each study on its own, with the pooled model's terms.
+ALONE_TEXT <- "rating ~ source * modification + (1 | id) + (1 | image) + (1 | image:modification)"
+study_alone <- bind_rows(lapply(MEASURES, function(m) {
+  bind_rows(lapply(DERIV_STUDIES, function(s) {
+    d <- data_by_measure[[m]] %>% filter(study == s) %>% droplevels()
+    stopifnot(identical(levels(d$source), SOURCE_LEVELS))
+    res <- fit_lmm(as.formula(ALONE_TEXT), d, reml = TRUE,
+                   contrasts = list(source = "contr.sum", modification = "contr.sum"))
+    log_fit(res$status, paste(s, "on its own with the pooled model's terms, REML"), m,
+            ALONE_TEXT, d)
+    emm <- do.call(emmeans::emmeans, c(list(object = res$fit, specs = ~ source | modification,
+                                            data = d), LMER_DF))
+    ct <- as_tibble(summary(emmeans::contrast(emm, list("Human minus AI" = c(1, -1)),
+                                              adjust = "none")))
+    tibble(study = s, measure = m, modification = as.character(ct$modification),
+           study_alone_estimate = ct$estimate, study_alone_usable = fit_usable(res$status))
+  }))
+}))
+
+reconciliation <- penalties %>%
+  filter(scope == "within study") %>%
+  select(study, measure, modification, pooled_model_estimate = estimate) %>%
+  inner_join(registered_by_level, by = c("study", "measure", "modification")) %>%
+  inner_join(study_alone, by = c("study", "measure", "modification")) %>%
+  mutate(difference = pooled_model_estimate - registered_estimate,
+         from_model_terms = study_alone_estimate - registered_estimate,
+         from_shared_variances = pooled_model_estimate - study_alone_estimate) %>%
+  relocate(registered_table, .after = last_col())
+stopifnot(nrow(reconciliation) == 27)
+write_table(reconciliation, "crossstudy_registered_reconciliation.csv")
+cat("Largest absolute difference:", signif(max(abs(reconciliation$difference)), 3),
+    "| from the terms:", signif(max(abs(reconciliation$from_model_terms)), 3),
+    "| from the shared variances:", signif(max(abs(reconciliation$from_shared_variances)), 3),
+    "rating points\n")
+show_table(reconciliation %>% select(study, measure, modification, registered_estimate,
+                                     study_alone_estimate, pooled_model_estimate,
+                                     difference, from_model_terms, from_shared_variances),
+           paste("Table 10.3. Each study's penalty at each level in its own registered",
+                 "table, from the study fitted on its own with the pooled model's terms,",
+                 "and from the pooled model, in rating points. The difference splits",
+                 "into the part the terms make and the part the shared variances make."),
+           digits = 4)
+```
+
+## 10.4 The time factors of Studies 4 and 5
+
+The pooled model averages over Study 4's source time and Study 5's editing
+time. Whether that hides a difference depends on what each study's registered
+tests found, which this section reads from their tables. It then refits each
+study's registered model and gives the penalty at each time and level. The
+refits reproduce each study's registered penalty at each level when averaged
+over time, and the run checks that they do.
+
+```{r time-check}
+run_clear_outputs(run, table_path("crossstudy_time_check.csv"))
+
+# The registered tests of the time factors.
+time_tests <- bind_rows(
+  rd("study4_family") %>%
+    filter(test %in% c("source time", "source time by modification")) %>%
+    transmute(study = "Study 4", measure, test, F = statistic, num_df, den_df, p_raw,
+              p_holm, holm_significant),
+  rd("study5_family") %>%
+    transmute(study = "Study 5", measure = rating, test, F, num_df, den_df, p_raw,
+              p_holm, holm_significant))
+show_table(time_tests, paste("Table 10.4. The registered tests of the time factors,",
+                             "read from each study's confirmatory table."))
+
+# The registered models, refitted on each study's long data file.
+time_fit <- function(study, m) {
+  if (study == "Study 4") {
+    d <- long[["Study 4"]] %>%
+      filter(dimension == m, k_points == 5, !is.na(rating)) %>%
+      transmute(id = factor(id), image = factor(source),
+                source = factor(label, levels = SOURCE_LEVELS),
+                time = factor(source_time, levels = c("less than 1 hour", "10 hours", "100 hours")),
+                modification = factor(modification, levels = MOD_LEVELS), rating)
+    text <- "rating ~ label * source_time * modification + (1 | id) + (1 | source)"
+    f <- rating ~ source * time * modification + (1 | id) + (1 | image)
+    con <- list(source = "contr.sum", time = "contr.sum", modification = "contr.sum")
+  } else {
+    d <- long[["Study 5"]] %>%
+      filter(dimension == m, k_points == 5, !is.na(rating)) %>%
+      transmute(id = factor(id), image = factor(image),
+                source = factor(source, levels = SOURCE_LEVELS),
+                time = factor(editing_time, levels = c("less than 1 hour", "10 hours", "100 hours")),
+                modification = factor(modification, levels = MOD_LEVELS),
+                image_kind = factor(image_kind, levels = c("NonFigure", "Figure")), rating)
+    text <- "rating ~ source * editing_time * modification + image_kind + (1 | id) + (1 | image)"
+    f <- rating ~ source * time * modification + image_kind + (1 | id) + (1 | image)
+    con <- list(source = "contr.sum", time = "contr.sum", modification = "contr.sum",
+                image_kind = "contr.sum")
+  }
+  stopifnot(!anyNA(d$source), !anyNA(d$time), !anyNA(d$modification))
+  res <- fit_lmm(f, d, reml = TRUE, contrasts = con)
+  log_fit(res$status, paste(study, "registered model, refitted for the time check"),
+          m, text, d)
+  emm <- do.call(emmeans::emmeans, c(list(object = res$fit,
+                                          specs = ~ source | time * modification,
+                                          data = d), LMER_DF))
+  stopifnot(identical(as.character(unique(emm@grid$source)), SOURCE_LEVELS))
+  ct <- emmeans::contrast(emm, list("Human minus AI" = c(1, -1)), adjust = "none")
+  # The study name and the name of its time factor are set before the table
+  # is built, so no column of the table can mask them.
+  study_name  <- study
+  time_factor <- if (study == "Study 4") "source time" else "editing time"
+  as_tibble(summary(ct, infer = c(TRUE, TRUE), level = 0.95)) %>%
+    mutate(across(where(is.factor), as.character)) %>%
+    transmute(study = study_name, measure = m, time_factor = time_factor,
+              time, modification, estimate, se = SE, df,
+              p_two_sided = na_unless_usable(p.value, res$status),
+              ci95_lo = na_unless_usable(lower.CL, res$status),
+              ci95_hi = na_unless_usable(upper.CL, res$status),
+              model = text, converged = res$status$converged,
+              singular = res$status$singular, note = fit_note(res$status))
+}
+time_check <- bind_rows(lapply(c("Study 4", "Study 5"), function(s) {
+  bind_rows(lapply(MEASURES, function(m) time_fit(s, m)))
+}))
+stopifnot(nrow(time_check) == 2 * 3 * 9)
+
+# Averaged over time with equal weights, the refits give each study's
+# registered penalty at each level.
+time_avg <- time_check %>%
+  group_by(study, measure, modification) %>%
+  summarise(mean_over_time = mean(estimate), .groups = "drop") %>%
+  inner_join(registered_by_level, by = c("study", "measure", "modification"))
+stopifnot(nrow(time_avg) == 18,
+          max(abs(time_avg$mean_over_time - time_avg$registered_estimate)) < 1e-6)
+
+write_table(time_check, "crossstudy_time_check.csv")
+show_table(time_check %>% filter(measure == "creativity") %>%
+             select(study, time, modification, estimate, ci95_lo, ci95_hi, p_two_sided),
+           paste("Table 10.5. The creativity penalty at each time and level in Studies",
+                 "4 and 5, from each study's registered model refitted here, in rating",
+                 "points with 95 percent intervals. The other two measures are in",
+                 "tables/crossstudy_time_check.csv."))
+```
+
+# 11. Fit status
+
+```{r fit-status}
+run_clear_outputs(run, table_path("crossstudy_fit_status.csv"))
+fit_status <- bind_rows(fit_log)
+write_table(fit_status, "crossstudy_fit_status.csv")
+show_table(fit_status %>% count(role, converged, singular, usable, name = "fits"),
+           "Table 11.1. The status of every model fitted in this file, counted by role.")
+cat("Fits:", nrow(fit_status), "| converged:", sum(fit_status$converged, na.rm = TRUE),
+    "| singular:", sum(fit_status$singular %in% TRUE),
+    "| stopped with an error:", sum(fit_status$fit_error), "\n")
+```
+
+# 12. What the numbers show
+
+```{r summary-numbers}
+# Every number in the prose below is read from the tables above, and every
+# statement of direction or rank is checked here, so the knit stops if the
+# prose would misstate a table.
+# A value that rounds to zero prints without a minus sign. fp() prints a
+# p-value alone and pv() prints it with its p, as "p = .017" or "p < .001".
+fmt_num <- function(x, digits) {
+  y <- round(x, digits)
+  y[y == 0] <- 0
+  formatC(y, format = "f", digits = digits)
+}
+f2 <- function(x) fmt_num(x, 2)
+f3 <- function(x) fmt_num(x, 3)
+fp <- function(p) if (is.na(p)) "NA" else if (p < 0.001) "< .001" else
+  sub("^0", "", formatC(p, format = "f", digits = 3))
+pv <- function(p) if (is.na(p)) "p = NA" else if (p < 0.001) "p < .001" else
+  paste("p =", fp(p))
+ci <- function(lo, hi) paste0("[", f2(lo), ", ", f2(hi), "]")
+
+pen <- function(m, sc, l) {
+  penalties %>% filter(measure == m, modification == l,
+                       if (sc == "pooled") scope == "pooled" else study == sc)
+}
+trd <- function(m, sc, q) {
+  trends %>% filter(measure == m, quantity == q,
+                    if (sc == "pooled") scope == "pooled" else study == sc)
+}
+eqv <- function(m, l) equivalence %>% filter(measure == m, modification == l)
+cmp <- function(m, k) comparison %>% filter(measure == m, model == k)
+best <- function(m, crit) {
+  x <- comparison %>% filter(measure == m)
+  x$account[which.min(x[[crit]])]
+}
+
+pc <- setNames(lapply(MOD_LEVELS, function(l) pen("creativity", "pooled", l)), MOD_LEVELS)
+slope_c <- trd("creativity", "pooled", "slope")
+curv_c  <- trd("creativity", "pooled", "curvature")
+
+# The statements the creativity prose makes.
+stopifnot(
+  all(equivalence$equivalent[equivalence$measure == "creativity"]),
+  pc$None$estimate < pc$Slight$estimate, pc$None$estimate < pc$Dramatic$estimate,
+  pc$None$p_two_sided > ALPHA, pc$Dramatic$p_two_sided > ALPHA,
+  pc$Slight$p_two_sided < ALPHA,
+  slope_c$p_two_sided > ALPHA, curv_c$p_two_sided < ALPHA,
+  cmp("creativity", "taint")$lrt_p < ALPHA,
+  cmp("creativity", "discounting")$lrt_p > ALPHA,
+  cmp("creativity", "free")$lrt_p < ALPHA,
+  best("creativity", "BIC") == "severance",
+  best("creativity", "AIC") == "free shape",
+  all(vapply(MOD_LEVELS, function(l) pen("creativity", "Study 4", l)$estimate < 0,
+             logical(1))),
+  pen("creativity", "Study 2", "Slight")$estimate > 0,
+  pen("creativity", "Study 5", "Slight")$estimate > 0,
+  pen("creativity", "Study 2", "Slight")$p_two_sided < ALPHA,
+  pen("creativity", "Study 5", "Slight")$p_two_sided < ALPHA,
+  all(originals$estimate > max(penalties$estimate[penalties$measure == "creativity" &
+                                                    penalties$scope == "pooled"])))
+
+# The statements about each study's shape. Study 2's penalty rises across the
+# levels without a bend, Studies 4 and 5 carry the bend at Slight, Study 4's
+# penalty is below zero at every level and Study 5's above it, Study 2's and
+# Study 4's Dramatic penalties nearly cancel, only Studies 2 and 5 show a
+# Slight penalty on their own, and in no study does the penalty fall
+# significantly from None to Dramatic.
+trc <- function(s, q) trd("creativity", s, q)
+pnc <- function(s) vapply(MOD_LEVELS, function(l) pen("creativity", s, l)$estimate, numeric(1))
+stopifnot(
+  all(diff(pnc("Study 2")) > 0),
+  trc("Study 2", "slope")$estimate > 0, trc("Study 2", "slope")$p_two_sided < ALPHA,
+  trc("Study 2", "curvature")$p_two_sided > ALPHA,
+  abs(trc("Study 2", "curvature")$estimate) <
+    min(trc("Study 4", "curvature")$estimate, trc("Study 5", "curvature")$estimate),
+  trc("Study 4", "curvature")$estimate > 0, trc("Study 5", "curvature")$estimate > 0,
+  trc("Study 5", "curvature")$p_two_sided < ALPHA,
+  all(pnc("Study 4") < 0), all(pnc("Study 5") > 0),
+  pen("creativity", "Study 2", "Dramatic")$p_two_sided < ALPHA,
+  pen("creativity", "Study 4", "Slight")$p_two_sided > ALPHA,
+  abs(pnc("Study 2")[3] + pnc("Study 4")[3]) < 0.25 * pnc("Study 2")[3],
+  slope_c$ci95_lo < 0,
+  all(!(trends$estimate < 0 & trends$p_two_sided < ALPHA &
+          trends$quantity == "slope" & trends$measure == "creativity")))
+
+# The two qualifications the creativity prose names: only leaving out Study 4
+# takes a creativity penalty past the bound, and Study 5's creativity penalty
+# is largest in its 10-hour cell at every level.
+loso_outside <- loso %>% filter(measure == "creativity", !interval_inside_bound)
+s5_peak_time <- time_check %>%
+  filter(study == "Study 5", measure == "creativity") %>%
+  group_by(modification) %>% slice_max(estimate, n = 1) %>% ungroup()
+stopifnot(nrow(loso_outside) > 0, all(loso_outside$left_out == "Study 4"),
+          all(s5_peak_time$time == "10 hours"))
+```
+
+**Creativity.** On creativity, the pooled penalty on a second work is
+`r f2(pc$None$estimate)` rating points at None `r ci(pc$None$ci95_lo, pc$None$ci95_hi)`,
+`r f2(pc$Slight$estimate)` at Slight `r ci(pc$Slight$ci95_lo, pc$Slight$ci95_hi)` and
+`r f2(pc$Dramatic$estimate)` at Dramatic `r ci(pc$Dramatic$ci95_lo, pc$Dramatic$ci95_hi)`.
+At every level its 90 percent interval lies inside plus or minus 0.224, so at
+no level does the pooled penalty reach half of the penalty Study 1 found on
+originals. Only the Slight penalty differs from zero (`r pv(pc$Slight$p_two_sided)`,
+uncorrected). On originals the penalty was `r f2(originals$estimate[1])` in Study 1
+`r ci(originals$ci95_lo[1], originals$ci95_hi[1])` and `r f2(originals$estimate[2])`
+in Study 3 `r ci(originals$ci95_lo[2], originals$ci95_hi[2])`, larger than the
+pooled penalty at any level of second work.
+
+The penalty does not fall as Alex changes more. Its slope is
+`r f3(slope_c$estimate)` points per step `r ci(slope_c$ci95_lo, slope_c$ci95_hi)`,
+an interval that leaves room for a fall of at most
+`r f2(-slope_c$ci95_lo)` points per step, and it is smallest at None, where
+discounting predicts it is largest. Its one departure from a flat line is a
+bend at Slight: the Slight penalty sits `r f2(curv_c$estimate)` points above
+the mean of the other two `r ci(curv_c$ci95_lo, curv_c$ci95_hi)`.
+
+The three studies do not share that shape. In Study 2 the penalty rises with
+modification, `r f2(pnc("Study 2")[1])`, `r f2(pnc("Study 2")[2])` and
+`r f2(pnc("Study 2")[3])` points at None, Slight and Dramatic (slope
+`r f3(trc("Study 2", "slope")$estimate)` per step, `r pv(trc("Study 2", "slope")$p_two_sided)`),
+with no bend (curvature `r f2(trc("Study 2", "curvature")$estimate)`,
+`r pv(trc("Study 2", "curvature")$p_two_sided)`); its Dramatic penalty differs
+from zero on its own (`r pv(pen("creativity", "Study 2", "Dramatic")$p_two_sided)`).
+The bend comes from Studies 4 and 5, whose Slight penalties sit
+`r f2(trc("Study 4", "curvature")$estimate)` and `r f2(trc("Study 5", "curvature")$estimate)`
+points above the mean of their other two
+(`r pv(trc("Study 4", "curvature")$p_two_sided)` and
+`r pv(trc("Study 5", "curvature")$p_two_sided)`). Study 4's penalties lie below
+zero at every level (`r paste(f2(pnc("Study 4")), collapse = ", ")`) and Study 5's
+above it (`r paste(f2(pnc("Study 5")), collapse = ", ")`). In no study does the
+penalty fall significantly from None to Dramatic.
+
+The model comparison says the same. A constant penalty per study improves on
+none (likelihood-ratio chi-square(3) = `r f2(cmp("creativity", "taint")$lrt_chisq)`,
+`r pv(cmp("creativity", "taint")$lrt_p)`), but that model lets the
+penalty differ by study, and Study 4's runs the other way at every level, so the
+gain does not show one penalty shared by the three studies. A straight-line
+change adds nothing to a constant penalty (chi-square(3) =
+`r f2(cmp("creativity", "discounting")$lrt_chisq)`,
+`r pv(cmp("creativity", "discounting")$lrt_p)`), and a free shape improves on the
+straight line (chi-square(3) = `r f2(cmp("creativity", "free")$lrt_chisq)`,
+`r pv(cmp("creativity", "free")$lrt_p)`). AIC ranks the `r best("creativity", "AIC")`
+model first, with weight `r f2(max(comparison$AIC_weight[comparison$measure == "creativity"]))`;
+the taint model has weight `r f2(cmp("creativity", "taint")$AIC_weight)` and
+severance `r f2(cmp("creativity", "severance")$AIC_weight)`. BIC, which charges
+more for each parameter, ranks severance first, with weight
+`r formatC(cmp("creativity", "severance")$BIC_weight, format = "f", digits = 4)`.
+
+Read against the three accounts, the data do not show the shape discounting
+predicts: no significant fall from None to Dramatic, pooled or in any study,
+and the smallest pooled penalty where discounting expects the largest. They do not fit
+taint well either: whatever penalty is constant across the levels is less than
+half of Study 1's, and the penalty is not constant but bends at Slight. Pooled,
+they sit closest to severance, with no penalty to speak of at None or Dramatic,
+and depart from it at one level, a small penalty at Slight that reaches
+significance on its own in two of the three studies. The pooled picture rests
+on studies that disagree: Study 2's penalty grows with modification and Study
+4's runs below zero, and the two cancel at Dramatic. The support for any one
+account is weak: AIC and BIC disagree on the best model, and a comparison of
+four models on three studies describes the data rather than testing a
+registered prediction. The None level, which the memorandum expected to decide
+among the accounts, sits near the bottom of the scale (mean creativity
+`r f2(pc$None$human_mean)` under the Human label and `r f2(pc$None$ai_mean)`
+under AI), so a penalty there has little room to show, and the missing penalty
+at None counts against discounting less than it would on a level with room to
+move.
+Two checks in section 10 qualify this reading: the bound holds at every level
+only with Study 4 in the pool, and Study 5's penalty comes mostly from one of
+its editing times. The paragraphs on robustness and on the time factors below
+give the numbers.
+
+```{r summary-other-measures, results='asis'}
+# The other two measures, in the same terms, generated from the tables. The
+# slope of each study is given with its direction, because the straight-line
+# model allows the penalty to rise as well as fall, and only a fall is the
+# shape discounting predicts.
+slope_words <- function(m) {
+  s <- trends %>% filter(measure == m, quantity == "slope", scope == "within study")
+  falls <- s$study[s$estimate < 0 & s$p_two_sided < ALPHA]
+  rises <- s$study[s$estimate > 0 & s$p_two_sided < ALPHA]
+  paste0("Within each study the slope is ",
+         paste(sprintf("%s (%s, %s)", f3(s$estimate), s$study,
+                       vapply(s$p_two_sided, pv, character(1))), collapse = ", "),
+         ". ",
+         if (length(falls) == 0) "In no study does the penalty fall significantly, the direction discounting predicts" else
+           paste0("The penalty falls significantly in ", paste(falls, collapse = " and ")),
+         if (length(rises) == 0) "." else
+           paste0("; it rises significantly in ", paste(rises, collapse = " and "),
+                  ", the opposite direction."))
+}
+for (m in c("transformativeness", "essence_change")) {
+  p <- setNames(lapply(MOD_LEVELS, function(l) pen(m, "pooled", l)), MOD_LEVELS)
+  e <- setNames(lapply(MOD_LEVELS, function(l) eqv(m, l)), MOD_LEVELS)
+  s <- trd(m, "pooled", "slope")
+  cat(sprintf(paste0(
+    "**%s.** The pooled penalty is %s points at None %s (%s), %s at Slight %s (%s) ",
+    "and %s at Dramatic %s (%s). Its pooled slope across the levels is %s points per ",
+    "step %s. %s Likelihood-ratio tests: constant penalty against none, %s; ",
+    "straight line against constant, %s; free shape against straight line, %s. ",
+    "AIC ranks the %s model first and BIC the %s model.\n\n"),
+    MEASURE_LABELS[[m]],
+    f2(p$None$estimate), ci(p$None$ci95_lo, p$None$ci95_hi), e$None$reading,
+    f2(p$Slight$estimate), ci(p$Slight$ci95_lo, p$Slight$ci95_hi), e$Slight$reading,
+    f2(p$Dramatic$estimate), ci(p$Dramatic$ci95_lo, p$Dramatic$ci95_hi), e$Dramatic$reading,
+    f3(s$estimate), ci(s$ci95_lo, s$ci95_hi), slope_words(m),
+    pv(cmp(m, "taint")$lrt_p), pv(cmp(m, "discounting")$lrt_p), pv(cmp(m, "free")$lrt_p),
+    best(m, "AIC"), best(m, "BIC")))
+}
+
+# Where the pooled penalty peaks on each measure.
+peak <- penalties %>% filter(scope == "pooled") %>%
+  group_by(measure) %>% slice_max(estimate, n = 1) %>% ungroup()
+none_pooled <- penalties %>% filter(scope == "pooled", modification == "None")
+ranks_agree <- all(vapply(MEASURES, function(m) {
+  best(m, "AIC") == "free shape" && best(m, "BIC") == "severance"
+}, logical(1)))
+if (all(peak$modification == "Slight") && ranks_agree &&
+    all(none_pooled$p_two_sided > ALPHA)) {
+  cat(sprintf(paste(
+    "**Across the three measures.** On every measure the pooled penalty is largest",
+    "at Slight and near zero at None (no more than %s points either way, none",
+    "different from zero), and on every measure AIC ranks the free shape first while",
+    "BIC ranks severance first. A penalty concentrated at the level of colour and",
+    "contrast adjustments is the pattern these data show; none of the three accounts",
+    "predicted it.\n\n"), f2(max(abs(none_pooled$estimate)))))
+} else {
+  cat("**Across the three measures.** The pooled penalty peaks at",
+      paste(sprintf("%s on %s", peak$modification, peak$measure), collapse = ", "), ".\n\n")
+}
+```
+
+```{r summary-robustness, results='asis'}
+# The robustness checks, in words, generated from the tables.
+oc <- ordinal_check %>% filter(scale == "underlying scale, logit units")
+stopifnot(oc$modification[which.max(oc$estimate)] == "Slight")
+ord_code <- if (ord$status$fit_error) NA_integer_ else as.integer(ord$fit$optRes$convergence)
+cat(sprintf(paste0(
+  "**Robustness.** The cumulative-link model of creativity %s. Its penalties on the ",
+  "underlying scale are %s, %s and %s logit units at None, Slight and Dramatic, in the ",
+  "same direction as the linear model's at %d of 3 levels and with the same peak at ",
+  "Slight. The pooled model's within-study penalties differ from each study's ",
+  "registered estimates by at most %s points on any measure. Fitting each study ",
+  "on its own with the pooled model's terms splits that difference: the terms ",
+  "(a baseline added for each second work; image kind and the time factors left ",
+  "out) move an estimate by at most %s points, and sharing the variances across ",
+  "the studies moves it by at most %s.\n\n"),
+  if (fit_usable(ord$status)) "converged" else if (isTRUE(ord_code == 0))
+    paste("did not converge under the rule: its optimizer returned code 0, but the",
+          "update of the random effects inside each step warned that it had not",
+          "converged (the warnings are in crossstudy_fit_status.csv), so its",
+          "estimates are description only") else
+    paste("did not converge under the rule (the warnings are in",
+          "crossstudy_fit_status.csv), so its estimates are description only"),
+  f2(oc$estimate[1]), f2(oc$estimate[2]), f2(oc$estimate[3]),
+  sum(oc$same_direction_as_lmm),
+  f3(max(abs(reconciliation$difference))),
+  f3(max(abs(reconciliation$from_model_terms))),
+  f3(max(abs(reconciliation$from_shared_variances)))))
+
+# Leaving out each study in turn, on creativity.
+lc <- loso %>% filter(measure == "creativity")
+lo_text <- vapply(DERIV_STUDIES, function(s) {
+  x <- lc %>% filter(left_out == s) %>% arrange(match(modification, MOD_LEVELS))
+  out <- x$modification[!x$interval_inside_bound]
+  sprintf(paste0("Without %s the pooled creativity penalty is %s, %s and %s at None, ",
+                 "Slight and Dramatic (uncorrected p-values %s, %s and %s); %s. %s"),
+          s, f2(x$estimate[1]), f2(x$estimate[2]), f2(x$estimate[3]),
+          fp(x$p_two_sided[1]), fp(x$p_two_sided[2]), fp(x$p_two_sided[3]),
+          if (length(out) == 0) "every 90 percent interval stays inside plus or minus 0.224" else
+            paste0("the 90 percent interval at ", paste(out, collapse = " and "),
+                   " reaches past 0.224"),
+          if (which.min(x$estimate) == 1) "The penalty is still smallest at None." else
+            "The penalty is then not smallest at None.")
+}, character(1))
+cat("**Each study left out.**", paste(lo_text, collapse = " "), "\n\n")
+
+# The time factors, in words, generated from the registered tables and the
+# refits of section 10.4.
+t4 <- time_tests %>% filter(study == "Study 4")
+t5 <- time_tests %>% filter(study == "Study 5")
+t5_sig <- t5 %>% filter(holm_significant)
+tests_text <- sprintf(paste(
+  "**The time factors.** In Study 4, %d of its %d registered tests of source time",
+  "survived Holm's correction, the adjustment each study registered for running",
+  "several tests at once. In Study 5, %d of its %d registered tests of editing",
+  "time survived: %s."),
+  sum(t4$holm_significant), nrow(t4), sum(t5$holm_significant), nrow(t5),
+  if (nrow(t5_sig) == 0) "none" else
+    paste(sprintf("%s on %s (Holm-corrected %s)", t5_sig$test, t5_sig$measure,
+                  vapply(t5_sig$p_holm, pv, character(1))), collapse = "; "))
+
+# The Study 5 creativity penalty at each editing time and level.
+tc5 <- time_check %>% filter(study == "Study 5", measure == "creativity")
+TIMES <- c("less than 1 hour", "10 hours", "100 hours")
+at <- function(l, t) tc5$estimate[tc5$modification == l & tc5$time == t]
+by_time <- function(l) {
+  sprintf("%s, %s and %s", f2(at(l, TIMES[1])), f2(at(l, TIMES[2])), f2(at(l, TIMES[3])))
+}
+creativity_interaction <- any(t5_sig$measure == "creativity" &
+                                t5_sig$test == "source by editing time")
+grid_text <- sprintf(paste(
+  "%s At None the Study 5 creativity penalty is %s at less than 1 hour, 10 hours and",
+  "100 hours; at Slight %s; at Dramatic %s."),
+  if (creativity_interaction)
+    "So the Study 5 creativity penalty differs across editing times, and the pooled curve averages over that difference." else
+    "The pooled curve averages over editing time.",
+  by_time("None"), by_time("Slight"), by_time("Dramatic"))
+
+ten_largest <- all(vapply(MOD_LEVELS, function(l) {
+  which.max(vapply(TIMES, function(t) at(l, t), numeric(1))) == 2
+}, logical(1)))
+n_by_time <- long[["Study 5"]] %>% distinct(id, editing_time) %>% count(editing_time)
+ten_text <- if (ten_largest) sprintf(paste(
+  "At every level the 10-hour cell carries the largest penalty, so Study 5's",
+  "contribution to the pooled curve comes mostly from the participants told that",
+  "Alex spent 10 hours on the second work. Editing time varied between",
+  "participants, each time with its own group of %d to %d people, so this is a",
+  "difference between groups of people as well as between stated times."),
+  min(n_by_time$n), max(n_by_time$n)) else ""
+cat(paste(tests_text, grid_text, ten_text), "\n\n")
+```
+
+# 13. Session information and the run manifest
+
+```{r session-info}
+SESSION_PATH  <- table_path("crossstudy_sessionInfo.txt")
+VERSIONS_PATH <- table_path("crossstudy_package_versions.csv")
+run_clear_outputs(run, SESSION_PATH, VERSIONS_PATH)
+writeLines(c(paste("Analysis status:", ANALYSIS_STATUS), "",
+             capture.output(sessionInfo())), SESSION_PATH)
+pkgs <- c("readr", "dplyr", "tidyr", "tibble", "jsonlite", "Matrix", "lme4",
+          "lmerTest", "emmeans", "ordinal", "ggplot2", "rmarkdown", "knitr")
+write_table(tibble(package = pkgs,
+                   version = vapply(pkgs, function(p) as.character(packageVersion(p)),
+                                    character(1))),
+            basename(VERSIONS_PATH))
+sessionInfo()
+```
+
+```{r manifest}
+# The manifest lists every output this run registered, whether this run
+# wrote it, and its SHA-256 checksum. It is written last. It is then written
+# again with the analysis status as its last column; it does not list itself,
+# so the second write changes no checksum in it.
+manifest <- write_run_manifest(run)
+stopifnot(all(manifest$written_this_run))
+write_table(manifest, basename(run$manifest_path))
+```

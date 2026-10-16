@@ -1,0 +1,2 @@
+study,dimension,contrast,estimate,std_error,df,model,run_id,blind_run,usable,note
+3,creativity,"100 hours minus under 1 hour, averaged over source",0.21900582991583806,0.07396922613051314,667.5520643209236,"rating ~ Type * time + (1 | id) + (1 | stimulus_id), sum-to-zero contrasts, REML, bobyqa",20261013T150914-8aac8417,FALSE,TRUE,

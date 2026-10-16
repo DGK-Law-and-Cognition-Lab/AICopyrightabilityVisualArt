@@ -1,0 +1,13 @@
+Type,time,dimension,participants,responses,ratings
+Human,under 1 hour,creativity,43,129,129
+Human,under 1 hour,effort,43,129,128
+Human,10 hours,creativity,43,129,129
+Human,10 hours,effort,43,129,127
+Human,100 hours,creativity,43,129,129
+Human,100 hours,effort,43,129,129
+AI,under 1 hour,creativity,42,126,126
+AI,under 1 hour,effort,42,126,126
+AI,10 hours,creativity,42,126,126
+AI,10 hours,effort,42,126,126
+AI,100 hours,creativity,42,126,126
+AI,100 hours,effort,42,126,124

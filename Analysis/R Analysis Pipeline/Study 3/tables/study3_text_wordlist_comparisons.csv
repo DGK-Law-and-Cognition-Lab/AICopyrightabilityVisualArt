@@ -1,0 +1,37 @@
+dimension,word_list,comparison,estimate,ci_lo,ci_hi,B,n_valid,resampled,unit,seed
+creativity,says_detail,"AI minus Human, pooled over stated time",2.8177679340470023,-5.828177411847788,11.548982137018278,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,says_time,"AI minus Human, pooled over stated time",1.7226528854435825,-3.365178791398304,6.3686769810841914,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,says_skill,"AI minus Human, pooled over stated time",-1.0212870677986956,-2.657246376811594,0.3941441441441441,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,says_concept,"AI minus Human, pooled over stated time",1.3842746400885952,-8.100916509301602,11.192336838116885,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,says_prompt,"AI minus Human, pooled over stated time",12.323120462655346,3.8061047466535265,21.829057462778387,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,says_machine_made,"AI minus Human, pooled over stated time",3.7959886797096094,-2.0991985499650596,10.979498835741834,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,anchor_echo,"AI minus Human, pooled over stated time",2.2271440876092035,-2.0971755630210276,6.763468360267138,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,prior_exposure_asserted,"AI minus Human, pooled over stated time",-0.9966777408637884,-7.274880159405637,5.227419651503102,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,prior_exposure_negated,"AI minus Human, pooled over stated time",-3.5191337516918915,-7.531653872578454,0.5448529876883507,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,says_detail,"100 hours minus under 1 hour, pooled over source",7.0588235294117645,0.39215686274509665,13.72549019607843,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,says_time,"100 hours minus under 1 hour, pooled over source",-0.39215686274509803,-4.313725490196078,3.1470588235293593,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,says_skill,"100 hours minus under 1 hour, pooled over source",1.5686274509803921,0,3.5294117647058822,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,says_concept,"100 hours minus under 1 hour, pooled over source",-1.9607843137254888,-9.41176470588235,5.098039215686273,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,says_prompt,"100 hours minus under 1 hour, pooled over source",1.9607843137254917,-3.1372549019607843,6.666666666666668,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,says_machine_made,"100 hours minus under 1 hour, pooled over source",-1.5686274509803921,-5.490196078431373,2.3529411764705883,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,anchor_echo,"100 hours minus under 1 hour, pooled over source",-5.88235294117647,-9.803921568627452,-2.343137254902014,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,prior_exposure_asserted,"100 hours minus under 1 hour, pooled over source",-4.705882352941177,-10.19607843137255,1.1764705882352942,2000,2000,"participants, with replacement",percentage points,20260421
+creativity,prior_exposure_negated,"100 hours minus under 1 hour, pooled over source",0.7843137254901961,-3.1372549019607843,4.705882352941177,2000,2000,"participants, with replacement",percentage points,20260421
+effort,says_detail,"AI minus Human, pooled over stated time",-15.602313276731882,-28.526602434913688,-2.869241192411929,2000,2000,"participants, with replacement",percentage points,20260421
+effort,says_time,"AI minus Human, pooled over stated time",-1.0889627168696958,-15.782068360430339,14.229886953806432,2000,2000,"participants, with replacement",percentage points,20260421
+effort,says_skill,"AI minus Human, pooled over stated time",-3.328411467946352,-5.987654320987653,-0.7321274763135228,2000,2000,"participants, with replacement",percentage points,20260421
+effort,says_concept,"AI minus Human, pooled over stated time",1.1750953611418722,-2.8711674528301896,4.8573984698984685,2000,2000,"participants, with replacement",percentage points,20260421
+effort,says_prompt,"AI minus Human, pooled over stated time",19.38599729297404,8.316605891605894,31.67979387013765,2000,2000,"participants, with replacement",percentage points,20260421
+effort,says_machine_made,"AI minus Human, pooled over stated time",5.211024978466838,-2.000925925925926,13.118655407899585,2000,2000,"participants, with replacement",percentage points,20260421
+effort,anchor_echo,"AI minus Human, pooled over stated time",-0.830564784053156,-9.959123002601261,7.933497677408645,2000,2000,"participants, with replacement",percentage points,20260421
+effort,prior_exposure_asserted,"AI minus Human, pooled over stated time",3.734465362372339,1.3067159230842098,6.234567901234567,2000,2000,"participants, with replacement",percentage points,20260421
+effort,prior_exposure_negated,"AI minus Human, pooled over stated time",-0.516795865633075,-1.3888888888888888,0,2000,2000,"participants, with replacement",percentage points,20260421
+effort,says_detail,"100 hours minus under 1 hour, pooled over source",1.9607843137254888,-4.715686274509803,9.019607843137257,2000,2000,"participants, with replacement",percentage points,20260421
+effort,says_time,"100 hours minus under 1 hour, pooled over source",7.8431372549019605,0.7843137254901988,15.294117647058824,2000,2000,"participants, with replacement",percentage points,20260421
+effort,says_skill,"100 hours minus under 1 hour, pooled over source",0.7843137254901961,-2.3529411764705883,4.313725490196078,2000,2000,"participants, with replacement",percentage points,20260421
+effort,says_concept,"100 hours minus under 1 hour, pooled over source",2.3529411764705883,-1.9607843137254901,7.0588235294117645,2000,2000,"participants, with replacement",percentage points,20260421
+effort,says_prompt,"100 hours minus under 1 hour, pooled over source",-8.23529411764706,-13.343137254901963,-2.745098039215685,2000,2000,"participants, with replacement",percentage points,20260421
+effort,says_machine_made,"100 hours minus under 1 hour, pooled over source",-4.313725490196078,-8.235294117647058,-0.39215686274509803,2000,2000,"participants, with replacement",percentage points,20260421
+effort,anchor_echo,"100 hours minus under 1 hour, pooled over source",3.1372549019607843,-3.5294117647058836,10.196078431372552,2000,2000,"participants, with replacement",percentage points,20260421
+effort,prior_exposure_asserted,"100 hours minus under 1 hour, pooled over source",-1.1764705882352942,-4.705882352941177,1.9607843137254901,2000,2000,"participants, with replacement",percentage points,20260421
+effort,prior_exposure_negated,"100 hours minus under 1 hour, pooled over source",-0.39215686274509803,-1.1764705882352942,0,2000,2000,"participants, with replacement",percentage points,20260421

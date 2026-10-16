@@ -1,0 +1,3 @@
+model,effect,term,estimate,std.error,statistic,df,p.value,conf.low,conf.high,status,note,arm,dimension
+rating ~ execution talk (visible detail),fixed,(Intercept),3.5126115683931265,0.17386141922675882,20.20351371808257,12.497993929118717,6.420406321761886e-11,3.1354674001359095,3.8897557366503435,ok,status ok; converged; not singular,Human,creativity
+rating ~ execution talk (visible detail),fixed,says_detailTRUE,0.2784929661750063,0.11392448628998171,2.4445400215905684,524.8470701478537,0.014831619389456634,0.054688976233202874,0.5022969561168097,ok,status ok; converged; not singular,Human,creativity

@@ -1,0 +1,315 @@
+====================================================================================================
+STUDY 3 TEXT MEASURES: THE RULES IN FULL
+====================================================================================================
+
+Every measure below is applied by computer to all 1,530 responses, identically,
+with the response text lower-cased first. No response is judged individually.
+Patterns are written in verbose mode: spaces and line breaks inside a pattern are
+ignored by the matcher, so a literal space is written as \  or \s.
+
+----------------------------------------------------------------------------------------------------
+RULE 1 OF 8: says_detail
+----------------------------------------------------------------------------------------------------
+In plain words: mentions visible detail, intricacy, complexity, texture, shading, brushwork, or quantity of content
+
+COUNTS AS A MATCH:
+    (?x)
+    \b detail (?:s|ed|ing)? \b
+    | \b intricat (?:e|ely) \b | \b intricac (?:y|ies) \b
+    | \b complex (?:ity)? \b | \b complicated \b
+    | \b elaborate \b
+    | \b textur (?:e|es|ed|al) \b
+    | \b shading \b | \b shadow (?:s|ing)? \b | \b hatching \b
+    | \b brush \s? (?: work | stroke s? ) \b | \b stroke s? \b
+    | \b line \s? work \b | \b fine \s lines? \b
+    | \b meticulous (?:ly)? \b | \b precise (?:ly)? \b | \b precision \b
+    | \b layer (?:s|ed|ing)? \b
+    | \b (?: a\ lot | lots | so\ much | too\ much | much | plenty | a\ great\ deal )
+    \b [^.]{0,25}? \b going \s on \b
+    | \b (?: many | multiple | numerous | several | so\ many
+    | a\ lot\ of | lots\ of | tons\ of | ton\ of | plenty\ of )
+    \s+ (?: different\s+ | small\s+ | little\s+ | tiny\s+ | minor\s+ )?
+    (?: parts | elements | components | aspects | objects | things | pieces
+    | layers | colou?rs | shapes | features | items | figures | details ) \b
+
+----------------------------------------------------------------------------------------------------
+RULE 2 OF 8: says_time
+----------------------------------------------------------------------------------------------------
+In plain words: mentions time, hours, duration, speed, or tediousness
+
+COUNTS AS A MATCH:
+    (?x)
+    \b time \b
+    | \b hours \b | \b an \s hour \b | \b minutes \b | \b a \s minute \b | \b seconds? \b
+    | \b days \b | \b weeks \b | \b all \s day \b
+    | \b a \s while \b | \b awhile \b
+    | \b tedious (?:ness|ly)? \b | \b painstaking (?:ly)? \b
+    | \b laborious \b | \b arduous \b | \b labor \b
+    | \b spen[dt] (?:s|ing)? \b
+    | \b took \b [^.]{0,25}? \b (?: hours? | days? | long ) \b
+    | \b quick (?:ly|er)? \b | \b fast \b | \b instant (?:ly|aneous(?:ly)?)? \b
+    | \b immediat (?:e|ely) \b | \b rapid (?:ly)? \b | \b in \s no \s time \b
+
+DOES NOT COUNT, even though the words above appear (these mean something else in this corpus):
+    (?x)
+    christmas \s? time
+    | \b time \s (?: thing | passing | as \s fire | running \s out )
+    | carrying \s time
+    | \b at \s the \s same \s time \b
+    | \b day \s to \s day \b | \b end \s of \s the \s day \b | \b during \s the \s day \b
+    | \b hour \s? glass \b
+    | \b minute \s detail
+
+----------------------------------------------------------------------------------------------------
+RULE 3 OF 8: says_skill
+----------------------------------------------------------------------------------------------------
+In plain words: mentions skill, craft, technique, talent, training, mastery, or hand execution
+
+COUNTS AS A MATCH:
+    (?x)
+    \b skill (?:s|ed|ful|fully)? \b
+    | \b craft (?:s|ed|ing|smanship|manship)? \b
+    | \b techniqu e s? \b | \b technical \b
+    | \b talent (?:s|ed)? \b
+    | \b train (?:ed|ing) \b
+    | \b master (?:y|ed|ful|ing)? \b
+    | \b expert (?:ise|s)? \b
+    | \b artistry \b
+    | \b artistic \s (?: skill s? | abilit (?:y|ies) | talent | training ) \b
+    | \b practic (?:e|ed|ing) \b | \b proficien (?:t|cy) \b
+    | \b know [-\s] how \b
+    | \b professional \b
+    | \b good \s at \b
+    | \b execut (?:ed|ion) \b
+    | \b hand [-\s]? (?: drawn | painted | made | crafted ) \b | \b by \s hand \b
+    | \b human \s abilities \b
+
+DOES NOT COUNT, even though the words above appear (these mean something else in this corpus):
+    (?x) \b technically \b | \b in \s practice \b
+
+----------------------------------------------------------------------------------------------------
+RULE 4 OF 8: says_concept
+----------------------------------------------------------------------------------------------------
+In plain words: mentions the idea, meaning, message, story, symbolism, or thought behind the work
+
+COUNTS AS A MATCH:
+    (?x)
+    \b idea s? \b
+    | \b concept (?: s | ual | ually )? \b
+    | \b meaning (?: s | ful | fully )? \b
+    | \b message s? \b
+    | \b symbol (?: s | ic | ically | ism | ize | izes | ized | izing )? \b
+    | \b metaphor (?: s | ical | ically )? \b
+    | \b theme s? \b | \b thematic \b
+    | \b stor (?: y | ies | yline | ytelling ) \b | \b backstory \b
+    | \b narrative s? \b
+    | \b represent (?: s | ed | ing | ation | ations )? \b
+    | \b convey (?: s | ed | ing )? \b
+    | \b express (?: es | ed | ing ) \b
+    | \b interpret (?: s | ed | ing | ation | ations )? \b
+    | \b intent (?: ion | ions | ional | ionality )? \b
+    | \b vision (?: ary )? \b
+    | \b thoughtful (?: ly | ness )? \b
+    | \b thought [-\s] (?: provoking | out | through | up | behind | process | put ) \b
+    | \b (?: much | little | some | any | no | more | a\ lot\ of | lots\ of
+    | a\ great\ deal\ of | plenty\ of ) \s+ thought \b
+    | \b well [-\s] thought \b
+
+DOES NOT COUNT, even though the words above appear (these mean something else in this corpus):
+    (?x) \b (?: have | had | has | i ) \s+ no \s+ idea \b
+
+----------------------------------------------------------------------------------------------------
+RULE 5 OF 8: says_prompt
+----------------------------------------------------------------------------------------------------
+In plain words: mentions prompting, typing, generating, or names a machine or image generator
+
+COUNTS AS A MATCH:
+    (?x)
+    \b prompt (?:s|ed|ing)? \b
+    | \b typ (?: ing | ed ) \b
+    | \b type \s (?: in | into | out | commands? | words? | some
+    | a\ prompt | a\ sentence | a\ description | a\ few\ words ) \b
+    | \b (?: just | only | but | was ) \s type \b
+    | \b generat (?: e|ed|es|ing|or|ors|ion|ive ) \b
+    | \b a \.? i \.? \b | \b artificial \s intelligence \b
+    | \b machine s? \b | \b computer (?:s|ized)? \b | \b algorithm (?:s|ic)? \b
+    | \b software \b | \b program (?:s|med|ming)? \b | \b robot (?:s|ic)? \b
+    | \b chat \s? gpt \b | \b midjourney \b | \b dall [-\s]? e \b | \b stable \s diffusion \b
+    | \b input (?:s|ed|ted|ting)? \b
+
+----------------------------------------------------------------------------------------------------
+RULE 6 OF 8: prior_exposure
+----------------------------------------------------------------------------------------------------
+In plain words: says the work looks familiar, already seen, generic or derivative (asserted), explicitly denies it (negated), or neither
+
+COUNTS AS A MATCH:
+    (?x)
+    \b (?: have | had | has | haven'?t | hasn'?t | hadn'?t | i'?ve | i'?d | never | not | n't
+    | ever | already )
+    \s (?:\w+\s){0,2} seen \b
+    | \b seen \b [^.]{0,25}? \b (?: before | already | elsewhere | previously
+    | times | everywhere ) \b
+    | \b familiar (?:ity)? \b | \b unfamiliar \b
+    | \b reminds? \s me \s of \b | \b reminiscent \b
+    | \b similar \s to \b
+    | \b generic (?:ally)? \b | \b clich [eé] (?:d|s)? \b
+    | \b overdone \b | \b overused \b | \b cookie [-\s]? cutter \b
+    | \b common (?:ly|place)? \b | \b typical (?:ly)? \b | \b ordinary \b | \b standard \b
+    | \b unoriginal \b | \b derivative \b | \b copied \b | \b copying \b
+    | \b recycled \b
+    | \b done \s before \b
+    | \b been \s done \s (?: before | already | many | several | a \s \w+ ) \b
+    | \b nothing \s new \b | \b not \s new \b
+    | \b i \s recognize \b
+
+DOES NOT COUNT, even though the words above appear (these mean something else in this corpus):
+    (?x)
+    \b similar \s to \s (?: each \s other | one \s another | the \s others? \b )
+
+----------------------------------------------------------------------------------------------------
+RULE 7 OF 8: anchor_echo
+----------------------------------------------------------------------------------------------------
+In plain words: contains the rating scale's own wording
+
+COUNTS AS A MATCH:
+    (?x)
+    \b (?: no | minimal | moderate | significant | a\ lot\ of | a\ great\ deal\ of )
+    \s+ (?: creativity | effort ) \b (?: \s+ involved )?
+    | \b (?: creativity | effort ) \s+ (?: was \s+ | is \s+ )? involved \b
+
+----------------------------------------------------------------------------------------------------
+RULE 8 OF 8: says_machine_made
+----------------------------------------------------------------------------------------------------
+In plain words: mentions a machine, a program or an image generator making the work, whether stated, denied or supposed
+
+COUNTS AS A MATCH:
+    (?x)
+    \b (?: a\.?i | artificial \s intelligence | computer | algorithm | machine | bot
+    | software | program | generator | neural \s network | midjourney | dall [-\s]? e
+    | stable \s diffusion | chat \s? gpt ) s?
+    \b [^.]{0,25}? \b
+    (?: generat | creat (?: e | es | ed | ing | ion | ions ) \b | produc
+    | mak (?: e | es | ing | er ) \b | made \b | draw | drew \b | paint | render | design
+    | did \b | done \b | built \b | output )
+    | \b (?: generat | creat (?: e | es | ed | ing | ion | ions ) \b | produc
+    | mak (?: e | es | ing | er ) \b | made \b | draw | drew \b | paint | render | design
+    | did \b | done \b | built \b | output )
+    \w* [^.]{0,20}? \b (?: by | with | using | from ) \s+ (?: (?: a | an | the ) \s+ )?
+    \b (?: a\.?i | artificial \s intelligence | computer | algorithm | machine | bot
+    | software | program | generator | neural \s network | midjourney | dall [-\s]? e
+    | stable \s diffusion | chat \s? gpt ) s?
+    \b
+    | \b (?: ai | computer ) [-\s] generated \b
+    | \b (?: machine | ai ) [-\s] made \b
+    | \b ai \s (?: art | image | artwork ) \b
+
+DOES NOT COUNT, even though the words above appear (these mean something else in this corpus):
+    (?x)
+    (?: \b (?: generat | creat (?: e | es | ed | ing | ion | ions ) \b | produc
+    | mak (?: e | es | ing | er ) \b | made \b | draw | drew \b | paint | render | design
+    | did \b | done \b | built \b | output )
+    \w* \s+ by \s+ )?
+    \b (?: alex | he | she | they | the \s artist | someone | a \s person | humans? ) \s+
+    (?: used | using | use | uses | utiliz \w* | employ \w* ) \s+ (?: an? \s+ )?
+    (?: ai | computer | software | program | algorithm | generator | machine ) [^.]*
+
+----------------------------------------------------------------------------------------------------
+THE NEGATION WINDOW (used by prior_exposure AND by the four polarity readings:
+detail_polarity, time_polarity, skill_polarity, concept_polarity)
+----------------------------------------------------------------------------------------------------
+The window is the 30 characters immediately before a matched phrase. For a
+prior-exposure phrase, a negating word from the first list below inside that
+window means the response is recorded as 'negated' rather than 'asserted'. For a
+detail, time, skill or concept phrase, the same window is searched for the same
+negating words and also for the quantifier negations in the second list, which
+name a small amount rather than deny a fact. Thirty characters is about five or
+six words: long enough to reach back over 'I do not think I have', short enough not to
+reach far into the sentence.
+
+Negating words, used by prior_exposure and by all four polarity readings:
+    (?x)
+    \b not \b | \b never \b | n't \b | \b no \b | \b nothing \b | \b none \b
+    | \b hardly \b | \b rarely \b | \b unlike \b | \b without \b
+    | \b cannot \b | \b can't \b | \b barely \b | \b nowhere \b
+
+Quantifier negations, used by the four polarity readings only, never by
+prior_exposure ('little' or 'low' before 'familiar' is not a denial of familiarity):
+    (?x)
+    \b little \b | \b not \s much \b | \b not \s a \s lot \b | \b not \s many \b
+    | \b lack \b | \b lacking \b | \b lacks \b
+    | \b no \b | \b minimal \b | \b barely \b | \b hardly \b | \b without \b | \b low \b
+
+'little' is a quantifier negation only where it names an amount ('little detail',
+'very little', 'too little', 'little to no'). It is not read as one when the words
+directly before it match this pattern, which marks it as a size ('a little', 'the
+little details', 'many small little parts'):
+    (?x)
+    \b (?: a | the | some | such | many | so \s many | a \s lot \s of | lots \s of
+    | all \s the | small | tiny ) \s+ $
+
+A negating word counts only if it sits in the same clause as the phrase it
+negates. The window is therefore cut at the nearest of these clause markers,
+and only the text after the last one is searched for a negating word:
+    (?x)
+    , | ; | \. | \b because \b | \b but \b | \b however \b | \b since \b
+    | \b although \b | \b though \b | \b whereas \b | \b so \s that \b
+
+For prior_exposure, a negating word from the first list sitting inside the matched
+phrase itself ('have never seen', 'haven't seen') also records it as 'negated', and
+so does a phrase that carries its own negation in its spelling:
+    (?x) ^ (?: unfamiliar | never | un [-] )
+Two phrases assert familiarity through a negating word and are recorded as
+'asserted' before either reading is applied:
+    (?x) ^ (?: nothing | not ) \s new $
+
+----------------------------------------------------------------------------------------------------
+THE POLARITY READING (says_detail, says_time, says_skill, says_concept)
+----------------------------------------------------------------------------------------------------
+Each of these four flags records a topic, whatever the writer said about it. A
+separate polarity column beside each flag records whether the matched phrase was
+claimed or denied: 'negated' if a negating word or a quantifier negation from the
+two lists under THE NEGATION WINDOW above sits in the same clause-cut window
+before the phrase or begins the phrase itself; 'asserted' otherwise; 'neither'
+when the flag is false. The quantifier negations deny an amount rather than a
+fact, which is why they are kept apart from the negating words and are not used
+for prior-exposure talk.
+
+----------------------------------------------------------------------------------------------------
+THE MACHINE-MADE READING (machine_made_reading, beside says_machine_made)
+----------------------------------------------------------------------------------------------------
+says_machine_made records a phrase about a machine making the work, however it is
+used. machine_made_reading reads every such phrase in the response, outside the
+rule's exclusions. A phrase is not asserted if a negating word from the first list
+under THE NEGATION WINDOW sits inside it or in the same clause-cut window before it,
+or if a word that opens a supposition, from the list below, sits in that window;
+otherwise it is asserted, hedged impressions ('probably AI', 'looks AI generated')
+included. The response is 'asserted' if any of its phrases is asserted,
+'not_asserted' if it has phrases and none is asserted, and 'neither' exactly when
+says_machine_made is false.
+
+Words that open a supposition ('as if' does not count):
+    (?x)
+    (?<! \b as \s ) \b if \b | \b whether \b | \b unless \b
+
+----------------------------------------------------------------------------------------------------
+THE FUNCTION-WORD IGNORE LIST (used only in sections 8 to 11)
+----------------------------------------------------------------------------------------------------
+Function words only. It contains no content words, and in particular it does not
+contain 'detail', 'take', 'many', 'much', 'show', 'made' or 'part', all of which
+appear in scikit-learn's built-in English stop list and would be deleted by it.
+    a about above after again against all almost along already also although always am among an
+    and another any anything are aren't around as at be because been before being below between
+    both but by came can can't cannot could couldn't did didn't do does doesn't doing don't down
+    during each eight either else enough even ever every everything except few five for four
+    from further had hadn't has hasn't have haven't having he he's her here hers herself him
+    himself his how however i i'd i'll i'm i've if in into is isn't it it's its itself just let
+    let's like may maybe me might mine more most must my myself near neither never nevertheless
+    nine no nor not nothing now of off often on once one only onto or other others ought our
+    ours ourselves out over own per perhaps quite rather really same seem seemed seems seven
+    shall she she's should shouldn't since six so some someone something sometimes still such
+    ten than that that's the their theirs them themselves then there there's therefore these
+    they they're this those though three through thus to too toward towards two under until up
+    upon us very was wasn't we we're well were weren't what whatever when where whereas whether
+    which while who whom whose why will with within without won't would wouldn't yet you you're
+    your yours yourself
+

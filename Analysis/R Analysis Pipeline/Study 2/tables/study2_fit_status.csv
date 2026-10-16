@@ -1,0 +1,8 @@
+measure,role,formula,n_obs,n_participants,n_images,usable,max_abs_gradient,fit_error,converged,singular,lme4_messages
+transformativeness,registered model,rating ~ source * modification * image_kind + (1 | id) + (1 | image),6573,235,10,TRUE,NA,FALSE,TRUE,FALSE,
+transformativeness,cumulative-link check,ordered rating ~ source * modification * image_kind + (1 | id) + (1 | image),6573,235,10,TRUE,0.008634724508738145,FALSE,TRUE,FALSE,
+essence_change,registered model,rating ~ source * modification * image_kind + (1 | id) + (1 | image),7043,235,10,TRUE,NA,FALSE,TRUE,FALSE,
+essence_change,cumulative-link check,ordered rating ~ source * modification * image_kind + (1 | id) + (1 | image),7043,235,10,TRUE,0.00377625383407576,FALSE,TRUE,FALSE,
+creativity,registered model,rating ~ source * modification * image_kind + (1 | id) + (1 | image),7043,235,10,TRUE,NA,FALSE,TRUE,FALSE,
+creativity,cumulative-link check,ordered rating ~ source * modification * image_kind + (1 | id) + (1 | image),7043,235,10,FALSE,0.00336891389451921,FALSE,FALSE,FALSE,"(-1) Model failed to converge with max|grad| = 1.7051e-05 (tol = 1e-06) 
+In addition: step factor reduced below minimum"

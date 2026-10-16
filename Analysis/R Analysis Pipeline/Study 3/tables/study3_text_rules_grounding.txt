@@ -1,0 +1,129 @@
+====================================================================================================
+STUDY 3 TEXT MEASURES: WHAT EACH RULE IS GROUNDED IN
+====================================================================================================
+
+One note per rule, naming the construct the rule measures, the reading of effort or
+creativity it stands for, the literature that reading comes from, and what the rule
+does and does not record. The notes are not part of the patterns: the patterns are in
+text_rules.txt, and its checksum covers that file alone.
+
+----------------------------------------------------------------------------------------------------
+RULE 1 OF 8: says_detail
+----------------------------------------------------------------------------------------------------
+In plain words: mentions visible detail, intricacy, complexity, texture, shading, brushwork, or quantity of content
+
+Detail talk is the visible-work reading of effort: the marks on the picture surface from which a
+viewer infers how much labour went in, since the labour itself cannot be seen. Buell and Norton
+(2011) call the value people add to an identical result when they can see work being done on it
+the labour illusion, and Kruger, Wirtz, Van Boven and Altermatt (2004) show that judged quality
+follows believed effort most strongly when quality is hard to assess on its own, which a picture
+from an unfamiliar maker is. The rule records the cue and not the inference: a writer who names
+the detail is counted whether or not they went on to say it took work.
+
+----------------------------------------------------------------------------------------------------
+RULE 2 OF 8: says_time
+----------------------------------------------------------------------------------------------------
+In plain words: mentions time, hours, duration, speed, or tediousness
+
+Time talk is the elapsed-labour reading of effort: how long the making took, or how quickly it
+could have been done. This is the cue Kruger, Wirtz, Van Boven and Altermatt (2004) manipulated
+to show the effort heuristic, the rule of thumb by which a poem, a painting or a suit of armour
+is rated better and worth more when it is said to have taken longer, and Chinander and
+Schweitzer (2003) show the same reliance on time as an input measure even where it has no
+bearing on the outcome being judged. Of the three effort readings this is the one closest to the
+labour that Feist declined to protect, so the rule catches duration claims in either direction,
+including the claim that something took no time at all.
+
+----------------------------------------------------------------------------------------------------
+RULE 3 OF 8: says_skill
+----------------------------------------------------------------------------------------------------
+In plain words: mentions skill, craft, technique, talent, training, mastery, or hand execution
+
+Skill talk is the execution reading of effort: ability acquired by training, and the craft with
+which something was done. Amabile's componential model (1983, 1996) treats domain-relevant
+skills, meaning technical skill and craft knowledge in a field, as one ingredient of creative
+work and keeps them apart from the creativity-relevant skills that make the work new, and her
+consensual assessment technique (1982) asks judges to rate creativity and technical goodness as
+separate dimensions and finds them related but not the same. The rule records that a writer
+located effort in ability rather than in time or in the picture surface; it does not record how
+much ability they thought was shown.
+
+----------------------------------------------------------------------------------------------------
+RULE 4 OF 8: says_concept
+----------------------------------------------------------------------------------------------------
+In plain words: mentions the idea, meaning, message, story, symbolism, or thought behind the work
+
+Concept talk locates creativity in the idea behind the work rather than in the picture surface.
+The construct is the lay implicit theory of creativity, meaning what ordinary people take the
+word to consist of when nobody hands them a definition: Sternberg (1985) found that laypeople's
+picture of a creative person turns on unconventional thinking and on imagination and aesthetic
+sense, which he found absent from their picture of intelligence, and Runco and Bahleda (1986)
+found that the picture differs by domain, so artistic creativity carries a profile of its own.
+Leder, Belke, Oeberst and Augustin (2004) place interpretation, the viewer's attempt to make
+sense of what a work is about, among the stages of taking in a work of art, which is why words
+for meaning, message and story sit beside words for the idea. The rule counts a mention of the
+idea; it does not judge whether the idea was any good.
+
+----------------------------------------------------------------------------------------------------
+RULE 5 OF 8: says_prompt
+----------------------------------------------------------------------------------------------------
+In plain words: mentions prompting, typing, generating, or names a machine or image generator
+
+Prompt talk is a written trace of what the participant believed about how the picture was made.
+The instrument carries no manipulation check, meaning no question asking whether the participant
+took in the vignette, and there is support for leaving one out: a check placed inside a study is
+an intervention as well as a measure and can change what follows it (Hauser, Ellsworth and
+Gonzalez 2018), and a question that asks whether a cover story was believed is itself a demand
+characteristic, Orne's (1962) term for a cue that tells a participant what the study is about.
+Chamberlain, Mullin, Scheerlinck and Wagemans (2018) found that viewers could not tell computer-
+made pictures from hand-made ones and still rated pictures lower when told a computer made them,
+so a participant told a person made these could plausibly doubt it. The rule records any mention
+of a machine or of operating one, in either arm. It does not record what the writer believed
+about who made the pictures.
+
+----------------------------------------------------------------------------------------------------
+RULE 6 OF 8: prior_exposure
+----------------------------------------------------------------------------------------------------
+In plain words: says the work looks familiar, already seen, generic or derivative (asserted), explicitly denies it (negated), or neither
+
+Prior-exposure talk records a familiarity judgment: the claim that the work has been seen
+before, is generic or typical, or the explicit denial of that. Familiarity is a criterion in its
+own right in the literature on aesthetic preference, through mere exposure, the finding that
+repeated encounters with a thing raise liking for it (Zajonc 1968), and through typicality, the
+closeness of a thing to the usual example of its kind, which Hekkert, Snelders and van Wieringen
+(2003) show works alongside novelty in shaping preference while pulling against it. On the
+creativity side the standard definition requires originality as well as effectiveness (Runco and
+Jaeger 2012), and Diedrich, Benedek, Jauk and Neubauer (2015) find that judged creativity leans
+more on novelty than on usefulness, so a rater who reaches for newness is applying a criterion
+the field itself uses. The rule takes three values because asserting familiarity and denying it
+are different claims about the same thing.
+
+----------------------------------------------------------------------------------------------------
+RULE 7 OF 8: anchor_echo
+----------------------------------------------------------------------------------------------------
+In plain words: contains the rating scale's own wording
+
+Anchor echo records an explanation that contains the rating scale's own labels. The motivation
+is satisficing, Krosnick's (1991) term for giving an answer that is acceptable rather than the
+best one can, of which the least effortful form for an open question is to hand back the words
+already supplied, joined to Schwarz's (1999) observation that respondents read the wording of a
+scale as a guide to what an acceptable answer looks like. The rule does not measure satisficing.
+It fires on the scale's wording wherever the wording appears, including in an explanation that
+goes on to give a full reason, so it records that the wording is present and nothing about what
+else the explanation carries. It is a check on the corpus rather than one of the three
+questions.
+
+----------------------------------------------------------------------------------------------------
+RULE 8 OF 8: says_machine_made
+----------------------------------------------------------------------------------------------------
+In plain words: mentions a machine, a program or an image generator making the work, whether stated, denied or supposed
+
+Machine-made talk records a mention of a machine making the work: a phrase such as 'AI
+generated' or 'made by a computer', however it is used. The reading column beside it separates
+statements that a machine made the work, hedged impressions such as 'probably AI' among them,
+from denials ('this does not look AI generated') and suppositions ('if this were AI generated').
+Neither the flag nor the statements measure disbelief in the vignette. The instrument has no
+manipulation check, a participant can doubt the story without writing so, and a participant can
+write that a picture looks machine-made while accepting what they were told about who made it;
+the counts describe what was written.
+

@@ -1,0 +1,16 @@
+# macOS Finder metadata
+.DS_Store
+# Jupyter's autosave copies of notebooks
+.ipynb_checkpoints/
+# R session files: RStudio's project state, the saved workspace and the
+# command history
+.Rproj.user/
+.RData
+.Rhistory
+.Ruserdata
+# Study 1's saved model files. The runs write them again, and the saved
+# Bayesian fits record the full path of the folder they were saved in
+Analysis/R Analysis Pipeline/Study 1/models/*.rds
+# Copies that the runs write for the manuscript, which is not part of this
+# repository
+Docs/Writing/

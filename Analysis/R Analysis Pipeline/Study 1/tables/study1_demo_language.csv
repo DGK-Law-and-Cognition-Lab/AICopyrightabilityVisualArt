@@ -1,0 +1,20 @@
+language_canonical,english_any,n
+English,TRUE,81
+Spanish,FALSE,11
+Chinese,FALSE,2
+Polish,FALSE,2
+Cantonese,FALSE,1
+English and Mandarin,TRUE,1
+English and Russian,TRUE,1
+"English, Mandarin",TRUE,1
+English/Farsi,TRUE,1
+Farsi,FALSE,1
+Japanese,FALSE,1
+Khmer,FALSE,1
+Korean,FALSE,1
+Mandarin,FALSE,1
+Portuguese,FALSE,1
+Telugu,FALSE,1
+Turkish,FALSE,1
+Urdu,FALSE,1
+Vietnamese,FALSE,1

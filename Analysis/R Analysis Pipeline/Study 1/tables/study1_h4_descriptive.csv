@@ -1,0 +1,5 @@
+Type,dimension,n_participants,n_same_on_7_or_more,prop_same_on_7_or_more,median_largest_block,cronbach_alpha_within_arm
+Human,creativity,56,4,0.07142857142857142,5,0.7916716942176459
+AI,creativity,55,13,0.23636363636363636,5,0.9038075823875206
+Human,effort,56,12,0.21428571428571427,5,0.7355512001915396
+AI,effort,55,23,0.41818181818181815,5,0.9518041205637381

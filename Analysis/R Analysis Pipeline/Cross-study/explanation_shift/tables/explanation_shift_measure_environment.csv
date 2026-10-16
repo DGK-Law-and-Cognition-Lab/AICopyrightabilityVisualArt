@@ -1,0 +1,20 @@
+analysis,item,value
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",run_id,20261014T191240Z-2e6d80f3
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",where,local machine
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",python,3.12.3
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",platform,macOS-26.6.2-arm64-arm-64bit
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",pandas,2.2.2
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",numpy,1.26.4
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",scipy,1.13.0
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",scikit-learn,1.5.2
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",sentence-transformers,3.3.1
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",torch,2.5.1
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",embedding_model,"sentence-transformers/all-mpnet-base-v2, loaded from the local copy"
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",embedding_device,cpu
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",embedding_numbers_per_text,768
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",distinct_texts_embedded,29296
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",explanations,38605
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",complete_sets,12707
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",pairs,38121
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",seed_text_code,20260903
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it",seeds_in_force,stability_refits_first 20260903; stability_refits_last 20260912; final_topic_fit 20260903; kmeans_grouping 20260903

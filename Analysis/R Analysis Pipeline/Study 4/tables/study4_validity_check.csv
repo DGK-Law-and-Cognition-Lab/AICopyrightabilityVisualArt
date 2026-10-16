@@ -1,0 +1,3 @@
+id,n_rated_sources,n_slot_sources,sources_repeated,rated_equals_slots,time_split,valid,reason
+R_3SPOPWqijqK09xf,10,6,,FALSE,"2 at less than 1 hour, 2 at 10 hours, 2 at 100 hours",FALSE,rated 10 sources
+R_6mZWuqtRNco0jiF,6,5,1NonFigure,FALSE,"2 at less than 1 hour, 3 at 10 hours, 1 at 100 hours",FALSE,"names 1NonFigure in two slots; source times 2 at less than 1 hour, 3 at 10 hours, 1 at 100 hours"

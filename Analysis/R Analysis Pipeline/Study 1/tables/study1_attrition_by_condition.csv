@@ -1,0 +1,4 @@
+dropped_at,n_AI,n_Human,n_total,fisher_p_any_drop,fisher_p_by_step,n_type_na,frame
+0_retained,55,56,111,0.9999999999999998,1,0,after step 0 (all real respondents)
+1_unfinished,2,1,3,0.9999999999999998,1,0,after step 0 (all real respondents)
+2_nonserious,1,2,3,0.9999999999999998,1,0,after step 0 (all real respondents)

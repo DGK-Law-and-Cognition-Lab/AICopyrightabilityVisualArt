@@ -1,0 +1,4 @@
+rating,n_obs,fit_error,converged,singular,max_abs_gradient,messages
+transformativeness,3740,FALSE,TRUE,FALSE,0.0016016610970837064,relative convergence (4)
+essence_change,4014,FALSE,TRUE,FALSE,0.0031956938073562924,relative convergence (4)
+creativity,4014,FALSE,TRUE,FALSE,0.0021374808056862094,relative convergence (4)

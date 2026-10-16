@@ -1,0 +1,856 @@
+---
+title: "Explanation Shift Within a Person"
+subtitle: "Studies 2, 4 and 5, exploratory | Beyond the Original Sin | How Humans Evaluate Creative Contribution in AI-Assisted Artworks"
+author: "David G. Kamper, Alice Lin, Keith J. Holyoak"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    theme: flatly
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = TRUE,
+                      comment = "#>", fig.align = "center")
+```
+
+**This analysis is exploratory.** It was specified on 9 October 2026, after
+the registered results of all five studies were known, and no registration
+names it. Nothing in this report tests a registered hypothesis. Every table
+it writes, and the pairs file it reads, says so in its first column,
+`analysis`, and the figure says so in its caption.
+
+# 0. What this file does
+
+In Studies 2, 4 and 5 each participant explained the same source artwork at
+three levels of modification, None, Slight and Dramatic, once for each rating
+question. `ExplanationShift_01_Measure.ipynb` measured, without seeing the
+label or the rating, how far each participant's explanation of one source
+moved between two levels. It measured the move in two ways.
+
+- The embedding distance. A sentence-embedding model is a network trained
+  beforehand on other text that turns a sentence into a list of numbers, so
+  that sentences with similar meanings get similar lists. The locally stored
+  model all-mpnet-base-v2 turns each explanation into 768 numbers. The
+  cosine similarity of two lists is 1 when they point the same way and 0
+  when they are unrelated, and the embedding distance is 1 minus it.
+- The word distance. A content word is a word left once a fixed list of
+  function words, such as *the* and *of*, is removed. The Jaccard overlap of
+  two explanations is the number of content words both use divided by the
+  number either uses, and the word distance is 1 minus it.
+
+Beside each distance the notebook put a stranger baseline, the mean distance
+from the participant's first-level explanation to other participants'
+second-level explanations of the same image and question. This file joins the
+source label, Human or AI, back on and asks two questions.
+
+1. **Do the explanations of AI-arm participants move less?** The shift of one
+   participant on one source image and question is the None to Dramatic
+   distance minus its stranger baseline. A shift of zero means the
+   participant's Dramatic explanation lies as far from their own None
+   explanation as other participants' Dramatic explanations do. A negative
+   shift means it stayed closer to their own None explanation. If an AI
+   source taints the second work, that is, if its origin counts against the
+   work however much Alex changed it, AI-arm participants keep writing about
+   where the source came from at every level, their explanations move less,
+   and AI minus Human in the shift is negative. If raters judge what Alex
+   added, the two arms move about as far and the difference is near zero.
+   Creativity is the primary question; transformativeness and essence change
+   are secondary.
+2. **Does talk of origin persist as the work changes?** From each study's
+   deposited text measures: the share of explanations that mention prompting
+   or a machine, and the share that state a machine made the work, at each
+   level and in each arm. Under taint, origin talk in the AI arm should stay
+   up at Dramatic. If raters turn to what Alex added, it should fall as the
+   work changes.
+
+Every explanation was written after its rating, so nothing here says what
+produced a rating. It describes what people wrote once their number was
+chosen.
+
+# 1. Setup
+
+## 1.1 Packages
+
+```{r packages}
+# dplyr, tidyr, tibble and readr build and write the tables. lme4 and
+# lmerTest fit the mixed models, and emmeans gives the contrasts with their
+# intervals. ggplot2 and patchwork draw the figure.
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(tidyr)
+  library(tibble)
+  library(readr)
+  library(lme4)
+  library(lmerTest)
+  library(emmeans)
+  library(ggplot2)
+  library(patchwork)
+})
+```
+
+## 1.2 Paths and constants
+
+```{r paths}
+# Every path is found from this file's own folder, which is the working
+# directory when the file is knitted. EXPLANATION_SHIFT_DIR names this folder
+# instead, and STUDY_SHARED_R the folder of the shared R helpers. Printed
+# paths are relative to the pipeline folder, two levels up.
+HERE <- normalizePath(Sys.getenv("EXPLANATION_SHIFT_DIR", getwd()), mustWork = TRUE)
+PIPELINE_DIR <- normalizePath(file.path(HERE, "..", ".."), mustWork = TRUE)
+SHARED_R <- Sys.getenv("STUDY_SHARED_R", file.path(PIPELINE_DIR, "shared", "R"))
+source(file.path(SHARED_R, "fit_status.R"))
+source(file.path(SHARED_R, "text_checks.R"))
+show <- function(p) relative_path(p, PIPELINE_DIR)
+
+TABLES  <- file.path(HERE, "tables")
+FIGURES <- file.path(HERE, "figures")
+dir.create(TABLES, showWarnings = FALSE)
+dir.create(FIGURES, showWarnings = FALSE)
+
+# Each study's files. Studies 2 and 5 store the Human or AI label in the
+# column source, and Study 4 in the column label. The measures files name the
+# source image stimulus_image in Studies 2 and 5 and stimulus_source in
+# Study 4.
+STUDY_LEVELS <- c("Study 2", "Study 4", "Study 5")
+STUDY_FILES <- tibble(study = STUDY_LEVELS,
+                      label_column = c("source", "label", "source"),
+                      measures_image = c("stimulus_image", "stimulus_source", "stimulus_image")) %>%
+  mutate(n = sub("Study ", "", study),
+         folder = file.path(PIPELINE_DIR, study),
+         long = file.path(folder, paste0("study", n, "_long_with_text.csv")),
+         measures = file.path(folder, "nlp", paste0("study", n, "_text_measures.csv")),
+         quant_manifest = file.path(folder, "tables", paste0("study", n, "_quant_run_manifest.csv")),
+         text_manifest = file.path(folder, "tables", paste0("study", n, "_text_run_manifest.csv")))
+
+INPUTS <- c(pairs = file.path(HERE, "nlp", "explanation_shift_pairs.csv"),
+            setNames(STUDY_FILES$long, paste0("study", STUDY_FILES$n, "_long")),
+            setNames(STUDY_FILES$measures, paste0("study", STUDY_FILES$n, "_measures")))
+MEASURE_MANIFEST <- file.path(TABLES, "explanation_shift_measure_run_manifest.csv")
+missing_inputs <- names(INPUTS)[!file.exists(INPUTS)]
+if (length(missing_inputs) > 0) {
+  stop("Missing input(s): ", paste(missing_inputs, collapse = ", "),
+       ". Run ExplanationShift_01_Measure.ipynb first.")
+}
+
+# The constants of the analysis. The R seed is the one the registrations
+# name for R, and the numbers of permutations and resamples are those of the
+# registered text checks.
+SEED         <- 20260421L
+N_PERM       <- 200L
+N_BOOT       <- 2000L
+LABEL_LEVELS <- c("Human", "AI")
+LEVELS       <- c("None", "Slight", "Dramatic")
+DIMENSIONS   <- c("creativity", "transformativeness", "essence_change")
+ROLE         <- c(creativity = "primary", transformativeness = "secondary",
+                  essence_change = "secondary")
+DISTANCES    <- c(embedding = "emb", word = "word")
+CONTROL      <- lme4::lmerControl(optimizer = "bobyqa")
+EXPLORATORY  <- paste("exploratory: specified on 9 October 2026, after the registered",
+                      "results of all five studies were known; no registration names it")
+
+# Every table carries the analysis status in its first column.
+write_table <- function(df, name) {
+  write_csv(df %>% mutate(analysis = EXPLORATORY, .before = 1),
+            file.path(TABLES, name), na = "")
+}
+for (p in names(INPUTS)) cat(sprintf("%-15s %s\n", p, show(INPUTS[[p]])))
+cat("Tables to:      ", show(TABLES), "\nFigures to:     ", show(FIGURES), "\n")
+```
+
+## 1.3 Run record
+
+```{r run-record}
+# The run record stores the SHA-256 checksum of every input (a 64-character
+# fingerprint of the file's exact bytes), deletes the previous run's manifest
+# now and each output's previous copy before the chunk that writes it, and
+# writes the manifest last.
+run <- start_run_record(INPUTS, file.path(TABLES, "explanation_shift_analysis_run_manifest.csv"),
+                        HERE)
+run$inputs <- run$inputs %>% mutate(file = show(INPUTS), analysis = EXPLORATORY, .before = 1)
+write_run_inputs(run, file.path(TABLES, "explanation_shift_analysis_run_inputs.csv"))
+cat("Run identifier:", run$run_id, "\n")
+
+# Each input must be the file its producing run recorded: the pairs file in
+# the measurement notebook's manifest, each long data file in its study's
+# quantitative manifest, and each measures file in its study's text manifest.
+# The long data files must also be the ones the notebook read.
+if (!file.exists(MEASURE_MANIFEST)) {
+  stop("The measurement notebook's manifest is missing. Run ",
+       "ExplanationShift_01_Measure.ipynb to its end first.")
+}
+measure_manifest <- read_csv(MEASURE_MANIFEST, show_col_types = FALSE)
+producer <- bind_rows(
+  measure_manifest %>% filter(role == "output") %>%
+    transmute(file, recorded_sha256 = sha256, producer = basename(MEASURE_MANIFEST)),
+  bind_rows(lapply(seq_len(nrow(STUDY_FILES)), function(k) {
+    s <- STUDY_FILES[k, ]
+    bind_rows(
+      read_csv(s$quant_manifest, show_col_types = FALSE) %>%
+        transmute(file = file.path(s$study, file), recorded_sha256 = sha256,
+                  producer = basename(s$quant_manifest)),
+      read_csv(s$text_manifest, show_col_types = FALSE) %>% distinct(file, sha256) %>%
+        transmute(file = file.path(s$study, file), recorded_sha256 = sha256,
+                  producer = basename(s$text_manifest)))
+  })))
+read_by_notebook <- measure_manifest %>% filter(role == "input") %>%
+  transmute(file, read_by_notebook_sha256 = sha256)
+run_clear_outputs(run, file.path(TABLES, "explanation_shift_input_check.csv"))
+input_check <- tibble(input = names(INPUTS), file = show(INPUTS),
+                      sha256 = run$inputs$sha256) %>%
+  left_join(producer, by = "file") %>%
+  left_join(read_by_notebook, by = "file") %>%
+  mutate(matches_producer = sha256 == recorded_sha256,
+         matches_notebook_input = if_else(grepl("_long$", input),
+                                          sha256 == read_by_notebook_sha256, NA))
+write_table(input_check, "explanation_shift_input_check.csv")
+print(as.data.frame(select(input_check, input, file, producer, matches_producer,
+                           matches_notebook_input)))
+stopifnot(all(input_check$matches_producer %in% TRUE),
+          all(input_check$matches_notebook_input[grepl("_long$", input_check$input)] %in% TRUE))
+```
+
+# 2. The data
+
+## 2.1 The pairs and the labels
+
+```{r pairs-and-labels}
+# The pairs file holds one row per participant, source image, question and
+# pair of levels, with no label and no rating. Its first column states the
+# analysis status; the check below reads it and then drops it.
+PAIR_COLUMNS <- c("analysis", "study", "id", "image", "dimension", "pair", "emb_distance",
+                  "emb_stranger", "word_distance", "word_stranger", "words_a", "words_b")
+pairs <- read_csv(INPUTS[["pairs"]], na = "", progress = FALSE,
+                  col_types = cols(analysis = col_character(),
+                                   study = col_character(), id = col_character(),
+                                   image = col_character(), dimension = col_character(),
+                                   pair = col_character(), emb_distance = col_double(),
+                                   emb_stranger = col_double(), word_distance = col_double(),
+                                   word_stranger = col_double(), words_a = col_integer(),
+                                   words_b = col_integer()))
+stopifnot(identical(names(pairs), PAIR_COLUMNS), all(pairs$analysis == EXPLORATORY),
+          all(pairs$study %in% STUDY_LEVELS), all(pairs$dimension %in% DIMENSIONS),
+          all(pairs$pair %in% c("None-Slight", "Slight-Dramatic", "None-Dramatic")))
+pairs <- select(pairs, -analysis)
+
+# The label of each participant, read from the study's long data file, whose
+# label_mode must say "real" on every row.
+labels <- bind_rows(lapply(seq_len(nrow(STUDY_FILES)), function(k) {
+  s <- STUDY_FILES[k, ]
+  d <- read_csv(s$long, col_select = all_of(c("id", s$label_column, "label_mode")),
+                col_types = cols(.default = col_character()), progress = FALSE)
+  if (!all(d$label_mode == "real")) stop(s$study, "'s long data file is not from a real-label run.")
+  d %>% distinct(id, source = .data[[s$label_column]]) %>% mutate(study = s$study, .before = 1)
+}))
+stopifnot(!anyDuplicated(labels[c("study", "id")]), all(labels$source %in% LABEL_LEVELS))
+print(as.data.frame(count(labels, study, source) %>%
+                      pivot_wider(names_from = source, values_from = n)))
+
+pairs <- pairs %>% left_join(labels, by = c("study", "id"), relationship = "many-to-one") %>%
+  mutate(source = factor(source, levels = LABEL_LEVELS))
+stopifnot(!anyNA(pairs$source),
+          identical(sort(unique(paste(pairs$study, pairs$id))),
+                    sort(unique(paste(labels$study, labels$id)))))
+cat("Pairs:", nrow(pairs), "| complete sets of three:", nrow(pairs) / 3,
+    "| participants:", n_distinct(paste(pairs$study, pairs$id)), "\n")
+```
+
+## 2.2 What the distances look like
+
+```{r description}
+# Means over every pair of levels, by study, arm and question, as
+# description. A shift is a distance minus its stranger baseline. Word
+# distances are missing where an explanation has no content word, and their
+# means are over the rest.
+run_clear_outputs(run, file.path(TABLES, "explanation_shift_description.csv"))
+description <- pairs %>%
+  mutate(pair = factor(pair, levels = c("None-Slight", "Slight-Dramatic", "None-Dramatic")),
+         dimension = factor(dimension, levels = DIMENSIONS),
+         emb_shift = emb_distance - emb_stranger,
+         word_shift = word_distance - word_stranger) %>%
+  group_by(study, source, dimension, pair) %>%
+  summarise(n_participants = n_distinct(id), n_sets = n(),
+            emb_distance = mean(emb_distance), emb_stranger = mean(emb_stranger),
+            emb_shift = mean(emb_shift),
+            n_sets_word = sum(!is.na(word_shift)),
+            word_distance = mean(word_distance, na.rm = TRUE),
+            word_stranger = mean(word_stranger[!is.na(word_shift)]),
+            word_shift = mean(word_shift, na.rm = TRUE),
+            mean_words = mean((words_a + words_b) / 2), .groups = "drop") %>%
+  arrange(dimension, study, pair, source)
+write_table(description, "explanation_shift_description.csv")
+print(as.data.frame(description %>% filter(dimension == "creativity") %>%
+                      select(study, source, pair, n_sets, emb_distance, emb_stranger,
+                             emb_shift, word_distance, word_stranger, word_shift) %>%
+                      mutate(across(where(is.double), ~ round(.x, 3)))))
+```
+
+# 3. Do the explanations of AI-arm participants move less?
+
+## 3.1 The model
+
+The shift of one participant on one source image and question is the None to
+Dramatic distance minus its stranger baseline, computed separately for the
+embedding distance and the word distance. For each question and each kind of
+distance, a linear mixed model (a regression with an estimated adjustment for
+each participant and each source image) is fitted:
+
+    shift ~ source * study + words_c + (1 | study:id) + (1 | image)
+
+Here `source` is the label (Human or AI), `study` is Study 2, 4 or 5, and
+`(1 | study:id)` and `(1 | image)` give each participant and each source image
+its own adjustment to the mean. `words_c` is the mean number of distinct
+content words in the two explanations, centred on its mean in the model's
+data (that mean subtracted), because how far two texts lie apart depends on
+how much each says. The model is fitted by restricted maximum likelihood (REML,
+the usual estimator of the variances in a mixed model) with the bobyqa
+optimizer (the routine that searches for the best-fitting values), as in the
+study files.
+
+From each fit, estimated marginal means (the model's predicted mean shift for
+each arm, at the average length) give AI minus Human within each study and
+pooled over the three studies with equal weight. Each has a 95 percent
+interval with Satterthwaite's degrees of freedom (an approximation that sets
+the reference t distribution from the model's variances). A word distance is
+missing where an explanation has no content word, so the word models use the
+rest.
+
+## 3.2 The permutation null
+
+The model's interval rests on the model's assumptions. The permutation null
+asks the same question without them. The labels are dealt out afresh among
+the participants within each study, so every study keeps its number in each
+arm and every participant keeps one label, the model is refitted, and the
+four AI minus Human differences are recorded; this is done 200 times. The
+p-value is the share of shuffles, counting the observed data as one, whose
+difference lies at least as far from zero as the observed one. The 200
+shuffles are drawn from seed 20260421 before the parallel section starts, the
+same shuffles serve all six models, and the refits run on up to eight
+processor cores.
+
+```{r shift-models}
+run_clear_outputs(run, file.path(TABLES, "explanation_shift_models.csv"),
+                  file.path(TABLES, "explanation_shift_arm_means.csv"))
+
+# One row per participant, source image and question: the None to Dramatic
+# shift on each kind of distance, and the mean length of the two explanations.
+shift <- pairs %>% filter(pair == "None-Dramatic") %>%
+  mutate(shift_emb = emb_distance - emb_stranger,
+         shift_word = word_distance - word_stranger,
+         mean_words = (words_a + words_b) / 2,
+         key = paste(study, id, sep = "|"))
+
+FORMULA <- y ~ source * study + words_c + (1 | study:id) + (1 | image)
+
+model_data <- function(dim, distance) {
+  shift %>% filter(dimension == dim) %>%
+    mutate(y = .data[[paste0("shift_", DISTANCES[[distance]])]]) %>%
+    filter(!is.na(y)) %>%
+    mutate(words_c = mean_words - mean(mean_words),
+           source = factor(source, levels = LABEL_LEVELS),
+           study = factor(study, levels = STUDY_LEVELS),
+           id = factor(id), image = factor(image))
+}
+
+fit_log <- list()
+fit_logged <- function(expr, step, d) {
+  res <- fit_with_status(expr)
+  fit_log[[step]] <<- bind_cols(tibble(step = step, n_obs = nrow(d)), res$status)
+  res
+}
+
+# The 200 shuffles: within each study, the labels are dealt out again among
+# its participants, taken in byte order of their identifiers.
+participants <- labels %>% mutate(key = paste(study, id, sep = "|")) %>%
+  filter(key %in% shift$key)
+participants <- participants[order(participants$study, participants$id, method = "radix"), ]
+set.seed(SEED)
+shuffles <- replicate(N_PERM, {
+  lab <- participants$source
+  for (s in STUDY_LEVELS) {
+    ix <- which(participants$study == s)
+    lab[ix] <- lab[ix][sample.int(length(ix))]
+  }
+  setNames(lab, participants$key)
+}, simplify = FALSE)
+arm_sizes <- table(participants$study, participants$source)
+stopifnot(all(vapply(shuffles, function(lab) {
+  all(table(participants$study, lab) == arm_sizes)
+}, logical(1))))
+
+# The AI minus Human differences from one refit on shuffled labels, and
+# whether that refit converged. A refit that fails gives NA and is counted.
+perm_once <- function(lab, d, L) {
+  d$source <- factor(lab[d$key], levels = LABEL_LEVELS)
+  res <- suppressMessages(fit_with_status(
+    lme4::lmer(FORMULA, data = d, REML = TRUE, control = CONTROL)))
+  if (isTRUE(res$status$fit_error)) return(rep(NA_real_, nrow(L) + 1))
+  c(as.numeric(L %*% lme4::fixef(res$fit)), as.numeric(isTRUE(res$status$converged)))
+}
+
+SCOPES <- c("pooled over studies, equal weight", STUDY_LEVELS)
+shift_model <- function(dim, distance) {
+  d <- model_data(dim, distance)
+  step <- paste0("3 shift, ", dim, ", ", distance, " distance")
+  res <- fit_logged(lmerTest::lmer(FORMULA, data = d, REML = TRUE, control = CONTROL), step, d)
+  usable <- fit_usable(res$status)
+  counts <- d %>% distinct(study, id, source) %>% count(study, source) %>%
+    pivot_wider(names_from = source, values_from = n)
+  n_by_scope <- bind_rows(
+    tibble(scope = SCOPES[1], n_obs = nrow(d), n_participants = n_distinct(d$key),
+           n_human = sum(counts$Human), n_ai = sum(counts$AI)),
+    tibble(scope = STUDY_LEVELS,
+           n_obs = as.integer(table(factor(d$study, STUDY_LEVELS))),
+           n_participants = as.integer(tapply(d$key, factor(d$study, STUDY_LEVELS), n_distinct)),
+           n_human = counts$Human[match(STUDY_LEVELS, counts$study)],
+           n_ai = counts$AI[match(STUDY_LEVELS, counts$study)]))
+  if (isTRUE(res$status$fit_error)) {
+    return(list(contrasts = n_by_scope %>% mutate(dimension = dim, distance = distance,
+                                                  note = fit_note(res$status)),
+                means = NULL))
+  }
+
+  # The estimated marginal means of each arm, within each study and pooled
+  # over the studies with equal weight, and AI minus Human in each.
+  emm_study <- emmeans::emmeans(res$fit, ~ source | study, lmer.df = "satterthwaite",
+                                lmerTest.limit = 1e5)
+  emm_pool  <- suppressMessages(emmeans::emmeans(res$fit, ~ source, lmer.df = "satterthwaite",
+                                                 lmerTest.limit = 1e5))
+  con_study <- emmeans::contrast(emm_study, list("AI minus Human" = c(-1, 1)))
+  con_pool  <- emmeans::contrast(emm_pool, list("AI minus Human" = c(-1, 1)))
+  con <- bind_rows(as_tibble(summary(con_pool, infer = c(TRUE, TRUE))) %>%
+                     mutate(scope = SCOPES[1]),
+                   as_tibble(summary(con_study, infer = c(TRUE, TRUE))) %>%
+                     mutate(scope = as.character(study)))
+  stopifnot(identical(con$scope, SCOPES))
+
+  # The same four differences as linear combinations of the fixed effects,
+  # so that each refit gives them without recomputing the marginal means.
+  L <- rbind(con_pool@linfct, con_study@linfct)
+  stopifnot(ncol(L) == length(lme4::fixef(res$fit)),
+            isTRUE(all.equal(as.numeric(L %*% lme4::fixef(res$fit)), con$estimate,
+                             tolerance = 1e-8)))
+  null <- matrix(text_run_permutations(shuffles, function(lab) perm_once(lab, d, L),
+                                       text_default_workers()),
+                 nrow = N_PERM, byrow = TRUE)
+  null_est <- null[, seq_len(nrow(L)), drop = FALSE]
+  n_valid <- colSums(!is.na(null_est))
+  p_perm <- vapply(seq_len(nrow(L)), function(j) {
+    (1 + sum(abs(null_est[, j]) >= abs(con$estimate[j]), na.rm = TRUE)) / (1 + n_valid[j])
+  }, numeric(1))
+
+  contrasts <- con %>%
+    transmute(scope, quantity = "AI minus Human in the None to Dramatic shift",
+              estimate, se = SE, df,
+              ci_lo = na_unless_usable(lower.CL, res$status),
+              ci_hi = na_unless_usable(upper.CL, res$status),
+              t = t.ratio, p_model = na_unless_usable(p.value, res$status)) %>%
+    mutate(p_perm = na_unless_usable(p_perm, res$status),
+           null_lo = apply(null_est, 2, quantile, 0.025, na.rm = TRUE, names = FALSE),
+           null_hi = apply(null_est, 2, quantile, 0.975, na.rm = TRUE, names = FALSE),
+           n_perm = N_PERM, n_perm_valid = n_valid,
+           n_perm_converged = sum(null[, ncol(null)] == 1, na.rm = TRUE), perm_seed = SEED) %>%
+    left_join(n_by_scope, by = "scope") %>%
+    mutate(dimension = dim, role = ROLE[[dim]], distance = distance,
+           converged = res$status$converged, singular = res$status$singular,
+           note = fit_note(res$status))
+
+  means <- bind_rows(as_tibble(summary(emm_pool, infer = c(TRUE, FALSE))) %>%
+                       mutate(scope = SCOPES[1]),
+                     as_tibble(summary(emm_study, infer = c(TRUE, FALSE))) %>%
+                       mutate(scope = as.character(study))) %>%
+    transmute(dimension = dim, role = ROLE[[dim]], distance = distance, scope,
+              arm = as.character(source), mean_shift = emmean, se = SE, df,
+              ci_lo = na_unless_usable(lower.CL, res$status),
+              ci_hi = na_unless_usable(upper.CL, res$status),
+              note = "estimated marginal mean at the average length")
+  list(contrasts = contrasts, means = means)
+}
+
+started <- Sys.time()
+fits <- list()
+for (dim in DIMENSIONS) for (distance in names(DISTANCES)) {
+  fits[[paste(dim, distance)]] <- shift_model(dim, distance)
+  cat(sprintf("%-18s %-9s fitted, 200 permutations done, %.1f minutes so far\n", dim, distance,
+              as.numeric(difftime(Sys.time(), started, units = "mins"))))
+}
+
+models <- bind_rows(lapply(fits, `[[`, "contrasts")) %>%
+  mutate(reading = case_when(
+    is.na(ci_lo) | is.na(ci_hi) ~ NA_character_,
+    ci_hi < 0 ~ "AI explanations moved less, as taint predicts",
+    ci_lo > 0 ~ "AI explanations moved more, against the taint prediction",
+    TRUE ~ "no difference shown: the 95 percent interval includes zero"),
+    predicted_under_taint = "negative") %>%
+  relocate(dimension, role, distance, scope, quantity, estimate, se, df, ci_lo, ci_hi,
+           p_model, p_perm, reading)
+arm_means <- bind_rows(lapply(fits, `[[`, "means"))
+write_table(models, "explanation_shift_models.csv")
+write_table(arm_means, "explanation_shift_arm_means.csv")
+```
+
+## 3.3 What the models say
+
+The table holds 24 rows: three questions, two kinds of distance, and the
+pooled and three within-study differences of each. No interval is widened
+and no p-value raised to allow for the number of rows, so even if the label changed
+nothing, about one row in twenty would have a 95 percent interval clear of
+zero by chance alone.
+
+```{r shift-results}
+print(as.data.frame(models %>%
+  select(dimension, distance, scope, estimate, ci_lo, ci_hi, p_model, p_perm, n_perm_valid) %>%
+  mutate(across(c(estimate, ci_lo, ci_hi), ~ round(.x, 4)),
+         across(c(p_model, p_perm), ~ round(.x, 3)))))
+
+# The pooled result of each model in words, with the arm means beside it.
+for (k in which(models$scope == SCOPES[1])) {
+  r <- models[k, ]
+  am <- arm_means %>% filter(dimension == r$dimension, distance == r$distance, scope == SCOPES[1])
+  cat(sprintf(paste0("%s (%s), %s distance: mean shift Human %.4f, AI %.4f; AI minus Human %.4f, ",
+                     "95%% interval %.4f to %.4f, permutation p = %.3f. %s.\n"),
+              r$dimension, r$role, r$distance,
+              am$mean_shift[am$arm == "Human"], am$mean_shift[am$arm == "AI"],
+              r$estimate, r$ci_lo, r$ci_hi, r$p_perm,
+              if (is.na(r$reading)) "No reading: the fit is not usable" else
+                paste0(toupper(substring(r$reading, 1, 1)), substring(r$reading, 2))))
+}
+```
+
+# 4. Does talk of origin persist as the work changes?
+
+Each study's text notebook applied Study 1's word lists to every explanation
+without seeing the label or the rating. Two of its columns are used here.
+`says_prompt` is true when an explanation mentions prompting, typing or
+generating, or names a machine or an image generator. The machine-made
+reading is "asserted" when an explanation states, plainly or as an impression,
+that a machine made the work, and it sets aside phrases that are denied or sit
+in a supposition.
+
+The measures are joined to the label through each study's own keys, the
+participant, the second work and the question, one row to one row. The shares
+are then taken over the same explanations as section 3: the complete sets of
+three, so the share at None and the share at Dramatic come from the same
+people writing about the same images. Each share is the number of explanations
+that carry the mark divided by the number of explanations, in each study, arm
+and level, over the three questions together and for each question.
+
+The intervals come from 2,000 resamples of participants within each study
+and arm, drawn from seed 20260421. A resample draws as many participants as
+the arm holds, with replacement, so one participant can be drawn more than
+once and another not at all, and each arm keeps its size. Each interval is
+the middle 95 percent of the resampled values.
+Pooled values are the mean of the three studies, each study weighted equally,
+computed within each resample. Beside the shares sit the change from None to
+Dramatic in each arm, AI minus Human at each level, and AI minus Human in the
+change. Under taint, the AI arm's change is near zero; if origin talk falls as
+the work changes, it is negative.
+
+```{r origin-talk}
+run_clear_outputs(run, file.path(TABLES, "explanation_shift_origin_talk.csv"))
+
+# The measures, joined to each study's keys and labels. The measures files
+# carry no label and no rating; the join adds the label only.
+origin <- bind_rows(lapply(seq_len(nrow(STUDY_FILES)), function(k) {
+  s <- STUDY_FILES[k, ]
+  m <- read_csv(s$measures, na = character(), progress = FALSE,
+                col_types = cols(.default = col_character()))
+  need <- c("id", "stimulus_id", s$measures_image, "stimulus_modification", "dimension",
+            "says_prompt", "machine_made_reading")
+  stopifnot(all(need %in% names(m)),
+            !any(c("rating", "label", "Type", "source_time", "editing_time",
+                   "condition", "response_text") %in% names(m)))
+  keys <- read_csv(s$long, col_select = all_of(c("id", "work_id", "dimension")),
+                   col_types = cols(.default = col_character()), progress = FALSE)
+  joined <- m %>% select(all_of(need)) %>%
+    inner_join(keys, by = c("id", "stimulus_id" = "work_id", "dimension"),
+               relationship = "one-to-one")
+  stopifnot(nrow(joined) == nrow(m), nrow(joined) == nrow(keys))
+  joined %>% transmute(study = s$study, id, image = .data[[s$measures_image]],
+                       level = stimulus_modification, dimension, says_prompt,
+                       machine_made_reading)
+})) %>%
+  left_join(labels, by = c("study", "id"), relationship = "many-to-one")
+stopifnot(!anyNA(origin$source), all(origin$says_prompt %in% c("True", "False")),
+          all(origin$machine_made_reading %in% c("asserted", "not_asserted", "neither")),
+          all(origin$level %in% LEVELS))
+origin <- origin %>% mutate(prompt = says_prompt == "True",
+                            machine = machine_made_reading == "asserted")
+
+# The same explanations as section 3: the complete sets of three.
+sets <- pairs %>% distinct(study, id, image, dimension)
+origin <- origin %>% semi_join(sets, by = c("study", "id", "image", "dimension"))
+stopifnot(nrow(origin) == 3 * nrow(sets),
+          all(count(origin, study, id, image, dimension)$n == 3))
+cat("Explanations in the complete sets:", nrow(origin), "\n")
+
+# Per participant, level and question: the number of explanations and how
+# many carry each mark. The rows for all three questions sum the questions.
+QUESTIONS <- c("all three questions", DIMENSIONS)
+per_person <- bind_rows(
+  origin %>% group_by(study, id, source, level) %>%
+    summarise(n = n(), prompt = sum(prompt), machine = sum(machine), .groups = "drop") %>%
+    mutate(question = QUESTIONS[1]),
+  origin %>% group_by(study, id, source, level, question = dimension) %>%
+    summarise(n = n(), prompt = sum(prompt), machine = sum(machine), .groups = "drop"))
+CELLS <- as.vector(outer(QUESTIONS, LEVELS, paste, sep = "|"))
+MEASURE_NAMES <- c(prompt = "mentions prompting or a machine (says_prompt)",
+                   machine = "states that a machine made the work (machine-made reading asserted)")
+
+# Each study's counts as matrices, one row per participant and one column per
+# question and level.
+study_matrices <- lapply(STUDY_LEVELS, function(s) {
+  pp <- per_person %>% filter(study == s)
+  ids <- sort(unique(pp$id), method = "radix")
+  arm <- labels$source[labels$study == s][match(ids, labels$id[labels$study == s])]
+  fill <- function(col) {
+    m <- matrix(0, length(ids), length(CELLS), dimnames = list(ids, CELLS))
+    m[cbind(match(pp$id, ids), match(paste(pp$question, pp$level, sep = "|"), CELLS))] <- pp[[col]]
+    m
+  }
+  list(ids = ids, arm = arm, n = fill("n"), prompt = fill("prompt"), machine = fill("machine"))
+})
+names(study_matrices) <- STUDY_LEVELS
+
+# Every quantity of the section from the shares of one study, or of one
+# resample: shares by arm and level, the change from None to Dramatic in
+# each arm, AI minus Human at each level, and AI minus Human in the change.
+quantities <- function(share) {
+  out <- list()
+  for (m in names(MEASURE_NAMES)) for (q in QUESTIONS) {
+    at <- function(arm, level) share[[arm]][[m]][, paste(q, level, sep = "|")]
+    for (a in LABEL_LEVELS) {
+      for (l in LEVELS) out[[paste(m, q, a, l, sep = "|")]] <- at(a, l)
+      out[[paste(m, q, a, "Dramatic minus None", sep = "|")]] <- at(a, "Dramatic") - at(a, "None")
+    }
+    for (l in LEVELS) out[[paste(m, q, "AI minus Human", l, sep = "|")]] <- at("AI", l) - at("Human", l)
+    out[[paste(m, q, "AI minus Human", "Dramatic minus None", sep = "|")]] <-
+      (at("AI", "Dramatic") - at("AI", "None")) - (at("Human", "Dramatic") - at("Human", "None"))
+  }
+  do.call(cbind, out)
+}
+
+# The shares of one study from participant weights: each participant counts
+# as many times as the weight says, one row of weights per resample.
+shares_from <- function(sm, weights) {
+  lapply(setNames(LABEL_LEVELS, LABEL_LEVELS), function(a) {
+    ix <- which(sm$arm == a)
+    w <- weights[[a]]
+    lapply(setNames(names(MEASURE_NAMES), names(MEASURE_NAMES)), function(m) {
+      (w %*% sm[[m]][ix, , drop = FALSE]) / (w %*% sm$n[ix, , drop = FALSE])
+    })
+  })
+}
+
+# The resamples are drawn study by study, Human arm first, from one seed.
+set.seed(SEED)
+observed <- list()
+replicates <- list()
+for (s in STUDY_LEVELS) {
+  sm <- study_matrices[[s]]
+  ones <- lapply(setNames(LABEL_LEVELS, LABEL_LEVELS),
+                 function(a) matrix(1, 1, sum(sm$arm == a)))
+  draws <- lapply(setNames(LABEL_LEVELS, LABEL_LEVELS), function(a) {
+    n_arm <- sum(sm$arm == a)
+    t(vapply(seq_len(N_BOOT), function(b) {
+      tabulate(sample.int(n_arm, n_arm, replace = TRUE), nbins = n_arm)
+    }, numeric(n_arm)))
+  })
+  observed[[s]] <- quantities(shares_from(sm, ones))
+  replicates[[s]] <- quantities(shares_from(sm, draws))
+}
+observed[[SCOPES[1]]] <- Reduce(`+`, observed[STUDY_LEVELS]) / length(STUDY_LEVELS)
+replicates[[SCOPES[1]]] <- Reduce(`+`, replicates[STUDY_LEVELS]) / length(STUDY_LEVELS)
+
+# The number of explanations behind each share, by study and pooled.
+n_by_study <- bind_rows(
+  origin %>% count(study, arm = as.character(source), level, question = dimension),
+  origin %>% count(study, arm = as.character(source), level) %>% mutate(question = QUESTIONS[1]))
+n_explanations <- bind_rows(
+  n_by_study %>% rename(scope = study),
+  n_by_study %>% group_by(arm, level, question) %>%
+    summarise(n = sum(n), .groups = "drop") %>% mutate(scope = SCOPES[1])) %>%
+  rename(n_explanations = n)
+origin_talk <- bind_rows(lapply(SCOPES, function(sc) {
+  tibble(scope = sc, name = colnames(observed[[sc]]),
+         estimate = as.numeric(observed[[sc]][1, ]),
+         ci_lo = apply(replicates[[sc]], 2, quantile, 0.025, na.rm = TRUE, names = FALSE),
+         ci_hi = apply(replicates[[sc]], 2, quantile, 0.975, na.rm = TRUE, names = FALSE),
+         n_valid = colSums(!is.na(replicates[[sc]])))
+})) %>%
+  separate(name, into = c("mark", "question", "arm", "level"), sep = "\\|") %>%
+  mutate(quantity = case_when(
+    arm %in% LABEL_LEVELS & level %in% LEVELS ~ "share of explanations",
+    arm %in% LABEL_LEVELS ~ "change in share, Dramatic minus None",
+    level %in% LEVELS ~ "difference in share, AI minus Human",
+    TRUE ~ "difference in the change, AI minus Human"),
+    measure = MEASURE_NAMES[mark], B = N_BOOT, seed = SEED,
+    resampled = "participants within study and arm, with replacement") %>%
+  left_join(n_explanations, by = c("scope", "question", "arm", "level")) %>%
+  select(scope, measure, question, quantity, arm, level, estimate, ci_lo, ci_hi,
+         n_explanations, n_valid, B, seed, resampled)
+stopifnot(all(!is.na(origin_talk$n_explanations[origin_talk$quantity == "share of explanations"])))
+write_table(origin_talk, "explanation_shift_origin_talk.csv")
+
+print(as.data.frame(origin_talk %>%
+  filter(question == QUESTIONS[1], scope == SCOPES[1]) %>%
+  select(measure, quantity, arm, level, estimate, ci_lo, ci_hi) %>%
+  mutate(measure = sub(" \\(.*", "", measure), across(where(is.double), ~ round(.x, 4)))))
+
+# The pooled result for each mark in words, over all three questions, in
+# percentage points.
+pick <- function(mk, arm, level) {
+  origin_talk %>% filter(scope == SCOPES[1], question == QUESTIONS[1],
+                         measure == MEASURE_NAMES[[mk]], arm == !!arm, level == !!level)
+}
+for (mk in names(MEASURE_NAMES)) {
+  ai_none <- pick(mk, "AI", "None"); ai_dram <- pick(mk, "AI", "Dramatic")
+  ai_ch <- pick(mk, "AI", "Dramatic minus None"); hu_ch <- pick(mk, "Human", "Dramatic minus None")
+  did <- pick(mk, "AI minus Human", "Dramatic minus None")
+  cat(sprintf(paste0("Explanations that %s, pooled: AI arm %.2f%% at None and %.2f%% at Dramatic, ",
+                     "a change of %+.2f points (95%% interval %+.2f to %+.2f); Human arm change %+.2f ",
+                     "points (%+.2f to %+.2f); AI minus Human in the change %+.2f points ",
+                     "(%+.2f to %+.2f).\n"),
+              c(prompt = "mention prompting or a machine",
+                machine = "state that a machine made the work")[[mk]],
+              100 * ai_none$estimate, 100 * ai_dram$estimate,
+              100 * ai_ch$estimate, 100 * ai_ch$ci_lo, 100 * ai_ch$ci_hi,
+              100 * hu_ch$estimate, 100 * hu_ch$ci_lo, 100 * hu_ch$ci_hi,
+              100 * did$estimate, 100 * did$ci_lo, 100 * did$ci_hi))
+}
+```
+
+# 5. The figure
+
+The top row shows the estimated mean None to Dramatic shift of each arm on
+creativity, within each study and pooled, with its 95 percent interval. A
+lower point means the explanation at Dramatic stayed closer to the
+participant's own explanation at None. The bottom rows show the share of
+explanations, over all three questions, that mention prompting or a machine
+and that state a machine made the work, at each level and in each arm, with
+intervals from resampling participants. AI is drawn in black with solid lines
+and Human in white with dashed lines. The caption states that the analysis is
+exploratory.
+
+```{r figure, fig.width = 9, fig.height = 9}
+FIG_PDF <- file.path(FIGURES, "explanation_shift.pdf")
+FIG_PNG <- file.path(FIGURES, "explanation_shift.png")
+run_clear_outputs(run, FIG_PDF, FIG_PNG)
+
+SCOPE_SHORT <- c("pooled over studies, equal weight" = "Pooled", "Study 2" = "Study 2",
+                 "Study 4" = "Study 4", "Study 5" = "Study 5")
+arm_scales <- list(
+  scale_shape_manual(values = c(Human = 21, AI = 21), name = "Source label"),
+  scale_fill_manual(values = c(Human = "white", AI = "black"), name = "Source label"))
+arm_lines <- scale_linetype_manual(values = c(Human = "dashed", AI = "solid"), name = "Source label")
+theme_fig <- theme_bw(base_size = 10) +
+  theme(panel.grid.minor = element_blank(), legend.position = "bottom",
+        strip.background = element_rect(fill = "grey92", colour = "grey60"))
+dodge <- position_dodge(width = 0.45)
+
+panel_a <- arm_means %>%
+  filter(dimension == "creativity") %>%
+  mutate(scope = factor(SCOPE_SHORT[scope], levels = c("Study 2", "Study 4", "Study 5", "Pooled")),
+         arm = factor(arm, levels = LABEL_LEVELS),
+         distance = factor(paste(tools::toTitleCase(distance), "distance"),
+                           levels = c("Embedding distance", "Word distance"))) %>%
+  ggplot(aes(x = scope, y = mean_shift, shape = arm, fill = arm)) +
+  geom_hline(yintercept = 0, colour = "grey50", linewidth = 0.3) +
+  geom_errorbar(aes(ymin = ci_lo, ymax = ci_hi), width = 0.15, position = dodge,
+                colour = "black") +
+  geom_point(size = 2.4, position = dodge, colour = "black") +
+  facet_wrap(~ distance, scales = "free_y") +
+  arm_scales +
+  labs(x = NULL, y = "Mean shift, None to Dramatic\n(distance minus stranger baseline)",
+       title = "A. Creativity explanations: how far they moved from None to Dramatic") +
+  theme_fig + theme(legend.position = "none")
+
+panel_b <- origin_talk %>%
+  filter(question == QUESTIONS[1], quantity == "share of explanations") %>%
+  mutate(scope = factor(SCOPE_SHORT[scope], levels = c("Study 2", "Study 4", "Study 5", "Pooled")),
+         arm = factor(arm, levels = LABEL_LEVELS),
+         level = factor(level, levels = LEVELS),
+         mark = factor(ifelse(grepl("^mentions", measure), "Mentions prompting\nor a machine",
+                              "States a machine\nmade the work"),
+                       levels = c("Mentions prompting\nor a machine", "States a machine\nmade the work"))) %>%
+  ggplot(aes(x = level, y = 100 * estimate, group = arm, shape = arm, fill = arm,
+             linetype = arm)) +
+  geom_errorbar(aes(ymin = 100 * ci_lo, ymax = 100 * ci_hi), width = 0.12,
+                position = position_dodge(width = 0.3), linetype = "solid", colour = "black") +
+  geom_line(position = position_dodge(width = 0.3), colour = "black") +
+  geom_point(size = 2.2, position = position_dodge(width = 0.3), colour = "black") +
+  facet_grid(mark ~ scope, scales = "free_y") +
+  arm_scales + arm_lines +
+  labs(x = "Modification level", y = "Explanations, percent",
+       title = "B. Talk of origin at each level, all three questions") +
+  theme_fig
+
+# The figure states the analysis status in its caption, as every table does
+# in its first column.
+fig <- (panel_a / panel_b) + plot_layout(heights = c(1, 1.5)) +
+  plot_annotation(caption = paste(
+    "Exploratory: specified on 9 October 2026, after the registered results of all five",
+    "studies were known; no registration names it."),
+    theme = theme(plot.caption = element_text(size = 8, hjust = 0)))
+ggsave(FIG_PDF, fig, width = 9, height = 9, device = "pdf")
+ggsave(FIG_PNG, fig, width = 9, height = 9, dpi = 300, bg = "white")
+fig
+```
+
+# 6. Fit status
+
+A fit converged when the optimizer reached a stable best fit and lme4, the
+package that fits the models, raised no warning about it. A fit is singular
+when a variance is estimated at zero, here the variance between source
+images or between participants. A converged singular fit keeps its numbers,
+under the rule of `shared/R/fit_status.R`; a fit that did not converge has
+its intervals and p-values set to missing.
+
+```{r fit-log}
+# One row per observed mixed model, with its convergence status and the
+# number of its 200 permutation refits that returned a fit and that converged.
+run_clear_outputs(run, file.path(TABLES, "explanation_shift_fit_log.csv"))
+perm_counts <- models %>% filter(scope == SCOPES[1]) %>%
+  transmute(step = paste0("3 shift, ", dimension, ", ", distance, " distance"),
+            n_perm, n_perm_valid, n_perm_converged)
+fit_log_tbl <- bind_rows(fit_log) %>%
+  mutate(kind = "linear mixed model", usable = !fit_error & converged) %>%
+  left_join(perm_counts, by = "step") %>%
+  relocate(step, kind, usable)
+write_table(fit_log_tbl, "explanation_shift_fit_log.csv")
+print(as.data.frame(select(fit_log_tbl, step, n_obs, usable, converged, singular,
+                           n_perm_valid, n_perm_converged)))
+cat("Mixed models:", nrow(fit_log_tbl), "| converged:", sum(fit_log_tbl$converged),
+    "| singular:", sum(fit_log_tbl$singular %in% TRUE),
+    "| errored:", sum(fit_log_tbl$fit_error), "\n")
+```
+
+# 7. Session information and the run manifest
+
+```{r session-info}
+SESSION_PATH  <- file.path(TABLES, "explanation_shift_analysis_sessionInfo.txt")
+VERSIONS_PATH <- file.path(TABLES, "explanation_shift_analysis_package_versions.csv")
+run_clear_outputs(run, SESSION_PATH, VERSIONS_PATH)
+writeLines(c(paste("Analysis status:", EXPLORATORY), "", capture.output(sessionInfo())),
+           SESSION_PATH)
+pkgs <- c("readr", "dplyr", "tidyr", "tibble", "lme4", "lmerTest", "emmeans", "ggplot2",
+          "patchwork", "rmarkdown", "knitr")
+write_table(tibble(package = pkgs,
+                   version = vapply(pkgs, function(p) as.character(packageVersion(p)),
+                                    character(1))),
+            basename(VERSIONS_PATH))
+sessionInfo()
+```
+
+```{r manifest}
+# The manifest lists every output this run registered, whether this run
+# wrote it, and its SHA-256 checksum. It is written last, and then given the
+# analysis status as its first column.
+manifest <- write_run_manifest(run)
+stopifnot(all(manifest$written_this_run))
+write_csv(manifest %>% mutate(analysis = EXPLORATORY, .before = 1), run$manifest_path)
+```

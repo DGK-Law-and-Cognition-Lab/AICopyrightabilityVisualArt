@@ -1,0 +1,3 @@
+set,flag,n_human_participants,n_leak_participants,pct_leak_participants,n_human_responses,n_leak_responses,pct_leak_responses
+broad: mentions machines or prompting (says_prompt),says_prompt,56,28,0.5,1120,114,0.10178571428571428
+narrow: states the work is or looks machine-made (machine_made_reading = asserted),states_machine_made,56,25,0.44642857142857145,1120,80,0.07142857142857142

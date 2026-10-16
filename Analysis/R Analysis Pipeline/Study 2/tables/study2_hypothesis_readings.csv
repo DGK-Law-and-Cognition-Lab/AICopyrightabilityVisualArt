@@ -1,0 +1,12 @@
+measure,hypothesis,rule,reading
+transformativeness,H1,tests 1 and 2 both positive and significant after Holm,holds
+transformativeness,H2,test 3 significant after Holm (the equivalence test passes),small or absent: inside plus or minus 0.224
+transformativeness,H3,test 4 two-sided after Holm; positive means the penalty shrinks,not significant
+essence_change,H1,tests 1 and 2 both positive and significant after Holm,holds
+essence_change,H2,test 3 significant after Holm (the equivalence test passes),small or absent: inside plus or minus 0.224
+essence_change,H3,test 4 two-sided after Holm; positive means the penalty shrinks,not significant
+creativity,H1,tests 1 and 2 both positive and significant after Holm,holds
+creativity,H2,test 3 significant after Holm (the equivalence test passes),not shown to be small
+creativity,H3,test 4 two-sided after Holm; positive means the penalty shrinks,not significant
+all three measures,H1,H1 holds on each of the three measures,holds on every measure
+all three measures,H2,H2 holds on each of the three measures,not shown to be small on every measure

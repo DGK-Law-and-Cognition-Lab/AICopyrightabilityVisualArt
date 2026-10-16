@@ -1,0 +1,24 @@
+# Working notes and review documents; not needed to run the pipeline
+_internal_notes/
+# Files retired from the pipeline, kept for the record
+_retired_*/
+# Byte-identical copies of the source files as they stood before an edit
+_backup_*/
+# Knitted HTML renderings of the R Markdown files; regenerated on every knit
+*.html
+# Figure files that knitr writes beside an HTML rendering
+*_files/
+# knitr chunk caches; regenerated on the next knit
+*_cache/
+# Stray plot file that R writes when a plot is drawn outside a chunk
+Rplots.pdf
+# macOS Finder metadata
+.DS_Store
+# the language-model response cache from the retired pipeline (folder name starts with a dot, so *_cache/ does not match it)
+nlp/.cache/
+# Google Drive pointer files and anything named as a key file must never be published
+*.gdoc
+*API Keys*
+# The two published word-norm files are not ours to redistribute; nlp/norms/README.md says where to download them
+nlp/norms/*.txt
+nlp/norms/*.csv

@@ -1,0 +1,17 @@
+dimension,k,stability_mean,stability_sd,chosen
+creativity,3,0.8295,0.1269,False
+creativity,4,0.8909,0.0797,False
+creativity,5,0.8765,0.0695,False
+creativity,6,0.9202,0.0531,True
+creativity,7,0.8443,0.0681,False
+creativity,8,0.822,0.0761,False
+creativity,9,0.8412,0.0604,False
+creativity,10,0.865,0.0655,False
+effort,3,0.8609,0.1452,False
+effort,4,0.8709,0.1416,False
+effort,5,0.9436,0.0824,False
+effort,6,0.9799,0.0062,True
+effort,7,0.9506,0.0547,False
+effort,8,0.909,0.0602,False
+effort,9,0.8749,0.056,False
+effort,10,0.8573,0.0633,False

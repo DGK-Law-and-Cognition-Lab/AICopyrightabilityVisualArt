@@ -1,0 +1,3383 @@
+---
+title: "Study 1 Supplementary Material"
+author: "David G. Kamper"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    code_folding: show
+---
+
+
+```{r knitr-options, include=FALSE}
+knitr::opts_chunk$set(
+  echo       = TRUE,
+  warning    = FALSE,
+  message    = FALSE,
+  fig.align  = "center",
+  fig.retina = 2
+)
+```
+
+# Purpose
+
+This notebook builds the Study 1 supplementary material. It writes each
+supplementary table as a LaTeX fragment, a small `.tex` file that the
+supplement section of the manuscript pulls in with `\input{}`, and it copies
+the supplementary figures beside them.
+
+It runs no analysis of its own. It reads the files below. A table marked
+"registered completion set" is one the preregistration commits to reporting.
+
+  - `study1_long_with_text.csv`                     (long-format ratings)
+  - `models/study1_lmm_creativity.rds`              (creativity linear mixed model, LMM)
+  - `models/study1_lmm_effort.rds`                  (effort LMM)
+  - `tables/study1_specification_curve.csv`         (multiverse: the attribution estimate under many alternative specifications)
+  - `tables/study1_brms_primary_fixed.csv`          (Bayesian replication)
+  - `tables/study1_brms_cumulative_fixed.csv`       (Bayesian ordinal version)
+  - `tables/study1_lmm_fixed_effects.csv`           (lmerTest coefficients, for the brms-vs-lmer tolerance)
+  - `tables/study1_equivalence_sensitivity.csv`     (equivalence at the wider bounds; Study1_04_Robustness.Rmd section 3)
+  - `tables/study1_text_effort_prevalence.csv`      (effort-talk rates; Study1_03_Integration.Rmd)
+  - `tables/study1_text_creativity_prevalence.csv`  (creativity-talk rates; Study1_03_Integration.Rmd)
+  - `tables/study1_text_prompt_by_arm.csv`          (prompting-and-generating talk by arm; Study1_03_Integration.Rmd)
+  - `tables/study1_demo_*.csv`                      (demographics)
+  - `tables/study1_exclusion_flow.csv`              (exclusion flow, incl. step-0 preview row)
+  - `tables/study1_joint_model_anova.csv`           (registered completion set; Study1_01_Quant.Rmd)
+  - `tables/study1_lmm_fully_maximal.csv`           (registered completion set; Study1_01_Quant.Rmd)
+  - `tables/study1_balance.csv`                     (registered completion set; Study1_01_Quant.Rmd)
+  - `tables/study1_attrition_by_condition.csv`      (registered completion set; Study1_01_Quant.Rmd)
+  - `tables/study1_bootstrap_d.csv`                 (registered completion set; Study1_01_Quant.Rmd)
+  - `tables/study1_influence_lopo.csv`, `_loso.csv` (registered completion set; Study1_01_Quant.Rmd)
+  - `tables/study1_h4_variance_partition.csv`       (registered completion set; Study1_01_Quant.Rmd)
+  - `tables/study1_confirmatory_family.csv`         (registered completion set; Study1_01_Quant.Rmd)
+  - `tables/study1_h2_ordinal.csv`                  (H2 in the cumulative-link model beside the raw-scale contrast; Study1_01_Quant.Rmd)
+  - `tables/study1_h4_resolution.csv`               (sampling spread of the H4 ratio estimate at this design's arm sizes, by simulation; Study1_04_Robustness.Rmd)
+  - `tables/study1_text_denotation_tests.csv`       (the five registered tests on the written explanations; Study1_03_Integration.Rmd)
+  - `tables/study1_text_denotation_slope_sensitivity.csv` (the same five tests refitted with a participant random slope, the sensitivity check the preregistration lists beside them; Study1_03_Integration.Rmd section 7.2)
+  - `tables/study1_h3_equivalence.csv`             (the registered H3 equivalence test under both random-effects structures; Study1_01_Quant.Rmd section 7.10)
+  - `tables/study1_h3_equivalence_power.csv`        (the power of the H3 equivalence test by simulation, at the registered and the descriptive bounds; Study1_04_Robustness.Rmd section 4)
+  - `tables/study1_text_recoverability.csv`         (how far the rating and the arm can be recovered from the words, and what the words add to the rating in recovering the arm; one of the two checks run in every study; Study1_03_Integration.Rmd)
+  - `tables/study1_text_selfsimilarity_by_arm.csv`  (within-person word overlap by arm with its Holm-corrected reading, the text version of H4; the other check run in every study; Study1_03_Integration.Rmd)
+  - `tables/study1_item_sensitivity.csv`            (the registered contrasts with the effort item whose scale wording differs set aside; Study1_01_Quant.Rmd)
+  - `tables/study1_text_novelty_within_between.csv` (familiarity talk and the creativity rating, split into a within-person and a between-person part; Study1_03_Integration.Rmd)
+  - `tables/study1_text_affect_by_arm.csv`          (valence, arousal, dominance and concreteness of the explanations, by arm; Study1_03_Integration.Rmd)
+  - `tables/study1_text_topics_by_arm.csv`          (topic weights of the explanations, by arm; Study1_03_Integration.Rmd)
+  - `tables/study1_text_prediction_weights.csv`     (the words the recoverability models weight most heavily; Study1_03_Integration.Rmd)
+  - `tables/text_topics_top_words.csv`, `tables/text_topics_stability.csv`, `tables/text_topics_embedding_agreement.csv` (each topic's top words, the stability rule that set the number of topics, and the embedding check on the topics; Study1_02_Text.ipynb)
+  - `tables/study1_quant_run_manifest.csv`, `tables/study1_text_run_manifest.csv`, `tables/study1_integration_run_manifest.csv`, `tables/study1_text_manifest.csv`, `tables/study1_robustness_run_manifest.csv` (each upstream stage's record of what its last run wrote; read when present)
+
+Some inputs are required: the demographics, the exclusion flow, the two model
+fits, and the tables behind the multiverse and Bayesian rows of
+Supplementary Table 1. The notebook stops if one of them is missing. Every
+other table is guarded. Each chunk deletes its own `.tex` fragment before it
+reads anything, so any fragment on disk was written by the latest knit (the
+latest rendering of this file). A guarded table can be pending for two
+reasons. It may not have been produced yet. Or the run manifest of the stage
+that produces it, which is that stage's record of what its last run wrote,
+may not record it as written by that run. Either way its
+subsection prints a `pending:` line naming the notebook that writes it, and
+the rest of the supplement still builds.
+
+The notebook writes:
+
+  - `supplement/tables/sup_table_1_robustness.tex`     (Supp Table 1)
+  - `supplement/tables/sup_table_2_text_rates.tex`     (Supp Table 2)
+  - `supplement/tables/sup_table_3_prompt_talk.tex`    (Supp Table 3)
+  - `supplement/tables/sup_table_demographics.tex`     (extra: demographics)
+  - `supplement/tables/sup_table_exclusions.tex`       (extra: exclusion flow)
+  - `supplement/tables/sup_table_full_lmm.tex`         (extra: full LMM coefs)
+  - `supplement/tables/sup_table_joint_model.tex`      (registered completion set)
+  - `supplement/tables/sup_table_fully_maximal.tex`    (registered completion set)
+  - `supplement/tables/sup_table_balance.tex`          (registered completion set)
+  - `supplement/tables/sup_table_attrition.tex`        (registered completion set)
+  - `supplement/tables/sup_table_bootstrap_d.tex`      (registered completion set)
+  - `supplement/tables/sup_table_influence.tex`        (registered completion set)
+  - `supplement/tables/sup_table_h4_variance.tex`     (registered completion set)
+  - `supplement/tables/sup_table_holm_family.tex`     (registered completion set)
+  - `supplement/tables/sup_table_h2_ordinal.tex`       (H2, raw-scale and ordinal versions)
+  - `supplement/tables/sup_table_h4_resolution.tex`    (H4, sampling spread of the ratio estimate by simulation)
+  - `supplement/tables/sup_table_denotation_tests.tex` (five registered text tests, Benjamini-Hochberg corrected)
+  - `supplement/tables/sup_table_denotation_slope_sensitivity.tex` (the five text tests refitted with a participant random slope)
+  - `supplement/tables/sup_table_h3_equivalence.tex`  (H3, the registered equivalence test under both random-effects structures)
+  - `supplement/tables/sup_table_h3_equivalence_power.tex` (H3, the power of the equivalence test by simulation)
+  - `supplement/tables/sup_table_text_recoverability.tex` (the two checks run in every study: rating and arm recovered from the words)
+  - `supplement/tables/sup_table_text_selfsimilarity_by_arm.tex` (the two checks run in every study: within-person word overlap by arm)
+  - `supplement/tables/sup_table_item_sensitivity.tex` (the effort item whose scale wording differs)
+  - `supplement/tables/sup_table_text_novelty_within_between.tex` (familiarity talk, within and between participants)
+  - `supplement/tables/sup_table_text_affect_by_arm.tex` (word-norm scores of the explanations by arm)
+  - `supplement/tables/sup_table_text_topics_stability.tex` (how the number of topics was set)
+  - `supplement/tables/sup_table_text_topics_by_arm.tex` (topic weights by arm, labelled by top words)
+  - `supplement/tables/sup_table_text_topics_embedding_agreement.tex` (the embedding check on the topics)
+  - `supplement/tables/sup_table_text_prediction_weights.tex` (the most heavily weighted words)
+  - `supplement/figures/sup_fig_1a_specification_creativity.pdf`, `sup_fig_1b_specification_effort.pdf` (Supp Fig 1)
+  - `supplement/figures/sup_fig_2_brms_ppc.pdf`       (Supp Fig 2)
+  - `tables/study1_supplements_run_manifest.csv`      (this knit's run record: every file read and written, with its fingerprint and status)
+
+The figure PDFs are copied unchanged from the analysis outputs in
+`Analysis/.../Study 1/figures/`.
+
+---
+
+# 1. Setup
+
+```{r paths}
+# PROJECT_ROOT is the first folder at or above this file's own folder, the
+# working directory when the file is knitted, that holds both Data and
+# Analysis; the environment variable STUDY1_PROJECT_ROOT, when set, names it
+# instead.
+PROJECT_ROOT <- local({
+  is_root <- function(p) dir.exists(file.path(p, "Data")) &&
+                         dir.exists(file.path(p, "Analysis"))
+  root <- Sys.getenv("STUDY1_PROJECT_ROOT")
+  if (nzchar(root)) {
+    root <- normalizePath(root, mustWork = FALSE)
+    if (!is_root(root)) {
+      stop("The folder STUDY1_PROJECT_ROOT names has no Data and Analysis ",
+           "folders.")
+    }
+  } else {
+    root <- normalizePath(getwd(), mustWork = TRUE)
+    while (!is_root(root)) {
+      if (identical(dirname(root), root)) {
+        stop("No folder at or above the working directory holds both Data ",
+             "and Analysis. Knit this file from its own folder, or set ",
+             "STUDY1_PROJECT_ROOT to the project root.")
+      }
+      root <- dirname(root)
+    }
+  }
+  root
+})
+
+STUDY_NUM    <- 1
+STUDY_FOLDER <- paste("Study", STUDY_NUM)
+
+PATH_ANALYSIS    <- file.path(PROJECT_ROOT, "Analysis",
+                              "R Analysis Pipeline", STUDY_FOLDER)
+PATH_OUT         <- PATH_ANALYSIS
+PATH_OUT_FIG     <- file.path(PATH_OUT, "figures")
+PATH_OUT_TAB     <- file.path(PATH_OUT, "tables")
+PATH_OUT_MODELS  <- file.path(PATH_OUT, "models")
+PATH_OUT_NLP     <- file.path(PATH_OUT, "nlp")
+
+# Paper-side outputs. The supplement has its own subfolder, apart from the
+# main-text figures and tables.
+PATH_PAPER       <- file.path(PROJECT_ROOT, "Docs", "Writing", "Final Paper")
+PATH_SUP         <- file.path(PATH_PAPER, "supplement")
+PATH_SUP_TAB     <- file.path(PATH_SUP, "tables")
+PATH_SUP_FIG     <- file.path(PATH_SUP, "figures")
+
+# The run record of this knit sits beside the analysis tables, under the name
+# every stage of the pipeline uses: tables/study1_<stage>_run_manifest.csv.
+PATH_RUN_MANIFEST <- file.path(PATH_OUT_TAB, "study1_supplements_run_manifest.csv")
+
+if (!dir.exists(PROJECT_ROOT)) {
+  stop("PROJECT_ROOT does not exist:\n  ", PROJECT_ROOT,
+       "\nIs Google Drive mounted? Edit PROJECT_ROOT to point to your copy.")
+}
+
+for (p in c(PATH_SUP, PATH_SUP_TAB, PATH_SUP_FIG)) {
+  dir.create(p, recursive = TRUE, showWarnings = FALSE)
+}
+
+cat("Supplement outputs will be written to:\n  ", PATH_SUP, "\n")
+```
+
+```{r packages}
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(tidyr)
+  library(readr)
+  library(stringr)
+  library(forcats)
+  library(ggplot2)
+  library(patchwork)
+  library(scales)
+  library(broom.mixed)
+  library(knitr)
+  library(kableExtra)
+})
+```
+
+```{r theme-and-helpers}
+PAL_TYPE <- c("Human" = "#A1A1A1", "AI" = "#3E3E3E")
+
+theme_paper <- function(base_size = 11) {
+  theme_classic(base_size = base_size) +
+    theme(
+      legend.position    = "none",
+      strip.background   = element_blank(),
+      strip.text         = element_text(size = base_size, face = "bold"),
+      axis.line          = element_line(color = "black", linewidth = 0.4),
+      axis.ticks         = element_line(color = "black", linewidth = 0.4),
+      axis.text          = element_text(color = "black"),
+      panel.grid         = element_blank()
+    )
+}
+
+# fmt_p() and fmt_n() are vectorised: each formats every element of its
+# input. A length mismatch between two extracted values therefore shows up in
+# the output, where R would otherwise recycle the shorter one without a
+# warning. The scalar() guard below turns such a mismatch into an error
+# wherever a single value is required.
+
+# Format p-values: three decimals, or "< 0.001" below that (vectorised).
+fmt_p <- function(p) {
+  vapply(p, function(pi) {
+    if (is.na(pi))       "NA"
+    else if (pi < 0.001) "< 0.001"
+    else                 sprintf("%.3f", pi)
+  }, character(1))
+}
+
+# Format numbers with a set number of decimal places (vectorised).
+fmt_n <- function(x, d = 2) {
+  vapply(x, function(xi) {
+    if (is.na(xi)) "NA"
+    else           sprintf(paste0("%.", d, "f"), xi)
+  }, character(1))
+}
+
+# Guard: check that an extracted value is exactly one value and is not NA.
+# Every `pull()` or `[` extraction that feeds sprintf() goes through it, so a
+# filter that matches 0 or 2 rows stops the knit with an error.
+scalar <- function(x, what = "value") {
+  if (length(x) != 1L) {
+    stop(sprintf("Expected exactly one %s but got length %d. ",
+                 what, length(x)),
+         "Check the filter/key that produced it.")
+  }
+  if (is.na(x)) stop(sprintf("Extracted %s is NA.", what))
+  x
+}
+
+# A p-value with its relation sign, for sentences: "< 0.001" or "= 0.012".
+# fmt_p() alone returns "< 0.001" for a small p, which would read as
+# "p = < 0.001" if the sign were typed into the sentence.
+p_rel <- function(p) {
+  ifelse(is.na(p), "= NA", ifelse(p < 0.001, "< 0.001", paste("=", fmt_p(p))))
+}
+```
+
+```{r run-record}
+# Every knit gets a run identifier and keeps a ledger of the files it read
+# and wrote. The last chunk writes the ledger to
+# tables/study1_supplements_run_manifest.csv, one row per file. A row holds
+# the run identifier, the stage, and the role of the file: this source file,
+# an input table, an upstream run manifest, or an output fragment or figure.
+# It also holds the file's path within the project, its size, and its
+# SHA-256 fingerprint, a 64-character code computed from the file's bytes
+# that changes if a single byte changes. Last come a status (read, absent,
+# not current, written or pending) and a note. The manifest of an earlier
+# knit is deleted here, before anything else is written. A knit that stops
+# partway therefore leaves no manifest saying that it finished.
+RUN_STAGE   <- "supplements"
+RUN_STARTED <- format(Sys.time(), "%Y-%m-%dT%H:%M:%S%z")
+RUN_ID      <- paste0(RUN_STAGE, "-", format(Sys.time(), "%Y%m%dT%H%M%S"), "-",
+                      substr(digest::digest(c(RUN_STARTED, Sys.getpid())), 1, 8))
+unlink(PATH_RUN_MANIFEST)
+
+# The file being knitted; when the code is run outside a knit, the copy in
+# the analysis folder is fingerprinted in its place.
+SOURCE_FILE <- knitr::current_input(dir = TRUE)
+if (is.null(SOURCE_FILE)) {
+  SOURCE_FILE <- file.path(PATH_ANALYSIS, "Study1_Supplements.Rmd")
+}
+
+file_sha256 <- function(path) {
+  if (!file.exists(path)) return(NA_character_)
+  digest::digest(file = path, algo = "sha256")
+}
+
+# Paths are stored relative to PROJECT_ROOT so the manifest reads the same on
+# any machine.
+path_in_project <- function(path) {
+  root <- paste0(PROJECT_ROOT, "/")
+  ifelse(startsWith(path, root), substring(path, nchar(root) + 1L), path)
+}
+
+# The fingerprint and size are taken from the full path before the row is
+# built, because tibble() lets a later argument see an earlier column, and
+# the path column holds the project-relative form.
+run_ledger <- list()
+record_file <- function(role, path, status, note = "") {
+  sha   <- file_sha256(path)
+  bytes <- if (file.exists(path)) file.size(path) else NA_real_
+  run_ledger[[length(run_ledger) + 1L]] <<- tibble(
+    run_id = RUN_ID, stage = RUN_STAGE, role = role,
+    path   = path_in_project(path), status = status,
+    sha256 = sha, bytes = bytes, note = note
+  )
+  invisible(NULL)
+}
+record_file("source", SOURCE_FILE, "knitted")
+
+# Each output is deleted before its chunk reads anything, so a chunk that
+# ends pending, or stops on a failed check, leaves no fragment from an
+# earlier knit for the manuscript to pick up.
+remove_fragment <- function(tex_name) {
+  unlink(file.path(PATH_SUP_TAB, tex_name))
+}
+write_fragment <- function(tex, tex_name) {
+  path <- file.path(PATH_SUP_TAB, tex_name)
+  cat(tex, file = path)
+  record_file("output", path, "written")
+  cat("Wrote ", tex_name, "\n", sep = "")
+}
+```
+
+```{r upstream-manifests}
+# Each upstream stage writes a run manifest, its record of the files its last
+# run wrote. Suppose the manifest of the stage that writes a table is on disk
+# and does not record that table as written by its run. The table is then
+# treated as pending here, even if a file of that name is present, since the
+# file may be left over from an earlier run.
+#
+# UPSTREAM_MANIFESTS lists the manifests read, by stage. The integration stage
+# has two: its run manifest, and tables/study1_text_manifest.csv, the list of
+# text-program outputs that Study1_03_Integration.Rmd writes beside it. The
+# text stage is Study1_02_Text.ipynb, whose manifest covers the files it
+# writes under nlp/ and tables/.
+#
+# The manifests come in three layouts, and each is read in its own way.
+#   (a) A path (or file) column and a status column, as in the integration
+#       and robustness run manifests. The status is read as written.
+#       UPSTREAM_OK_STATUS holds the status words read as a successful write.
+#       Any other status makes the table pending, and the console prints it,
+#       so a difference in wording between stages shows on screen.
+#   (b) A file column and a written_this_run column with no status column, as
+#       in the quant run manifest and the text manifest. TRUE is read as
+#       "written" and FALSE as "not written this run"; a blank is read as
+#       "not recorded" and makes the table pending. When the manifest also
+#       has an exists column, FALSE there is read as "absent".
+#   (c) A file column and a sha256 column with neither a status nor a
+#       written_this_run column, as in the text notebook's run manifest.
+#       Every row is a file that run wrote, beside the SHA-256 checksum the
+#       file had when the run wrote it. The file on disk is read as written
+#       when its checksum matches the row, and as "changed since the run"
+#       when it does not, since a file whose checksum differs was not written
+#       by the run the manifest records.
+# When a manifest has a role column, only its output rows are read, so a
+# table a stage only read is not taken for one it wrote. A manifest in none
+# of these layouts is recorded with the columns it has, and the tables it
+# lists are read without a run check. So is a table that no manifest of its
+# stage lists, and this knit's manifest notes it. The last chunk names every
+# input read without a run check.
+UPSTREAM_MANIFESTS <- tibble::tribble(
+  ~stage,        ~manifest,
+  "quant",       "study1_quant_run_manifest.csv",
+  "text",        "study1_text_run_manifest.csv",
+  "integration", "study1_integration_run_manifest.csv",
+  "integration", "study1_text_manifest.csv",
+  "robustness",  "study1_robustness_run_manifest.csv"
+)
+UPSTREAM_OK_STATUS <- c("ok", "written", "success", "succeeded", "complete",
+                        "completed", "current", "pass", "passed", "done")
+
+read_upstream_manifest <- function(st, manifest) {
+  mp <- file.path(PATH_OUT_TAB, manifest)
+  if (!file.exists(mp)) {
+    cat("No run manifest on disk for the ", st, " stage (", manifest,
+        "); the tables it would list are read without a run check.\n", sep = "")
+    record_file("upstream manifest", mp, "absent")
+    return(NULL)
+  }
+  m <- read_csv(mp, show_col_types = FALSE,
+                col_types = cols(.default = col_character()))
+  path_col <- intersect(c("path", "file", "output", "output_path", "filename"),
+                        names(m))[1]
+  role_col <- intersect(c("role", "kind", "type"), names(m))[1]
+  if (!is.na(role_col)) {
+    m <- m[grepl("output", m[[role_col]], ignore.case = TRUE), , drop = FALSE]
+  }
+  layout <- if (is.na(path_col))                   NA_character_
+            else if ("status" %in% names(m))           "status"
+            else if ("written_this_run" %in% names(m)) "written_this_run"
+            else if ("sha256" %in% names(m))           "checksum"
+            else                                       NA_character_
+  if (is.na(layout)) {
+    cat(manifest, " has no layout this check can read (found: ",
+        paste(names(m), collapse = ", "),
+        "); the tables it lists are read without a run check.\n", sep = "")
+    record_file("upstream manifest", mp, "read", "no layout this check can read")
+    return(NULL)
+  }
+  status <- switch(layout,
+    status = tolower(trimws(m$status)),
+    written_this_run = {
+      w <- toupper(trimws(m$written_this_run))
+      s <- ifelse(w %in% "TRUE", "written",
+                  ifelse(w %in% "FALSE", "not written this run", "not recorded"))
+      if ("exists" %in% names(m)) {
+        s[toupper(trimws(m$exists)) %in% "FALSE"] <- "absent"
+      }
+      s
+    },
+    checksum = {
+      # The manifest's paths are relative to the Study 1 analysis folder.
+      on_disk <- vapply(file.path(PATH_ANALYSIS, m[[path_col]]), file_sha256,
+                        character(1), USE.NAMES = FALSE)
+      ifelse(is.na(on_disk), "absent",
+             ifelse(on_disk == tolower(trimws(m$sha256)), "written",
+                    "changed since the run"))
+    })
+  run_note <- if ("run_id" %in% names(m) && nrow(m) > 0L)
+    paste0("run ", paste(unique(m$run_id), collapse = "; "), "; ") else ""
+  record_file("upstream manifest", mp, "read",
+              paste0(run_note, "read through its ",
+                     switch(layout,
+                            status           = "status column",
+                            written_this_run = "written_this_run column",
+                            checksum         = "checksums")))
+  tibble(stage    = st,
+         manifest = manifest,
+         basis    = layout,
+         file     = basename(m[[path_col]]),
+         status   = status)
+}
+
+upstream_index <- bind_rows(lapply(seq_len(nrow(UPSTREAM_MANIFESTS)), function(i) {
+  read_upstream_manifest(UPSTREAM_MANIFESTS$stage[i],
+                         UPSTREAM_MANIFESTS$manifest[i])
+}))
+
+# A table listed in two manifests of its stage must be recorded as written in
+# both. A manifest that lists a file twice is read by its last row. The note
+# names each manifest and what it records, and goes into this knit's manifest.
+upstream_check <- function(csv_name, stage) {
+  if (is.na(stage) || nrow(upstream_index) == 0L) {
+    return(list(ok = TRUE, note = "read without a run check"))
+  }
+  hit <- upstream_index %>%
+    filter(stage == !!stage, file == csv_name) %>%
+    group_by(manifest) %>%
+    slice_tail(n = 1) %>%
+    ungroup()
+  if (nrow(hit) == 0L) {
+    return(list(ok = TRUE, note = "read without a run check"))
+  }
+  ok <- hit$status %in% UPSTREAM_OK_STATUS
+  notes <- ifelse(
+    hit$basis == "checksum",
+    ifelse(ok,
+           paste0(hit$manifest, " lists it and its checksum matches"),
+           paste0(hit$manifest, " lists it, and the file on disk is '",
+                  hit$status, "'")),
+    ifelse(ok,
+           paste0(hit$manifest, " records it as ", hit$status),
+           paste0(hit$manifest, " records it as '", hit$status, "'")))
+  list(ok = all(ok), note = paste(notes, collapse = "; "))
+}
+```
+
+```{r table-helpers}
+# Throughout this file, "the writer" of a table is the notebook that writes
+# it, and a "column contract" is the list of columns that notebook is
+# expected to deposit.
+#
+# render_prereg_table(), below, turns a guarded CSV into a .tex table. It
+#   (a) deletes the table's .tex fragment, so nothing from an earlier knit
+#       survives a pending or failed chunk,
+#   (b) prints a "pending:" line and goes no further if the source CSV is not
+#       on disk, or if the producing stage's run manifest does not record it
+#       as written, so a half-built pipeline gives a shorter supplement and
+#       not a broken one,
+#   (c) formats p-value columns with fmt_p() and rounds the rest,
+#   (d) writes the .tex and records it in the run ledger, and
+#   (e) returns the formatted tibble for display.
+# `transform` lets a caller reshape or summarise the table before formatting.
+# `caption` is a string, or a function of the table as read, for a caption
+# that quotes the writer's own description columns. `stage` names the stage
+# whose run manifests are checked: "quant", "text", "integration",
+# "robustness", or NA for a table with no stage manifest. `col_widths` names
+# text columns to set at a fixed width, for example c(test = "5cm"), so that
+# their cells wrap onto several lines and do not push the table past the
+# page.
+#
+# The pattern below lists the p-value column names the writers in this
+# pipeline use. Without it a p of 1e-4 would be rounded to three decimals and
+# print as 0, not as "< 0.001". The final alternative, a name ending in "_p",
+# covers the likelihood ratio p-values of the H4 variance test
+# (lrt_between_p, lrt_residual_p). It also covers the two H4 columns the
+# confirmatory family carries beside its own (h4_creativity_lrt_p,
+# h4_effort_lrt_p). Every column ending in "_p" in the tables rendered here is
+# a p-value.
+P_COL_PATTERN <- paste0(
+  "^(p|p\\.value|p_value|pval|Pr\\(>F\\)|p_fisher|p_chisq|p_adj|p_perm|",
+  "p_maximal|p_holm|nhst_p|tost_p)$|^fisher_p_|^p_|_p$"
+)
+
+# The guarded read. Every table below goes through it, including the tables
+# a chunk builds itself instead of rendering a CSV as deposited. It returns
+# NULL, and says why, when the file is absent or its stage's run manifest
+# does not record it as written. Otherwise it records the file in the run
+# ledger, with the note of the run check, and returns it.
+read_table_or_null <- function(csv_name, pending_msg, stage = NA_character_) {
+  path <- file.path(PATH_OUT_TAB, csv_name)
+  if (!file.exists(path)) {
+    cat("pending: ", pending_msg, " (missing ", csv_name, ")\n", sep = "")
+    record_file("input", path, "absent")
+    return(NULL)
+  }
+  chk <- upstream_check(csv_name, stage)
+  if (!chk$ok) {
+    cat("pending: ", pending_msg, " (", csv_name, " is on disk, but ",
+        chk$note, ")\n", sep = "")
+    record_file("input", path, "not current", chk$note)
+    return(NULL)
+  }
+  record_file("input", path, "read", chk$note)
+  read_csv(path, show_col_types = FALSE)
+}
+
+render_prereg_table <- function(csv_name, tex_name, caption, label,
+                                pending_msg, digits = 3,
+                                transform = identity, stage = NA_character_,
+                                col_widths = NULL) {
+  remove_fragment(tex_name)
+  df <- read_table_or_null(csv_name, pending_msg, stage)
+  if (is.null(df)) {
+    record_file("output", file.path(PATH_SUP_TAB, tex_name), "pending",
+                pending_msg)
+    return(invisible(NULL))
+  }
+  if (is.function(caption)) caption <- caption(df)
+  df <- transform(df)
+  if (is.null(df) || nrow(df) == 0L) {
+    stop(csv_name, " exists but has zero rows after transform; ",
+         "re-run the producing notebook (", pending_msg, ").")
+  }
+  df_fmt <- df %>%
+    mutate(across(where(is.numeric) & matches(P_COL_PATTERN), fmt_p),
+           across(where(is.numeric), ~ round(.x, digits)))
+  tex <- df_fmt %>%
+    knitr::kable(format = "latex", booktabs = TRUE,
+                 caption = caption, label = label) %>%
+    kableExtra::kable_styling(latex_options = c("hold_position",
+                                                "scale_down"),
+                              font_size = 9)
+  # Each column named in col_widths, and present in the table, is set at
+  # its fixed width. A name the table lacks is skipped.
+  for (nm in intersect(names(col_widths), names(df_fmt))) {
+    tex <- kableExtra::column_spec(tex, which(names(df_fmt) == nm),
+                                   width = col_widths[[nm]])
+  }
+  write_fragment(tex, tex_name)
+  df_fmt
+}
+
+# Several writers put one sentence in a column and repeat it on every row,
+# for example the reference distribution of a test or the definition of a
+# contrast. Typeset in every cell, such a column makes the table wide and
+# adds nothing the caption does not say. This helper takes those columns out
+# of the typeset table and prints each one once on the console. The deposited
+# CSV is not changed. A column counts as a long constant when it is text, has
+# no NA, takes one value on every row, and that value is at least `min_chars`
+# characters long. Columns named in `keep` stay in place whatever their
+# content, for a column that a caption names or that later code reads. The
+# helper is used through `transform` in the H4 variance, H2 ordinal, H3,
+# resolution and power tables below, and in sections 11.2 to 11.5.
+drop_long_constant_columns <- function(df, min_chars = 40L,
+                                       keep = character(0)) {
+  is_long_constant <- vapply(df, function(col) {
+    is.character(col) && !anyNA(col) && dplyr::n_distinct(col) == 1L &&
+      nchar(col[1]) >= min_chars
+  }, logical(1))
+  is_long_constant[names(df) %in% keep] <- FALSE
+  if (any(is_long_constant)) {
+    cat("Constant text columns kept out of the typeset table:\n")
+    for (nm in names(df)[is_long_constant]) {
+      cat("  ", nm, ": ", df[[nm]][1], "\n", sep = "")
+    }
+  }
+  df[, !is_long_constant, drop = FALSE]
+}
+
+# Some tables need a different helper. The two tables of section 10.13 carry
+# several text columns that differ between rows, such as the name of the
+# statistic, the model and the shuffle behind the null. No column is
+# constant, so the helper above removes nothing. The Holm table of section
+# 10.8, the random-slope table of section 10.11 and the item sensitivity
+# table of section 11.1 carry per-row notes and fit records beside the
+# numbers a reader checks. Typeset as deposited, each of these tables runs to
+# eleven columns or more, too many for scale_down to fit on a page at a
+# readable size. This helper keeps the columns named in `keep`, in that
+# order. It prints every other column once on the console, beside the
+# row-identifying columns in `key`, so each deposited value still appears in
+# the knitted output. The deposited CSV is not changed. A name in `keep` that
+# the writer did not deposit is reported and skipped, and the render goes on.
+keep_columns_report <- function(df, keep, key = keep[1]) {
+  absent <- setdiff(keep, names(df))
+  if (length(absent) > 0L) {
+    cat("Columns named for the typeset table but not deposited: ",
+        paste(absent, collapse = ", "), "\n", sep = "")
+  }
+  keep    <- intersect(keep, names(df))
+  dropped <- setdiff(names(df), keep)
+  if (length(dropped) > 0L) {
+    cat("Columns kept out of the typeset table, printed here once:\n")
+    df %>%
+      select(all_of(c(intersect(key, names(df)), dropped))) %>%
+      distinct() %>%
+      print(n = Inf, width = Inf)
+  }
+  df[, keep, drop = FALSE]
+}
+
+# Captions go to LaTeX as written. Text quoted into a caption from a
+# writer's own columns therefore has LaTeX's special characters escaped
+# first. kable escapes the typeset cells itself.
+latex_escape <- function(x) {
+  # Backslashes are set aside first, so the braces of the commands that
+  # replace them are not escaped in turn.
+  x <- gsub("\\", "\001", x, fixed = TRUE)
+  x <- gsub("([&%$#_{}])", "\\\\\\1", x)
+  x <- gsub("~", "\002", x, fixed = TRUE)
+  x <- gsub("^", "\003", x, fixed = TRUE)
+  x <- gsub("\001", "\\textbackslash{}", x, fixed = TRUE)
+  x <- gsub("\002", "\\textasciitilde{}", x, fixed = TRUE)
+  gsub("\003", "\\textasciicircum{}", x, fixed = TRUE)
+}
+
+# For the tables of section 11, whose writers describe their own model in a
+# text column. The helper returns one sentence quoting the distinct values of
+# that column, so the caption states the model in the writer's terms. It
+# returns an empty string when the column is absent or empty.
+writer_quote <- function(df, col, lead) {
+  if (!col %in% names(df)) return("")
+  v <- unique(stats::na.omit(as.character(df[[col]])))
+  if (length(v) == 0L) return("")
+  paste0(" ", lead, ": ", paste(latex_escape(v), collapse = "; "), ".")
+}
+```
+
+---
+
+# 2. Demographics table
+
+```{r demographics-table}
+remove_fragment("sup_table_demographics.tex")
+
+# Read the per-attribute demographic CSVs. These are required: read_csv()
+# stops on a missing file.
+read_demo <- function(name) {
+  path <- file.path(PATH_OUT_TAB, paste0("study1_demo_", name, ".csv"))
+  d <- read_csv(path, show_col_types = FALSE)
+  record_file("input", path, "read", upstream_check(basename(path), "quant")$note)
+  d
+}
+
+age   <- read_demo("age")
+gen   <- read_demo("gender")
+race  <- read_demo("race")
+exper <- read_demo("experience")
+bal   <- read_demo("balance")
+
+# The analytic N is the sum of the counts in the condition-balance CSV. The
+# check fixes it at the project N, so a change in the upstream exclusion flow
+# stops the knit here and never reaches a caption.
+stopifnot(all(c("Type", "n") %in% names(bal)))
+n_analytic <- sum(as.integer(bal$n))
+stopifnot(n_analytic == 111L)   # analytic N (56 Human / 55 AI)
+
+# Age summary, read by name. The CSV header starts with `n` (n, mean_age,
+# sd_age, min_age, max_age), so a read by position would take the participant
+# count for the mean. The required columns are checked before anything is
+# extracted.
+age_req <- c("n", "mean_age", "sd_age", "min_age", "max_age")
+if (!all(age_req %in% names(age))) {
+  stop("study1_demo_age.csv is missing expected columns. Expected: ",
+       paste(age_req, collapse = ", "), "; found: ",
+       paste(names(age), collapse = ", "),
+       ". Re-run Study1_01_Quant.Rmd section 3.1 (demographics).")
+}
+stopifnot(nrow(age) == 1L)
+n_age    <- as.integer(scalar(age$n,        "age n"))
+age_M    <- as.numeric(scalar(age$mean_age, "mean_age"))
+age_SD   <- as.numeric(scalar(age$sd_age,   "sd_age"))
+age_Min  <- as.numeric(scalar(age$min_age,  "min_age"))
+age_Max  <- as.numeric(scalar(age$max_age,  "max_age"))
+stopifnot(age_Min <= age_M, age_M <= age_Max, age_SD >= 0, n_age <= n_analytic)
+
+# The analytic N and the number reporting age differ (one participant did
+# not report age). The table states both.
+age_line <- sprintf("M = %.1f (SD = %.1f), range %g–%g; n = %d reporting",
+                    age_M, age_SD, age_Min, age_Max, n_age)
+
+# Attribute rows are built by name, from the `n` column. An attribute with
+# fewer reporters than the analytic N states its own n, and the label suffix
+# is chosen from the data. Percentages are of the analytic N, so the rows
+# within an attribute sum to at most 100%.
+demo_rows <- function(df, attribute) {
+  stopifnot("n" %in% names(df), ncol(df) >= 2L)
+  level_col <- setdiff(names(df), "n")[1]
+  n_report  <- sum(as.integer(df$n))
+  stopifnot(n_report <= n_analytic)
+  attr_lab  <- if (n_report < n_analytic) {
+    sprintf("%s (n = %d reporting)", attribute, n_report)
+  } else attribute
+  tibble(Attribute = attr_lab,
+         Level     = as.character(df[[level_col]]),
+         n         = as.integer(df$n),
+         pct       = as.integer(df$n) / n_analytic * 100)
+}
+
+# Build a single combined table for the supplement.
+demo_long <- bind_rows(
+  tibble(Attribute = "Age",
+         Level     = age_line,
+         n         = NA_integer_,
+         pct       = NA_real_),
+  demo_rows(gen,   "Gender"),
+  demo_rows(race,  "Race"),
+  demo_rows(exper, "Art training"),
+  demo_rows(bal,   "Condition")
+)
+
+# Format counts and percentages
+demo_display <- demo_long %>%
+  mutate(
+    `n (%)` = ifelse(is.na(n), Level,
+                     sprintf("%d (%.1f%%)", n, pct)),
+    Level   = ifelse(is.na(n), "", Level)
+  ) %>%
+  dplyr::select(Attribute, Level, `n (%)`)
+
+# Save as LaTeX
+demo_display %>%
+  knitr::kable(
+    format    = "latex",
+    booktabs  = TRUE,
+    longtable = FALSE,
+    caption   = sprintf(paste0(
+      "Demographics of the Study 1 analytic sample (N = %d). ",
+      "Percentages are of the analytic N; attributes with fewer reporters ",
+      "state their own n."), n_analytic),
+    label     = "supp_demographics"
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"),
+                            font_size = 9) %>%
+  kableExtra::collapse_rows(columns = 1, latex_hline = "major") %>%
+  write_fragment("sup_table_demographics.tex")
+
+demo_display
+```
+
+---
+
+# 3. Exclusion flow table
+
+```{r exclusion-flow-table}
+remove_fragment("sup_table_exclusions.tex")
+excl_path  <- file.path(PATH_OUT_TAB, "study1_exclusion_flow.csv")
+exclusions <- read_csv(excl_path, show_col_types = FALSE)
+record_file("input", excl_path, "read",
+            upstream_check(basename(excl_path), "quant")$note)
+
+# The exclusion CSV from Study1_01_Quant.Rmd opens with a step-0 row for the
+# Qualtrics "Survey Preview" records, which have a blank participant id. One
+# row per exclusion step follows: previews, unfinished, non-serious. The
+# table is rendered from the CSV as it stands, with no rows added or
+# dropped. Only its structure is checked here, including that the final n
+# equals the analytic N.
+excl_req <- c("step", "n")
+if (!all(excl_req %in% names(exclusions))) {
+  stop("study1_exclusion_flow.csv is missing expected columns (",
+       paste(excl_req, collapse = ", "), "). Found: ",
+       paste(names(exclusions), collapse = ", "),
+       ". Re-run Study1_01_Quant.Rmd section 3.")
+}
+stopifnot(nrow(exclusions) >= 2L, !any(is.na(exclusions$n)))
+n_final_flow <- as.integer(exclusions$n[nrow(exclusions)])
+if (n_final_flow != n_analytic) {
+  stop(sprintf(paste0("Final row of the exclusion flow (n = %d) does not ",
+                      "equal the analytic N (%d). Re-run ",
+                      "Study1_01_Quant.Rmd section 3 so the flow and the ",
+                      "demographics CSVs come from the same run."),
+               n_final_flow, n_analytic))
+}
+
+# The caption is chosen from the data, so it never describes a row the table
+# lacks. When the CSV has no step-0 row, the caption carries a PENDING note
+# that shows in the typeset supplement, and it promises no step 0.
+has_step0 <- any(grepl("\\(0\\)", exclusions$step))
+if (!has_step0) {
+  message("NOTE: study1_exclusion_flow.csv has no step-0 (Survey Preview) ",
+          "row; re-run Study1_01_Quant.Rmd section 3.")
+}
+excl_caption <- if (has_step0) {
+  "Study 1 exclusion flow. Step 0 removes Qualtrics survey-preview records (no participant id); subsequent steps are applied in order."
+} else {
+  "Study 1 exclusion flow (steps applied in order). PENDING: this table has no step-0 survey-preview row; re-run Study1_01_Quant.Rmd section 3 to add it (expected flow 119, 117, 114, 111)."
+}
+
+# Render
+exclusions %>%
+  knitr::kable(
+    format    = "latex",
+    booktabs  = TRUE,
+    caption   = excl_caption,
+    label     = "supp_exclusions"
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"),
+                            font_size = 9) %>%
+  write_fragment("sup_table_exclusions.tex")
+
+exclusions
+```
+
+---
+
+# 4. Supplementary Table 1: Robustness summary
+
+Supplementary Table 1 is the main robustness table for Study 1. Its first two
+rows give the registered H1 quantity: the attribution contrast, averaged over
+the two image kinds. The rows after them collect the multiverse checks, the
+Bayesian refits, and the equivalence checks, which ask whether an estimate
+lies inside a stated bound. Each of those rows reports a quantity related to
+H1 but different from it, and its label names that quantity. None of them is
+a second estimate of the H1 contrast. Every cell is computed from a pipeline
+CSV, and no number in the table is typed by hand.
+
+```{r supp-table-1}
+remove_fragment("sup_table_1_robustness.tex")
+
+# ---- The registered H1 contrast ---------------------------------------------
+# H1 is the Human-minus-machine difference in mean rating, estimated from
+# each dimension's primary mixed model and averaged with equal weight over
+# the two image kinds. The confirmatory family (section 10.8) tests it. Its
+# two rows open the table, so every row below can be read against the
+# quantity the main text cites.
+# Column contract from the writer (Study1_01_Quant.Rmd section 7.9):
+# hypothesis, test, estimate, se, df, statistic, statistic_type, p_raw,
+# p_holm, survives_holm_at_05, family_size, correction, h4_creativity_lrt_p,
+# h4_effort_lrt_p. The dimension of each H1 row is read from its test label.
+conf_fam <- read_table_or_null(
+  "study1_confirmatory_family.csv",
+  "run Study1_01_Quant.Rmd section 7.9 (the confirmatory family)",
+  stage = "quant")
+
+h1_line <- function(dim) {
+  if (is.null(conf_fam)) return(NULL)
+  req <- c("hypothesis", "test", "estimate", "se", "df", "statistic",
+           "p_raw", "p_holm")
+  if (!all(req %in% names(conf_fam))) {
+    stop("study1_confirmatory_family.csv is missing expected columns (",
+         paste(setdiff(req, names(conf_fam)), collapse = ", "), "). Found: ",
+         paste(names(conf_fam), collapse = ", "),
+         ". Align Study1_01_Quant.Rmd section 7.9 (writer) with this reader.")
+  }
+  r <- conf_fam %>% filter(hypothesis == "H1", grepl(dim, test, ignore.case = TRUE))
+  sprintf(paste0("Human minus machine, estimated marginal contrast averaged ",
+                 "over the two image kinds: estimate = %s rating points, ",
+                 "SE = %s, t(%s) = %s, p %s; Holm-adjusted p %s"),
+          fmt_n(scalar(r$estimate,  paste(dim, "H1 estimate"))),
+          fmt_n(scalar(r$se,        paste(dim, "H1 se"))),
+          fmt_n(scalar(r$df,        paste(dim, "H1 df")), 1),
+          fmt_n(scalar(r$statistic, paste(dim, "H1 statistic"))),
+          p_rel(scalar(r$p_raw,     paste(dim, "H1 p_raw"))),
+          p_rel(scalar(r$p_holm,    paste(dim, "H1 p_holm"))))
+}
+
+# ---- Multiverse summary ------------------------------------------------------
+multi_path <- file.path(PATH_OUT_TAB, "study1_specification_curve.csv")
+multi <- read_csv(multi_path, show_col_types = FALSE)
+record_file("input", multi_path, "read",
+            upstream_check(basename(multi_path), "robustness")$note)
+
+# The specification-curve CSV's p-value column is `p`. The required columns
+# are checked before use.
+multi_req <- c("dimension", "estimate", "p")
+if (!all(multi_req %in% names(multi))) {
+  stop("study1_specification_curve.csv is missing expected columns (",
+       paste(multi_req, collapse = ", "), "). Found: ",
+       paste(names(multi), collapse = ", "),
+       ". Re-run Study1_04_Robustness.Rmd section 8 (specification curve).")
+}
+
+# What each specification estimates. Every specification fits
+# rating ~ Type * stimulus_type within its own model family and reads one
+# quantity from the fit. The writer may name that quantity in a column of its
+# own (estimand, contrast or quantity). If it does, the line takes the name
+# from there, one line per quantity named. If it does not, the quantity is
+# the TypeAI coefficient, the machine-minus-human difference at the
+# non-figurative image kind, and the line says so. Negative and positive
+# estimates are counted separately, under the sign convention the label
+# states.
+#
+# n_estimated counts the specifications with an estimate. n_converged counts
+# the TRUE values in the writer's own converged column. Neither count comes
+# from model diagnostics computed here, and the line names the column behind
+# the second.
+multi_quantity_col <- intersect(c("estimand", "contrast", "quantity"),
+                                names(multi))[1]
+multi <- multi %>%
+  mutate(quantity_label = if (is.na(multi_quantity_col)) {
+    paste0("TypeAI coefficient, the machine-minus-human difference at the ",
+           "non-figurative image kind")
+  } else as.character(.data[[multi_quantity_col]]))
+
+multi_summary <- multi %>%
+  group_by(dimension, quantity_label) %>%
+  summarise(
+    n_total       = n(),
+    n_estimated   = sum(!is.na(estimate)),
+    n_converged   = if ("converged" %in% names(multi))
+                      sum(as.logical(converged) %in% TRUE) else NA_integer_,
+    n_negative    = sum(estimate < 0, na.rm = TRUE),
+    n_positive    = sum(estimate > 0, na.rm = TRUE),
+    n_p_below_05  = sum(p < 0.05, na.rm = TRUE),
+    median_p      = median(p, na.rm = TRUE),
+    .groups       = "drop"
+  ) %>%
+  mutate(
+    dimension = stringr::str_to_title(dimension),
+    # The sign counts come from the estimates themselves, so a sign flip in
+    # any specification shows in the count.
+    line = sprintf(paste0("%s, on each family's own scale: %d/%d specifications ",
+                          "estimated%s; %d negative and %d positive; %d/%d ",
+                          "at p < .05; median p = %.1e"),
+                   quantity_label, n_estimated, n_total,
+                   ifelse(is.na(n_converged), "",
+                          sprintf(", %d recorded as converged in the specification curve's converged column",
+                                  n_converged)),
+                   n_negative, n_positive,
+                   n_p_below_05, n_estimated, median_p)
+  )
+multiverse_rows <- multi_summary %>%
+  transmute(Check = if (dplyr::n_distinct(quantity_label) > 1L)
+                      sprintf("Multiverse, %s (%s)", quantity_label, dimension)
+                    else sprintf("Multiverse (%s)", dimension),
+            Result = line)
+stopifnot(nrow(multiverse_rows) >= 2L)
+
+# ---- brms primary (Gaussian) -------------------------------------------------
+# The brms CSVs have columns
+#   dimension, term, mean, median, ci_lo, ci_hi, pd, rhat, ess_bulk
+# and are read by those names.
+brms_req <- c("dimension", "term", "mean", "ci_lo", "ci_hi")
+
+brms_p_path <- file.path(PATH_OUT_TAB, "study1_brms_primary_fixed.csv")
+brms_p <- read_csv(brms_p_path, show_col_types = FALSE)
+record_file("input", brms_p_path, "read",
+            upstream_check(basename(brms_p_path), "robustness")$note)
+if (!all(brms_req %in% names(brms_p))) {
+  stop("study1_brms_primary_fixed.csv is missing expected columns (",
+       paste(brms_req, collapse = ", "), "). Found: ",
+       paste(names(brms_p), collapse = ", "),
+       ". Re-run Study1_04_Robustness.Rmd section 2.")
+}
+
+# Exact term match: a substring match on "TypeAI" would also pick up
+# "TypeAI:stimulus_typeFigure" and return two rows per dimension.
+#
+# What the TypeAI term is. The model codes image kind with the non-figurative
+# level as its reference. TypeAI is therefore the machine-minus-human
+# difference at that one level. That makes it a simple effect: the effect of
+# attribution within a single level of the other factor, here the
+# non-figurative images. The lmerTest TypeAI row of the full fixed-effects
+# table (section 7) estimates the same quantity, and the two are compared
+# below. The marginal attribution contrast the main text cites is a different
+# quantity. It averages the difference over both image kinds, and the two
+# coincide only when the interaction is zero.
+brms_p_TypeAI <- brms_p %>% filter(term == "TypeAI")
+stopifnot(nrow(brms_p_TypeAI) == 2L,
+          setequal(brms_p_TypeAI$dimension, c("creativity", "effort")))
+
+# ---- brms cumulative (ordinal) -----------------------------------------------
+brms_c_path <- file.path(PATH_OUT_TAB, "study1_brms_cumulative_fixed.csv")
+brms_c <- read_csv(brms_c_path, show_col_types = FALSE)
+record_file("input", brms_c_path, "read",
+            upstream_check(basename(brms_c_path), "robustness")$note)
+if (!all(brms_req %in% names(brms_c))) {
+  stop("study1_brms_cumulative_fixed.csv is missing expected columns (",
+       paste(brms_req, collapse = ", "), "). Found: ",
+       paste(names(brms_c), collapse = ", "),
+       ". Re-run Study1_04_Robustness.Rmd section 2.1.")
+}
+# The cumulative CSV labels dimensions "creativity_cumulative" /
+# "effort_cumulative"; the suffix is stripped so the dimension filter below
+# matches.
+brms_c <- brms_c %>%
+  mutate(dimension = sub("_cumulative$", "", dimension))
+brms_c_TypeAI <- brms_c %>% filter(term == "TypeAI")
+stopifnot(nrow(brms_c_TypeAI) == 2L,
+          setequal(brms_c_TypeAI$dimension, c("creativity", "effort")))
+
+# ---- brms-vs-lmerTest agreement ----------------------------------------------
+# The agreement is the absolute difference between the posterior mean and the
+# lmerTest point estimate of the TypeAI coefficient. The lmerTest estimate is
+# read from study1_lmm_fixed_effects.csv.
+lmer_fx_path <- file.path(PATH_OUT_TAB, "study1_lmm_fixed_effects.csv")
+lmer_fx <- read_csv(lmer_fx_path, show_col_types = FALSE)
+record_file("input", lmer_fx_path, "read",
+            upstream_check(basename(lmer_fx_path), "quant")$note)
+stopifnot(all(c("dimension", "term", "estimate") %in% names(lmer_fx)))
+lmer_TypeAI <- lmer_fx %>% filter(term == "TypeAI") %>%
+  dplyr::select(dimension, lmer_est = estimate)
+stopifnot(nrow(lmer_TypeAI) == 2L)
+
+brms_vs_lmer <- brms_p_TypeAI %>%
+  dplyr::select(dimension, brms_mean = mean) %>%
+  inner_join(lmer_TypeAI, by = "dimension") %>%
+  mutate(abs_diff = abs(brms_mean - lmer_est))
+stopifnot(nrow(brms_vs_lmer) == 2L, !any(is.na(brms_vs_lmer$abs_diff)))
+
+# Row builders. Every extraction passes through scalar(), so a filter that
+# matches 0 or 2 rows stops with an error. Each Bayesian cell names its
+# quantity: the TypeAI coefficient, the simple effect at the non-figurative
+# image kind. That quantity is comparable to the lmerTest TypeAI row, not to
+# the marginal contrast the main text cites.
+brms_gauss_row <- function(dim) {
+  r <- brms_p_TypeAI %>% filter(dimension == dim)
+  tol <- brms_vs_lmer %>% filter(dimension == dim) %>% pull(abs_diff)
+  sprintf(paste0("TypeAI, the non-figurative simple effect (comparable to the ",
+                 "lmerTest TypeAI row, not the marginal contrast in the main ",
+                 "text): posterior mean = %s, 95%% CrI [%s, %s]; ",
+                 "|posterior mean - lmerTest TypeAI estimate| = %s"),
+          fmt_n(scalar(r$mean,  paste(dim, "brms mean"))),
+          fmt_n(scalar(r$ci_lo, paste(dim, "brms ci_lo"))),
+          fmt_n(scalar(r$ci_hi, paste(dim, "brms ci_hi"))),
+          fmt_n(scalar(tol,     paste(dim, "brms-lmer abs diff")), 3))
+}
+brms_cum_row <- function(dim) {
+  r <- brms_c_TypeAI %>% filter(dimension == dim)
+  sprintf(paste0("TypeAI, the non-figurative simple effect: posterior mean ",
+                 "(logit) = %s, 95%% CrI [%s, %s]"),
+          fmt_n(scalar(r$mean,  paste(dim, "cumulative mean"))),
+          fmt_n(scalar(r$ci_lo, paste(dim, "cumulative ci_lo"))),
+          fmt_n(scalar(r$ci_hi, paste(dim, "cumulative ci_hi"))))
+}
+
+# The writer may also deposit a marginal attribution contrast from the
+# Bayesian fits, averaged over the two image kinds. Such a row has a term
+# containing "marginal", in either brms table, and is reported beside the
+# TypeAI rows. The cell quotes the term as the writer names it, because the name
+# carries the sign convention. When neither table has such a row, the
+# Bayesian rows report the simple effect only, and the caption describes the
+# simple effect alone.
+brms_marginal_rows <- function(tab, family_label, scale_label) {
+  m <- tab %>% filter(grepl("marginal", term, ignore.case = TRUE))
+  if (nrow(m) == 0L) return(NULL)
+  if (anyNA(m[, c("mean", "ci_lo", "ci_hi")])) {
+    stop("A marginal-contrast row of the ", family_label, " brms table has an ",
+         "NA mean or interval; re-run Study1_04_Robustness.Rmd section 2.")
+  }
+  tibble(
+    Check  = sprintf("Bayesian replication, %s, marginal contrast (%s)",
+                     family_label, stringr::str_to_title(m$dimension)),
+    Result = sprintf("%s: posterior mean%s = %s, 95%% CrI [%s, %s]",
+                     m$term, scale_label, fmt_n(m$mean), fmt_n(m$ci_lo),
+                     fmt_n(m$ci_hi))
+  )
+}
+brms_marginal <- bind_rows(
+  brms_marginal_rows(brms_p, "Gaussian", ""),
+  brms_marginal_rows(brms_c, "Cumulative-ordinal", " (logit)")
+)
+
+# ---- Equivalence at the wider bounds -----------------------------------------
+# Study1_04_Robustness.Rmd section 3 tests the attribution-by-image-kind
+# interaction against the wider bounds of 0.30 and 0.50 rating points, as
+# descriptive sensitivity. This is not the registered test of H3. That test
+# uses the registered bound of +/- 0.20 rating points, runs under both the
+# intercepts-only and the maximal random-effects structures, and sits in
+# Study1_01_Quant.Rmd section 7.10 with the rest of the confirmatory results.
+# The cell built here states this, so a wider bound is not read as the
+# registered one.
+#
+# Column contract from the writer: quantity, dimension, bound,
+# bound_is_registered, role, method, source_fit, term, scale, bound_lo,
+# bound_hi, estimate, se, df, ci90_lo, ci90_hi, tost_p_low, tost_p_high,
+# tost_p, nhst_p, reading, and for the Bayesian rows hdi95_lo, hdi95_hi, pd,
+# prop_in_rope_full, prop_in_rope_hdi95.
+equiv <- read_table_or_null(
+  "study1_equivalence_sensitivity.csv",
+  "run Study1_04_Robustness.Rmd section 3 (equivalence sensitivity)",
+  stage = "robustness")
+
+equivalence_line <- function(dim) {
+  if (is.null(equiv)) return(NULL)
+  req <- c("dimension", "bound", "method", "estimate", "ci90_lo", "ci90_hi",
+           "tost_p", "reading")
+  if (!all(req %in% names(equiv))) {
+    stop("study1_equivalence_sensitivity.csv is missing expected columns (",
+         paste(setdiff(req, names(equiv)), collapse = ", "), "). Found: ",
+         paste(names(equiv), collapse = ", "),
+         ". Align Study1_04_Robustness.Rmd section 3 (writer) with this reader.")
+  }
+  t <- equiv %>%
+    filter(dimension == dim, grepl("^two one-sided", method)) %>%
+    arrange(bound)
+  if (nrow(t) == 0L) {
+    stop("No two-one-sided-test rows for dimension '", dim,
+         "' in study1_equivalence_sensitivity.csv; re-run ",
+         "Study1_04_Robustness.Rmd section 3.")
+  }
+  if (anyNA(t[, req[req != "method"]])) {
+    stop("Equivalence sensitivity rows for dimension '", dim,
+         "' carry NA values; re-run Study1_04_Robustness.Rmd section 3.")
+  }
+  # The estimate is the same at every bound; only the bound moves.
+  stopifnot(diff(range(t$estimate)) < 1e-8)
+  # fmt_p() returns either a number or the string "< 0.001". The relation
+  # sign is therefore chosen here. Typed into the sentence, it would read
+  # "p = < 0.001" for the small p-values.
+  p_phrase <- ifelse(t$tost_p < 0.001,
+                     "larger one-sided p < 0.001",
+                     sprintf("larger one-sided p = %s", fmt_p(t$tost_p)))
+  per_bound <- sprintf("bound +/- %.2f: %s (%s)",
+                       t$bound, t$reading, p_phrase)
+  sprintf(paste0("Interaction estimate = %s rating points, 90%% CI [%s, %s]. ",
+                 "%s. Descriptive sensitivity only; the registered test of H3 ",
+                 "at +/- 0.20 rating points, under both random-effects ",
+                 "structures, is in Study1_01_Quant.Rmd section 7.10."),
+          fmt_n(t$estimate[1]), fmt_n(t$ci90_lo[1]), fmt_n(t$ci90_hi[1]),
+          paste(per_bound, collapse = "; "))
+}
+
+# ---- Build the combined robustness table ------------------------------------
+# Rows are assembled one at a time. A row whose guarded source table is
+# absent is left out, so the table gets shorter and the knit goes on. The
+# Check label of every row names the quantity it reports.
+robustness_rows <- bind_rows(
+  if (!is.null(conf_fam))
+    tibble(Check = "Registered H1 contrast (Creativity)",
+           Result = h1_line("creativity")),
+  if (!is.null(conf_fam))
+    tibble(Check = "Registered H1 contrast (Effort)",
+           Result = h1_line("effort")),
+  multiverse_rows,
+  tibble(Check = "Bayesian replication, Gaussian, TypeAI simple effect (Creativity)",
+         Result = brms_gauss_row("creativity")),
+  tibble(Check = "Bayesian replication, Gaussian, TypeAI simple effect (Effort)",
+         Result = brms_gauss_row("effort")),
+  tibble(Check = "Bayesian replication, Cumulative-ordinal, TypeAI simple effect (Creativity)",
+         Result = brms_cum_row("creativity")),
+  tibble(Check = "Bayesian replication, Cumulative-ordinal, TypeAI simple effect (Effort)",
+         Result = brms_cum_row("effort")),
+  brms_marginal,
+  if (!is.null(equiv))
+    tibble(Check = "Equivalence sensitivity, attribution-by-image-kind interaction (Creativity)",
+           Result = equivalence_line("creativity")),
+  if (!is.null(equiv))
+    tibble(Check = "Equivalence sensitivity, attribution-by-image-kind interaction (Effort)",
+           Result = equivalence_line("effort"))
+)
+stopifnot(nrow(robustness_rows) >= 6L, !any(is.na(robustness_rows$Result)))
+
+# The caption names the quantity behind each kind of row. Its sentences on
+# the H1 rows, the multiverse and a Bayesian marginal row follow what the
+# tables on disk carry, so the caption never describes an absent row.
+supp1_caption <- paste0(
+  "Robustness checks for the Study 1 attribution effect. Every entry is ",
+  "computed from the pipeline output tables (the confirmatory family, the ",
+  "specification curve, the brms fixed-effect summaries, the lmerTest ",
+  "coefficients, and the equivalence sensitivity table); no cell is typed by ",
+  "hand. ",
+  if (!is.null(conf_fam)) paste0(
+    "The two H1 rows are the registered quantity the main text cites: the ",
+    "Human-minus-machine difference in mean rating, estimated from each ",
+    "dimension's primary mixed model and averaged with equal weight over the ",
+    "two image kinds, with its p-value before and after the Holm correction ",
+    "across the confirmatory family. Every other row reports a related but ",
+    "different quantity, which its label names. ")
+  else paste0(
+    "The registered H1 rows are left out because the confirmatory family ",
+    "table is not on disk. Every row reports a quantity related to H1 but ",
+    "different from it, which its label names. "),
+  if (is.na(multi_quantity_col)) paste0(
+    "The multiverse rows summarise the specification curve, in which each ",
+    "specification fits the rating on attribution, image kind and their ",
+    "interaction within its own model family and reads the TypeAI ",
+    "coefficient, the machine-minus-human ",
+    "difference at the non-figurative image kind, on that family's own scale ",
+    "(rating points, or log-odds for the ordinal family); a negative estimate ",
+    "means lower ratings under machine attribution. Estimated counts the ",
+    "specifications with an estimate; converged is the specification curve's own record, ",
+    "not a diagnostic computed for this table. ")
+  else paste0(
+    "The multiverse rows summarise the specification curve, one row per ",
+    "quantity the specification curve names in its ", multi_quantity_col, " column, on ",
+    "each model family's own scale (rating points, or log-odds for the ",
+    "ordinal family). Estimated counts the specifications with an estimate; ",
+    "converged is the specification curve's own record, not a diagnostic computed for this table. "),
+  "The TypeAI rows of the Bayesian replication report the machine-minus-human ",
+  "difference at the non-figurative image kind, the reference level of the ",
+  "image-kind factor: a simple effect, meaning the effect of attribution ",
+  "within one level of the other factor. It is the same quantity as the ",
+  "lmerTest TypeAI row of the full fixed-effects table and is compared with ",
+  "it; it coincides with the H1 contrast only when the attribution-by-image-",
+  "kind interaction is zero, and its sign runs the other way, a negative ",
+  "value meaning lower ratings under machine attribution. ",
+  if (!is.null(brms_marginal) && nrow(brms_marginal) > 0L)
+    paste0("The marginal-contrast rows of the Bayesian replication average ",
+           "the difference over the two image kinds, as H1 does, with the sign ",
+           "convention the quoted term states. ")
+  else "",
+  "CrI is the credible interval, the range holding 95\\% of the posterior. ",
+  "The equivalence rows concern the attribution-by-image-kind interaction, ",
+  "the quantity of H3 rather than of H1, at the wider bounds of 0.30 and ",
+  "0.50 rating points, and carry no verdict on H3."
+)
+
+robustness_rows %>%
+  knitr::kable(
+    format    = "latex",
+    booktabs  = TRUE,
+    caption   = supp1_caption,
+    label     = "supp_table_1"
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"),
+                            font_size = 9) %>%
+  kableExtra::column_spec(2, width = "10cm") %>%
+  write_fragment("sup_table_1_robustness.tex")
+
+robustness_rows
+```
+
+---
+
+# 5. Supplementary Table 2: Rates in the written justifications
+
+Each participant wrote a short explanation after every rating. The
+explanations are measured by fixed search patterns: lists of words and
+phrases, applied the same way to every response and published in full beside
+the analysis. `Study1_03_Integration.Rmd` reports how often each pattern
+fires. Its interval comes from resampling participants, not responses,
+because the participant is the unit that varies.
+
+The table below gives those rates for the arm told a person made the work.
+"Effort" has three candidate meanings here: visible detail in the picture,
+elapsed time, and skill and training. "Creativity" has three as well: the
+idea behind the work, whether it looks familiar, and how finely it is
+executed. The rates are read from the pipeline tables, not recomputed here,
+so the supplement and the main text report the same numbers.
+
+```{r supp-table-2}
+remove_fragment("sup_table_2_text_rates.tex")
+prev_effort <- read_table_or_null(
+  "study1_text_effort_prevalence.csv",
+  "run Study1_03_Integration.Rmd section 3.1 (effort-talk prevalence)",
+  stage = "integration")
+prev_creat <- read_table_or_null(
+  "study1_text_creativity_prevalence.csv",
+  "run Study1_03_Integration.Rmd section 4.1 (creativity-talk prevalence)",
+  stage = "integration")
+
+if (is.null(prev_effort) && is.null(prev_creat)) {
+  cat("Supplementary Table 2 not written: neither prevalence table is on disk.\n")
+  record_file("output", file.path(PATH_SUP_TAB, "sup_table_2_text_rates.tex"),
+              "pending", "neither prevalence table is on disk")
+} else {
+  prev_req <- c("quantity", "estimate", "ci_lo", "ci_hi")
+  check_prev <- function(d, nm) {
+    if (is.null(d)) return(NULL)
+    if (!all(prev_req %in% names(d))) {
+      stop(nm, " is missing expected columns (",
+           paste(prev_req, collapse = ", "), "). Found: ",
+           paste(names(d), collapse = ", "),
+           ". Align Study1_03_Integration.Rmd (writer) with this reader.")
+    }
+    d
+  }
+  prev_effort <- check_prev(prev_effort, "study1_text_effort_prevalence.csv")
+  prev_creat  <- check_prev(prev_creat,  "study1_text_creativity_prevalence.csv")
+
+  # Plain-language names for the quantities, so a reader of the typeset table
+  # need not decode a name such as "novelty_either".
+  quantity_labels <- c(
+    detail            = "Visible detail in the picture",
+    time              = "Time and industriousness",
+    skill             = "Skill and training",
+    none_of_the_three = "None of the three",
+    concept           = "The idea behind the work",
+    novelty_asserted  = "Says the work looks familiar",
+    novelty_negated   = "Says the work does not look familiar",
+    novelty_either    = "Raises familiarity either way",
+    execution         = "Visible detail and rendering"
+  )
+
+  text_rates <- bind_rows(prev_effort, prev_creat) %>%
+    mutate(
+      Question = stringr::str_to_title(as.character(dimension)),
+      Measure  = dplyr::coalesce(unname(quantity_labels[quantity]), quantity),
+      Rate     = sprintf("%.1f%%", 100 * estimate),
+      `95% CI` = sprintf("[%.1f%%, %.1f%%]", 100 * ci_lo, 100 * ci_hi)
+    ) %>%
+    dplyr::select(Question, Measure, Rate, `95% CI`)
+  stopifnot(nrow(text_rates) > 0L, !any(is.na(text_rates$Rate)))
+
+  text_rates %>%
+    knitr::kable(
+      format    = "latex",
+      booktabs  = TRUE,
+      caption   = "Rates in the written justifications of the human-attribution arm: how often each fixed search pattern fired, as a share of justifications, with a 95\\% interval from resampling participants. The categories are not mutually exclusive, since one sentence can mention detail and time, so the rates need not sum to 100\\%; the share mentioning none of the three is reported beside them.",
+      label     = "supp_table_2"
+    ) %>%
+    kableExtra::kable_styling(latex_options = c("hold_position"),
+                              font_size = 9) %>%
+    write_fragment("sup_table_2_text_rates.tex")
+
+  text_rates
+}
+```
+
+---
+
+# 6. Supplementary Table 3: Prompting and generating talk, by arm
+
+The same prompting-and-generating pattern is counted in both arms. In the arm
+told an image generator made the work, the pattern describes what those
+participants were told. In the arm told a person made the work, it records
+how often an explanation mentions a machine, a prompt or a generated image.
+A mention is not the same as rejecting the account of the work the
+participant was given. An explanation can mention a machine to compare, to
+deny or to wonder. The belief audit in `Study1_03_Integration.Rmd` reports
+two counts of human-arm participants. Both come from fixed search patterns
+applied the same way to every response, and no person reads or judges any
+response. The broad count takes a participant whose explanations mention any
+machine, prompting or generating word. The narrow count takes a participant
+with at least one explanation that states the work is machine-made. That
+means a phrase naming a machine as the maker of the work, with no negating
+word inside the phrase or earlier in the same clause ("doesn't look AI
+generated"), in a clause not opened by a conditional ("if a computer made
+this"). A hedged impression such as "looks AI generated" counts as stating
+it. Neither count says whether a participant accepted the account of the
+work they were given.
+
+```{r supp-table-3}
+# Rendered as the producing notebook writes it: one row per arm, with the rate
+# and a participant-resampled interval.
+render_prereg_table(
+  csv_name    = "study1_text_prompt_by_arm.csv",
+  tex_name    = "sup_table_3_prompt_talk.tex",
+  caption     = "Prompting-and-generating talk in the effort justifications of each arm: the share of justifications whose text mentions a machine, a prompt or a generated image, with a 95\\% interval from resampling participants. In the machine-attribution arm this is description of what participants were told. In the human-attribution arm it is the rate at which an explanation mentions a machine, which is not the same as rejecting the account of the work, since a mention can compare, deny or wonder. The belief audit reports two counts of human-arm participants, both from fixed search patterns with no response read or judged by a person: the broad count, of participants whose explanations mention any machine, prompting or generating word, and the narrow count, of participants with at least one explanation that states the work is machine-made, meaning a phrase naming a machine as maker that is neither negated nor inside a conditional (a hedged impression such as looks AI generated counts as stating it).",
+  label       = "supp_table_3",
+  pending_msg = "run Study1_03_Integration.Rmd section 6 (prompting talk by arm)",
+  stage       = "integration"
+)
+```
+
+---
+
+# 7. Full LMM regression table (extra supplementary)
+
+```{r supp-table-full-lmm}
+remove_fragment("sup_table_full_lmm.tex")
+creat_path <- file.path(PATH_OUT_MODELS, "study1_lmm_creativity.rds")
+eff_path   <- file.path(PATH_OUT_MODELS, "study1_lmm_effort.rds")
+creat_res  <- readRDS(creat_path)
+eff_res    <- readRDS(eff_path)
+record_file("input", creat_path, "read",
+            upstream_check(basename(creat_path), "quant")$note)
+record_file("input", eff_path, "read",
+            upstream_check(basename(eff_path), "quant")$note)
+
+tidy_creat <- broom.mixed::tidy(creat_res$fit, effects = "fixed",
+                                conf.int = TRUE) %>%
+  mutate(DV = "Creativity")
+tidy_eff <- broom.mixed::tidy(eff_res$fit, effects = "fixed",
+                              conf.int = TRUE) %>%
+  mutate(DV = "Effort")
+
+tidy_combined <- bind_rows(tidy_creat, tidy_eff) %>%
+  mutate(
+    `b (SE)` = sprintf("%.2f (%.2f)", estimate, std.error),
+    `95% CI` = sprintf("[%.2f, %.2f]", conf.low, conf.high),
+    p        = fmt_p(p.value)   # fmt_p is vectorised
+  ) %>%
+  dplyr::select(DV, term, `b (SE)`, `95% CI`, p)
+
+tidy_combined %>%
+  knitr::kable(
+    format    = "latex",
+    booktabs  = TRUE,
+    caption   = "Full fixed-effects estimates from the linear mixed-effects models for creativity and effort. Random effects: participant and stimulus image intercepts. Image kind is coded with the non-figurative images as the reference level, so TypeAI is the machine-minus-human difference at the non-figurative image kind, a simple effect; the H1 contrast, averaged over the two image kinds, is the first pair of rows of Supplementary Table 1.",
+    label     = "supp_lmm"
+  ) %>%
+  kableExtra::kable_styling(latex_options = c("hold_position"),
+                            font_size = 9) %>%
+  kableExtra::collapse_rows(columns = 1, latex_hline = "major") %>%
+  write_fragment("sup_table_full_lmm.tex")
+
+tidy_combined
+```
+
+---
+
+# 8. Supplementary Figure 1: Specification curves
+
+A specification curve shows the attribution estimate from every
+specification of the multiverse in section 4. `Study1_04_Robustness.Rmd`
+writes the creativity and the effort curves as two PDFs. This chunk copies
+both into the supplement folder, as Supplementary Figures 1a and 1b.
+
+```{r supp-fig-1}
+# Source PDFs in the analysis figures folder, written by chunk
+# `spec-curve-plot` in Study1_04_Robustness.Rmd:
+#   study1_specification_curve_creativity.pdf
+#   study1_specification_curve_effort.pdf
+
+# Each is copied unchanged into supplement/figures under its Supplementary
+# Figure name. The copies from an earlier knit are deleted first, so a
+# missing source leaves no stale figure behind.
+
+src_creat <- file.path(PATH_OUT_FIG, "study1_specification_curve_creativity.pdf")
+src_eff   <- file.path(PATH_OUT_FIG, "study1_specification_curve_effort.pdf")
+dst_creat <- file.path(PATH_SUP_FIG, "sup_fig_1a_specification_creativity.pdf")
+dst_eff   <- file.path(PATH_SUP_FIG, "sup_fig_1b_specification_effort.pdf")
+unlink(c(dst_creat, dst_eff))
+
+if (file.exists(src_creat) && file.exists(src_eff)) {
+  for (src in c(src_creat, src_eff)) {
+    record_file("input", src, "read",
+                upstream_check(basename(src), "robustness")$note)
+  }
+  file.copy(src_creat, dst_creat, overwrite = TRUE)
+  file.copy(src_eff,   dst_eff,   overwrite = TRUE)
+  record_file("output", dst_creat, "written")
+  record_file("output", dst_eff,   "written")
+  cat("Copied specification curve PDFs to supplement/figures/\n")
+} else {
+  cat("pending: Specification curve PDFs not found. Re-run ",
+      "Study1_04_Robustness.Rmd chunk `spec-curve-plot`.\n", sep = "")
+  record_file("output", dst_creat, "pending", "specification curve PDFs absent")
+  record_file("output", dst_eff,   "pending", "specification curve PDFs absent")
+}
+```
+
+---
+
+# 9. Supplementary Figure 2: Bayesian posterior-predictive checks
+
+A posterior predictive check compares data simulated from a fitted Bayesian
+model with the observed ratings. `Study1_04_Robustness.Rmd` writes these
+checks as one PDF, and this chunk copies it into the supplement folder.
+
+```{r supp-fig-2}
+src_ppc <- file.path(PATH_OUT_FIG, "study1_brms_ppc.pdf")
+dst_ppc <- file.path(PATH_SUP_FIG, "sup_fig_2_brms_ppc.pdf")
+unlink(dst_ppc)
+
+if (file.exists(src_ppc)) {
+  record_file("input", src_ppc, "read",
+              upstream_check(basename(src_ppc), "robustness")$note)
+  file.copy(src_ppc, dst_ppc, overwrite = TRUE)
+  record_file("output", dst_ppc, "written")
+  cat("Copied brms PPC PDF to supplement/figures/\n")
+} else {
+  cat("pending: brms PPC PDF not found. Re-run Study1_04_Robustness.Rmd ",
+      "chunk `brms-primary-summaries`.\n", sep = "")
+  record_file("output", dst_ppc, "pending", "posterior predictive check PDF absent")
+}
+```
+
+---
+
+# 10. Registered completion-set tables
+
+These tables render the CSVs that `Study1_01_Quant.Rmd` writes and, for the
+written explanations, the CSVs that `Study1_03_Integration.Rmd` writes. They
+cover the quantities the preregistration commits to reporting:
+
+- the joint attribution × dimension model;
+- the maximal random-effects model;
+- covariate balance and differential attrition;
+- the registered bootstrap Cohen's *d*;
+- leave-one-participant-out and leave-one-stimulus-out influence;
+- the H4 variance test, with its two ratios and their intervals;
+- the Holm correction across the confirmatory family;
+- H2 in its raw-scale and ordinal versions;
+- the sampling spread of the H4 ratio estimate at this design's arm sizes;
+- the five registered tests on the written explanations, with their
+  Benjamini-Hochberg correction (a correction that limits the expected share
+  of false positives among the tests called significant), and their refit
+  with a participant random slope;
+- the registered test of H3 under both random-effects structures;
+- the two checks run in every study where the rating exists: how far the
+  rating and the arm can be recovered from the words, and within-person word
+  overlap by arm.
+
+Each table is guarded. Its chunk first deletes the table's `.tex` fragment.
+If the source CSV has not been produced, or the producing stage's run
+manifest lists it as not written, the chunk prints a `pending:` message
+naming the notebook that writes it, and it writes nothing. A fragment on disk
+was therefore written by the latest knit, from the table on disk at the
+time. `tables/study1_supplements_run_manifest.csv` records which table, by
+its fingerprint.
+
+
+## 10.1 Joint Type × dimension model
+
+```{r supp-table-joint-model}
+# The joint model, rating ~ Type * dimension * stimulus_type as specified in
+# Study1_01_Quant.Rmd, tests whether the Type effect differs between
+# creativity and effort. The main text makes the same cross-dimension
+# comparison descriptively.
+# Column contract from the writer code in Study1_01_Quant.Rmd section 7.6:
+# as.data.frame(anova) with the row names moved to `term`, giving term,
+# Sum Sq, Mean Sq, NumDF, DenDF, F value, Pr(>F). The table is rendered as
+# deposited, with Pr(>F) formatted by fmt_p().
+render_prereg_table(
+  csv_name    = "study1_joint_model_anova.csv",
+  tex_name    = "sup_table_joint_model.tex",
+  caption     = "Joint mixed model with dimension (creativity vs effort) as a within-participant factor: Type III ANOVA (Satterthwaite). The Type x dimension term tests whether the source-attribution penalty differs across judgment dimensions.",
+  label       = "supp_joint_model",
+  pending_msg = "run Study1_01_Quant.Rmd section 7.6 (joint Type x dimension model)",
+  stage       = "quant"
+)
+```
+
+## 10.2 Fully maximal random-effects model
+
+```{r supp-table-fully-maximal}
+# Fully maximal random-effects structure:
+# (1 + stimulus_type | id) + (1 + Type | stimulus_id). The table reports it
+# with its singularity flag, so a fit at the boundary is shown as one and is
+# not swapped for a smaller model. A singular fit has an estimated variance at
+# zero or a correlation at plus or minus one. Its slope variances need not be
+# zero, so the slope SD is shown beside the flag.
+# Column contract from the writer code in Study1_01_Quant.Rmd section 7.5:
+# dimension, term, est_primary, est_maximal, se_maximal, p_maximal,
+# by_stim_type_slope_sd, singular, optimizer. The table is rendered as
+# deposited, with p_maximal formatted by fmt_p().
+render_prereg_table(
+  csv_name    = "study1_lmm_fully_maximal.csv",
+  tex_name    = "sup_table_fully_maximal.tex",
+  caption     = "Fixed effects from the fully maximal random-effects specification (by-participant intercepts and stimulus-type slopes; by-stimulus intercepts and Type slopes) beside the primary intercepts-only estimates, with the by-stimulus Type-slope SD, singularity flag, and optimizer of each fit. A fit is singular when an estimated variance sits at zero or a correlation at plus or minus one; a singular fit can still carry slope variances above zero, as the slope SD column shows. TypeAI is the machine-minus-human difference at the non-figurative image kind, not the H1 contrast averaged over image kinds.",
+  label       = "supp_fully_maximal",
+  pending_msg = "run Study1_01_Quant.Rmd section 7.5 (fully maximal LMM)",
+  stage       = "quant"
+)
+```
+
+## 10.3 Covariate balance by condition
+
+```{r supp-table-balance}
+# Balance of age, gender, race, and art training across the two randomised
+# arms.
+# Column contract from the writer code in Study1_01_Quant.Rmd section 3.1:
+# variable, test, statistic, df, p, n_used, levels. The `levels` column is a
+# long string joined with "|". Dropping it lets the table fit the page, and
+# the caption states the levels. Per-arm descriptives are in
+# study1_balance_descriptives.csv.
+render_prereg_table(
+  csv_name    = "study1_balance.csv",
+  tex_name    = "sup_table_balance.tex",
+  caption     = "Covariate balance across randomised conditions in the analytic sample: age (Welch t), gender Female/Male/Other (Fisher exact), artistic experience (ordinal 0-4, Wilcoxon rank-sum), race (top categories plus collapsed other; Fisher exact with simulated p).",
+  label       = "supp_balance",
+  pending_msg = "run Study1_01_Quant.Rmd section 3.1 (covariate balance)",
+  transform   = function(df) df %>% dplyr::select(-any_of("levels")),
+  stage       = "quant"
+)
+```
+
+## 10.4 Attrition by condition
+
+```{r supp-table-attrition}
+# Exclusion counts crossed with condition, with a Fisher exact test of
+# differential attrition: an exact test of whether the arms lost
+# participants at different rates.
+# Column contract from the writer code in Study1_01_Quant.Rmd section 3:
+# dropped_at, n_Human, n_AI, n_total, fisher_p_any_drop, fisher_p_by_step,
+# n_type_na, frame. The two Fisher p-values belong to the whole table and
+# repeat on every row. `frame` is a constant string whose content the
+# caption carries, so the column is dropped.
+render_prereg_table(
+  csv_name    = "study1_attrition_by_condition.csv",
+  tex_name    = "sup_table_attrition.tex",
+  caption     = "Attrition by randomised condition among all real respondents (after step 0): counts retained and dropped at each exclusion step by arm, with Fisher exact tests of any-drop vs retained (fisher\\_p\\_any\\_drop) and of the full step-by-arm table (fisher\\_p\\_by\\_step). Both p-values are table-level and repeat on every row.",
+  label       = "supp_attrition",
+  pending_msg = "run Study1_01_Quant.Rmd section 3 (attrition by condition)",
+  transform   = function(df) df %>% dplyr::select(-any_of("frame")),
+  stage       = "quant"
+)
+```
+
+## 10.5 Registered effect size (bootstrap Cohen's d)
+
+```{r supp-table-bootstrap-d}
+# The one registered effect-size convention:
+# Cohen's d = (M_Human - M_AI) / pooled SD on participant means, with a
+# bootstrap percentile CI, B = 10,000, seed 20260421 (Docs/Preregistration/
+# Study1_Preregistration.md, section 6). Study1_Figures.Rmd reads the same
+# CSV for the \SoneCreatD and \SoneEffD macros, so the figure captions and
+# this table report the same values.
+# Column contract from the writer code in Study1_01_Quant.Rmd section 9.1:
+# dimension, d, ci_lo, ci_hi, n_human, n_ai, B, seed, convention.
+# `convention` is a long constant string, dropped here because the caption
+# states it. Study1_Figures.Rmd requires dimension, d, ci_lo, ci_hi from the
+# same file.
+render_prereg_table(
+  csv_name    = "study1_bootstrap_d.csv",
+  tex_name    = "sup_table_bootstrap_d.tex",
+  caption     = "Registered effect sizes. Cohen's d = (M\\_Human - M\\_AI) / pooled SD on participant-mean ratings, with a stratified (within-arm) participant bootstrap percentile 95\\% CI; B and seed as recorded in the table. Beside it, d\\_model\\_based is the estimated marginal attribution contrast divided by the square root of the summed variance components of the primary model, which puts the effect on the scale of a single rating rather than of a ten-rating average and is the value comparable to between-subject effect sizes reported elsewhere. The two are not interchangeable and d is the larger by construction.",
+  label       = "supp_bootstrap_d",
+  pending_msg = "run Study1_01_Quant.Rmd section 9.1 (registered bootstrap d)",
+  # Both convention strings and the standardising SD are constants. The
+  # caption describes them, and the table shows the two effect sizes and the
+  # bootstrap interval.
+  transform   = function(df) df %>%
+    dplyr::select(-dplyr::any_of(c("convention", "model_based_convention",
+                                   "model_based_total_sd"))),
+  stage       = "quant"
+)
+```
+
+## 10.6 Influence: leave-one-participant-out and leave-one-stimulus-out
+
+```{r supp-table-influence}
+# Summarise the LOPO and LOSO refit tables (leave-one-participant-out and
+# leave-one-stimulus-out) to the largest and the mean absolute change in the
+# tracked estimate, per dimension. The change is the writer's delta column:
+# the estimate from the refit with one participant or one image left out,
+# minus the same estimate from the full sample. The raw per-refit CSVs (111 +
+# 10 rows per dimension) are too long to typeset.
+# Column contract from the writer code in Study1_01_Quant.Rmd section 7.7:
+# dimension, unit, dropped, estimate, se, est_full, delta (= estimate -
+# est_full), converged, singular, fit_error, note, quantity. The quantity
+# column names the tracked estimate on every row. It is the registered H1
+# contrast: the Human-minus-machine difference in mean rating, averaged with
+# equal weight over the two image kinds. The column headers below name that
+# contrast, so the chunk stops if the quantity column is absent or names
+# anything else, and prints the columns or values it found. A refit that
+# errored or did not converge carries no estimate and an NA delta. The
+# largest and mean changes are taken over the usable refits, and the table
+# counts them.
+influence_cols <- c(
+  largest = "Largest absolute change in the H1 contrast",
+  mean    = "Mean absolute change in the H1 contrast"
+)
+
+summarise_influence <- function(df, unit_label) {
+  req <- c("dimension", "delta", "quantity")
+  if (!all(req %in% names(df))) {
+    stop("Influence CSV (", unit_label, ") lacks ",
+         paste(setdiff(req, names(df)), collapse = ", "), ". Found: ",
+         paste(names(df), collapse = ", "),
+         ". Expected the columns written by Study1_01_Quant.Rmd section 7.7.")
+  }
+  q <- unique(df$quantity)
+  if (length(q) != 1L || is.na(q) || !grepl("^H1", q)) {
+    stop("Influence CSV (", unit_label, ") tracks: ",
+         paste(q, collapse = "; "), ". The column headers of this table name ",
+         "the H1 contrast, so they would misname this quantity.")
+  }
+  df %>%
+    group_by(dimension) %>%
+    summarise(
+      Refits          = n(),
+      `Usable refits` = sum(!is.na(delta)),
+      largest         = max(abs(delta), na.rm = TRUE),
+      mean            = mean(abs(delta), na.rm = TRUE),
+      .groups = "drop"
+    ) %>%
+    rename(all_of(setNames(names(influence_cols), influence_cols))) %>%
+    mutate(`Left out` = unit_label, .before = 1)
+}
+
+remove_fragment("sup_table_influence.tex")
+influence_pending <- "run Study1_01_Quant.Rmd section 7.7 (LOPO/LOSO influence)"
+lopo <- read_table_or_null("study1_influence_lopo.csv", influence_pending,
+                           stage = "quant")
+loso <- read_table_or_null("study1_influence_loso.csv", influence_pending,
+                           stage = "quant")
+
+if (!is.null(lopo) && !is.null(loso)) {
+  influence_summary <- bind_rows(
+    summarise_influence(lopo, "Participant (LOPO)"),
+    summarise_influence(loso, "Stimulus (LOSO)")
+  ) %>%
+    mutate(dimension = stringr::str_to_title(dimension)) %>%
+    rename(Dimension = dimension)
+  stopifnot(nrow(influence_summary) >= 4L,
+            !any(is.na(influence_summary[[influence_cols[["largest"]]]])))
+
+  influence_caption <- paste0(
+    "Influence diagnostics for the registered H1 contrast, the ",
+    "Human-minus-machine difference in mean rating averaged with equal ",
+    "weight over the two image kinds. Each participant (LOPO) or each ",
+    "stimulus image (LOSO) is left out in turn and the primary model is ",
+    "refit. The table gives, per dimension, the largest and the mean ",
+    "absolute change in the contrast from its full-sample value, in rating ",
+    "points, over the usable refits: those that converged without error.",
+    writer_quote(tibble(quantity = c(lopo$quantity, loso$quantity)),
+                 "quantity", "The quantity as Study1\\_01\\_Quant.Rmd names it"),
+    " The estimate of each refit is deposited as ",
+    "tables/study1\\_influence\\_lopo.csv and ",
+    "tables/study1\\_influence\\_loso.csv."
+  )
+
+  influence_tex <- influence_summary %>%
+    mutate(across(all_of(unname(influence_cols)), ~ round(.x, 3))) %>%
+    knitr::kable(
+      format   = "latex",
+      booktabs = TRUE,
+      caption  = influence_caption,
+      label    = "supp_influence"
+    ) %>%
+    kableExtra::kable_styling(latex_options = c("hold_position"),
+                              font_size = 9)
+  # The two long headers are set at a fixed width, so they wrap onto two
+  # lines and the table fits the page.
+  for (nm in unname(influence_cols)) {
+    influence_tex <- kableExtra::column_spec(
+      influence_tex, which(names(influence_summary) == nm), width = "2.8cm")
+  }
+  write_fragment(influence_tex, "sup_table_influence.tex")
+  influence_summary
+} else {
+  record_file("output", file.path(PATH_SUP_TAB, "sup_table_influence.tex"),
+              "pending", influence_pending)
+}
+```
+
+
+## 10.7 H4: the registered variance test
+
+```{r supp-table-h4-variance}
+# H4 predicts that attribution changes what a rating is a property of. Under
+# machine attribution a rating should reflect the person judging more and the
+# particular artwork less. Two ratios are read, each on the absolute variance
+# scale and not as a share of the total, and each with an interval. One is
+# the machine-to-human ratio of between-participant variance. The other is
+# the machine-to-human ratio of residual variance. Shares are compositional:
+# when one component shrinks, the others rise arithmetically. A shift in
+# shares is therefore not by itself evidence of the structural change H4
+# asserts.
+#
+# The two ratios come from two fits with different residual structures. The
+# between-participant ratio is read from a crossed mixed model (lme4) with a
+# participant intercept whose variance may differ by arm, an image intercept,
+# and one residual variance shared by the two arms. Its likelihood ratio test
+# (a comparison of how well two nested models fit the data) compares that
+# model with one holding the participant variance common to both arms. The
+# residual ratio is read from a second model (nlme). In it the participant
+# variance and the residual variance both differ by arm, but there is no
+# image intercept. Its residual stratum therefore also holds the differences
+# between images that image kind does not explain. Its likelihood ratio test
+# compares it with the same model holding one residual variance. The two
+# ratios do not partition one fitted variance structure, and the caption says
+# so.
+#
+# The reference distribution of the deposited test. Two candidates are easy
+# to confuse. A boundary-corrected mixture, half a chi-square and half a spike
+# at zero, is the right reference when a variance is tested against zero. A
+# variance cannot be negative, so that null value sits at the edge of the
+# parameter's range. That is not this test. The registered comparison sets two
+# variances equal to each other, both estimated as positive. That is an
+# interior point of the parameter space, so the ordinary chi-square on one
+# degree of freedom is the correct reference, and Study1_01_Quant.Rmd
+# section 7.8 computes that one. The deposited table states its
+# reference in its own `lrt_between_reference` column, so the file does not
+# depend on this caption for it.
+#
+# How each ratio gets its interval. A ratio of two estimated variances has no
+# simple closed-form interval. Each ratio is therefore bootstrapped at the
+# level of the participant, the unit that was randomised to an arm.
+# Participants are resampled with replacement within each arm, so the two arm
+# sizes stay fixed. A participant drawn twice is relabelled as two distinct
+# ids. A random-effects model given the same id twice would treat the copies
+# as one person and misestimate the participant variance. Both fits (the lme4
+# model with arm-specific participant variances and the nlme model with
+# arm-specific residual variances) are refit on every resample. The interval
+# on each ratio runs from the 2.5th to the 97.5th percentile of the resampled
+# ratios. A refit that fails, or that is singular, is counted. Singular here
+# means the optimiser pushed one of the estimated variances to zero, the edge
+# of its range. The deposited file carries the interval columns
+# ci_low_between, ci_high_between, ci_low_residual, ci_high_residual; the
+# resample count n_boot; the failure and singularity counts
+# n_boot_failed_between, n_boot_failed_residual, n_boot_singular_between; and
+# h4_supported. h4_supported is the registered conjunction in one column: the
+# participant ratio's interval lies wholly above 1 and the residual ratio's
+# wholly below 1.
+#
+# Column contract: Study1_01_Quant.Rmd section 7.8 writes the file read here.
+# It carries the ratios and the likelihood ratio tests, not the descriptive
+# three-way partition that sits beside it. The typeset table keeps the
+# columns a reader needs to check the claim: the dimension, each ratio with
+# its interval, the two likelihood ratio statistics with their p-values, and
+# h4_supported. The two reference columns are one sentence each, repeated on
+# every row, and drop_long_constant_columns() prints them once above the
+# table. The arm-specific variances, the resample count and the failure and
+# singularity counts stay in the deposited CSV, which the caption points to.
+# If none of the kept columns is present, the file is rendered whole, less
+# the constant text.
+h4_var_keep <- c("dimension",
+                 "ratio_between_AI_over_Human", "ci_low_between",
+                 "ci_high_between",
+                 "ratio_residual_AI_over_Human", "ci_low_residual",
+                 "ci_high_residual",
+                 "lrt_between_chisq", "lrt_between_p",
+                 "lrt_residual_chisq", "lrt_residual_p",
+                 "h4_supported")
+render_prereg_table(
+  csv_name    = "study1_h4_variance_test.csv",
+  tex_name    = "sup_table_h4_variance.tex",
+  caption     = "H4, the registered variance test by attribution arm: the ratio of machine-arm to human-arm between-participant variance and the ratio of machine-arm to human-arm residual variance, both on the absolute variance scale; with the likelihood ratio test of each against a model holding that variance common to the two arms (lrt\\_between\\_chisq and lrt\\_between\\_p for the between-participant variance, lrt\\_residual\\_chisq and lrt\\_residual\\_p for the residual variance). The two ratios come from two fits with different residual structures. The between-participant ratio is from a crossed mixed model with participant and image intercepts, the participant variance free by arm and one residual variance shared by the arms. The residual ratio is from a second model in which the participant and the residual variances both differ by arm but which has no image intercept, so its residual also holds the differences between images that image kind does not explain. Each test sets two positive variances equal, an interior point of the parameter space, so it is referred to an ordinary chi-square on one degree of freedom rather than to a boundary-corrected mixture; the deposited file records this in its own reference columns. Each ratio carries a 95\\% interval from a participant-level percentile bootstrap, in which participants are resampled with replacement within each arm, duplicated participants are relabelled as distinct so the random-effects fit stays valid, both models are refit on every resample, and the interval is read from the 2.5th and 97.5th percentiles of the resampled ratios. H4 is supported on a dimension only if the participant ratio's interval lies wholly above 1 and the residual ratio's wholly below 1, a conjunction the h4\\_supported column states, and H4 as registered requires it on both dimensions. This table shows the ratios, their intervals, the two tests and that verdict; the full table, with the arm-specific variances, the reference distribution of each test, the resample count, and the number of resamples whose refit failed or was singular, is deposited as tables/study1\\_h4\\_variance\\_test.csv.",
+  label       = "supp_h4_variance",
+  pending_msg = "run Study1_01_Quant.Rmd section 7.8 (the registered H4 variance test)",
+  transform   = function(df) {
+    df <- drop_long_constant_columns(df)
+    if (any(h4_var_keep %in% names(df))) {
+      df <- df %>% dplyr::select(dplyr::any_of(h4_var_keep))
+    }
+    df
+  },
+  stage       = "quant"
+)
+```
+
+## 10.8 The confirmatory family and its Holm correction
+
+```{r supp-table-holm-family}
+# The preregistration lists the confirmatory family: the attribution contrast
+# on creativity, the attribution contrast on effort, the
+# attribution-by-dimension contrast, and the H4 variance-ratio test. Those
+# four p-values are corrected together by the Holm procedure at a family-wise
+# alpha of .05. Holm orders the tests from the smallest p-value upward and
+# compares each against a threshold that starts strictest and relaxes as
+# earlier tests pass. This table is the record of that correction. It should
+# show the four tests, their raw p-values, the order they were placed in, the
+# threshold each met or failed, and the adjusted value.
+#
+# Two points govern how the table is read. H1 is a conjunction: it requires
+# the effect on both dimensions. Correcting its two parts alongside the other
+# tests is therefore conservative, and that cost is accepted. H3 is not in
+# this family. It is a prediction of no effect, decided by the equivalence
+# procedure and its four-cell table, not by a corrected p-value.
+#
+# Column contract from the writer (Study1_01_Quant.Rmd section 7.9):
+# hypothesis, test, estimate, se, df, statistic, statistic_type, p_raw,
+# p_holm, survives_holm_at_05, family_size, correction, h4_creativity_lrt_p,
+# h4_effort_lrt_p, fits_converged, note. The two H4 columns are the
+# likelihood ratio p-values on each dimension, and the weaker of the two
+# enters the family.
+#
+# Typeset whole, the table is too wide for the page. The typeset table keeps
+# the columns a reader needs to check the correction: the hypothesis and the
+# test, the estimate with its precision, the statistic with its type, the raw
+# and Holm-adjusted p-values, and survives_holm_at_05, the verdict. The
+# precision is the interval when the writer deposits one, and the standard
+# error otherwise; the caption says which. keep_columns_report()
+# prints every other column once on the console, beside the hypothesis and
+# the test, and the caption points to the deposited CSV for them. The test
+# column holds a sentence on every row and is set at a fixed width, so it
+# wraps.
+holm_interval_cols <- function(df) {
+  pairs <- list(c("ci_low", "ci_high"), c("ci_lo", "ci_hi"),
+                c("conf.low", "conf.high"))
+  hit <- Filter(function(p) all(p %in% names(df)), pairs)
+  if (length(hit) > 0L) hit[[1]] else character(0)
+}
+holm_keep <- function(df) {
+  precision <- holm_interval_cols(df)
+  if (length(precision) == 0L) precision <- "se"
+  c("hypothesis", "test", "estimate", precision, "statistic_type",
+    "statistic", "p_raw", "p_holm", "survives_holm_at_05")
+}
+#
+# The H4 row of the family is only the between-participant half of H4: the
+# likelihood ratio test of letting the between-participant variance differ by
+# arm. A pass on that row does not establish H4. H4 also requires lower
+# residual variance under machine attribution, with each ratio's interval on
+# the predicted side of 1, on both dimensions. That full criterion is the
+# h4_supported column of the H4 variance table (section 10.7). When that
+# table is on disk, the caption reads h4_supported from it and states on
+# which dimensions the full criterion holds. The per-dimension verdict then
+# sits beside the family's row.
+h4_full <- read_table_or_null(
+  "study1_h4_variance_test.csv",
+  "run Study1_01_Quant.Rmd section 7.8 (the registered H4 variance test)",
+  stage = "quant")
+h4_full_sentence <- if (!is.null(h4_full) &&
+                        all(c("dimension", "h4_supported") %in% names(h4_full))) {
+  met     <- as.logical(h4_full$h4_supported)
+  dims_ok <- h4_full$dimension[met %in% TRUE]
+  dims_no <- h4_full$dimension[met %in% FALSE]
+  both    <- length(dims_ok) == 2L && length(dims_no) == 0L
+  cat("Full H4 criterion (h4_supported) holds on: ",
+      if (length(dims_ok)) paste(dims_ok, collapse = ", ") else "neither dimension",
+      "; does not hold on: ",
+      if (length(dims_no)) paste(dims_no, collapse = ", ") else "neither dimension",
+      ". H4 as registered, on both dimensions: ",
+      if (both) "supported" else "not supported", ".\n", sep = "")
+  paste0(
+    " In the H4 variance table the full criterion holds on ",
+    if (length(dims_ok)) paste(dims_ok, collapse = " and ") else "neither dimension",
+    if (length(dims_no)) paste0(" and does not hold on ",
+                                paste(dims_no, collapse = " and ")) else "",
+    ", so H4 as registered, which requires both dimensions, is ",
+    if (both) "supported." else "not supported."
+  )
+} else ""
+
+holm_caption <- function(df) {
+  precision <- if (length(holm_interval_cols(df)) > 0L)
+    paste0("its interval (", latex_escape(paste(holm_interval_cols(df),
+                                                collapse = ", ")), ")")
+  else "its standard error (se)"
+  no_interval <- if (length(holm_interval_cols(df)) == 0L)
+    " The deposited table carries no interval for the family." else ""
+  paste0("The confirmatory family and its Holm correction: the attribution contrast on creativity, the attribution contrast on effort, the attribution-by-dimension contrast, and the H4 variance-ratio test, with raw and Holm-adjusted p-values at a family-wise alpha of .05 (the Holm procedure orders the tests from the smallest p-value upward and compares each against a threshold that starts strictest and relaxes as earlier tests pass). The two attribution contrasts are the Human-minus-machine difference averaged with equal weight over the two image kinds. The H4 row is the between-participant half of H4 only, the likelihood ratio test of letting the between-participant variance differ by arm, at the weaker of the two dimensions. A surviving H4 row does not establish H4, which also requires lower residual variance under machine attribution, with each ratio's interval on the predicted side of 1, on both dimensions: the h4\\_supported column of the H4 variance table.", h4_full_sentence, " H3 is not part of this family: it is a null prediction, decided by the equivalence procedure. Any false-discovery-rate column elsewhere in these tables is descriptive and is not this correction. Each row shows the estimate with ", precision, ", the test statistic with its type (statistic\\_type), the raw and the Holm-adjusted p-values (p\\_raw, p\\_holm), and whether the test survives the correction (survives\\_holm\\_at\\_05).", no_interval, " The estimate of the H4 row is the machine-to-human ratio of between-participant variance, which has no standard error here; its bootstrap interval is in the H4 variance table. The full table, with the degrees of freedom, the family size, the wording of the correction, the H4 likelihood ratio p-value on each dimension, whether the fits converged and a note on each row, is deposited as tables/study1\\_confirmatory\\_family.csv.")
+}
+
+render_prereg_table(
+  csv_name    = "study1_confirmatory_family.csv",
+  tex_name    = "sup_table_holm_family.tex",
+  caption     = holm_caption,
+  label       = "supp_holm_family",
+  pending_msg = "run Study1_01_Quant.Rmd (Holm correction across the confirmatory family)",
+  transform   = function(df) keep_columns_report(
+    df, keep = holm_keep(df), key = c("hypothesis", "test")),
+  stage       = "quant",
+  col_widths  = c(test = "5cm")
+)
+```
+
+## 10.9 H2 in its two registered versions: raw scale and ordinal
+
+H2 says the attribution penalty is larger on effort than on creativity. The
+preregistration registers two versions of that test, because the two
+dimensions need not start at the same level under human attribution. A
+rating further from the floor of a five-point scale has more room to fall.
+The first version
+is the raw-scale attribution-by-dimension contrast from the joint model of
+section 10.1, in rating points. The second is the same contrast in a
+cumulative-link mixed model. That model treats the five response options as
+ordered categories cut from one underlying continuous scale, not as equally
+spaced numbers. Crowding near the floor is then absorbed by the category
+thresholds and not by the effect. H2 is claimed only if the two versions
+agree in sign and in significance. A disagreement is reported as a failure
+of H2, with the range explanation named: that the two dimensions had
+different room to fall.
+
+```{r supp-table-h2-ordinal}
+# The ordinal model is fitted on the stacked response, both dimensions in one
+# frame, as Type * dimension * stimulus_type with random structure
+# (1 + dimension | id) + (1 | stimulus_id:dimension). The by-participant slope
+# for dimension lets each person's own effort-minus-creativity gap vary, and
+# the interaction is tested against that variation. The second term gives one
+# intercept per image-by-dimension cell. When the slope structure does not
+# converge, the registered fallback is (1 | id) + (1 | stimulus_id:dimension).
+# The table's random_structure_used column records which was fitted, so a
+# reduced structure is labelled as reduced.
+#
+# Column contract from the writer: version, scale, estimate, SE, df,
+# statistic, statistic_type, p, sign, significant_at_05,
+# random_structure_used, converged, max_abs_gradient,
+# agree_sign_and_significance, definition. One row per version. The ordinal
+# estimate is on that model's log-odds scale and the raw-scale estimate is in
+# rating points, so the two are compared on sign and significance, never on
+# size.
+#
+# Two columns are handled before formatting. The first is df. The raw-scale
+# statistic is a t with Satterthwaite degrees of freedom, an approximation to
+# the degrees of freedom of a test in a mixed model. The ordinal statistic is
+# a z, referred to the standard normal distribution, and the writer records
+# its df as infinite. That cell is typeset as "normal reference", not as the
+# word Inf. The second is the definition of the contrast, one sentence
+# repeated on both rows, which drop_long_constant_columns() prints once above
+# the table. random_structure_used is also the same on both rows, but the
+# caption names it and the code below reads it, so it is kept.
+h2_ordinal <- render_prereg_table(
+  csv_name    = "study1_h2_ordinal.csv",
+  tex_name    = "sup_table_h2_ordinal.tex",
+  caption     = "H2 in its two registered versions. The raw-scale row is the attribution-by-dimension contrast from the joint mixed model, in rating points; the ordinal row is the same contrast from a cumulative-link mixed model, which treats the five response options as ordered categories cut from one underlying continuous scale rather than as equally spaced numbers, so that crowding near the floor is absorbed by the category thresholds rather than by the effect, and its estimate is on that model's log-odds scale. The raw-scale statistic is a t with Satterthwaite degrees of freedom; the ordinal statistic is a z referred to the standard normal distribution, so its df cell reads normal reference rather than a number. Both are fitted on the stacked response with a by-participant slope for dimension and one intercept per image-by-dimension cell; the random\\_structure\\_used column records whether the registered fallback to a participant intercept only was needed, and converged records whether the fit finished cleanly. H2 is claimed only if the two rows agree in sign and in significance, which the final column states.",
+  label       = "supp_h2_ordinal",
+  pending_msg = "run Study1_01_Quant.Rmd (H2 in the cumulative-link mixed model, beside the joint model of section 7.6)",
+  transform   = function(df) {
+    df <- drop_long_constant_columns(df, keep = "random_structure_used")
+    if ("df" %in% names(df) && is.numeric(df$df)) {
+      df <- df %>%
+        mutate(df = ifelse(is.infinite(df), "normal reference",
+                           fmt_n(df, 3)))
+    }
+    df
+  },
+  stage       = "quant"
+)
+
+# The random structure of each version, and the registered decision, are
+# also printed in words. A fallback to the intercept-only structure is then
+# stated outright and need not be decoded from a column.
+if (!is.null(h2_ordinal)) {
+  h2_req <- c("version", "random_structure_used", "converged",
+              "agree_sign_and_significance")
+  if (!all(h2_req %in% names(h2_ordinal))) {
+    stop("study1_h2_ordinal.csv is missing expected columns (",
+         paste(setdiff(h2_req, names(h2_ordinal)), collapse = ", "),
+         "). Found: ", paste(names(h2_ordinal), collapse = ", "),
+         ". Align the writer in Study1_01_Quant.Rmd with this reader.")
+  }
+  # The registered structure carries a by-participant slope for dimension.
+  # The recorded formula is matched against that slope first and against the
+  # intercept-only fallback second. A formula that matches neither is quoted
+  # back as recorded.
+  structure_in_words <- function(x) {
+    if (grepl("dimension\\s*\\|\\s*id", x) || grepl("slope", x, ignore.case = TRUE)) {
+      "the registered by-participant dimension slope was fitted"
+    } else if (grepl("\\(\\s*1\\s*\\|\\s*id\\s*\\)", x) ||
+               grepl("intercept", x, ignore.case = TRUE)) {
+      paste0("the by-participant dimension slope was not fitted, so this row ",
+             "rests on the registered fallback of a participant intercept ",
+             "only, and the comparative claim is weakened accordingly")
+    } else {
+      paste0("the recorded random structure matches neither the registered ",
+             "slope form nor the intercept-only fallback; read it as quoted")
+    }
+  }
+  for (i in seq_len(nrow(h2_ordinal))) {
+    cat(sprintf("%s version: random structure %s; converged: %s; %s.\n",
+                h2_ordinal$version[i],
+                h2_ordinal$random_structure_used[i],
+                as.character(h2_ordinal$converged[i]),
+                structure_in_words(h2_ordinal$random_structure_used[i])))
+  }
+  agree <- unique(as.logical(h2_ordinal$agree_sign_and_significance))
+  if (length(agree) != 1L || is.na(agree)) {
+    stop("agree_sign_and_significance should be one non-NA value repeated ",
+         "on every row of study1_h2_ordinal.csv; found: ",
+         paste(h2_ordinal$agree_sign_and_significance, collapse = ", "))
+  }
+  # The agreement meets the registered condition only when both fits are
+  # recorded as converged. A fit that did not converge cannot support the
+  # claim.
+  not_converged <- h2_ordinal$version[!(as.logical(h2_ordinal$converged) %in% TRUE)]
+  cat(if (agree && length(not_converged) == 0L) {
+    paste0("The two versions agree in sign and in significance, and both fits ",
+           "are recorded as converged, which is the registered condition for ",
+           "claiming H2.\n")
+  } else if (agree) {
+    paste0("The two versions agree in sign and in significance, but the ",
+           paste(not_converged, collapse = " and "), " fit is not recorded as ",
+           "converged, so the agreement does not meet the registered condition ",
+           "for claiming H2 on this run.\n")
+  } else {
+    paste0("The two versions do not agree in sign and in significance; on the ",
+           "registered rule H2 is reported as a failure, with the range ",
+           "explanation named.\n")
+  })
+  h2_ordinal
+}
+```
+
+## 10.10 What the design can resolve for H4
+
+The preregistration commits to reporting what this sample can resolve,
+instead of assuming the sample is large enough. For H4 the quantity most
+limited by the sample is the ratio of machine-arm to human-arm
+between-participant variance. It rests on two groups, of 56 and 55
+participants. `Study1_04_Robustness.Rmd` section 4.1 answers by simulation.
+It generates data sets of exactly this design, ten images rated by 56
+human-arm and 55 machine-arm participants, from the variance components the
+real fits estimated. It fits the two models of the registered H4 test to
+each data set and estimates the ratio on every one. The distance between the
+2.5th and 97.5th percentiles of those estimates is the sampling spread of
+the ratio estimate: how far the estimate moves from one sample of this size
+to the next. The spread is not the width of the bootstrap interval the
+registered test reports. Nor does it say anything about that interval's
+coverage, how often an interval of that kind contains the true ratio. No
+interval is computed inside each simulated data set, and for a skewed
+quantity such as a variance ratio the two can differ. The reading runs in one direction only.
+A wide spread means a ratio near 1 could not be told apart from a ratio well
+away from it. A null on H4 would then be reported as uninformative, not as
+evidence that the two arms have the same between-participant spread.
+
+```{r supp-table-h4-resolution}
+# One row per dimension and setting. There are three settings. In
+# null_pooled both arms share one between-participant variance. The spread on
+# those rows is the sampling spread of the ratio estimate when the null is
+# true, and the rejection share is the false-positive rate of the likelihood
+# ratio test. In observed every component sits at its estimated value. The
+# spread is the sampling spread at the ratio actually estimated, and the
+# rejection share is the power against a ratio of that size. In grid the true
+# ratio takes each of a set of values, with the human arm's variance held at
+# its observed value. From the grid, smallest_grid_ratio_at_80pct reads the
+# smallest ratio the design detects with 80 per cent power (NA when the grid
+# does not reach it).
+#
+# Column contract from the writer: dimension, setting, true_ratio_between,
+# n_sim, n_used, n_failed, n_singular, n_nonfinite_ratio, n_warnings,
+# mean_log_ratio, sd_log_ratio, median_ratio, ratio_q025, ratio_q975,
+# ratio_spread_95, log_ratio_spread_95, lrt_reject_rate, lrt_reject_mc_se,
+# interval_width_meaning, status, smallest_grid_ratio_at_80pct. When the
+# variance partition the simulation starts from is not on disk, the writer
+# deposits a one-row ledger with status "skipped" instead. The file is
+# therefore read first and rendered only if the simulation ran.
+#
+# The typeset table keeps the columns a reader needs to check the claim:
+#   - the setting and the true ratio;
+#   - the median estimate, whose gap from the true ratio is the small-sample
+#     bias of the estimator;
+#   - the two percentiles and their spread;
+#   - the rejection share, with its Monte Carlo standard error, the
+#     uncertainty in that share that comes from running a finite number of
+#     simulations;
+#   - the counts of singular and failed fits, singular meaning one arm's
+#     variance was driven to zero, so the ratio is zero or infinite and the
+#     data set is set aside;
+#   - the smallest detectable grid ratio.
+# A column the writer does not carry is absent from the table. If none of
+# them is present, the file is rendered whole, less any long constant text
+# column, which drop_long_constant_columns() from section 1 prints once above
+# the table. The full CSV is deposited unchanged either way.
+#
+# The spread columns are ratio_spread_95 and log_ratio_spread_95. The
+# writer's interval_width_meaning column states in words that the spread is
+# the spread of the estimate over simulations, not a per-simulation interval.
+# That column is one sentence repeated on every row and is printed once above
+# the table.
+remove_fragment("sup_table_h4_resolution.tex")
+h4_res_pending <- "run Study1_04_Robustness.Rmd section 4.1 (the H4 half of what the design can resolve)"
+h4_res_raw     <- read_table_or_null("study1_h4_resolution.csv", h4_res_pending,
+                                     stage = "robustness")
+
+h4_res_skipped <- !is.null(h4_res_raw) && "status" %in% names(h4_res_raw) &&
+  isTRUE(all(h4_res_raw$status == "skipped"))
+
+if (is.null(h4_res_raw)) {
+  record_file("output", file.path(PATH_SUP_TAB, "sup_table_h4_resolution.tex"),
+              "pending", h4_res_pending)
+} else if (h4_res_skipped) {
+  cat("study1_h4_resolution.csv is a skipped ledger, not a result: ",
+      paste(unique(as.character(h4_res_raw$note)), collapse = "; "),
+      ". No table is written until the simulation has run.\n", sep = "")
+  record_file("output", file.path(PATH_SUP_TAB, "sup_table_h4_resolution.tex"),
+              "pending", "the simulation deposited a skipped ledger")
+} else {
+  h4_res_keep <- c("dimension", "setting", "true_ratio_between",
+                   "median_ratio", "sd_log_ratio", "ratio_q025", "ratio_q975",
+                   "ratio_spread_95", "lrt_reject_rate", "lrt_reject_mc_se",
+                   "n_singular", "n_failed", "smallest_grid_ratio_at_80pct")
+  render_prereg_table(
+    csv_name    = "study1_h4_resolution.csv",
+    tex_name    = "sup_table_h4_resolution.tex",
+    caption     = "What the design can resolve for H4: the sampling spread of the estimated ratio of machine-arm to human-arm between-participant variance at this study's arm sizes, 56 and 55 participants, by simulation. Data sets of this design are generated from the estimated variance components, the two models of the registered H4 test are fitted to each, and the ratio is estimated on every one; ratio\\_q025 and ratio\\_q975 are the 2.5th and 97.5th percentiles of those estimates across simulations and ratio\\_spread\\_95 the distance between them, the spread of the ratio estimate from one sample of this size to the next. It is not the width or the coverage of the bootstrap interval the registered test reports: no interval is computed inside each simulated data set, and for a skewed quantity such as a variance ratio the two can differ. Rows are one per dimension and setting: null\\_pooled gives both arms one common between-participant variance, so its spread is the spread of the estimate when the null is true and its rejection share (lrt\\_reject\\_rate, with the Monte Carlo standard error that comes from a finite number of simulations) is the false-positive rate of the likelihood ratio test; observed puts every component at its estimated value, so its spread is the spread at the ratio actually estimated and its rejection share is the power against a ratio of that size; grid sets the true ratio to each listed value, and smallest\\_grid\\_ratio\\_at\\_80pct is the smallest that the design detects with 80\\% power, NA where the grid does not reach it. median\\_ratio is the median estimate, whose gap from the true ratio is the estimator's small-sample bias; n\\_singular and n\\_failed count the simulated data sets set aside because one arm's variance was driven to zero or the fit errored. Where the spread is wide relative to the ratios at issue, a null on H4 is reported as uninformative rather than as evidence that the two arms' variances are equal.",
+    label       = "supp_h4_resolution",
+    pending_msg = h4_res_pending,
+    stage       = "robustness",
+    transform   = function(df) {
+      df <- drop_long_constant_columns(df)
+      if (any(h4_res_keep %in% names(df))) {
+        df <- df %>% dplyr::select(dplyr::any_of(h4_res_keep))
+      }
+      df
+    }
+  )
+}
+```
+
+## 10.11 The five registered tests on the written explanations (exploratory family)
+
+The written explanations are asked four questions and no others, and those
+questions carry five directional tests between them. The first four tests
+are the denotation comparisons. They ask what the word "effort" referred to
+for participants told a person made the work, and what the word "creativity"
+referred to. Each comparison is one model, not a side-by-side look at two
+rates. For a given arm and rating dimension, the two flags being compared
+are stacked, one row per explanation and measure. The stacked flag is fitted
+as a mixed logistic regression on which measure it is. A mixed logistic
+regression is a model for a true-or-false outcome, here whether a fixed
+search pattern fired in the explanation. Its random intercepts give each
+participant and each image a baseline of its own, so one person's twenty
+explanations are not counted as twenty independent observations. In the
+human arm's effort explanations, visible detail is compared against time and
+against skill. In the human arm's creativity explanations, the idea behind
+the work (concept) is compared against visible detail (execution, measured
+by the same detail pattern). Concept is also compared against familiarity
+talk either way (novelty, measured by the prior-exposure pattern), which counts
+both an assertion that the work looks familiar and a denial of it. The fifth
+test asks what the machine-arm participants took the effort question to be
+about. It asks whether prompting-and-generating talk appears more often in
+that arm's effort explanations than in its creativity explanations. The
+model is the same, with the flag on rating dimension, fitted within the
+machine arm.
+
+These five tests form one exploratory family. They are corrected together by
+the Benjamini-Hochberg procedure at .05, which controls the expected share
+of false positives among the tests called positive. They stay apart from the
+confirmatory family of section 10.8 and do not enter its Holm correction. No
+result among them is offered in support of a prediction.
+
+```{r supp-table-denotation-tests}
+# Column contract from the writer: comparison, arm, dimension, n_responses,
+# n_participants, estimate_log_odds, se, z, p_raw, p_bh, predicted_direction,
+# observed_direction, note. One row per test, five rows. estimate_log_odds is
+# the log-odds difference between the two measures (or, for the fifth row,
+# between the two dimensions), se its standard error, and z the ratio of the
+# two. p_raw is the uncorrected p-value and p_bh the Benjamini-Hochberg
+# adjusted one across the five. note carries any convergence or singularity
+# warning from the fit, or is blank. Both p columns match P_COL_PATTERN, so a
+# very small p prints as "< 0.001" and not as 0.
+denotation_caption <- paste0(
+  "The five registered tests on the written explanations: an exploratory ",
+  "family, corrected by the Benjamini-Hochberg procedure and kept separate ",
+  "from the confirmatory family and its Holm correction. Each of the first ",
+  "four is one mixed logistic regression, a model for a true-or-false ",
+  "outcome (here, whether a fixed search pattern fired in an explanation) ",
+  "with random intercepts for participant and for image so that one ",
+  "person's twenty explanations are not counted as twenty independent ",
+  "observations, of the stacked flag on which measure it is, fitted within ",
+  "the human-attribution arm and the named dimension: visible detail ",
+  "against time and against skill in the effort explanations; the idea ",
+  "behind the work (concept) against visible detail (execution) and against ",
+  "familiarity talk either way (novelty) in the creativity explanations. ",
+  "The fifth is the same model of prompting-and-generating talk on rating ",
+  "dimension, fitted within the machine-attribution arm. The estimate is ",
+  "the log-odds difference, the change in the logarithm of the odds that ",
+  "the pattern fires, with its standard error (se) and z statistic; ",
+  "p\\_raw is the uncorrected p-value and p\\_bh the same after the ",
+  "Benjamini-Hochberg correction across the five, which controls the ",
+  "expected share of false positives among the tests called positive, at ",
+  ".05. The predicted direction is recorded beside the observed one, and ",
+  "the note column carries any convergence or singularity warning from the ",
+  "fit. No result here is offered in support of a prediction in the ",
+  "confirmatory set."
+)
+
+render_prereg_table(
+  csv_name    = "study1_text_denotation_tests.csv",
+  tex_name    = "sup_table_denotation_tests.tex",
+  caption     = denotation_caption,
+  label       = "supp_denotation_tests",
+  pending_msg = paste0("run Study1_03_Integration.Rmd (the five registered ",
+                       "tests on the written explanations: sections 3 and 4 ",
+                       "for the four denotation comparisons, section 6 for ",
+                       "prompting talk across the machine arm's two dimensions)"),
+  stage       = "integration"
+)
+```
+
+Each of the five models gives every participant a baseline rate of their
+own, but one gap between the two measures that all participants share. If
+participants differ in that gap, for instance one writing almost only about
+detail and another splitting detail and time evenly, the model treats those
+differences as noise around a single gap, and its standard error can come
+out too small. The preregistration therefore lists a sensitivity check
+beside the five tests, one that changes no verdict. Each test is refitted
+with the gap also free to vary by participant: a random slope for the
+measure, or in the fifth test for the dimension. The refit uses the same
+rows as the registered model. The table sets each registered estimate and
+standard error beside the refitted ones, so a reader can see whether the
+simpler structure is what carries the result.
+
+```{r supp-table-denotation-slope-sensitivity}
+# Column contract from the writer (Study1_03_Integration.Rmd section 7.2):
+# comparison, role, registered_estimate_log_odds, registered_se,
+# estimate_log_odds, se, z, p_raw, status, model, note. One row per test, in
+# the order of the table above. registered_estimate_log_odds and
+# registered_se are the estimate and standard error of the registered model;
+# estimate_log_odds, se, z and p_raw come from the refit with the random
+# slope. status is the writer's reading of the refit. A refit whose status
+# does not permit inference keeps its estimate and carries no standard error
+# or p.
+#
+# The typeset table keeps the comparison, the two estimates and their
+# standard errors, z, p_raw and status. keep_columns_report() prints the
+# role, model and note columns once on the console, beside the comparison,
+# and the caption quotes the model column. p_raw matches P_COL_PATTERN, so a
+# very small p prints as "< 0.001" and not as 0.
+render_prereg_table(
+  csv_name    = "study1_text_denotation_slope_sensitivity.csv",
+  tex_name    = "sup_table_denotation_slope_sensitivity.tex",
+  caption     = function(df) paste0(
+    "The five registered tests on the written explanations, refitted with a ",
+    "participant random slope. The registered model gives each participant a ",
+    "baseline of their own but one gap that all participants share; the ",
+    "refit lets the gap each test measures (between the two measures or, in ",
+    "the fifth test, between the two dimensions) vary by participant. The ",
+    "preregistration lists this refit as a sensitivity check that changes no ",
+    "verdict, and it enters no correction family. Each refit uses the rows ",
+    "its registered model saw. The columns ",
+    "registered\\_estimate\\_log\\_odds and registered\\_se are the log-odds ",
+    "difference and its standard error from the registered model, as in the ",
+    "table above; estimate\\_log\\_odds, se and z are the same from the ",
+    "refit, and p\\_raw is its uncorrected p-value. The status column is the ",
+    "analysis's reading of the refit, and a refit whose status does not ",
+    "permit inference carries no standard error or p. ",
+    "Some growth in the standard error under the refit is the usual result, ",
+    "since the refit no longer treats every participant's gap as the same ",
+    "one.",
+    writer_quote(df, "model", "The analysis records the models as"),
+    " The full table, with the analysis's note on each fit, is deposited as ",
+    "tables/study1\\_text\\_denotation\\_slope\\_sensitivity.csv."),
+  label       = "supp_denotation_slope_sensitivity",
+  pending_msg = paste0("run Study1_03_Integration.Rmd section 7.2 (the five ",
+                       "text tests refitted with a participant random slope)"),
+  transform   = function(df) keep_columns_report(
+    df,
+    keep = c("comparison", "registered_estimate_log_odds", "registered_se",
+             "estimate_log_odds", "se", "z", "p_raw", "status"),
+    key  = "comparison"),
+  stage       = "integration"
+)
+```
+
+## 10.12 H3: the registered equivalence test under both random-effects structures
+
+H3 predicts that the attribution penalty does not depend on the kind of
+image, figurative or non-figurative. That is a prediction of no effect, so a
+non-significant interaction is not by itself evidence for it. The
+preregistration pairs the ordinary significance test with an equivalence
+test, which asks whether the estimate sits inside a stated bound. The
+verdict comes from the two tests read together. The test is run under the
+intercepts-only structure and under the maximal structure. Random slopes let
+an effect vary from person to person or from image to image. A structure
+that leaves out warranted random slopes gives the interaction too narrow an
+interval, and a too-narrow interval makes a prediction of no effect easier
+to confirm.
+
+```{r supp-table-h3-equivalence}
+# The registered rows of the H3 test: one per dimension and random-effects
+# structure, with the two tests the verdict is read from and the verdict
+# itself. The same file also carries rows at the wider bounds of 0.30 and
+# 0.50 rating points. Those rows are descriptive sensitivity and carry no
+# verdict. They are left out here, since Supplementary Table 1 already
+# reports sensitivity of that kind from Study1_04_Robustness.Rmd.
+#
+# A fit is singular when the optimiser has driven an estimated variance or
+# correlation to the edge of its range, a sign that the data cannot support
+# that many parameters. The registered rule for a singular maximal fit is
+# that the verdict rests on the intercepts-only structure and the output
+# records which structure was used. random_structure names the structure of
+# each row. fit_singular flags the singular fit. h3_claim states the
+# conclusion for the dimension. Any column whose name contains
+# "structure_used" is also kept by the select, so a column the writer adds to
+# name the structure behind the claim is not lost. The selected rows then
+# pass through drop_long_constant_columns(). A column that is one sentence
+# repeated on all four rows, as the structure column is when both dimensions
+# rest on the same structure, is printed once above the table. A column that
+# differs by row is typeset.
+#
+# Column contract from the writer (Study1_01_Quant.Rmd section 7.10):
+# dimension, random_structure, bound_role, term, bound_lo, bound_hi,
+# estimate, se, df, ci90_lo, ci90_hi, tost_p_lower, tost_p_upper, tost_p,
+# equivalent, nhst_p, nhst_significant, fit_singular, verdict,
+# alpha_per_side, h3_claim. term and alpha_per_side are constant across rows.
+# bound_lo and bound_hi are fixed by the registered bound once the rows are
+# filtered. tost_p is the larger of the two one-sided p-values,
+# tost_p_lower and tost_p_upper, and stands for both. Those columns are
+# dropped, and the caption states them. tost_p and nhst_p match
+# P_COL_PATTERN, so a very small p prints as "< 0.001" and not as 0.
+h3_required <- c("dimension", "random_structure", "bound_role", "estimate",
+                 "se", "ci90_lo", "ci90_hi", "tost_p", "equivalent",
+                 "nhst_p", "nhst_significant", "fit_singular", "verdict",
+                 "h3_claim")
+
+h3_registered_rows <- function(df) {
+  missing <- setdiff(h3_required, names(df))
+  if (length(missing) > 0L) {
+    stop("study1_h3_equivalence.csv is missing expected columns (",
+         paste(missing, collapse = ", "), "). Found: ",
+         paste(names(df), collapse = ", "),
+         ". Align Study1_01_Quant.Rmd section 7.10 (writer) with this reader.")
+  }
+  out <- df %>%
+    filter(bound_role == "registered") %>%
+    select(dimension, random_structure, matches("structure_used"),
+           estimate, se, ci90_lo, ci90_hi, tost_p, equivalent,
+           nhst_p, nhst_significant, fit_singular, verdict, h3_claim)
+  # Two dimensions under two structures: four registered rows.
+  if (nrow(out) != 4L) {
+    stop("Expected four registered rows in study1_h3_equivalence.csv ",
+         "(two dimensions under two structures) and found ", nrow(out),
+         ". Re-run Study1_01_Quant.Rmd section 7.10.")
+  }
+  drop_long_constant_columns(out)
+}
+
+h3_caption <- paste0(
+  "H3, the registered prediction that the attribution penalty does not ",
+  "depend on the kind of image (figurative or non-figurative): the ",
+  "attribution-by-image-kind interaction, in rating points, tested against ",
+  "the registered bound of plus or minus 0.20 rating points on each ",
+  "dimension and under each of two random-effects structures. The ",
+  "intercepts-only structure gives each participant and each image its own ",
+  "baseline; the maximal structure also lets the image-kind difference vary ",
+  "from participant to participant and the attribution penalty vary from ",
+  "image to image, which widens the interval on the interaction and so ",
+  "makes a prediction of no effect harder, not easier, to confirm. Each row ",
+  "reads two tests together: the equivalence test, two one-sided tests of ",
+  "the estimate against each end of the bound, each at .05, so the interval ",
+  "shown is a 90\\% confidence interval and tost\\_p is the larger of the ",
+  "two one-sided p-values (equivalent is TRUE when both ends are rejected), ",
+  "and the ordinary test of whether the interaction differs from zero ",
+  "(nhst\\_p, nhst\\_significant). Not significant and equivalent is ",
+  "supported; significant and not equivalent is rejected; either remaining ",
+  "combination is inconclusive, and the verdict column states which. H3 is ",
+  "claimed only if the verdict is the same under both structures, and a ",
+  "disagreement is reported as inconclusive. A singular fit is one in which ",
+  "the optimiser has driven an estimated variance or correlation to the ",
+  "edge of its range, a sign that the data cannot support that many ",
+  "parameters; it can still carry slope variances above zero, so the ",
+  "fallback below is the registered rule for such a fit and not a finding ",
+  "that the slopes are absent. When the maximal fit is singular the verdict ",
+  "rests on the intercepts-only structure and the table records which ",
+  "structure was used: random\\_structure names the structure of each row, ",
+  "fit\\_singular ",
+  "flags the singular fit, and h3\\_claim states the conclusion for the ",
+  "dimension. The rows at the wider bounds of 0.30 and 0.50 rating points ",
+  "in the same file are descriptive sensitivity, carry no verdict, and are ",
+  "left out here. A passed equivalence test stands on its own, because the ",
+  "two one-sided tests hold the rate of wrongly declaring equivalence at .05 ",
+  "on each side whatever their power; a failed one is read against the ",
+  "simulated power of the equivalence test at the registered bound under a ",
+  "true interaction of zero, deposited in ",
+  "tables/study1\\_h3\\_equivalence\\_power.csv and rendered in the table ",
+  "that follows."
+)
+
+h3_table <- render_prereg_table(
+  csv_name    = "study1_h3_equivalence.csv",
+  tex_name    = "sup_table_h3_equivalence.tex",
+  caption     = h3_caption,
+  label       = "supp_h3_equivalence",
+  pending_msg = paste0("run Study1_01_Quant.Rmd section 7.10 (H3 equivalence ",
+                       "test under both random-effects structures)"),
+  transform   = h3_registered_rows,
+  stage       = "quant"
+)
+
+# The conclusion is stated per dimension, as the writer's h3_claim gives it,
+# so a pass on one dimension is not read as H3 holding on both. When the
+# claim is one sentence on all four rows, drop_long_constant_columns() has
+# already printed it once above the table.
+if (!is.null(h3_table) && "h3_claim" %in% names(h3_table)) {
+  h3_table %>%
+    distinct(dimension, h3_claim) %>%
+    mutate(line = paste0("H3, ", dimension, ": ", h3_claim)) %>%
+    pull(line) %>%
+    paste(collapse = "\n") %>%
+    cat("\n")
+}
+```
+
+The verdict in that table is read with the power of the equivalence test
+beside it. A pass stands on its own. The two one-sided tests hold the rate
+of wrongly declaring equivalence at .05 on each side whatever their power,
+so low power makes a pass unlikely but not wrong. A fail is informative only
+when the design would usually have passed under a true interaction of zero.
+`Study1_04_Robustness.Rmd` section 4 checks this by simulation. It generates
+data sets of this design from the primary model with the interaction fixed
+at zero and refits the model to each. The share of data sets on which the
+two one-sided tests pass at the registered bound is the power of the
+equivalence test. When that share falls below 80 per cent, a failed
+equivalence test is reported as uninformative. That is a statement about the
+width of the interval this design produces, not about the interaction. The
+same simulation is repeated with the interaction fixed at a small nonzero
+value, as sensitivity. Every simulated interval is also read against the
+wider bounds of 0.30 and 0.50 rating points, so the table also shows how far
+the bound would have to widen before the design usually passed.
+
+```{r supp-table-h3-equivalence-power}
+# One row per dimension, true interaction and bound: the registered bound of
+# 0.20 rating points and the two descriptive bounds of 0.30 and 0.50, each
+# under a true interaction of zero and of a small nonzero value. Two
+# dimensions, two true interactions and three bounds make twelve rows.
+#
+# Column contract from the writer (Study1_04_Robustness.Rmd section 4, chunk
+# h3-equivalence-power): dimension, true_interaction, bound,
+# bound_is_registered, equivalence_power, mc_se, ci_lo, ci_hi,
+# analytic_power, n_sim, n_used, n_failed, n_singular, n_warnings, n_inside,
+# se_deposited, df_deposited, halfwidth_90, mean_estimate, sd_estimate,
+# mean_se, alpha_per_side, registered_test_passed, h3_claim,
+# h3_structure_used, verdict_source, power_registered_bound_true_zero,
+# h3_equivalence_informative, informative_rule, power_target, seed,
+# runtime_minutes_all_cells, analysis_type. The writer deposits no skipped
+# ledger. The file is either absent, and this chunk prints a pending line,
+# or complete. A missing column or an NA power therefore stops the chunk.
+#
+# The typeset table keeps the columns a reader needs to check the claim:
+#   - the cell: dimension, true interaction, bound, and whether the bound is
+#     the registered one;
+#   - the simulated power, with its Monte Carlo standard error (the amount
+#     the share would move from one run of the simulation to the next purely
+#     because the data sets are random draws) and its exact binomial
+#     interval;
+#   - the analytic approximation from the deposited standard error, as a
+#     check on both;
+#   - the counts of refits used, singular and failed;
+#   - the three columns that carry the reading: whether the registered test
+#     passed, the power at the registered bound under a true zero (one value
+#     per dimension, repeated on its rows), and the informative flag, TRUE on
+#     a pass and on a fail only when that power reaches the target.
+# The rule the flag applies is a long constant text column, which
+# drop_long_constant_columns() from section 1 prints once above the table.
+# The full CSV is deposited unchanged.
+h3_pow_required <- c("dimension", "true_interaction", "bound",
+                     "bound_is_registered", "equivalence_power", "mc_se",
+                     "ci_lo", "ci_hi", "analytic_power", "n_used",
+                     "n_singular", "n_failed", "registered_test_passed",
+                     "power_registered_bound_true_zero",
+                     "h3_equivalence_informative")
+
+h3_pow_rows <- function(df) {
+  missing <- setdiff(h3_pow_required, names(df))
+  if (length(missing) > 0L) {
+    stop("study1_h3_equivalence_power.csv is missing expected columns (",
+         paste(missing, collapse = ", "), "). Found: ",
+         paste(names(df), collapse = ", "),
+         ". Align Study1_04_Robustness.Rmd section 4 (writer) with this reader.")
+  }
+  # Two dimensions, two true interactions, three bounds: twelve rows.
+  if (nrow(df) != 12L) {
+    stop("Expected twelve rows in study1_h3_equivalence_power.csv ",
+         "(two dimensions, two true interactions, three bounds) and found ",
+         nrow(df), ". Re-run Study1_04_Robustness.Rmd section 4.")
+  }
+  if (anyNA(df$equivalence_power)) {
+    stop("study1_h3_equivalence_power.csv carries an NA equivalence_power. ",
+         "Re-run Study1_04_Robustness.Rmd section 4 rather than print around it.")
+  }
+  df <- drop_long_constant_columns(df)
+  df %>%
+    arrange(dimension, true_interaction, bound) %>%
+    select(all_of(h3_pow_required))
+}
+
+h3_pow_caption <- paste0(
+  "Power of the registered H3 equivalence test, by simulation, as design ",
+  "sensitivity and not observed power: data sets of this design, ten images ",
+  "rated by 56 human-arm and 55 machine-arm participants, are drawn from the ",
+  "primary model with its estimated variance components and the ",
+  "attribution-by-image-kind interaction fixed at the stated true value ",
+  "(true\\_interaction, in rating points: zero, and a small nonzero value as ",
+  "sensitivity), the model is refitted to each, and equivalence\\_power is ",
+  "the share of data sets on which the 90\\% interval on the interaction lies ",
+  "inside the stated bound (bound, in rating points; bound\\_is\\_registered ",
+  "marks the registered bound of 0.20, the others being the descriptive ",
+  "bounds of 0.30 and 0.50). mc\\_se is the Monte Carlo standard error of ",
+  "that share, the amount it would move from one run of the simulation to ",
+  "the next purely because the data sets are random draws, and ci\\_lo and ",
+  "ci\\_hi its exact binomial interval; analytic\\_power is the same ",
+  "probability worked out without simulation from the standard error the ",
+  "registered test deposited, as a check on both. n\\_used, n\\_singular and ",
+  "n\\_failed count the refits kept, the refits in which a variance was ",
+  "driven to zero (kept, since the interval is still valid), and the refits ",
+  "that errored (set aside). registered\\_test\\_passed is the verdict of the ",
+  "registered test on the structure that carries it, ",
+  "power\\_registered\\_bound\\_true\\_zero is the power at the registered ",
+  "bound under a true interaction of zero, one value per dimension, and ",
+  "h3\\_equivalence\\_informative is the flag that governs how the verdict is ",
+  "reported: TRUE on a pass, because the two one-sided tests hold the rate ",
+  "of wrongly declaring equivalence at .05 on each side whatever their power, ",
+  "and on a fail only when that power reaches 80\\%, below which the design ",
+  "would usually have failed even if the two penalties were identical and ",
+  "the fail is reported as uninformative."
+)
+
+render_prereg_table(
+  csv_name    = "study1_h3_equivalence_power.csv",
+  tex_name    = "sup_table_h3_equivalence_power.tex",
+  caption     = h3_pow_caption,
+  label       = "supp_h3_equivalence_power",
+  pending_msg = paste0("run Study1_04_Robustness.Rmd section 4 (chunk ",
+                       "h3-equivalence-power, the power of the H3 ",
+                       "equivalence test)"),
+  transform   = h3_pow_rows,
+  stage       = "robustness"
+)
+```
+
+## 10.13 Two checks run in every study
+
+Two further quantities on the written explanations are registered as
+checks. Each runs unchanged in every study where the rating exists and is
+reported wherever it falls. Neither is among the four predictions of the
+preregistration, and neither enters its confirmatory family. Both take their
+text side from `Study1_02_Text.ipynb`, whose measurement step runs before
+the condition or the rating is joined to the text. The arm and the rating
+are joined only in `Study1_03_Integration.Rmd`, which deposits the two
+tables rendered here. No step in either check requires a person to read or
+judge an individual explanation.
+
+The first check asks how much of the rating, and of the arm, can be
+recovered from the words. It is descriptive and carries no verdict. It
+states how closely the explanations track the rating a participant had just
+given. Each explanation was written after its rating, so no text measure in
+this project is read as a mechanism behind the rating. The notebook reduces
+every explanation to counts of its content words, the words left once a
+fixed list of function words such as "the" and "of" is removed. It exports
+those counts with nothing else attached. The integration file then predicts
+the rating from the counts, and the arm from the counts. Each model is
+scored only on explanations it was not fitted to, and each participant stays
+whole on one side of that split. Each result is compared against what the
+same procedure recovers when the thing to be predicted has been shuffled.
+Beside the arm result, the file reports how well the rating alone recovers
+the arm. It then asks whether the words add to the rating. A model of the
+arm on the rating and the words together is scored on the same held-out
+participants as the rating-only model, and the paired difference between
+the two scores is reported with its interval. Two stand-alone scores,
+however close, say nothing by themselves about whether the words carry
+information beyond the rating. The paired difference is the quantity that
+does.
+
+The second check is the text version of H4, the prediction that under the
+machine label a rating is more a property of the person judging and less a
+property of the particular picture. If that is so, participants under the
+machine label should reuse their own words across the ten images more than
+participants under the human label. The notebook writes, for every
+explanation, the set of its content words. For each participant and
+dimension, the integration file measures two overlaps. One is how much that
+participant's ten explanations share words with one another. The other is
+how much they share with what other participants wrote about the same
+picture. The file compares the excess of the first over the second between
+arms, holding the length of the explanations constant, since overlap falls
+as texts get longer. The two dimensions are corrected together by the Holm
+procedure (the tests are ordered from the smallest p-value upward and each
+is compared against a threshold that starts strictest and relaxes as earlier
+tests pass). Each is read as supported, opposite direction or inconclusive.
+
+For Study 1 the first check is reported as a quantity already partly known,
+not as a prediction. The recoverability of the rating from the text was
+computed in earlier exploratory work on this study, with a different method.
+That work also tried a version of the second check built on sentence
+embeddings (numerical representations of a sentence's meaning produced by a
+language model), and that version did not survive resampling. The
+word-overlap version rendered here had not been run when the preregistration
+was written.
+
+```{r supp-table-text-recoverability}
+# Column contract from the writer (Study1_03_Integration.Rmd, the
+# recoverability check): one row per dimension, target and predictor set.
+# The rows are rating from words, arm from words, arm from rating, arm from
+# rating plus words, and the incremental row. The incremental row is the
+# paired difference in AUC between the rating-plus-words model and the
+# rating-only model on the same held-out participants. AUC is the
+# probability that a randomly chosen machine-arm explanation is scored as
+# more machine-like than a randomly chosen human-arm one: 0.5 for chance, 1
+# for perfect separation. The columns are
+# statistic, estimate, ci_low, ci_high, null_95th, n_perm, n_folds,
+# n_features, seed, then bookkeeping counts and two description columns,
+# model and permutation. estimate is r on the rating rows, the AUC on the arm
+# rows and the AUC difference on the incremental row. ci_low and ci_high give
+# its 95 percent interval from resampling participants. null_95th is the 95th
+# percentile of the permutation null, the distribution of the statistic when
+# the outcome is shuffled, and n_perm is the number of permutations behind
+# it. The registered count is 200, with 100 allowed when the run exceeds its
+# time budget, and the writer records which was run. A row without a
+# permutation null carries NA in those columns.
+#
+# The text side of this check is two files. nlp/study1_text_wordcounts.csv
+# has one row per explanation and word, with the count of that word, for
+# words in at least two explanations. nlp/study1_text_vocabulary.csv lists
+# the words and the number of explanations each appears in. Neither carries
+# a condition, a rating or the text itself. The join to the arm and the
+# rating happens in the integration file alone. The registered floor of five
+# explanations is applied there, inside each training fold, so the held-out
+# participants have no say in which words enter the model.
+#
+# The caption quotes the writer's permutation column, so each null is
+# described in the writer's own words. The typeset table keeps the
+# row-identifying and statistic columns. The description columns and the
+# bookkeeping counts differ between rows, so drop_long_constant_columns()
+# would remove nothing. keep_columns_report() prints them once on the
+# console, beside the row keys, instead. No kept column name matches
+# P_COL_PATTERN, so no cell here is formatted as a p-value.
+recoverability_caption <- function(df) {
+  shuffles <- if (all(c("target", "permutation") %in% names(df))) {
+    s <- df %>%
+      filter(!is.na(permutation)) %>%
+      distinct(target, permutation)
+    if (nrow(s) > 0L) {
+      paste0("The shuffle behind each null, as the integration file describes it: ",
+             paste(sprintf("for the %s, %s", latex_escape(s$target),
+                           latex_escape(s$permutation)), collapse = "; "),
+             ". ")
+    } else ""
+  } else ""
+  paste0(
+    "How far the rating and the arm can be recovered from the words: a ",
+    "registered check, run in every study where the rating exists, ",
+    "descriptive and in no correction family. Each explanation is reduced to ",
+    "counts of its content words, lower-cased runs of letters and ",
+    "apostrophes with a fixed list of function words such as the, and and of ",
+    "removed; inside each training fold the words that appear in at least ",
+    "five of the training explanations are kept, so the held-out ",
+    "participants have no say in which words enter the model. The notebook ",
+    "that counts them is computed before the condition or the rating is ",
+    "joined to the text. Rating from words is a ridge regression of the ",
+    "rating on those counts, a linear model that shrinks its many word ",
+    "coefficients toward zero by an amount chosen by inner cross-validation ",
+    "so that it does not simply memorise the explanations it was fitted to, ",
+    "fitted per dimension with ten outer folds grouped by participant, so that ",
+    "no participant's explanations sit in both the fitting and the scoring ",
+    "part of any fold. Its statistic r is the correlation between predicted ",
+    "and observed rating over the held-out explanations only, where 0 is no ",
+    "relation and 1 a perfect one (an out-of-fold r can fall below 0 when the ",
+    "held-out predictions run against the observed ratings), with a 95\\% ",
+    "interval from 2,000 resamples of participants. Arm from words is the ",
+    "same with a ridge logistic regression of the arm on the counts, and its ",
+    "statistic is the AUC, the area under the receiver operating ",
+    "characteristic (ROC) curve: the probability that a randomly chosen ",
+    "machine-arm explanation is scored as more machine-like than a randomly ",
+    "chosen human-arm one, 0.5 for chance and 1 for perfect separation. Arm ",
+    "from rating is a logistic regression of the arm on the rating alone with ",
+    "the same folds. Arm from rating plus words adds the word counts to the ",
+    "rating, and the incremental row is its AUC minus the AUC of arm from ",
+    "rating, the two scored on the same held-out participants, with an ",
+    "interval from resampling participants: it is the quantity that says ",
+    "whether the words carry information about the arm beyond the rating. ",
+    "The stand-alone AUCs are descriptive references, and the difference ",
+    "between them is not that quantity. null\\_95th is the permutation null: ",
+    "the outcome is shuffled so that the words have nothing real to predict, ",
+    "the whole procedure is rerun, and the 95th percentile of the statistics ",
+    "over n\\_perm shuffles is the value the observed statistic must exceed ",
+    "to be read as signal rather than chance. Each shuffle is restricted so ",
+    "that it keeps the structure of the data rather than scattering single ",
+    "responses: the arm label moves between whole participants, and the ",
+    "rating null keeps each participant's ratings together across the ten ",
+    "images. ",
+    shuffles,
+    "n\\_folds is the number of outer folds, n\\_features the number of word ",
+    "columns the integration file records, and seed the random seed of the run."
+  )
+}
+
+render_prereg_table(
+  csv_name    = "study1_text_recoverability.csv",
+  tex_name    = "sup_table_text_recoverability.tex",
+  caption     = recoverability_caption,
+  label       = "supp_text_recoverability",
+  pending_msg = paste0("run Study1_03_Integration.Rmd (the recoverability ",
+                       "check: rating and arm from the word counts in ",
+                       "nlp/study1_text_wordcounts.csv, which ",
+                       "Study1_02_Text.ipynb writes)"),
+  transform   = function(df) keep_columns_report(
+    df,
+    keep = c("dimension", "target", "predictors", "estimate", "ci_low",
+             "ci_high", "null_95th", "n_perm", "n_folds", "n_features",
+             "seed"),
+    key  = c("dimension", "target", "predictors")
+  ),
+  stage       = "integration"
+)
+```
+
+```{r supp-table-text-selfsimilarity}
+# Column contract from the writer (Study1_03_Integration.Rmd, within-person
+# word overlap by arm): one row per dimension and quantity. The registered
+# comparison row carries the arm difference in self_minus_stranger from the
+# length-adjusted model, its interval from resampling participants, p_holm
+# (its p-value after the Holm correction across the two dimensions), and the
+# reading (supported, opposite direction or inconclusive). The description
+# rows carry the raw overlaps by arm. The writer names its own columns, and
+# this chunk does not check them: a column reaches the typeset table under
+# its deposited name. The typeset table keeps the row-identifying and
+# statistic columns, an unadjusted p-value column when there is one, p_holm
+# and the reading. keep_columns_report() prints the model string, the
+# predicted direction and the participant counts once on the console. p_holm
+# matches P_COL_PATTERN, so a very small p prints as "< 0.001" and not as 0.
+#
+# The text side of this check is nlp/study1_text_tokens.csv, one row per
+# explanation with its distinct content words and no condition or rating
+# column. The integration file computes the self and stranger overlaps from
+# those words, so the stranger baseline is rebuilt from the resampled
+# participants in every bootstrap replicate. The arm is joined there alone.
+selfsimilarity_caption <- paste0(
+  "Within-person word overlap by arm, the text version of H4: a registered ",
+  "check, run in every study where the rating exists, with a predicted ",
+  "direction; its two dimensions are corrected together by the Holm ",
+  "procedure, in which the tests are ordered from the smallest p-value upward ",
+  "and each is compared against a threshold that starts strictest and relaxes ",
+  "as earlier tests pass, and are kept apart from the confirmatory family. ",
+  "For each ",
+  "participant and dimension, self\\_overlap is the mean Jaccard overlap ",
+  "across that participant's ten explanations, over all 45 pairs of them, ",
+  "where the Jaccard overlap of two explanations is the number of content ",
+  "words they share divided by the number of content words in either, so 0 ",
+  "means no word in common and 1 the same set of words. The stranger ",
+  "baseline, stranger\\_overlap, is the same overlap between each of that ",
+  "participant's explanations and the explanations other participants wrote ",
+  "for the same image and dimension, averaged over the ten images: how much ",
+  "two people writing about the same picture share by default. ",
+  "self\\_minus\\_stranger, the excess of a participant's own reuse over that ",
+  "baseline, is the quantity compared; the notebook that writes each ",
+  "explanation's content words never sees the condition or the rating. The ",
+  "arm difference is from a linear model of self\\_minus\\_stranger on arm ",
+  "with the mean number of content words per explanation as a covariate, a ",
+  "variable held constant in the model because the overlap statistic falls ",
+  "as texts get longer, with a 95\\% interval from 2,000 resamples of ",
+  "participants in which the stranger baseline is rebuilt from the ",
+  "resampled participants each time, so the interval carries the ",
+  "uncertainty of the reference group as well as that of the participants ",
+  "compared. The prediction is that participants told a machine made the ",
+  "work reuse their own words more. p\\_holm is the p-value of the arm ",
+  "difference after the Holm correction across the two dimensions, and ",
+  "reading states the result: supported when the corrected test rejects in ",
+  "the predicted direction, opposite direction when it rejects in the other ",
+  "direction, and inconclusive otherwise. An inconclusive reading, which ",
+  "includes any interval that contains zero, is not evidence that the arms ",
+  "reuse their words equally. The raw self\\_overlap by arm is reported ",
+  "beside it as description."
+)
+
+render_prereg_table(
+  csv_name    = "study1_text_selfsimilarity_by_arm.csv",
+  tex_name    = "sup_table_text_selfsimilarity_by_arm.tex",
+  caption     = selfsimilarity_caption,
+  label       = "supp_text_selfsimilarity",
+  pending_msg = paste0("run Study1_03_Integration.Rmd (within-person word ",
+                       "overlap by arm, from nlp/study1_text_tokens.csv, ",
+                       "which Study1_02_Text.ipynb writes)"),
+  transform   = function(df) keep_columns_report(
+    df,
+    keep = c("dimension", "role", "quantity", "estimate", "ci_lo", "ci_hi",
+             intersect(c("p_raw", "p", "p_value", "p.value"), names(df)),
+             "p_holm", "n_valid", "reading"),
+    key  = c("dimension", "role", "quantity")
+  ),
+  stage       = "integration"
+)
+```
+
+---
+
+# 11. Further analyses of the ratings and the explanations
+
+The tables in this section sit beside the registered set. None of them is
+among the four registered predictions or the five registered tests on the
+written explanations. The first checks one item of the rating instrument.
+The rest describe the written explanations. They use word norms published
+by other laboratories (average ratings that large panels gave individual
+words on scales such as unhappy to happy), a topic model fitted to the word
+counts, and the weights of the recoverability models of section 10.13. Each
+is computed from the blind measurement files of `Study1_02_Text.ipynb`,
+which never see the condition or the rating. Each is joined to the arm and
+the rating only in `Study1_03_Integration.Rmd`. No step requires a person to
+read or judge an individual explanation. No language model reads or codes an
+explanation for any measure. One check on the topic model, described in
+section 11.4, uses a pretrained sentence-embedding model, and nothing
+reported rests on it.
+
+## 11.1 The effort item with different scale wording
+
+The ten effort items share one five-point scale except the first figurative
+item, whose top two labels differ: there 4 reads "A lot of effort involved"
+and 5 "Significant effort involved", where the other nine read 4
+"Significant effort involved" and 5 "A great deal of effort involved" (the
+survey definition file, `qualtrics/Final_-_AI_Copyright_-_Study_1.qsf`,
+question 1FigureEff). The ratings are scored as recorded, 1 to 5, on every
+item. The table asks whether the registered contrasts depend on that one item
+by recomputing them with it set aside. It is a sensitivity analysis and
+changes neither the scoring nor the sample of the registered tests.
+
+```{r supp-table-item-sensitivity}
+# Column contract from the writer (Study1_01_Quant.Rmd, the instrument
+# sensitivity for 1FigureEff): hypothesis, quantity, sample, n_ratings,
+# estimate, se, df, ci_low, ci_high, p, difference_from_full,
+# random_structure, converged, singular, fit_error, lme4_messages, note. One
+# row per contrast and sample: the full sample, the sample with the item set
+# aside, and for H2 also the sample with the whole image set aside.
+#
+# Typeset whole, the table is too wide for the page. The typeset table keeps
+# the analysis (hypothesis and sample), the estimate, its standard error and
+# its interval. The caption names each hypothesis's contrast in the writer's
+# words, from the quantity column. keep_columns_report() prints every other
+# column once on the console, beside the hypothesis and the sample, and the
+# caption points to the deposited CSV for them. The sample column holds a
+# phrase on every row and is set at a fixed width, so it wraps.
+item_sensitivity_caption <- function(df) {
+  contrasts <- if (all(c("hypothesis", "quantity") %in% names(df))) {
+    q <- df %>% distinct(hypothesis, quantity)
+    paste0(" The contrast of each hypothesis, as the writer names it: ",
+           paste(sprintf("%s, %s", latex_escape(q$hypothesis),
+                         latex_escape(q$quantity)), collapse = "; "),
+           ".")
+  } else ""
+  paste0(
+    "The registered contrasts with the first figurative effort item set ",
+    "aside. That item's top two scale labels differ from those of the other ",
+    "nine effort items (4 = A lot of effort involved and 5 = Significant ",
+    "effort involved, where the others read 4 = Significant effort involved ",
+    "and 5 = A great deal of effort involved); its ratings are scored 1 to 5 ",
+    "as recorded. Each row names the hypothesis and the sample the contrast ",
+    "is computed on, as the writer records them, with the estimate in rating ",
+    "points, its standard error (se) and its 95\\% confidence interval ",
+    "(ci\\_low, ci\\_high).",
+    contrasts,
+    " A sensitivity analysis, not a registered test: the registered scoring ",
+    "and sample are unchanged. The full table, with the number of ratings, ",
+    "the degrees of freedom, the p-value, the difference from the full ",
+    "sample, the random-effects structure and the fit status of each row, is ",
+    "deposited as tables/study1\\_item\\_sensitivity.csv.")
+}
+
+render_prereg_table(
+  csv_name    = "study1_item_sensitivity.csv",
+  tex_name    = "sup_table_item_sensitivity.tex",
+  caption     = item_sensitivity_caption,
+  label       = "supp_item_sensitivity",
+  pending_msg = paste0("run Study1_01_Quant.Rmd (the item sensitivity for the ",
+                       "first figurative effort item)"),
+  transform   = function(df) keep_columns_report(
+    df,
+    keep = c("hypothesis", "sample", "estimate", "se", "ci_low", "ci_high"),
+    key  = c("hypothesis", "sample")),
+  stage       = "quant",
+  col_widths  = c(sample = "5cm")
+)
+```
+
+## 11.2 Familiarity talk and the creativity rating, within and between participants
+
+Section 4.3 of the integration file relates familiarity talk in the creativity
+explanations to the creativity rating. A participant who often says a work
+looks familiar may also rate everything lower, so one coefficient on the
+familiarity categories mixes two things: whether a participant rates an image
+lower when they call that image familiar (the within-person part), and
+whether participants who use familiarity talk more often rate lower overall
+(the between-person part). This table reports the two parts separately,
+within each arm. Neither part is a cause of the rating, because each
+explanation was written after its rating.
+
+```{r supp-table-text-novelty-within-between}
+# Rendered as the writer in Study1_03_Integration.Rmd deposits it, less any
+# long constant text column. When the writer has a model column, the caption
+# quotes it, so the decomposition is described in the writer's terms.
+render_prereg_table(
+  csv_name    = "study1_text_novelty_within_between.csv",
+  tex_name    = "sup_table_text_novelty_within_between.tex",
+  caption     = function(df) paste0(
+    "Familiarity talk and the creativity rating, within and between ",
+    "participants, by arm. Each familiarity category of the prior-exposure ",
+    "measure enters the model as two terms: the participant's share of ",
+    "explanations in that category (the between-person part) and each ",
+    "explanation's departure from that share (the within-person part). The ",
+    "within-person coefficient asks whether a participant rates an image ",
+    "lower when calling that image familiar than when not; the between-person ",
+    "coefficient asks whether participants who use the category more often ",
+    "rate lower overall. Each explanation was written after its rating, so ",
+    "neither coefficient is a cause of the rating.",
+    writer_quote(df, "model", "The analysis records the model as")),
+  label       = "supp_text_novelty_within_between",
+  pending_msg = paste0("run Study1_03_Integration.Rmd (familiarity talk ",
+                       "within and between participants)"),
+  transform   = drop_long_constant_columns,
+  stage       = "integration"
+)
+```
+
+## 11.3 Valence, arousal, dominance and concreteness of the explanations
+
+Each explanation is scored on four published word norms. Valence, arousal
+and dominance come from Warriner, Kuperman and Brysbaert (2013), who
+collected ratings of 13,915 English lemmas (dictionary forms of words) on 1
+to 9 scales: valence from unhappy to happy, arousal from calm to excited,
+dominance from controlled to in control. Concreteness comes from Brysbaert,
+Warriner and Kuperman (2014), who collected ratings of 39,954 English words
+and two-word expressions on a 1 to 5 scale from abstract to concrete. An
+explanation's score on a norm is the mean of the norm over its content words
+that have an entry. The rating questions' own words are removed first, so
+"creative" and "effort" do not drive the score. A word with no exact entry
+is tried once more with a final s, es, ed or ing removed. An explanation
+with no matching word has no score. The norms were built by other
+laboratories for other purposes, before this study existed. The files and
+their checksums are recorded in `nlp/norms/README.md`.
+
+```{r supp-table-text-affect-by-arm}
+render_prereg_table(
+  csv_name    = "study1_text_affect_by_arm.csv",
+  tex_name    = "sup_table_text_affect_by_arm.tex",
+  caption     = function(df) paste0(
+    "Valence, arousal and dominance (Warriner, Kuperman and Brysbaert, 2013; ",
+    "1 to 9 scales: unhappy to happy, calm to excited, controlled to in ",
+    "control) and concreteness (Brysbaert, Warriner and Kuperman, 2014; 1 to ",
+    "5, abstract to concrete) of the written explanations, by arm within each ",
+    "rating dimension. An explanation's score is the mean norm over its ",
+    "content words that have an entry, with the rating questions' own words ",
+    "removed and one fallback match after a final s, es, ed or ing is ",
+    "stripped; explanations with no matching word are left out. The scores ",
+    "describe the words people chose after giving their rating and are not ",
+    "measures of the artwork.",
+    writer_quote(df, "model", "The analysis records the comparison as")),
+  label       = "supp_text_affect_by_arm",
+  pending_msg = paste0("run Study1_03_Integration.Rmd (word-norm scores of ",
+                       "the explanations by arm, from ",
+                       "nlp/study1_text_affect.csv, which ",
+                       "Study1_02_Text.ipynb writes)"),
+  transform   = drop_long_constant_columns,
+  stage       = "integration"
+)
+```
+
+## 11.4 Topics in the explanations
+
+The explanations are also described without any word list chosen in
+advance. A topic model finds, from the word counts alone, a small number of
+word groups ("topics") such that each explanation is approximately a
+weighted mix of them. The model here is non-negative matrix factorisation.
+It writes the table of explanations by words as the product of two tables
+with no negative entries. One gives each explanation's weight on each topic,
+the other each topic's weight on each word. Each word is weighted by tf-idf,
+its count in the explanation scaled down by how many explanations use it, so
+common words count for less. The model is fitted separately to the
+creativity and the effort explanations. It uses content words that appear in
+at least five explanations, with the function words and the rating
+questions' own words removed, and it never sees the condition or the rating.
+Each explanation's topic weights are rescaled to sum to 1.
+
+The number of topics is set by a rule fixed in the notebook. For each number
+from 3 to 10, the model is refitted from ten random starting points.
+Stability is the average, over every pair of starts, of how closely the
+topics of one start match those of the other. Each topic of one start is
+paired one-to-one with a topic of the other so that the total similarity is
+as high as possible. Similarity is the cosine of the angle between the two
+topics' word weights: 1 for identical word profiles, 0 for profiles with no
+word in common. The number with the highest stability is used, the smaller
+on a tie.
+
+Three tables follow. The first gives that rule's numbers. The second gives
+each topic's mean weight by arm, labelled by the topic's five heaviest
+words. The third checks that the topics are not an artefact of counting
+words. For that check, each explanation is turned into a vector of numbers
+by a pretrained sentence-embedding model (all-mpnet-base-v2, run from a
+local copy). That model is a network trained by others on large amounts of
+text so that sentences of similar meaning get nearby vectors. The vectors are
+grouped into the same number of clusters by k-means, a method that splits
+them into that many groups so that each vector sits closer to the centre of
+its own group than to any other. The adjusted Rand index then compares those
+clusters with each explanation's heaviest topic. It measures agreement
+between two groupings beyond what chance would produce: 0 is chance and 1 is
+identical groupings. No measure or test in the paper rests on the embedding
+model.
+
+```{r supp-table-text-topics-stability}
+# Column contract from the writer (Study1_02_Text.ipynb):
+# dimension, k, stability_mean, stability_sd, chosen. One row per dimension
+# and number of topics, k from 3 to 10.
+render_prereg_table(
+  csv_name    = "text_topics_stability.csv",
+  tex_name    = "sup_table_text_topics_stability.tex",
+  caption     = paste0(
+    "How the number of topics was set, for the creativity and the effort ",
+    "explanations separately. For each number of topics k from 3 to 10 the ",
+    "topic model is refitted from ten random starting points; ",
+    "stability\\_mean is the mean, over every pair of starts, of the average ",
+    "cosine similarity between the word weights of topics paired one-to-one ",
+    "across the two starts so that the total similarity is as high as ",
+    "possible, and stability\\_sd its standard deviation over those pairs. ",
+    "chosen marks the k with the highest stability, the smaller k on a tie, ",
+    "which is the number of topics used."),
+  label       = "supp_text_topics_stability",
+  pending_msg = "run Study1_02_Text.ipynb (the topic model and its stability rule)",
+  transform   = function(df) {
+    if (all(c("dimension", "k") %in% names(df))) df <- arrange(df, dimension, k)
+    df
+  },
+  stage       = "text"
+)
+```
+
+```{r supp-table-text-topics-by-arm}
+# Column contract: tables/text_topics_top_words.csv from the notebook carries
+# dimension, topic, rank, word, weight, the ten heaviest words of each topic;
+# tables/study1_text_topics_by_arm.csv from the integration file carries the
+# topic weights by arm. Each topic is labelled here by its five heaviest
+# words, joined on dimension and topic. Both are read as text, so a topic
+# number matches whether it was written as a number or a string. When the
+# word table is absent, or carries no row for a topic, the topic is rendered
+# without a label and the console says so. The deposited CSVs are not
+# changed.
+topic_words <- read_table_or_null(
+  "text_topics_top_words.csv",
+  "run Study1_02_Text.ipynb (the topic model's top words)",
+  stage = "text")
+
+topic_labels <- if (!is.null(topic_words) &&
+                    all(c("dimension", "topic", "rank", "word") %in% names(topic_words))) {
+  topic_words %>%
+    mutate(dimension = as.character(dimension),
+           topic     = as.character(topic)) %>%
+    filter(rank <= 5) %>%
+    arrange(dimension, topic, rank) %>%
+    group_by(dimension, topic) %>%
+    summarise(top_words = paste(word, collapse = ", "), .groups = "drop")
+} else NULL
+
+add_topic_labels <- function(df) {
+  if (is.null(topic_labels) || !all(c("dimension", "topic") %in% names(df))) {
+    cat("Topics rendered without word labels (",
+        if (is.null(topic_labels)) "no top-word table" else
+          "no dimension and topic columns in the by-arm table", ").\n", sep = "")
+    return(drop_long_constant_columns(df))
+  }
+  out <- df %>%
+    mutate(dimension = as.character(dimension),
+           topic     = as.character(topic)) %>%
+    left_join(topic_labels, by = c("dimension", "topic")) %>%
+    relocate(top_words, .after = topic)
+  n_unlabelled <- sum(is.na(out$top_words))
+  if (n_unlabelled > 0L) {
+    cat(n_unlabelled, " row(s) of the by-arm table found no top-word label.\n",
+        sep = "")
+  }
+  drop_long_constant_columns(out, keep = "top_words")
+}
+
+render_prereg_table(
+  csv_name    = "study1_text_topics_by_arm.csv",
+  tex_name    = "sup_table_text_topics_by_arm.tex",
+  caption     = function(df) paste0(
+    "Topics in the written explanations by arm, within each rating dimension. ",
+    "Each topic is a group of words found by non-negative matrix ",
+    "factorisation of the tf-idf weighted word counts, fitted to each ",
+    "dimension's explanations without the condition or the rating, and is ",
+    "labelled by its five heaviest words (top\\_words). An explanation's topic ",
+    "weights sum to 1, so a topic's mean weight in an arm is the average share ",
+    "of an explanation in that arm that the topic accounts for. The weights ",
+    "describe what the explanations talk about; each explanation was written ",
+    "after its rating, so a difference between arms is not a cause of the ",
+    "rating difference.",
+    writer_quote(df, "model", "The analysis records the comparison as")),
+  label       = "supp_text_topics_by_arm",
+  pending_msg = paste0("run Study1_03_Integration.Rmd (topic weights by arm, ",
+                       "from nlp/study1_text_topics.csv, which ",
+                       "Study1_02_Text.ipynb writes)"),
+  transform   = add_topic_labels,
+  stage       = "integration"
+)
+```
+
+```{r supp-table-text-topics-embedding-agreement}
+# Column contract from the writer (Study1_02_Text.ipynb): dimension, k, ari,
+# and a note column when the embedding model could not be loaded from its
+# local copy, in which case ari is NA. The note is kept in the typeset table
+# even when it is one sentence on every row, since an NA ari cannot be read
+# without it.
+render_prereg_table(
+  csv_name    = "text_topics_embedding_agreement.csv",
+  tex_name    = "sup_table_text_topics_embedding_agreement.tex",
+  caption     = paste0(
+    "A check that the topics are not an artefact of counting words. Each ",
+    "explanation is turned into a vector of numbers by a pretrained ",
+    "sentence-embedding model (all-mpnet-base-v2, run from a local copy), a ",
+    "network trained on large amounts of text so that sentences of similar ",
+    "meaning get nearby vectors; the vectors are grouped into k clusters by ",
+    "k-means, which splits them into k groups so that each vector sits closer ",
+    "to the centre of its own group than to any other, k being the number of ",
+    "topics chosen for that dimension; and ari is the adjusted Rand index ",
+    "between those clusters and ",
+    "each explanation's heaviest topic: the agreement between the two ",
+    "groupings beyond what chance would produce, 0 for chance and 1 for ",
+    "identical groupings. No measure or test in the paper rests on the ",
+    "embedding model. An NA ari means the model could not be loaded from its ",
+    "local copy, and the note column says so."),
+  label       = "supp_text_topics_embedding_agreement",
+  pending_msg = "run Study1_02_Text.ipynb (the embedding check on the topics)",
+  transform   = function(df) drop_long_constant_columns(df, keep = "note"),
+  stage       = "text"
+)
+```
+
+## 11.5 The words the recoverability models weight most heavily
+
+The ridge models of section 10.13 are regression models that shrink their
+word coefficients toward zero, so they do not memorise the explanations they
+were fitted to. They give every word a weight. This table lists, for each
+dimension and target, the words with the largest weights, as
+`Study1_03_Integration.Rmd` ranks them. A weight is the coefficient of the
+word's count in the fitted model, after that shrinkage. Its sign says
+whether more of the word moves the prediction (the rating, or the log-odds
+of the machine arm) up or down. A weight describes what the fitted model
+leans on and is not a test of the word. Each weight also depends on the
+other words in the model, so a word missing from the list may still be
+associated with the outcome.
+
+```{r supp-table-text-prediction-weights}
+# The writer may deposit every word. To keep the typeset table to a page,
+# only some rows are kept. When the writer carries a rank column, they are
+# the rows with rank 10 or better. Otherwise they are the ten words with the
+# largest absolute weight within each group of the identifying columns
+# present (dimension, target, predictors, direction, sign). The weight is the
+# first of weight, coefficient, coef, beta or estimate that is numeric. The
+# console says which rule was applied, and the full CSV is deposited
+# unchanged.
+limit_prediction_weights <- function(df) {
+  groups <- intersect(c("dimension", "target", "predictors", "direction",
+                        "sign"), names(df))
+  if ("rank" %in% names(df) && is.numeric(df$rank)) {
+    cat("Prediction weights: rows with rank 10 or better are typeset.\n")
+    out <- df %>% filter(rank <= 10)
+  } else {
+    wcol <- intersect(c("weight", "coefficient", "coef", "beta", "estimate"),
+                      names(df))
+    wcol <- wcol[vapply(df[wcol], is.numeric, logical(1))][1]
+    if (is.na(wcol)) {
+      cat("Prediction weights: no rank or numeric weight column; the table ",
+          "is typeset as deposited.\n", sep = "")
+      out <- df
+    } else {
+      cat("Prediction weights: the ten largest absolute values of ", wcol,
+          " within ", if (length(groups)) paste(groups, collapse = ", ")
+          else "the whole table", " are typeset.\n", sep = "")
+      out <- df %>%
+        group_by(across(all_of(groups))) %>%
+        slice_max(abs(.data[[wcol]]), n = 10, with_ties = FALSE) %>%
+        ungroup()
+    }
+  }
+  drop_long_constant_columns(out)
+}
+
+render_prereg_table(
+  csv_name    = "study1_text_prediction_weights.csv",
+  tex_name    = "sup_table_text_prediction_weights.tex",
+  caption     = function(df) paste0(
+    "The words with the largest weights in the ridge models of the ",
+    "recoverability check, for each dimension and target. A weight is the ",
+    "coefficient of the word's count after the shrinkage toward zero that ",
+    "ridge regression applies; its sign says whether more of the word moves ",
+    "the prediction (the rating, or the log-odds of the machine arm) up or ",
+    "down. Weights describe what the fitted model leans on and are not tests ",
+    "of individual words; each depends on the other words in the model.",
+    writer_quote(df, "model", "The analysis records the model as")),
+  label       = "supp_text_prediction_weights",
+  pending_msg = paste0("run Study1_03_Integration.Rmd (the word weights of ",
+                       "the recoverability models)"),
+  transform   = limit_prediction_weights,
+  stage       = "integration"
+)
+```
+
+---
+
+# 12. Output manifest
+
+This notebook writes:
+
+```
+supplement/
+  tables/
+    sup_table_1_robustness.tex     # Supp Table 1: the H1 contrast, multiverse, Bayesian refits, equivalence sensitivity
+    sup_table_2_text_rates.tex     # Supp Table 2: rates in the written justifications
+    sup_table_3_prompt_talk.tex    # Supp Table 3: prompting and generating talk, by arm
+    sup_table_demographics.tex     # Demographics of analytic sample
+    sup_table_exclusions.tex       # Exclusion flow (incl. step-0 preview row)
+    sup_table_full_lmm.tex         # Full LMM regression table
+    sup_table_joint_model.tex      # joint attribution x dimension model
+    sup_table_fully_maximal.tex    # maximal random-effects model
+    sup_table_balance.tex          # covariate balance by condition
+    sup_table_attrition.tex        # attrition by condition
+    sup_table_bootstrap_d.tex      # registered bootstrap d
+    sup_table_influence.tex        # LOPO/LOSO: largest and mean absolute change in the H1 contrast
+    sup_table_h4_variance.tex      # H4 variance ratios and their tests
+    sup_table_holm_family.tex      # confirmatory family, Holm-corrected
+    sup_table_h2_ordinal.tex       # H2 in both registered versions: raw-scale and cumulative-link
+    sup_table_h4_resolution.tex    # sampling spread of the H4 ratio estimate at 55 and 56 per arm
+    sup_table_denotation_tests.tex # five registered text tests, Benjamini-Hochberg corrected
+    sup_table_denotation_slope_sensitivity.tex  # the five text tests refitted with a participant random slope
+    sup_table_h3_equivalence.tex  # H3: the registered equivalence test under both random-effects structures
+    sup_table_h3_equivalence_power.tex  # H3: the power of the equivalence test by simulation, at the registered and the descriptive bounds
+    sup_table_text_recoverability.tex  # the two checks run in every study: rating and arm recovered from the words
+    sup_table_text_selfsimilarity_by_arm.tex  # the two checks run in every study: within-person word overlap by arm
+    sup_table_item_sensitivity.tex           # the effort item whose scale wording differs
+    sup_table_text_novelty_within_between.tex  # familiarity talk, within and between participants
+    sup_table_text_affect_by_arm.tex         # word-norm scores of the explanations by arm
+    sup_table_text_topics_stability.tex      # how the number of topics was set
+    sup_table_text_topics_by_arm.tex         # topic weights by arm, labelled by top words
+    sup_table_text_topics_embedding_agreement.tex  # the embedding check on the topics
+    sup_table_text_prediction_weights.tex    # the most heavily weighted words
+  figures/
+    sup_fig_1a_specification_creativity.pdf
+    sup_fig_1b_specification_effort.pdf
+    sup_fig_2_brms_ppc.pdf
+```
+
+and, beside the analysis tables, `tables/study1_supplements_run_manifest.csv`,
+the run record of the knit.
+
+Each `.tex` file can be pulled into the supplement section of the main
+manuscript with `\input{}`. Every fragment is deleted at the start of its
+chunk. The chunk writes it again only when its source CSV is on disk and
+its stage's run manifest does not list it as unwritten. Until then the chunk
+prints a `pending:` line naming the notebook that writes it.
+
+```{r run-manifest}
+# The run record of this knit: one row per role and path, so an input read
+# in two sections is listed once. The start and finish times and the R
+# version sit beside each row. A fragment listed as pending was deleted at
+# the start of its chunk and not written again, so the manifest and the
+# folder agree.
+# The manifest is written last, after every other chunk has finished, so its
+# presence means the knit ran to the end.
+run_manifest <- bind_rows(run_ledger) %>%
+  group_by(role, path) %>%
+  slice_tail(n = 1) %>%
+  ungroup() %>%
+  mutate(started_at  = RUN_STARTED,
+         finished_at = format(Sys.time(), "%Y-%m-%dT%H:%M:%S%z"),
+         r_version   = R.version.string) %>%
+  arrange(factor(role, levels = c("source", "upstream manifest", "input",
+                                  "output")), path)
+write_csv(run_manifest, PATH_RUN_MANIFEST)
+
+# Every input whose producing stage has a manifest on disk should be listed
+# in it. The console names each input read without a run check, so a gap in
+# an upstream manifest, or a read that names no stage, shows on screen.
+unchecked <- run_manifest %>%
+  filter(role == "input", status == "read",
+         note == "read without a run check")
+if (nrow(unchecked) == 0L) {
+  cat("Run check: every input read was checked against the run manifest ",
+      "of the stage that writes it.\n", sep = "")
+} else {
+  cat("Run check: ", nrow(unchecked), " input(s) read without a run check:\n",
+      paste0("  ", unchecked$path, "\n"), sep = "")
+}
+
+cat("Run ", RUN_ID, ": ",
+    sum(run_manifest$role == "output" & run_manifest$status == "written"),
+    " outputs written, ",
+    sum(run_manifest$role == "output" & run_manifest$status == "pending"),
+    " pending. Run record written to ", basename(PATH_RUN_MANIFEST), ".\n",
+    sep = "")
+run_manifest %>% count(role, status)
+```
+
+# 13. Notes
+
+- The supplementary table .tex files are LaTeX `kableExtra::kable()` output,
+  so each contains `\begin{table}...\end{table}` and the table caption.
+  When they are pulled into the main manuscript with `\input{}`, they float
+  to the next available position. To force a specific location, wrap the
+  input in `\begin{table}[H]\input{...}\end{table}` or use the `float`
+  package.
+- No table here contains a number that a pipeline notebook did not compute.
+  Where a source CSV is missing, or its stage's run manifest lists it as not
+  written, the row or the table is left out and the console says which
+  notebook writes it. Where a source CSV is present but carries the wrong
+  columns or NA values, the chunk stops.
+- Each fragment and figure copy is deleted before its chunk reads anything,
+  so a fragment on disk was written by the latest knit.
+  `tables/study1_supplements_run_manifest.csv` records the fingerprint of
+  the table it was written from.
+- Supplementary Table 1 opens with the registered H1 contrast from
+  `tables/study1_confirmatory_family.csv`. Its other rows each name the
+  quantity they report. Its equivalence rows are built from
+  `tables/study1_equivalence_sensitivity.csv`, which holds the wider bounds
+  only. The registered test of H3, at ±0.20 rating points and under both
+  random-effects structures, is in `Study1_01_Quant.Rmd` section 7.10, and
+  the row in this table says so. Section 10.12 renders that test's
+  registered rows from `tables/study1_h3_equivalence.csv`. Beside them it
+  renders the power of the equivalence test from
+  `tables/study1_h3_equivalence_power.csv`, which is what a failed test is
+  read against.
+- The specification curve and posterior predictive check PDFs are copied
+  unchanged from the analysis outputs. To refresh them, re-run the relevant
+  chunks in `Study1_04_Robustness.Rmd`.
+- The flags behind the five tests on the written explanations (section
+  10.11) come from `nlp/study1_text_measures.csv`, which carries no condition
+  or rating column, and are joined to the ratings only in
+  `Study1_03_Integration.Rmd`.
+- The two checks of section 10.13 and the tables of section 11 take their
+  text side from files `Study1_02_Text.ipynb` writes without a condition or
+  rating column: `nlp/study1_text_wordcounts.csv`,
+  `nlp/study1_text_vocabulary.csv`, `nlp/study1_text_tokens.csv`,
+  `nlp/study1_text_affect.csv` and `nlp/study1_text_topics.csv`, with the
+  topic model's own tables under `tables/`. The arm and the rating are joined
+  only in `Study1_03_Integration.Rmd`, and the tables rendered here are
+  summaries by dimension, arm, topic or word, never rows per explanation.

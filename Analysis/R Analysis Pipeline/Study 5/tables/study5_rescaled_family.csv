@@ -1,0 +1,7 @@
+analysis,rating,test,term,num_df,den_df,F,p_raw,p_holm,holm_significant,family,converged,singular,note
+"second, all items rescaled 0 to 1",transformativeness,"editing time, averaged over the other factors",editing_time,2,216.75275025826951,0.6834704271540689,0.5059465191930328,1,FALSE,"six registered tests, Holm, family-wise alpha .05",TRUE,FALSE,
+"second, all items rescaled 0 to 1",transformativeness,source by editing time,source:editing_time,2,216.75401331052686,1.610650088775959,0.20213914444176587,1,FALSE,"six registered tests, Holm, family-wise alpha .05",TRUE,FALSE,
+"second, all items rescaled 0 to 1",essence_change,"editing time, averaged over the other factors",editing_time,2,216.92357675361282,0.5361413479702226,0.5857743751427023,1,FALSE,"six registered tests, Holm, family-wise alpha .05",TRUE,FALSE,
+"second, all items rescaled 0 to 1",essence_change,source by editing time,source:editing_time,2,216.92484017115694,1.609096357388274,0.20244698703809896,1,FALSE,"six registered tests, Holm, family-wise alpha .05",TRUE,FALSE,
+"second, all items rescaled 0 to 1",creativity,"editing time, averaged over the other factors",editing_time,2,216.83438143047852,0.2140323492191083,0.8074926223542017,1,FALSE,"six registered tests, Holm, family-wise alpha .05",TRUE,FALSE,
+"second, all items rescaled 0 to 1",creativity,source by editing time,source:editing_time,2,216.83544225716952,4.933833254696592,0.008027649878180134,0.048165899269080804,TRUE,"six registered tests, Holm, family-wise alpha .05",TRUE,FALSE,

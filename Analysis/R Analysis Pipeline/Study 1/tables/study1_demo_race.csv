@@ -1,0 +1,13 @@
+Race,n
+Asian,35
+White or Caucasian,35
+Other,22
+"White or Caucasian,Asian",6
+Black or African American,4
+"White or Caucasian,Black or African American",3
+American Indian/Native American or Alaska Native,1
+"Asian,Native Hawaiian or Other Pacific Islander",1
+"Black or African American,Other",1
+Prefer not to say,1
+"White or Caucasian,Asian,Native Hawaiian or Other Pacific Islander",1
+"White or Caucasian,Other",1

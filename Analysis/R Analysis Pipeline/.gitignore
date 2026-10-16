@@ -1,0 +1,25 @@
+# RStudio's own state, the saved R session and its command history
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+# Knitted HTML reports of the R Markdown files; each knit writes them again
+*.html
+# Figure files and chunk caches that knitr writes beside a report
+*_files/
+*_cache/
+# Every output of a blind run, which describes no real condition
+blind_run/
+# Stray plot file that R writes when a plot is drawn outside a chunk
+Rplots.pdf
+# macOS Finder metadata
+.DS_Store
+# In every study folder: files retired from the pipeline, byte-identical
+# copies kept before an edit, and working notes
+_retired_*/
+_backup_*/
+_internal_notes/
+# The image check's staging folder, present only while the extraction runs
+Cross-study/image_check/.stimuli_staging/
+# Jupyter's autosave copies of notebooks
+.ipynb_checkpoints/

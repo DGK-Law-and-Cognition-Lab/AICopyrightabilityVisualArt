@@ -1,0 +1,7 @@
+measure,role,model,n_obs,n_participants,n_sources,usable,fit_error,converged,singular,lme4_messages
+transformativeness,registered model,rating ~ label * source_time * modification + (1 | id) + (1 | source),1966,117,10,TRUE,FALSE,TRUE,FALSE,
+transformativeness,cumulative-link check,ordered rating ~ label * source_time * modification + (1 | id) + (1 | source),1966,117,10,TRUE,FALSE,TRUE,FALSE,
+essence_change,registered model,rating ~ label * source_time * modification + (1 | id) + (1 | source),2106,117,10,TRUE,FALSE,TRUE,FALSE,
+essence_change,cumulative-link check,ordered rating ~ label * source_time * modification + (1 | id) + (1 | source),2106,117,10,TRUE,FALSE,TRUE,FALSE,
+creativity,registered model,rating ~ label * source_time * modification + (1 | id) + (1 | source),2106,117,10,TRUE,FALSE,TRUE,FALSE,
+creativity,cumulative-link check,ordered rating ~ label * source_time * modification + (1 | id) + (1 | source),2106,117,10,TRUE,FALSE,TRUE,FALSE,

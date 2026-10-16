@@ -1,0 +1,9 @@
+arm,dimension,topic,n_flagged,n_asserted,n_negated,quantity,estimate,ci_lo,ci_hi,B,n_valid,resampled,n_responses,n_participants
+Human,effort,detail,350,330,20,share_asserted,0.9428571428571428,0.9173076524478714,0.9658402738565782,2000,2000,"participants, with replacement",560,56
+Human,effort,detail,350,330,20,share_negated,0.05714285714285714,0.0341597261434218,0.08269234755212865,2000,2000,"participants, with replacement",560,56
+Human,effort,time,56,53,3,share_asserted,0.9464285714285714,0.8888364779874214,1,2000,2000,"participants, with replacement",560,56
+Human,effort,time,56,53,3,share_negated,0.05357142857142857,0,0.11116352201257833,2000,2000,"participants, with replacement",560,56
+Human,effort,skill,29,29,0,share_asserted,1,1,1,2000,2000,"participants, with replacement",560,56
+Human,effort,skill,29,29,0,share_negated,0,0,0,2000,2000,"participants, with replacement",560,56
+Human,effort,concept,27,26,1,share_asserted,0.9629629629629629,0.875,1,2000,2000,"participants, with replacement",560,56
+Human,effort,concept,27,26,1,share_negated,0.037037037037037035,0,0.125,2000,2000,"participants, with replacement",560,56

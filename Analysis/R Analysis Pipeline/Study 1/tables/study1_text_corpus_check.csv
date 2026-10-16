@@ -1,0 +1,2 @@
+n_responses,n_participants,words_median,words_mean,words_p10,words_p90,rate_detail,rate_time,rate_skill,rate_concept,rate_prompt,rate_machine_made,rate_machine_made_asserted,rate_exposure_asserted,rate_exposure_negated,rate_anchor_echo
+2220,111,16,19.277927927927927,5,38,0.31666666666666665,0.04864864864864865,0.025225225225225224,0.16441441441441443,0.24324324324324326,0.11891891891891893,0.11036036036036036,0.09009009009009009,0.03153153153153153,0.14504504504504503

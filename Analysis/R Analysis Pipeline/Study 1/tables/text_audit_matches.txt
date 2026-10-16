@@ -1,0 +1,1914 @@
+========================================================================================================
+STUDY 1 TEXT MEASURES: MATCHED AND UNMATCHED RESPONSES, RULE BY RULE
+========================================================================================================
+
+The triggering phrase is wrapped in >>> and <<<.
+For prior-exposure talk and for detail, time, skill and concept talk, the matched
+responses are split by whether the phrase was claimed or denied. For the four topic
+rules that split is the polarity column beside the flag (detail_polarity,
+time_polarity, skill_polarity and concept_polarity), and each listed response
+carries the value that column holds for it. Machine-made talk is split by
+machine_made_reading into asserted and not asserted, and the phrase marked is the
+one that decided the reading.
+Responses are drawn with a fixed random seed (20260903), so this file is identical
+every time the notebook is run.
+
+========================================================================================================
+RULE: says_detail. In plain words: mentions visible detail, intricacy, complexity, texture, shading, brushwork, or quantity of content
+========================================================================================================
+column detail_polarity: asserted 650, negated 53, neither 1517 (of 2220 responses)
+
+MATCHED, detail_polarity = asserted (no negating word or quantifier negation in the same clause before the phrase)  (650 responses in total; showing 40)
+--------------------------------------------------------------------------------------------------------
+   1. 100111 | Figure_1 | effort | detail_polarity: asserted
+        There were >>>many different parts<<< involved.
+   2. 100668 | Figure_5 | effort | detail_polarity: asserted
+        To me it seemed more >>>complex<<< to be able to blend the detail on both the face and the
+        background together well.
+   3. 100600 | NonFigure_5 | effort | detail_polarity: asserted
+        There are new techniques- the cars blurred, more >>>shading<<< etc.
+   4. 100408 | Figure_4 | creativity | detail_polarity: asserted
+        There is minimal creativity involved as it simply just shows a man on a boat in a nice landscape
+        of a river. However, the >>>detail<<< of the man singing/dancing is quite interesting and it
+        makes me wonder about the significance of the artwork.
+   5. 100667 | NonFigure_2 | creativity | detail_polarity: asserted
+        Although this artwork seems to involve more creativity (due to the more fantasy like look and
+        >>>detail<<<), it still seems like I could input a couple of words into AI and it would generate
+        this same artwork.
+   6. 100516 | Figure_1 | effort | detail_polarity: asserted
+        >>>Lots of details<<< and the lighting is amazing
+   7. 100616 | Figure_2 | effort | detail_polarity: asserted
+        The >>>details<<< to this art and the lack of wrong traits.
+   8. 100616 | NonFigure_4 | creativity | detail_polarity: asserted
+        I am saying this is significant since I liked the color and the >>>brush strokes<<< present in
+        this study.
+   9. 100669 | NonFigure_2 | creativity | detail_polarity: asserted
+        I think this was a very >>>detailed<<< image and focused on very fine detail.
+  10. 100070 | NonFigure_4 | creativity | detail_polarity: asserted
+        I like this image, it is visually pleasing to look at and it looks like there are real >>>brush
+        strokes<<<. on it. The sky is nicely detailed.
+  11. 100037 | Figure_2 | effort | detail_polarity: asserted
+        facial expressions, >>>detail<<<, reflections
+  12. 100644 | NonFigure_2 | effort | detail_polarity: asserted
+        The planning and the illustrations seem >>>intricate<<< and effortful
+  13. 100213 | NonFigure_2 | effort | detail_polarity: asserted
+        I thought that this image took a lot of effort to make because there was a great number of
+        >>>details<<< and it was not an ordinary picture to request. The spacing and intricate, unique
+        features definitely took a lot of trial and error before being able to produce this exact image.
+  14. 100419 | NonFigure_3 | creativity | detail_polarity: asserted
+        The work is >>>detailed<<< so it must have taken some creativity on his part
+  15. 100563 | NonFigure_4 | creativity | detail_polarity: asserted
+        I would say moderate creativity because it seems like the piece is fairly unique in its design.
+        The work looks realistic because of the paint >>>strokes<<<.
+  16. 100513 | Figure_1 | effort | detail_polarity: asserted
+        it seemed to have taken lots of effort, considering the >>>details<<< of the planets.
+        additionally, there was so much detail in the plants and the girl with the water can entrapped
+        in a bubble (or maybe a sphere?).
+  17. 100104 | Figure_2 | creativity | detail_polarity: asserted
+        There seems to be a story being told visually and the level of >>>detail<<< used shows
+        creativity.
+  18. 100432 | Figure_1 | effort | detail_polarity: asserted
+        There are >>>a lot of aspects<<< to the art: planets in the back, texture of the sky, the female
+        watering her plants. He executed his idea well enough that it is clear to me that he tried to
+        draw a female watering plants within a bubble in space.
+  19. 100432 | Figure_3 | effort | detail_polarity: asserted
+        I think there is a great deal of effort in this art piece because there is >>>detailing<<< in
+        the armor that the soldier is wearing and detailing in the soldier's face, specifically his
+        facial hair.
+  20. 100565 | NonFigure_2 | effort | detail_polarity: asserted
+        Very >>>detailed<<<
+  21. 100527 | NonFigure_1 | effort | detail_polarity: asserted
+        the oil painting >>>texture<<< seems very hard to do
+  22. 100651 | Figure_3 | effort | detail_polarity: asserted
+        The level of >>>detail<<< was still very intricate, and the ability to get the audience to shift
+        their focus to the main point of the image takes great skill.
+  23. 100149 | NonFigure_1 | creativity | detail_polarity: asserted
+        I think the creativity is more present for this image than the previous ones. The creativity it
+        took the artist to form a prompt that resulted in that image must've been extensive because the
+        image was very >>>detailed<<<.
+  24. 100661 | Figure_4 | effort | detail_polarity: asserted
+        It looks like a great deal of effort was involved because the shades of green were beautifully
+        incorporated and the man portraying his emotions had a good amount of >>>detail<<<.
+  25. 100629 | Figure_2 | creativity | detail_polarity: asserted
+        The image was creative and original not like something that I had seen before and it had a lot
+        of >>>detail<<<
+  26. 100596 | NonFigure_2 | effort | detail_polarity: asserted
+        Theres >>>a lot of small details<<< which require patience
+  27. 100164 | NonFigure_1 | effort | detail_polarity: asserted
+        different >>>strokes<<< and color blending
+  28. 100455 | Figure_3 | effort | detail_polarity: asserted
+        This artwork is not as large as the others, nor is there as much >>>detail<<< or realism - which
+        leads me to believe that there is not as much effort put into this piece as the others.
+  29. 100455 | NonFigure_4 | creativity | detail_polarity: asserted
+        The artwork was >>>complex<<< and the technique seemed like you needed to be able to think the
+        piece through properly to be able to make it - which requires creative thinking.
+  30. 100208 | Figure_1 | creativity | detail_polarity: asserted
+        There were >>>a lot of elements<<< that all fit together
+  31. 100649 | Figure_1 | creativity | detail_polarity: asserted
+        My reasoning for why this would be significantly creative is due to the fact that there are
+        >>>multiple objects<<< of focus, as well as unique themes. For example, we see a girl who is
+        tending to her flowers in a bubble. We also see that this bubble excludes her from the space
+        around her following a theme of the future. Additionally, we see planets and stars all around
+        her.
+  32. 100640 | Figure_2 | effort | detail_polarity: asserted
+        It seems unlikely that the >>>details<<< of the demon's appearance were individually prompted.
+        Because of this, the overall effort and contribution to the creation appear to be relatively
+        low.
+  33. 100640 | Figure_5 | effort | detail_polarity: asserted
+        It seems likely that the artist adjusted >>>details<<< through prompting, such as the patterns
+        on the armor and the color of the person's eyes.
+  34. 100122 | NonFigure_4 | effort | detail_polarity: asserted
+        The >>>texture<<< seems like it would require a lot of time to achieve.
+  35. 100572 | Figure_1 | effort | detail_polarity: asserted
+        I believe the piece demonstrated a high level of effort due to its >>>intricate<<< details,
+        including the various objects present and the careful depiction of light dynamics, which added
+        depth and realism.
+  36. 100486 | Figure_2 | creativity | detail_polarity: asserted
+        It's pretty creative when it came to the faces in the mirrors and the creatures around the body,
+        and the small >>>details<<< in the background.
+  37. 100662 | Figure_4 | effort | detail_polarity: asserted
+        Very basic background and >>>details<<<.
+  38. 100169 | Figure_5 | creativity | detail_polarity: asserted
+        I think the portrait is interesting and the >>>detail<<< in the face is cool
+  39. 100648 | NonFigure_1 | effort | detail_polarity: asserted
+        Looks like this piece was done by hand, and since it is so >>>detailed<<<, looks like it took a
+        lot of effort
+  40. 100396 | Figure_3 | effort | detail_polarity: asserted
+        A lot of efforts shown with the very >>>detailed<<< pen strokes.
+
+MATCHED, detail_polarity = negated (a negating word or quantifier negation sits in the same clause before the phrase, or begins it)  (53 responses in total; showing 40)
+--------------------------------------------------------------------------------------------------------
+   1. 100624 | NonFigure_3 | creativity | detail_polarity: negated
+        Not that >>>complex<<< of an idea.
+   2. 100031 | Figure_3 | effort | detail_polarity: negated
+        There was an image of a man, without too many background >>>details<<<.
+   3. 100190 | Figure_4 | creativity | detail_polarity: negated
+        This wasn't an >>>intricate<<< piece.
+   4. 100667 | Figure_3 | creativity | detail_polarity: negated
+        The AI artwork lacks significant >>>detail<<<. Although pretty, it is just a knight holding a
+        sand hourglass. It seems like it's simple.
+   5. 100667 | Figure_4 | creativity | detail_polarity: negated
+        Very minimal overall >>>detail<<< with an expected background. A few keywords could generate
+        this image.
+   6. 100667 | NonFigure_3 | effort | detail_polarity: negated
+        Minimal effort because AI generated everything. I'm not sure how >>>detailed<<< you have to be
+        with AI but I do know it can fill in the gaps and add details that would fit with a basic
+        prompt.
+   7. 100593 | NonFigure_3 | effort | detail_polarity: negated
+        not >>>many details<<< and more solid colors
+   8. 100202 | NonFigure_4 | creativity | detail_polarity: negated
+        I think that the image seemed like a realistic scene, so it did not require too much creativity.
+        Also, because there was not a lot of >>>detail<<<.
+   9. 100670 | NonFigure_3 | effort | detail_polarity: negated
+        Moderate effort as well because there isn't too much raging >>>details<<<
+  10. 100213 | Figure_3 | effort | detail_polarity: negated
+        Although I thought that the image was built on a very creative idea, I think that it may not
+        necessarily have taken as much effort to produce the image (although I could be wrong about
+        that). I assume this simply because there were not >>>a lot of details<<< in the image, and it
+        probably only took a simple prompt to create the color scheme.
+  11. 100018 | Figure_3 | effort | detail_polarity: negated
+        I think I would be able to draw this as well, though with not as much >>>detail<<<.
+  12. 100518 | NonFigure_3 | creativity | detail_polarity: negated
+        The prompt doesn't seem too >>>complex<<< or creative
+  13. 100671 | Figure_3 | creativity | detail_polarity: negated
+        Not as much creatviity since there's not >>>a lot going on<<< in this image. it is just a knight
+        carrying time.
+  14. 100521 | Figure_4 | effort | detail_polarity: negated
+        While the idea Alex came up with was rather unique, I feel as though the resulting drawing
+        wasn't super refined or >>>detailed<<<. For that reason, I feel like Alex didn't put in a
+        substantial amount of effort to polish the visual representing his idea.
+  15. 100329 | Figure_2 | effort | detail_polarity: negated
+        It doesn't involve as much >>>shading<<< as other paintings, but still requires a lot of detail
+        work.
+  16. 100329 | NonFigure_1 | effort | detail_polarity: negated
+        It seems like more of a simple drawing, as there is very little going on >>>detail<<< wise or in
+        the background.
+  17. 100233 | Figure_5 | creativity | detail_polarity: negated
+        It is a standard design with not much >>>detail<<<
+  18. 100233 | NonFigure_4 | creativity | detail_polarity: negated
+        It was very pretty but not very >>>detailed<<<
+  19. 100432 | Figure_4 | creativity | detail_polarity: negated
+        I say moderate creativity because he used a digital artwork system to help him create his
+        artwork, and his creativity came from using the digital system and having an idea but he did not
+        create the >>>intricacies<<< of it himself.
+  20. 100523 | Figure_4 | effort | detail_polarity: negated
+        Not too >>>intricate<<<, but didn't seem too easy to make.
+  21. 100663 | Figure_3 | creativity | detail_polarity: negated
+        Didn't seem super >>>detailed<<<, colorful, or particularly novel.
+  22. 100651 | Figure_2 | effort | detail_polarity: negated
+        It took a great deal of effort, however not as >>>intricate<<< as the past artworks, more
+        depicted as sketches.
+  23. 100651 | Figure_3 | creativity | detail_polarity: negated
+        There wasn't >>>a lot going on<<< in the image, just two main focuses in the artwork, which
+        leads me to think there was creativity involved but not as heavily as other images which involve
+        a lot more in their artwork.
+  24. 100651 | NonFigure_2 | effort | detail_polarity: negated
+        Not a lot of >>>intricate<<< details.
+  25. 100149 | Figure_1 | creativity | detail_polarity: negated
+        Although it is not as >>>detailed<<< as the previous image, there are a lot of factors in this
+        image that accounts for a lot of creativity. Too many factors to not also have a lot of prompt
+        changes to the AI to get the image wanted.
+  26. 100451 | Figure_4 | effort | detail_polarity: negated
+        There is not striking >>>details<<< in which I would see the need to re-prompt the AI generator
+        and make several adjustments.
+  27. 100661 | Figure_5 | effort | detail_polarity: negated
+        I think moderate effort was involved because there wasn't that much >>>detail<<<
+  28. 100229 | Figure_3 | effort | detail_polarity: negated
+        Doesn't seem insanely >>>complex<<< but the chains take a lot of time
+  29. 100164 | NonFigure_3 | effort | detail_polarity: negated
+        components not too >>>complex<<<
+  30. 100455 | NonFigure_2 | effort | detail_polarity: negated
+        The piece is not as >>>detailed<<< as the others, and seems like it's an easier form of art than
+        the others.
+  31. 100649 | NonFigure_1 | creativity | detail_polarity: negated
+        The reason I believe this is moderately creative is due to the fact there are not >>>many
+        features<<< that stand out. We see teddy bears being hung by their ribbon, however, they are
+        still smiling. This is not a idea that takes a lot of thought to create.
+  32. 100465 | NonFigure_1 | effort | detail_polarity: negated
+        The instructions for generating this picture are not >>>complicated<<<.
+  33. 100162 | NonFigure_1 | effort | detail_polarity: negated
+        Not as much >>>layering<<< and looks a little bit sloppy compared to the other artwork pieces so
+        far.
+  34. 100586 | Figure_1 | creativity | detail_polarity: negated
+        I would say that the work involved minimal creativity given how >>>intricate<<< AI can make
+        things with a few simple commands. It looked cool, but this could be done by saying “girl in
+        yellow dress at a garden in space,” and AI would add or mix things up to make it cooler.
+  35. 100611 | NonFigure_2 | effort | detail_polarity: negated
+        I think creating each individual piece of this image took a decent amount of effort to
+        conceptualize and execute but a lot of the background is kind of the same green, grassy hills
+        which could've taken a little less effort to complete. It definitely lends itself nicely to the
+        overall image but doesn't include the most >>>detail<<<-rich effort.
+  36. 100591 | NonFigure_1 | effort | detail_polarity: negated
+        It is kind of basic and not too >>>too much going on<<<.
+  37. 100169 | NonFigure_4 | effort | detail_polarity: negated
+        There are a lot of errors in the image so there is not a lot of attention to >>>detail<<<
+  38. 100010 | NonFigure_1 | effort | detail_polarity: negated
+        not super >>>detailed<<<
+  39. 100648 | Figure_3 | effort | detail_polarity: negated
+        Took time to create but not as >>>detailed<<< as some of the other pieces shown
+  40. 100438 | Figure_3 | creativity | detail_polarity: negated
+        Not a very >>>complex<<< image depicting all that much.
+
+NOT MATCHED  (1517 responses in total; showing 20)
+--------------------------------------------------------------------------------------------------------
+   1. 100190 | Figure_3 | effort
+        This still took no effort on Alex's part so I will put minimal effort.
+   2. 100582 | NonFigure_1 | creativity
+        I've never seen an artwork such as the one shown and I don't understand the significance of it.
+   3. 100063 | Figure_1 | creativity
+        Looked cool. The thought of living on another planet but in a bubble was a cool thought.
+   4. 100182 | Figure_1 | effort
+        The galaxy looks like it took effort to draw.
+   5. 100616 | Figure_1 | effort
+        Again, I put minimal effort since he only revised the prompt but did not really do anything
+        else.
+   6. 100554 | NonFigure_3 | effort
+        AI
+   7. 100332 | Figure_1 | effort
+        Alex put in a little effort because he revised his inputs over time.
+   8. 100563 | NonFigure_1 | creativity
+        The piece is only slightly creativity because it doesn't seem like anything too unique. It
+        doesn't seem new and innovative.
+   9. 100295 | Figure_1 | creativity
+        I feel like this represents possibly mother nature and the way this person depicted that is cool
+        and creative.
+  10. 100577 | Figure_2 | effort
+        The effort was significant as they had to have thought of this idea for a long time because once
+        again this doesn't happen in real life so they probably took their time thinking of this idea so
+        that it could come together.
+  11. 100588 | Figure_4 | creativity
+        It seems to be a pretty typical forest scene just with a man dancing on a boat, which makes it
+        more unique.
+  12. 100663 | NonFigure_3 | effort
+        It looked like most AI artwork and didn't seem very thought out.
+  13. 100232 | Figure_5 | effort
+        looks like image came from a movie scene
+  14. 100034 | Figure_3 | creativity
+        I might be biased because this looks very similar to a bunch of video game series that I like
+        (Bloodborne, Elden Ring, Dark Souls). The art is very much dark/gothic, with charcoal and
+        pencil. Although the overall picture is simple in just a iron clad man with a hourglass, it
+        leaves questions about what and why.
+  15. 100239 | Figure_4 | creativity
+        Not original at all and clearly AI>
+  16. 100674 | NonFigure_5 | creativity
+        I believe that the sci-fi / futuristic scene isn't something that is very original. Flying cars,
+        neon lights, tall buildings is all very common and has been done plenty previously. So I
+        wouldn't say it is very creative.
+  17. 100586 | Figure_1 | effort
+        I don’t think there was much effort if any involved. Someone can open an AI browser and type
+        commands until they are happy.
+  18. 100338 | Figure_2 | creativity
+        I would say this has a great deal of creativity due to the monsters being unique and having cool
+        characteristics, however, the idea of monsters scaring children and lurking is not very novel
+  19. 100486 | Figure_1 | creativity
+        It seemed creative at first, but it looks AI generated.
+  20. 100592 | NonFigure_5 | creativity
+        More creativity was involved in the color choice and layout of the cityscape. The sci-fi scene
+        is more creative in involving originality in a unique city design with flying spaceships.
+        Although media already influenced some ideas, the artist still created a city scene with unique
+        world-building. Hence, more creativity was involved making the scene differ and stand out from
+        other sci-fi scenes out there in the current media.
+
+========================================================================================================
+RULE: says_time. In plain words: mentions time, hours, duration, speed, or tediousness
+========================================================================================================
+column time_polarity: asserted 100, negated 8, neither 2112 (of 2220 responses)
+
+MATCHED, time_polarity = asserted (no negating word or quantifier negation in the same clause before the phrase)  (100 responses in total; showing 40)
+--------------------------------------------------------------------------------------------------------
+   1. 100408 | NonFigure_1 | effort | time_polarity: asserted
+        No effort involved as the AI generator just created the image >>>quickly<<<.
+   2. 100667 | NonFigure_1 | effort | time_polarity: asserted
+        Minimal effort since it's >>>quick<<< to procure.
+   3. 100667 | NonFigure_4 | effort | time_polarity: asserted
+        Coming up with an idea for a painting can take >>>seconds<<<. Especially with the use of AI, he
+        was able to perfect his idea. Although he used various prompts, it should still be a relatively
+        quick process.
+   4. 100593 | NonFigure_1 | effort | time_polarity: asserted
+        still involved many details and depths which takes >>>time<<<.
+   5. 100182 | NonFigure_2 | effort | time_polarity: asserted
+        It looks like it was drawn with thin strokes, similar to coloring with colored pencils. Lots of
+        >>>time<<< needed.
+   6. 100037 | Figure_1 | effort | time_polarity: asserted
+        imagination and creativity is >>>time<<< consuming
+   7. 100670 | Figure_3 | effort | time_polarity: asserted
+        It takes a lot of effort in creating details in art so I think it took >>>a while<<< to do
+   8. 100213 | NonFigure_3 | effort | time_polarity: asserted
+        I thought that this image included so many features at once, so I'm assuming it took a lot of
+        >>>time<<< and energy to create, let alone scheme as an idea. I'm not sure how AI works, but due
+        to the amount of details present, I'm guessing that this took a long time to create.
+   9. 100671 | NonFigure_2 | effort | time_polarity: asserted
+        there are a lot of small little details and doing grass and vines in general require a lot of
+        >>>time<<< to add in the veins and leaves.
+  10. 100295 | Figure_2 | effort | time_polarity: asserted
+        The shawdows look very complicated to draw and looked like they required so much >>>time<<<.
+  11. 100295 | NonFigure_1 | effort | time_polarity: asserted
+        The individual who made this seemed to put a ton of effort considering that each stuffed animal
+        is different. The painting also seemed like the colors on the canvas were not mixed but more of
+        a brush effect that looked like it took >>>awhile<<<.
+  12. 100295 | NonFigure_2 | effort | time_polarity: asserted
+        There is a ton of detail into each plant or tree in the image which must've >>>took a long<<<
+        time.
+  13. 100295 | NonFigure_4 | effort | time_polarity: asserted
+        This individual's art looked like they did the "brush effect" and it looks more real. They also
+        had a ton of colors in the art which im sure took >>>a while<<<.
+  14. 100295 | NonFigure_5 | effort | time_polarity: asserted
+        The digital image does have a ton of little details (e.g. the building in the back, the color
+        scheme) and it looks like the person who created it took some >>>time<<< with this image.
+  15. 100577 | Figure_2 | creativity | time_polarity: asserted
+        This took a lot of creativity because it seems like a horror movie and this doesn't happen in
+        real life so I feel like it was creative on how they thought of what the monsters looked like
+        and how they showed up on mirrors all the >>>time<<<.
+  16. 100577 | Figure_5 | effort | time_polarity: asserted
+        They put a lot of effort into this because they probably took some >>>time<<< to think about
+        what they were imagining and put that into an image.
+  17. 100233 | NonFigure_1 | effort | time_polarity: asserted
+        It probably took >>>a while<<< to describe the prompt
+  18. 100233 | NonFigure_2 | effort | time_polarity: asserted
+        The detail in this is very abundant, so it probably >>>took a long<<< time.
+  19. 100527 | Figure_5 | effort | time_polarity: asserted
+        Just from experience, I know trying to do the smoke part is really hard so the fact that it's
+        well dones means there's a good amount of >>>time<<< spent on it
+  20. 100651 | NonFigure_4 | effort | time_polarity: asserted
+        Great deal of effort was involved, every detail looked very intricate and well thought of. A
+        great deal of >>>time<<< was spent on color placement, and creating the illusion that it is a
+        3-D artwork.
+  21. 100034 | NonFigure_1 | effort | time_polarity: asserted
+        I think the brush strokes imminent that it >>>took the artist a long<<< time to make it. I also
+        like the detailing in the piece.
+  22. 100421 | Figure_3 | creativity | time_polarity: asserted
+        this individual in the work is pictured as a knight or at least someone who needs armor and they
+        are very intently watching as >>>time<<< passes through this hourglass and goes up in flames
+        making it the only thing that is represented in color. Not just that but making it so that it's
+        not just against a blank background but putting focus or a sort of spotlight to make sure it
+        stands out.
+  23. 100421 | NonFigure_3 | creativity | time_polarity: asserted
+        it's a work that i've seen replicated or at least an interpretated a few >>>time<<< on that note
+        it's still a beautiful work and someone's own interpretation of a something else and it does
+        involve some creativity
+  24. 100649 | NonFigure_5 | creativity | time_polarity: asserted
+        The reason I believe this is moderately creative is due to the amount of detail. We see a
+        cyberpunk like city, with skyscrapers all around with blues and purples. We also see futuristic
+        planes flying around in the night >>>time<<<. However, the detail is not anything special.
+  25. 100187 | NonFigure_4 | effort | time_polarity: asserted
+        colors and texture probably took >>>time<<<
+  26. 100122 | NonFigure_4 | effort | time_polarity: asserted
+        The texture seems like it would require a lot of >>>time<<< to achieve.
+  27. 100465 | NonFigure_3 | effort | time_polarity: asserted
+        Just enter the command according to the >>>time<<< scene description
+  28. 100239 | NonFigure_4 | effort | time_polarity: asserted
+        The textures and details on it make it seem like it would have taken >>>time<<< to complete.
+  29. 100586 | NonFigure_1 | creativity | time_polarity: asserted
+        I would say that there was even less creativity in this art given that it was repeated stuffed
+        animals falling and leaving a trace of color. That is not to say that the art was bad, but AI
+        can process these things easily now >>>days<<<.
+  30. 100611 | Figure_3 | creativity | time_polarity: asserted
+        I think the concept as well as the execution in this image is very well thought out and implies
+        deeper meaning. I thought the fire representing sand in the >>>time<<< capsule was very
+        interesting. The details of the man's armor and shading of the background to highlight the image
+        also had an element of intrigue that I thought was quite creative.
+  31. 100486 | Figure_3 | effort | time_polarity: asserted
+        It was greatly detailed and shaded well, as if it >>>took a few hours<<< to do.
+  32. 100592 | Figure_1 | effort | time_polarity: asserted
+        As for effort, I think a lot of effort was involved to accurately draw out the realistic flowers
+        and planets, as well as make the barrier effect look ethereal and intriguing. To make a
+        realistic space effect with the colors used and blending would take a lot of >>>time<<< to
+        perfect if done from scratch. Thus, a lot of effort was involved in this piece.
+  33. 100592 | Figure_3 | effort | time_polarity: asserted
+        Regarding effort, a lot of effort was involved since the face of the subject was realistic, so
+        getting the details and proportions correct would've taken a lot of effort. Additionally, the
+        shading and lighting also required much planning effort. The use of the hourglass as a light
+        source, also illuminating the knight with reddish light, was a nice highlight touch, which
+        indicated effort in the small details to make the piece realistic. The chainmail itself would
+        also take a lot of >>>time<<< to get all the links, as well as shading to make the metal seem
+        like "metal" rather than "wool", making lighting and technique necessary with a lot of effort to
+        make the knight realistic.
+  34. 100488 | Figure_3 | creativity | time_polarity: asserted
+        There was a man who was looking at a >>>time<<< glass. The image was in gray; however, the time
+        glass was colorful and was filled with orange/yellow dust.
+  35. 100488 | Figure_3 | effort | time_polarity: asserted
+        There were lines all throughout the image. The image was mainly gray but had little specs of
+        things that captured a man looking at a >>>time<<< glass.
+  36. 100648 | Figure_3 | effort | time_polarity: asserted
+        Took >>>time<<< to create but not as detailed as some of the other pieces shown
+  37. 100648 | NonFigure_2 | effort | time_polarity: asserted
+        Looks very real and very detailed, looks like it took a lot of >>>time<<< and looks great
+  38. 100648 | NonFigure_4 | effort | time_polarity: asserted
+        Looks like it took >>>time<<<, but again, related to creativity
+  39. 100648 | NonFigure_5 | effort | time_polarity: asserted
+        Took >>>time<<<, but related to creativity in my opinion
+  40. 100042 | NonFigure_1 | effort | time_polarity: asserted
+        The painting mustve taken a long >>>time<<< to make
+
+MATCHED, time_polarity = negated (a negating word or quantifier negation sits in the same clause before the phrase, or begins it)  (8 responses in total; showing 8)
+--------------------------------------------------------------------------------------------------------
+   1. 100084 | NonFigure_3 | effort | time_polarity: negated
+        Looks computer generated(as in little human touch/>>>labor<<< involved so minimal effort)
+   2. 100667 | NonFigure_5 | effort | time_polarity: negated
+        Prompts were input into AI to have it create the art. It takes minimal >>>time<<<.
+   3. 100182 | Figure_2 | effort | time_polarity: negated
+        It is nicely done, but does not look like it took as much >>>time<<< as the previous art piece.
+   4. 100104 | Figure_3 | effort | time_polarity: negated
+        I don't think someone >>>spent<<< time actually creating it.
+   5. 100577 | NonFigure_2 | creativity | time_polarity: negated
+        There is a lot of creativity involved but again I feel like a candy land is often visited by
+        others so I don't think this was the first >>>time<<< someone might have thought of it and or
+        brought it up to make it a reality and drawing to see what it would look like.
+   6. 100233 | NonFigure_3 | effort | time_polarity: negated
+        It does not seem like it too too much >>>time<<< to come up with the prompt to tell the AI
+   7. 100649 | NonFigure_5 | effort | time_polarity: negated
+        The reason I believe this required minimal effort is due to the fact that this is not an idea
+        that takes a long >>>time<<< to think of, nor write the input for. This is something I could
+        make if I typed "cyberpunk city."
+   8. 100674 | NonFigure_2 | creativity | time_polarity: negated
+        I would say it was moderately creative as I have definitely seen lots of art in a similar style
+        and depictions of very similar settings. It feels very Dr. Suess inspired. Just the fact that it
+        isn't the first >>>time<<< I've seen art of this nature makes me think there's not higher levels
+        of creativity involved.
+
+NOT MATCHED  (2112 responses in total; showing 20)
+--------------------------------------------------------------------------------------------------------
+   1. 100499 | NonFigure_1 | creativity
+        This is a creative image that looks like a lot of thought was behind it
+   2. 100499 | NonFigure_2 | effort
+        This looked like it required a lot of editing to come up with.
+   3. 100624 | Figure_2 | effort
+        Pretty detailed
+   4. 100600 | NonFigure_5 | creativity
+        It is thinking about what the future could look like- not realistic so you need more creativity
+   5. 100554 | Figure_4 | creativity
+        Not very creative, pretty plain
+   6. 100533 | NonFigure_4 | effort
+        I like the strokes in the sunset to give it texture
+   7. 100295 | NonFigure_5 | creativity
+        I feel like I've seen various amount of these images before so I feel like its creative but not
+        really.
+   8. 100104 | NonFigure_1 | creativity
+        It seems conceptual like there may be a deeper meaning behind it. It is also unnatural.
+   9. 100588 | NonFigure_1 | effort
+        The repetitive imagery would demand slightly less effort, but the perspective and brush work
+        would call for a decent amount of effort so I would say moderate.
+  10. 100569 | Figure_1 | effort
+        A lot going on: flowers/plants, a woman in a glass container, planets and the universe in the
+        background show a lot of work put into the artwork
+  11. 100661 | NonFigure_2 | effort
+        I think there was minimal effort because it looked repetitive with the same colors and patterns.
+  12. 100596 | Figure_2 | creativity
+        It seems basic nothing really special out of it
+  13. 100187 | NonFigure_1 | creativity
+        I like the use of color and the animals were very cute, so I'm assuming there was some small
+        level of creativity in creating it, but it probably wasn't a lot.
+  14. 100572 | NonFigure_4 | creativity
+        The piece showcases a strong level of creativity through its vibrant use of colors and
+        impressionistic brushstrokes, which give the desert landscape a dreamlike quality. The depiction
+        of a camel caravan against a glowing sunset adds a sense of adventure and storytelling,
+        enhancing the overall imaginative impact.
+  15. 100450 | Figure_3 | effort
+        It looks very AI generated.
+  16. 100197 | NonFigure_4 | effort
+        I think there was moderate effort as there would need to be painting skills involved.
+  17. 100586 | Figure_5 | effort
+        The art seemed like it needed more commands in order to better create this piece.
+  18. 100486 | NonFigure_2 | creativity
+        It had a lot of factors and a detailed background; somewhat symmetrical.
+  19. 100488 | NonFigure_2 | effort
+        There was a great of effort because of all the different candies and their sizes.
+  20. 100396 | Figure_4 | creativity
+        The landscape is beautiful and shows a happy emotion. Doesn't really stand out that much to me.
+
+========================================================================================================
+RULE: says_skill. In plain words: mentions skill, craft, technique, talent, training, mastery, or hand execution
+========================================================================================================
+column skill_polarity: asserted 54, negated 2, neither 2164 (of 2220 responses)
+
+MATCHED, skill_polarity = asserted (no negating word or quantifier negation in the same clause before the phrase)  (54 responses in total; showing 40)
+--------------------------------------------------------------------------------------------------------
+   1. 100600 | NonFigure_5 | effort | skill_polarity: asserted
+        There are new >>>techniques<<<- the cars blurred, more shading etc.
+   2. 100084 | NonFigure_4 | effort | skill_polarity: asserted
+        The texture, colors, blending, etc. Looks >>>hand painted<<<.
+   3. 100503 | NonFigure_2 | effort | skill_polarity: asserted
+        It is very intricate, but doesn't seem to be too complex in its >>>technique<<<.
+   4. 100503 | NonFigure_3 | effort | skill_polarity: asserted
+        Good >>>technique<<<, not much variation.
+   5. 100503 | NonFigure_4 | effort | skill_polarity: asserted
+        The >>>technique<<< looks intricate and like a human could have possibly painted it.
+   6. 100211 | Figure_2 | effort | skill_polarity: asserted
+        If this were truly >>>hand drawn<<<, I think it would be a lot of effort to draw all the
+        monsters; however, unless Alex made a mistake, it seems like the boy had 6 fingers- a sign of AI
+        generation.
+   7. 100018 | Figure_1 | effort | skill_polarity: asserted
+        Thinking of an original image and using >>>skills<<< to put it together must have been a lot of
+        effort.
+   8. 100018 | NonFigure_1 | effort | skill_polarity: asserted
+        While the art requires >>>skill<<< to create, the artwork uses repetition of the same subjects
+        (e.g. stuffed animals)
+   9. 100432 | Figure_1 | effort | skill_polarity: asserted
+        There are a lot of aspects to the art: planets in the back, texture of the sky, the female
+        watering her plants. He >>>executed<<< his idea well enough that it is clear to me that he tried
+        to draw a female watering plants within a bubble in space.
+  10. 100588 | NonFigure_4 | creativity | skill_polarity: asserted
+        I didn't think there was much more creativity involved than a typical painting because Alex
+        created a scene typical of a desert. The coloring and >>>artistry<<< is great but it is not too
+        original, as other desert scenes have been painted with camels, people, sand, and sun.
+  11. 100523 | NonFigure_4 | effort | skill_polarity: asserted
+        It looks >>>hand painted<<<, which takes a long time to make.
+  12. 100565 | NonFigure_3 | effort | skill_polarity: asserted
+        It was pretty beautiful and well >>>crafted<<<
+  13. 100651 | Figure_1 | effort | skill_polarity: asserted
+        Great deal of details were involved, so many different >>>techniques<<< were utilized to gain
+        the ambition and momentum of the artwork.
+  14. 100651 | Figure_3 | effort | skill_polarity: asserted
+        The level of detail was still very intricate, and the ability to get the audience to shift their
+        focus to the main point of the image takes great >>>skill<<<.
+  15. 100651 | NonFigure_5 | effort | skill_polarity: asserted
+        It took a lot of work in the >>>execution<<< of the image. Bright, different colors, multi
+        dimensions, and more.
+  16. 100665 | NonFigure_2 | effort | skill_polarity: asserted
+        I think significant effort was involved because the scene does look >>>hand-drawn<<< with much
+        attention to detail.
+  17. 100451 | NonFigure_2 | effort | skill_polarity: asserted
+        Although the details were there, it still does not mirror the actual hard work artists do on
+        their own. In this case, an example would be the >>>technique<<< required to get the texture of
+        the clouds right.
+  18. 100229 | Figure_4 | effort | skill_polarity: asserted
+        Making the water ripple with the boat is >>>technical<<< and requires effort.
+  19. 100229 | Figure_5 | effort | skill_polarity: asserted
+        Some >>>technique<<< looks difficult but overall not crazy.
+  20. 100596 | NonFigure_1 | effort | skill_polarity: asserted
+        It looks really good it looks like he trying and used the >>>skill<<< of painting himself
+        instead of somone making it for him
+  21. 100455 | Figure_3 | creativity | skill_polarity: asserted
+        This artwork is very nice and good, but it doesn't seem as creative and unique as the other
+        artworks. I've seen something like this picture before - but the way the art was made seems
+        creative (i.e the strokes/>>>technique<<<).
+  22. 100455 | NonFigure_4 | creativity | skill_polarity: asserted
+        The artwork was complex and the >>>technique<<< seemed like you needed to be able to think the
+        piece through properly to be able to make it - which requires creative thinking.
+  23. 100640 | NonFigure_4 | effort | skill_polarity: asserted
+        An oil painting was created, and the way colors were used enhanced the medium, making the
+        artwork stand out even more. It felt like a piece >>>crafted<<< through human effort and
+        sensibility rather than AI.
+  24. 100572 | Figure_4 | effort | skill_polarity: asserted
+        The attention to detail in the lighting, reflections in the water, and intricate textures of the
+        trees and moss suggest significant effort. The composition is well-balanced, with the performer
+        drawing attention while the surrounding environment adds depth and atmosphere. The realism
+        combined with a whimsical element showcases strong artistic >>>execution<<<.
+  25. 100572 | NonFigure_1 | creativity | skill_polarity: asserted
+        The piece demonstrates a moderate level of creativity, incorporating familiar elements in a way
+        that maintains engagement. While it follows recognizable themes, there are unique aspects that
+        add originality. The >>>execution<<< suggests a thoughtful approach to composition and concept,
+        though there is room for further innovation.
+  26. 100572 | NonFigure_1 | effort | skill_polarity: asserted
+        The level of effort appears moderate, with clear attention to detail and >>>execution<<<. The
+        work reflects a solid understanding of technique and composition, indicating a dedicated
+        approach. However, while the effort is evident, there may be opportunities to refine or expand
+        upon certain aspects to enhance the overall impact.
+  27. 100572 | NonFigure_4 | effort | skill_polarity: asserted
+        The effort is evident in the intricate details of the textured brushwork, the >>>skillful<<<
+        blending of warm and cool tones, and the careful composition of the scene. The realistic
+        lighting and reflections in the water further highlight the artist’s dedication to creating
+        depth and atmosphere.
+  28. 100197 | Figure_1 | effort | skill_polarity: asserted
+        A lot of effort as the scene was well->>>executed<<< but looks like AI.
+  29. 100197 | NonFigure_4 | effort | skill_polarity: asserted
+        I think there was moderate effort as there would need to be painting >>>skills<<< involved.
+  30. 100611 | Figure_3 | creativity | skill_polarity: asserted
+        I think the concept as well as the >>>execution<<< in this image is very well thought out and
+        implies deeper meaning. I thought the fire representing sand in the time capsule was very
+        interesting. The details of the man's armor and shading of the background to highlight the image
+        also had an element of intrigue that I thought was quite creative.
+  31. 100660 | Figure_3 | creativity | skill_polarity: asserted
+        Looks very >>>hand drawn<<<, and if it was I would say it is moderately creative for a
+        relatively original concept, but the use of AI to create it just requires a vague idea/prompt
+        which takes away from creativity
+  32. 100338 | NonFigure_1 | effort | skill_polarity: asserted
+        Similar to the desert sunset picture, the style of application looked like it used small quick
+        scraping or speading >>>techniques<<< of either a brush or palette knife which seems very
+        difficult and delicate
+  33. 100338 | NonFigure_4 | effort | skill_polarity: asserted
+        I think this required a great deal of effort because the style used to pain seems to be a tool
+        that you scrape or swipe once to make a layered image, which looked very hard and therefore
+        would require someone that had a developed >>>skill<<< in that style of painting.
+  34. 100592 | Figure_2 | effort | skill_polarity: asserted
+        As for effort, I think there was a large amount of effort made to use hatching with multiple
+        lines to indicate texture and shading. From personal experience, this >>>technique<<< takes much
+        longer than simply shading in with gradient colors. I also believe much effort went into
+        thinking about the layout, how the mirrors would be used, and how to reverse images to show both
+        the reflection and the back of the subjects. Thus, significant effort was involved in planning
+        and execution.
+  35. 100592 | Figure_3 | effort | skill_polarity: asserted
+        Regarding effort, a lot of effort was involved since the face of the subject was realistic, so
+        getting the details and proportions correct would've taken a lot of effort. Additionally, the
+        shading and lighting also required much planning effort. The use of the hourglass as a light
+        source, also illuminating the knight with reddish light, was a nice highlight touch, which
+        indicated effort in the small details to make the piece realistic. The chainmail itself would
+        also take a lot of time to get all the links, as well as shading to make the metal seem like
+        "metal" rather than "wool", making lighting and >>>technique<<< necessary with a lot of effort
+        to make the knight realistic.
+  36. 100592 | Figure_5 | effort | skill_polarity: asserted
+        As for effort, the human looks so realistic, as if it's an actual person inside a mask. This
+        requires a lot of effort to make a realistic human face. The smoke effect if >>>hand-drawn<<<,
+        would also require effort to make it look like smoke. The unique bends and curves of the person
+        is also very unique, and a lot of depth was indicated in them, with a lot of symmetry, which all
+        requires effort. Thus a significant amount of effort would be involved if everything was hand-
+        drawn.
+  37. 100592 | NonFigure_3 | effort | skill_polarity: asserted
+        As for effort, if everything was drawn >>>by hand<<<, the piece would require effort in getting
+        the snow texture right, get the lighting of the houses right with the windows, as well as the
+        northern light effect. However, I get a bit of an AI sense of the piece, but that may just be
+        the weird perfection of the houses that makes me feel this way. I feel that some effort was made
+        to get the wood details of the cabin right, and have the lighting bounce off the windows as a
+        nice touch, so effort went into planning and execution. But the painting still did not put in as
+        much effort as others since the subjects can all be drawn from reference, and it has fewer
+        colors, so fewer fine details are needed.
+  38. 100592 | NonFigure_4 | effort | skill_polarity: asserted
+        Regarding effort, the painting >>>technique<<< would allow for more broad strokes, with more one
+        note colors with the desert being primarily yellow with brown, so less effort is needed to make
+        the painting. But effort shined most in the sunset and the reflection of the sunset off the
+        river to make the painting aesthetically pleasing. The contrast of the people to make them
+        shadowed out to indicate the sunset is in the foreground behind them was a nice touch, which
+        would also require effort in planning. Thus a minimal amount of effort was involved in the
+        reflection and planning.
+  39. 100592 | NonFigure_5 | effort | skill_polarity: asserted
+        This piece looks like it was digital art, with minute details drawn out with bold colors that
+        complement the scene. Thus, a lot of effort was made in the world-building, color choice, and
+        >>>execution<<< of drawing out the scene. Although some shortcuts can be made by using a fill-
+        tool, the effort in the glowing effect of the neon and city drawing to make accurate-looking
+        buildings require much effort and technique to execute.
+  40. 100648 | NonFigure_1 | effort | skill_polarity: asserted
+        Looks like this piece was done >>>by hand<<<, and since it is so detailed, looks like it took a
+        lot of effort
+
+MATCHED, skill_polarity = negated (a negating word or quantifier negation sits in the same clause before the phrase, or begins it)  (2 responses in total; showing 2)
+--------------------------------------------------------------------------------------------------------
+   1. 100506 | Figure_4 | effort | skill_polarity: negated
+        He didn't create this piece >>>by hand<<<, or with his human abilities (it's computer generated)
+   2. 100506 | NonFigure_3 | effort | skill_polarity: negated
+        Again, he didn't make this piece >>>by hand<<< but used a computer
+
+NOT MATCHED  (2164 responses in total; showing 20)
+--------------------------------------------------------------------------------------------------------
+   1. 100668 | Figure_2 | effort
+        It seems as more effort was put in with the story telling and the detail although there was no
+        color, it still catches the audiences attention.
+   2. 100408 | Figure_4 | effort
+        No effort involved because of the AI generator.
+   3. 100182 | Figure_2 | creativity
+        The monster had to be imagined.
+   4. 100616 | NonFigure_3 | creativity
+        I am rating it moderately just because this idea has been very common especially with the idea
+        or Santa Claus and the north pole.
+   5. 100018 | NonFigure_2 | effort
+        Choosing the vibrant colors to try to create a fantasyland must take a lot of effort.
+   6. 100588 | NonFigure_2 | effort
+        There are a lot of small details that make this require more effort but it is more repetitive so
+        it was probably easy to replicate at some point.
+   7. 100565 | Figure_5 | effort
+        It looks AI generated which is why I said minimally effort
+   8. 100651 | Figure_3 | creativity
+        There wasn't a lot going on in the image, just two main focuses in the artwork, which leads me
+        to think there was creativity involved but not as heavily as other images which involve a lot
+        more in their artwork.
+   9. 100661 | Figure_3 | creativity
+        I think that the image shows a significant amount of creativity because the man looking at the
+        hourglass timer that looks like fire inside could symbolize the chaos and time running out.
+        People can have different interpretations of the artwork which portrays creativity.
+  10. 100629 | NonFigure_1 | effort
+        All the artist did was input feedback into the AI to generate the image.
+  11. 100157 | NonFigure_5 | effort
+        The description had to be very specific as one thing that I noticed was that the moon was split
+        in half
+  12. 100056 | NonFigure_2 | creativity
+        A little similar to other illustrations
+  13. 100056 | NonFigure_4 | effort
+        A little like ai drawing and like some style mixed together
+  14. 100465 | Figure_3 | effort
+        Simple screen elements
+  15. 100465 | NonFigure_5 | effort
+        Details that connect reality and the future
+  16. 100450 | NonFigure_1 | effort
+        The brush strokes resemble an actual panting. I like the color and details, effort was
+        definitely put in
+  17. 100662 | NonFigure_1 | effort
+        Repeated characters and colors.
+  18. 100662 | NonFigure_5 | effort
+        The complexity to generate images with that amount of detail requires effort and precise
+        descriptions; the mood cut in half, the rockets, the cars speeding, the sunrise, the lake…etc.
+  19. 100169 | NonFigure_5 | effort
+        Similar reasoning as the above reason for the creativity rankling.
+  20. 100438 | Figure_5 | creativity
+        I think there is less creativity and content in this painting as there is only a close-up shot
+        of one person, compared to the last painting of a desert, 4 camels, two people and much more
+        color variety.
+
+========================================================================================================
+RULE: says_concept. In plain words: mentions the idea, meaning, message, story, symbolism, or thought behind the work
+========================================================================================================
+column concept_polarity: asserted 322, negated 43, neither 1855 (of 2220 responses)
+
+MATCHED, concept_polarity = asserted (no negating word or quantifier negation in the same clause before the phrase)  (322 responses in total; showing 40)
+--------------------------------------------------------------------------------------------------------
+   1. 100501 | Figure_1 | effort | concept_polarity: asserted
+        It's very detailed and has >>>a lot of thought<<< put into it.
+   2. 100499 | Figure_1 | creativity | concept_polarity: asserted
+        very pretty image and complicated >>>concept<<<
+   3. 100624 | NonFigure_1 | creativity | concept_polarity: asserted
+        Could be a >>>metaphor<<<
+   4. 100190 | Figure_2 | creativity | concept_polarity: asserted
+        I especially liked this piece, I think it's very intricate and has a profound >>>message<<<.
+   5. 100582 | Figure_3 | creativity | concept_polarity: asserted
+        The artwork is original and the >>>message<<< behind it seems powerful and meaningful.
+   6. 100593 | Figure_3 | creativity | concept_polarity: asserted
+        it may be a portrait of someone but they are still trying to expand the >>>meaning<<< of the art
+        which adds layers to it making it more creative.
+   7. 100669 | NonFigure_4 | creativity | concept_polarity: asserted
+        This seems like an original >>>idea<<<, and more thought was put into this scene, shadowing, and
+        lighting and silhouette of the characters.
+   8. 100363 | NonFigure_5 | creativity | concept_polarity: asserted
+        I think a moderate amount of creativity  is being used because it has a cool >>>concept<<<
+   9. 100211 | Figure_1 | creativity | concept_polarity: asserted
+        I quite like the >>>idea<<< of the girl in the bubble and the natural world in contrast.
+  10. 100644 | Figure_1 | creativity | concept_polarity: asserted
+        This image also seems AI generated, but the >>>concept<<< for the piece and the prompt given to
+        the AI still holds a level of creativity.
+  11. 100644 | NonFigure_4 | creativity | concept_polarity: asserted
+        Since the scene is likely of something that exists, there is not much creativity used in the
+        >>>concept<<< of the work, but becuase of the act of choosing colors and other elements I
+        consider that creativity.
+  12. 100213 | Figure_3 | creativity | concept_polarity: asserted
+        I thought that this was another very unique yet >>>thought-provoking<<< image. Rather than
+        simply showing a man holding an hourglass (which is an image I have definitely seen before), the
+        extraordinary color scheme introduces a possible deeper meaning.
+  13. 100213 | NonFigure_1 | creativity | concept_polarity: asserted
+        I thought that this image was very creative and unique. It was not a sight that the average
+        person ever comes across in their life, and it seems as though there could perhaps be a deeper
+        >>>meaning<<< behind it. I also liked the fact that the texture of the image was made in such a
+        way that it looked like it was a painting rather than a cartoon picture.
+  14. 100518 | Figure_1 | creativity | concept_polarity: asserted
+        The image seems detailed and >>>thought-out<<<, so a moderate amount of creativity was likely
+        used when creating the prompt
+  15. 100671 | Figure_1 | effort | concept_polarity: asserted
+        Alex put a lof of effort in his art as it was pleasing to the eye and there were very small
+        details I noticed that shows that he put >>>a lot of thought<<< into it.
+  16. 100104 | Figure_2 | creativity | concept_polarity: asserted
+        There seems to be a >>>story<<< being told visually and the level of detail used shows
+        creativity.
+  17. 100588 | Figure_2 | creativity | concept_polarity: asserted
+        I would think there is significant creativity in this artwork because the different creatures
+        and elements within the artwork seem very >>>well thought<<< out and unique. Additionally, the
+        contrast between the innocent child and these entities is very interesting and shows thought
+        behind the work.
+  18. 100655 | Figure_2 | creativity | concept_polarity: asserted
+        i like that there is deeper >>>meaning<<<, shows they had a little creativity
+  19. 100663 | Figure_1 | creativity | concept_polarity: asserted
+        It was a cool piece of art with a unique >>>idea<<< with the woman in the middle of the planet.
+  20. 100663 | Figure_2 | creativity | concept_polarity: asserted
+        It was a cool scene that was >>>thought provoking<<< and detailed.
+  21. 100651 | Figure_4 | effort | concept_polarity: asserted
+        Still required a great deal of effort and hard work to produce the >>>idea<<< to a physical
+        canvas.
+  22. 100589 | Figure_2 | creativity | concept_polarity: asserted
+        This image seems like Alex put >>>more thought<<< into it because I can see abnormal things,
+        such as faces on the plates. This is the first artwork that conveys a message.
+  23. 100665 | Figure_1 | creativity | concept_polarity: asserted
+        I think significant creativity was involved because this piece seems to have a deeper
+        >>>meaning<<< to it with human and extraterrestrial aspects.
+  24. 100149 | Figure_1 | effort | concept_polarity: asserted
+        I think the effort is significant because executing this creative >>>idea<<< of an image must've
+        taken a lot of work/tries.
+  25. 100451 | Figure_5 | creativity | concept_polarity: asserted
+        This image was very unique and specific, >>>meaning<<< there was quite a lot of careful thought
+        needed to input the AI generator.
+  26. 100421 | Figure_3 | creativity | concept_polarity: asserted
+        this individual in the work is pictured as a knight or at least someone who needs armor and they
+        are very intently watching as time passes through this hourglass and goes up in flames making it
+        the only thing that is >>>represented<<< in color. Not just that but making it so that it's not
+        just against a blank background but putting focus or a sort of spotlight to make sure it stands
+        out.
+  27. 100208 | Figure_5 | creativity | concept_polarity: asserted
+        there are a combination of >>>ideas<<<
+  28. 100545 | Figure_2 | creativity | concept_polarity: asserted
+        The artwork is significantly creative because the image creates a >>>story<<<. For example, just
+        by looking at the image I don't know if the boy is dreaming, if the creatures are real or if he
+        is imagining it.
+  29. 100640 | Figure_4 | creativity | concept_polarity: asserted
+        A calm lake is rippling due to people's joy. While the exact >>>message<<< isn't clear, it feels
+        like a creative piece made with intentionality.
+  30. 100640 | NonFigure_5 | creativity | concept_polarity: asserted
+        The >>>theme<<< was too cliche and felt predictable.
+  31. 100572 | Figure_2 | creativity | concept_polarity: asserted
+        The piece is highly creative due to its eerie and surreal >>>concept<<< of mirrors reflecting
+        monstrous figures instead of the boy’s true reflection. The intricate details and imaginative
+        horror elements make the artwork unique and visually striking.
+  32. 100572 | NonFigure_1 | creativity | concept_polarity: asserted
+        The piece demonstrates a moderate level of creativity, incorporating familiar elements in a way
+        that maintains engagement. While it follows recognizable >>>themes<<<, there are unique aspects
+        that add originality. The execution suggests a thoughtful approach to composition and concept,
+        though there is room for further innovation.
+  33. 100162 | Figure_5 | creativity | concept_polarity: asserted
+        I don't recognize any aspect of this work from other pieces nor is it a common >>>theme<<<.
+  34. 100674 | NonFigure_5 | effort | concept_polarity: asserted
+        Many parts of the image seem to be AI-generated. The moon at the top right seems to be cut in
+        half for some reason. There are some old-fashioned buildings that seem out of place in the scene
+        and what it is meant to >>>represent<<<. Just in general there are evidence of common mistake AI
+        would make so I imagine it was minimal effort.
+  35. 100611 | NonFigure_1 | creativity | concept_polarity: asserted
+        I think the artistic approach paired with the underlying >>>concept<<< of the image involved
+        significant creativity. The abstractness and slight blurred effect lends itself to the overall
+        deeper meaning and thought behind the artwork.
+  36. 100338 | Figure_5 | creativity | concept_polarity: asserted
+        This was an original piece that had the intellectual contribution of the smoking (maybe
+        >>>symbolism<<< for something larger) and the man/alien was extremely unique and interesting
+  37. 100662 | Figure_2 | creativity | concept_polarity: asserted
+        I’ve seen similar images with the >>>idea<<< of a boy being scared in a room full of mirrors and
+        demons.
+  38. 100169 | NonFigure_1 | creativity | concept_polarity: asserted
+        It seems like an interesting >>>concept<<< photo
+  39. 100169 | NonFigure_2 | creativity | concept_polarity: asserted
+        The candy-themed trees and >>>concept<<< were interesting and yet familiar
+  40. 100438 | NonFigure_4 | creativity | concept_polarity: asserted
+        I think the painting was very creative because of the various colors and >>>ideas<<< used.
+
+MATCHED, concept_polarity = negated (a negating word or quantifier negation sits in the same clause before the phrase, or begins it)  (43 responses in total; showing 40)
+--------------------------------------------------------------------------------------------------------
+   1. 100499 | Figure_3 | effort | concept_polarity: negated
+        The image was quite boring and probably didn't take >>>much thought<<<
+   2. 100624 | Figure_2 | creativity | concept_polarity: negated
+        Black and white, not that creative of an >>>idea<<<
+   3. 100624 | NonFigure_3 | creativity | concept_polarity: negated
+        Not that complex of an >>>idea<<<.
+   4. 100408 | Figure_3 | creativity | concept_polarity: negated
+        No creativity involved as it just illustrates a soldier holding a hourglass that has sand on
+        fire. There is no >>>story<<< or thought behind the image.
+   5. 100408 | NonFigure_1 | creativity | concept_polarity: negated
+        No creativity involved as it just has a bunch of stuffed animals hanging in different colors. It
+        doesn't seem like >>>much thought<<< was put behind the artwork.
+   6. 100190 | NonFigure_4 | creativity | concept_polarity: negated
+        I rated significant creativity based off of the image itself. Because it was AI generated made
+        me feel as though it was less creative as there was no significant >>>thought put<<< into it by
+        a human.
+   7. 100582 | Figure_1 | creativity | concept_polarity: negated
+        I've never seen a >>>concept<<< like the one shown.
+   8. 100363 | Figure_5 | creativity | concept_polarity: negated
+        I don't really see a >>>theme<<< in this drawing but I did like the mask and the smoke effect
+   9. 100088 | Figure_5 | creativity | concept_polarity: negated
+        This work seems to be original, but there is no clear >>>meaning<<< behind it.
+  10. 100070 | NonFigure_1 | creativity | concept_polarity: negated
+        It is not a completely unique >>>idea<<<. The color combinations are nice but it doesn't scream
+        something new was done.
+  11. 100213 | NonFigure_1 | effort | concept_polarity: negated
+        I think that this picture required a lot of effort because this is not an ordinary >>>idea<<< to
+        recreate. I'm assuming he had a specific idea in mind that was difficult to convey to the AI
+        generator, and it must have taken many trials in order to get it to produce the exact product he
+        envisioned.
+  12. 100295 | Figure_5 | creativity | concept_polarity: negated
+        I might not know what the picture is >>>representing<<< but it looks like it has good
+        creativity.
+  13. 100329 | NonFigure_5 | creativity | concept_polarity: negated
+        I just feel like this isn't a new or super original >>>concept<<<, as it's just a futuristic
+        city that I feel like has been drawn a ton.
+  14. 100432 | Figure_3 | creativity | concept_polarity: negated
+        I have not seen a scene like his artwork before and I don't think it's a visual
+        >>>representation<<< of something already created.
+  15. 100523 | Figure_5 | creativity | concept_polarity: negated
+        Not sure if it is too creative because there doesn't seem to be a deeper >>>message<<< behind
+        it.
+  16. 100663 | Figure_4 | creativity | concept_polarity: negated
+        Looks like an advertisement for the jungle cruise ride at Disneyland. Doesn't seem very creative
+        to me as there's no novel >>>idea<<< or lots of color or anything.
+  17. 100663 | NonFigure_3 | effort | concept_polarity: negated
+        It looked like most AI artwork and didn't seem very >>>thought out<<<.
+  18. 100651 | NonFigure_3 | creativity | concept_polarity: negated
+        I have seen images such as the one presented before, no new >>>ideas<<< were used, however still
+        a great deal of imagination and self thought was involved.
+  19. 100665 | NonFigure_3 | effort | concept_polarity: negated
+        I think minimal effort was involved because not >>>much thought<<< was put into this piece.
+  20. 100232 | Figure_4 | creativity | concept_polarity: negated
+        looks like a scene from a movie, not much of a deep >>>meaning<<< behind the image it seems
+  21. 100149 | Figure_4 | creativity | concept_polarity: negated
+        Similar to the previous image, coming up with the prompt for producing this image would've been
+        very straightforward and take minimal creativity because its once again not an original
+        >>>idea<<< or a hard prompt (man on a boat in a swamp).
+  22. 100451 | Figure_3 | creativity | concept_polarity: negated
+        He has a moderate level of creativity, because in order to create an AI image you have to
+        provide it with at least some input to instructions on what to do. Therefore, although the image
+        was arguably not his full >>>idea<<< and much of it had to do with AI, he still had to have some
+        initial idea.
+  23. 100451 | NonFigure_4 | creativity | concept_polarity: negated
+        This is a very standard image that doesn't seem to have required >>>much thought<<<. It seems
+        like someone just said make a desert with two (I think)  camels.
+  24. 100157 | NonFigure_2 | creativity | concept_polarity: negated
+        This reminds me of Candy Land since it I filled with different colors and has a sweet vibe to
+        it. Since a lot of people know Candy Land I feel like they got creativity from that so not
+        really an original >>>idea<<<.
+  25. 100649 | NonFigure_1 | creativity | concept_polarity: negated
+        The reason I believe this is moderately creative is due to the fact there are not many features
+        that stand out. We see teddy bears being hung by their ribbon, however, they are still smiling.
+        This is not a >>>idea<<< that takes a lot of thought to create.
+  26. 100545 | NonFigure_1 | creativity | concept_polarity: negated
+        No creativity was involved because the image does not provide a >>>meaning<<< or story, it is
+        simply just teddy bears hanging from a rope.
+  27. 100545 | NonFigure_5 | creativity | concept_polarity: negated
+        Moderate creativity was involved because the colors that were used allows the viewer to assume
+        that the image is based on a fictional world (something that could come out of a movie), but
+        there isn't a unique >>>message<<< or objects that captures my attention.
+  28. 100640 | NonFigure_1 | creativity | concept_polarity: negated
+        I couldn't determine the exact >>>meaning<<< behind the artwork, but it was not an ordinary
+        painting. It felt like it was created with a touch of human imagination.
+  29. 100056 | NonFigure_4 | creativity | concept_polarity: negated
+        Not too much >>>concept<<< involved
+  30. 100187 | Figure_3 | creativity | concept_polarity: negated
+        I don't think the >>>concept<<< is particularly groundbreaking
+  31. 100187 | NonFigure_3 | creativity | concept_polarity: negated
+        I don't think the >>>concept<<< was particularly creative since this kind of scene more or less
+        exists or at least could be imagined by anyone in real life
+  32. 100187 | NonFigure_4 | creativity | concept_polarity: negated
+        i don't think the >>>concept<<< is very unique other than the colors and texture
+  33. 100162 | Figure_3 | creativity | concept_polarity: negated
+        There is no >>>concept<<< behind the work from what I am seeing, so I can't really tell the
+        point that the artist is trying to make.
+  34. 100197 | NonFigure_5 | creativity | concept_polarity: negated
+        Creative is moderate as it looks like some other world or galaxy with rocket ships flying, but I
+        don't necessarily think that >>>concept<<< is that different.
+  35. 100674 | Figure_4 | creativity | concept_polarity: negated
+        It is just not a very creative imagine and does not seem to have >>>much thought<<< put into it.
+  36. 100674 | NonFigure_1 | creativity | concept_polarity: negated
+        I have not seen an image like it. It seems like a very original design and I would describe it
+        as very creative. I feel a moderate amount of thought went into it. However, I would not say it
+        seems like a >>>concept<<< that would be more demanding to come up with than other ideas.
+  37. 100660 | NonFigure_3 | creativity | concept_polarity: negated
+        Very classic North Pole/cold place drawing, doesn't have any novel >>>concepts<<<
+  38. 100662 | NonFigure_1 | creativity | concept_polarity: negated
+        It is something I haven’t seen before. While I’ve seen images of teddy bears and bunnies, I’ve
+        never seen the >>>idea<<< of them hanging by their bows’s.
+  39. 100010 | NonFigure_4 | creativity | concept_polarity: negated
+        had to envision a landscape but landscapes are real and not an imaginary >>>idea<<<
+  40. 100396 | NonFigure_3 | creativity | concept_polarity: negated
+        Image seems pretty logical and not a lot of original >>>ideas<<< were shown, like the previous
+        image.
+
+NOT MATCHED  (1855 responses in total; showing 20)
+--------------------------------------------------------------------------------------------------------
+   1. 100501 | NonFigure_4 | creativity
+        This image is natural and no creativity is needed to replicate it.
+   2. 100190 | NonFigure_4 | effort
+        This piece was AI generated so there was no real effort put into this.
+   3. 100582 | Figure_3 | effort
+        There is a lot of detail on the armor and on the man.
+   4. 100616 | NonFigure_2 | creativity
+        I did not put a great deal of creativity since I believe that this design or form of art has
+        been made by other artists BUT I still believe he has his own originality to his art which was
+        why I put significant creativity is involved.
+   5. 100669 | NonFigure_3 | effort
+        I feel like this is something one can generate using AI, and I have seen examples of this before
+   6. 100669 | NonFigure_4 | effort
+        It seems as more effort was put into thinking about how to created this image.
+   7. 100202 | Figure_4 | creativity
+        I think because this scene depicted a common scene it didn't seem as creative to me. The imagery
+        reminded me of a Disney scene.
+   8. 100332 | Figure_1 | creativity
+        The AI is not creative, it's just code. But, it is unique.
+   9. 100165 | Figure_5 | creativity
+        He gave the prompt to AI and Ai did the creating.
+  10. 100165 | NonFigure_5 | effort
+        He didn't do anything but type
+  11. 100665 | NonFigure_5 | effort
+        I think that moderate effort was involved because it appears to be AI-generated.
+  12. 100451 | NonFigure_3 | creativity
+        This is a very basic image, one that is very familiar to Christmas images that I have seen over
+        the years. It wouldn't require any creativity to make.
+  13. 100421 | Figure_2 | effort
+        Creating an all black and white art piece already requires great effort but to to be able to
+        include the detail in the monsters and mirror the boys image must have time a great deal of time
+        and precision.
+  14. 100421 | Figure_4 | creativity
+        I think this is a common depiction of a bayou or a swamp that I see quite often
+  15. 100672 | Figure_5 | effort
+        Detail
+  16. 100465 | Figure_3 | creativity
+        It seems that there are inner thoughts that I want to express
+  17. 100486 | Figure_1 | effort
+        It looks pretty detailed but it looks AI generated.
+  18. 100662 | NonFigure_3 | creativity
+        The image displayed was very colorful but it’s a very basic image. I think it lacks a lot of
+        creativity. More could have been done to the image displayed to really enhance the look and vibe
+        of Christmas or the North Pole.
+  19. 100222 | Figure_3 | creativity
+        This is more of a specific image, rather than super broad and something that has been created
+        before. So, I think that that means there was more creativity needed in order for the image to
+        be generated.
+  20. 100155 | NonFigure_4 | effort
+        More effort could have been added by creating a more vibrant color palette and small details.
+
+========================================================================================================
+RULE: says_prompt. In plain words: mentions prompting, typing, generating, or names a machine or image generator
+========================================================================================================
+
+MATCHED  (540 responses in total; showing 40)
+--------------------------------------------------------------------------------------------------------
+   1. 100408 | NonFigure_4 | effort
+        No effort involved because it is an >>>AI<<< generator.
+   2. 100084 | Figure_1 | creativity
+        >>>AI<<< art requires minimal creativity to create a prompt.
+   3. 100084 | NonFigure_3 | creativity
+        I mean, north pole... snow.. etc. Looks like an old >>>computer<<< desktop background.
+   4. 100084 | NonFigure_3 | effort
+        Looks >>>computer<<< generated(as in little human touch/labor involved so minimal effort)
+   5. 100190 | Figure_1 | effort
+        Super >>>AI<<< generated, made me want to give Alex less credit.
+   6. 100190 | NonFigure_4 | creativity
+        I rated significant creativity based off of the image itself. Because it was >>>AI<<< generated
+        made me feel as though it was less creative as there was no significant thought put into it by a
+        human.
+   7. 100033 | NonFigure_2 | effort
+        It is still >>>AI<<< generated at the end of the day.
+   8. 100669 | Figure_4 | effort
+        I feel like this is something one can >>>generate<<< using AI, and I have seen examples of this
+        before
+   9. 100088 | Figure_1 | effort
+        Same as previous, there is no effort in the creation of >>>AI<<< art.
+  10. 100554 | Figure_4 | effort
+        Again, >>>AI<<<
+  11. 100554 | Figure_5 | creativity
+        Not very creative, noticable >>>AI<<<
+  12. 100211 | Figure_1 | effort
+        If it were truly drawn by hand, I think this would take a lot of effort; however, it feels
+        >>>AI<<< generated.
+  13. 100213 | Figure_2 | effort
+        With what I know about what >>>AI<<<-generated images typically look like, I think that this
+        picture took a lot of attempts in order to perfect (specifically the drawing-like texture of the
+        entire picture). There were so many small details that were also included.
+  14. 100018 | Figure_4 | effort
+        The image seems to be >>>AI<<<-generated. Taking a closer look on the man's fingers, there is a
+        lot of mistakes that hint toward AI-generated art.
+  15. 100518 | Figure_4 | effort
+        The >>>AI<<< image seems very realistic, so the AI generator likely used a moderate amount of
+        effort. In terms of Alex's effort, it would be low, since the generator did most of the work
+  16. 100521 | Figure_1 | creativity
+        The idea of a garden, contained in a bubble, on a far planet in outer space is a rather unique
+        idea. For Alex to >>>generate<<< this art, he must've truly thought out of the box to come up
+        with a concept like this.
+  17. 100521 | NonFigure_1 | creativity
+        Unlike the futuristic city and desert scene, this piece of art, featuring stuffed animals
+        seemingly tied to one another in long hanging chains, is really abstract and out there. I feel
+        like this suggests that Alex exercised a lot of creativity when >>>prompting<<< the AI because
+        this idea is not common. Many people before Alex have created art or envisioned futuristic
+        cities, such as the ones seen in sci-fi media, or desert oasis, but not many people have
+        imagined or made art of stuffed animals chained together and hung.
+  18. 100521 | NonFigure_3 | effort
+        I gave Alex a minimal effort rating because he wouldn't have to >>>prompt<<< the AI much to get
+        this image given the AI's already extensive pool of knowledge about the Christmas season.
+  19. 100104 | NonFigure_5 | effort
+        It looks very >>>AI<<< generated.
+  20. 100579 | Figure_2 | creativity
+        somewhat creative >>>prompt<<<
+  21. 100579 | Figure_3 | effort
+        >>>AI<<< made the image
+  22. 100579 | NonFigure_4 | effort
+        >>>AI<<< generated it
+  23. 100329 | NonFigure_4 | effort
+        This one appears to replicate painting, which must be incredibly hard on digital art
+        >>>programs<<<.
+  24. 100506 | Figure_4 | creativity
+        Again, idea of using >>>AI<<< to create art is new, but this piece isn't that interesting--it's
+        a pretty lake and guy standing on a boat, but it doesn't seem original or intellectual (Maybe
+        I'm just not understanding the backstory).
+  25. 100506 | NonFigure_2 | effort
+        It's >>>AI<<< generated and completely digital.
+  26. 100506 | NonFigure_3 | effort
+        Again, he didn't make this piece by hand but used a >>>computer<<<
+  27. 100655 | NonFigure_5 | effort
+        effort is fine its just inputing >>>ai<<<
+  28. 100065 | Figure_4 | effort
+        it looked like >>>ai<<<
+  29. 100149 | NonFigure_3 | creativity
+        Creativity is moderate, as coming up with a >>>prompt<<< specific enough to result in this image
+        must've taken a handful of tries.
+  30. 100451 | NonFigure_4 | effort
+        This could have easily been made in one round of >>>input<<<.
+  31. 100034 | NonFigure_5 | effort
+        Same as the last answer, because I believe >>>AI<<< is being used, I think the person's effort
+        in creating this art is minimal.
+  32. 100629 | NonFigure_1 | effort
+        All the artist did was >>>input<<< feedback into the AI to generate the image.
+  33. 100672 | Figure_1 | effort
+        Seems less >>>AI<<< generated and more original design
+  34. 100673 | Figure_1 | creativity
+        The image was interesting but seemed like a typical >>>AI<<<-generated image without much unique
+        substance.
+  35. 100673 | NonFigure_5 | effort
+        The >>>AI<<< generator did most of the work, so it does not reflect much human effort.
+  36. 100640 | Figure_3 | effort
+        This artwork didn’t just list a theme, it felt more deliberate. The way water and fire were
+        interconnected within the hourglass, along with the clear depiction of human actions, suggests
+        that it was an >>>AI<<<-generated image crafted with careful thought.
+  37. 100239 | Figure_3 | creativity
+        It is an interesting drawing and not too >>>AI<<< like but the face still heavily looks like AI
+        did it.
+  38. 100660 | Figure_4 | effort
+        Using >>>AI<<< to produce a piece of art requires almost no effort except to ask it to refine
+        the art
+  39. 100660 | Figure_5 | creativity
+        Using >>>AI<<< to make art is not creative
+  40. 100486 | Figure_1 | creativity
+        It seemed creative at first, but it looks >>>AI<<< generated.
+
+NOT MATCHED  (1680 responses in total; showing 20)
+--------------------------------------------------------------------------------------------------------
+   1. 100668 | NonFigure_1 | effort
+        I felt as the other images before caught my attention more then this one.
+   2. 100031 | Figure_5 | creativity
+        It was very creative and evoked many emotions from looking at it.
+   3. 100031 | NonFigure_5 | creativity
+        It looked like a futuristic world.
+   4. 100363 | NonFigure_1 | creativity
+        I think that the drawing is pretty and creative with all the bears hanging by a ribbon
+   5. 100037 | Figure_5 | creativity
+        I liked the angle of the artwork and the smoke coming out of the person
+   6. 100533 | NonFigure_5 | effort
+        Lots of details in the strokes of the drawing
+   7. 100325 | NonFigure_2 | creativity
+        Reminds me of Dr.Seuss or candy-land, but not a direct copy.
+   8. 100521 | Figure_5 | creativity
+        In terms of creativity, I believe it took a lot of effort for Alex to come up with the idea of a
+        person wearing a stone like mask (and armor) since the idea is pretty unconventional and novel.
+   9. 100513 | NonFigure_3 | creativity
+        the picture is typical of christmas scenery (seems to be set in the north pole).
+  10. 100527 | NonFigure_5 | creativity
+        This looks very futuristic and it's very cool
+  11. 100663 | NonFigure_2 | effort
+        It appeared textured, very colorful, and detailed, which signifies effort to me.
+  12. 100589 | Figure_3 | effort
+        I used the same logic as above.
+  13. 100569 | Figure_3 | effort
+        There is a lot of detail in the background as well as the armor, the person and the hourglass.
+        There is shading
+  14. 100157 | NonFigure_1 | effort
+        The stuffed animals look pretty realistic as well as the ribbon so I feel that this had to have
+        taken more effort
+  15. 100596 | NonFigure_3 | effort
+        It look so pretty the color look good and clean
+  16. 100640 | Figure_4 | creativity
+        A calm lake is rippling due to people's joy. While the exact message isn't clear, it feels like
+        a creative piece made with intentionality.
+  17. 100450 | NonFigure_3 | creativity
+        Is like i seen before in Christmas movies.
+  18. 100450 | NonFigure_5 | creativity
+        Not creative, is like seen in movies
+  19. 100155 | NonFigure_4 | creativity
+        The work is just a desert, with plain colors.
+  20. 100438 | NonFigure_4 | creativity
+        I think the painting was very creative because of the various colors and ideas used.
+
+========================================================================================================
+RULE: prior_exposure. In plain words: says the work looks familiar, already seen, generic or derivative (asserted), explicitly denies it (negated), or neither
+========================================================================================================
+column prior_exposure: asserted 200, negated 70, neither 1950 (of 2220 responses)
+
+MATCHED, read as ASSERTED (the writer says the work is familiar)  (200 responses in total; showing 40)
+--------------------------------------------------------------------------------------------------------
+   1. 100111 | NonFigure_5 | creativity | prior_exposure: asserted
+        The artwork was >>>similar to<<< things I've seen before.
+   2. 100408 | NonFigure_3 | creativity | prior_exposure: asserted
+        Minimal creativity involved because it just illustrates how a normal Christmas would look like
+        during the winter. The only creative addition is the northern lights but everything else is what
+        a >>>typical<<< winter day would look like in a village.
+   3. 100667 | Figure_5 | creativity | prior_exposure: asserted
+        This might take multiple prompts to perfect but it is still AI creating the image and filling in
+        any details not stated in the prompt, which is >>>typically<<< a lot. Although creative I wonder
+        if you could just input a prompt such as "humanoid alien" to generate a similar render.
+   4. 100667 | NonFigure_3 | creativity | prior_exposure: asserted
+        There are still elements of creativity but AI was used to help generate prompts and paint his
+        artwork. Even the elements included in the artwork are already >>>typically<<< objects
+        associated with each other; snow, fire/warmth, cabin, reindeer.
+   5. 100616 | NonFigure_5 | creativity | prior_exposure: asserted
+        Minimal since very >>>similar to<<< sci fi ideas (movies and shows)
+   6. 100669 | Figure_1 | creativity | prior_exposure: asserted
+        I feel like this is something one can generate using AI, and I >>>have seen<<< examples of this
+        before
+   7. 100669 | NonFigure_5 | effort | prior_exposure: asserted
+        I feel like this is something one can generate using AI, and I >>>have seen<<< examples of this
+        before
+   8. 100503 | Figure_4 | creativity | prior_exposure: asserted
+        Intricate environment, but nothing that interesting or out of the >>>ordinary<<< is happening.
+   9. 100325 | NonFigure_2 | creativity | prior_exposure: asserted
+        >>>Reminds me of<<< Dr.Seuss or candy-land, but not a direct copy.
+  10. 100211 | NonFigure_5 | creativity | prior_exposure: asserted
+        It looked like a >>>generic<<< vaporwave cyberpunk city; nothing particularly stood out to me.
+  11. 100521 | NonFigure_3 | creativity | prior_exposure: asserted
+        Overall, the concept of a Christmas cabin isn't really unique or special. Winter cabins are a
+        >>>common<<< image associated with Christmas, and I feel like it wouldn't take much effort for
+        Alex to imagine this idea.
+  12. 100295 | NonFigure_2 | creativity | prior_exposure: asserted
+        I think this is creative but It >>>reminds me of<<< alice in wonderland.
+  13. 100104 | NonFigure_3 | creativity | prior_exposure: asserted
+        It seems like a very >>>familiar<<< scene.
+  14. 100104 | NonFigure_5 | creativity | prior_exposure: asserted
+        It is a >>>cliche<<< "future city"
+  15. 100233 | Figure_5 | creativity | prior_exposure: asserted
+        It is a >>>standard<<< design with not much detail
+  16. 100588 | Figure_4 | effort | prior_exposure: asserted
+        The detailing in the scene shows great effort in coloring and general imagery. Again it has
+        signifiers of being AI generated though, with the face of the man and brightness around his body
+        (>>>typical<<< of AI generation).
+  17. 100523 | NonFigure_4 | creativity | prior_exposure: asserted
+        It seems like a lot of other work >>>I've seen<<<.
+  18. 100655 | NonFigure_5 | creativity | prior_exposure: asserted
+        i feel like >>>ive seen<<< this picture a million times, not unique or cool
+  19. 100232 | NonFigure_2 | creativity | prior_exposure: asserted
+        looks like an image >>>i've seen<<< before
+  20. 100232 | NonFigure_5 | creativity | prior_exposure: asserted
+        feel like >>>i've seen<<< in a movie or game for a futuristic setting
+  21. 100569 | Figure_3 | creativity | prior_exposure: asserted
+        The armor is a >>>standard<<< looking armor, same goes for the person or the object he’s
+        holding, the hourglass does not have sand but fire which changes the common idea about
+        hourglasses.
+  22. 100569 | NonFigure_3 | creativity | prior_exposure: asserted
+        It shows a >>>common<<< picture of a place that experiences northern lights, which usually have
+        snow and reindeer present (like Sweden, Norway and other similar countries
+  23. 100451 | Figure_4 | creativity | prior_exposure: asserted
+        It is s pretty >>>standard<<< image, one that does not require to many specific details to seed
+        into the AI generator.
+  24. 100034 | NonFigure_4 | creativity | prior_exposure: asserted
+        The different colors utilized to make the terrain pop was a very stylistic choice! I thought it
+        made it look different from a >>>typical<<< terrain painting - so very creative.
+  25. 100421 | NonFigure_2 | creativity | prior_exposure: asserted
+        seems slightly repetitive but very creative in terms of creating a new and colorful world but
+        also seems >>>familiar<<<
+  26. 100421 | NonFigure_4 | creativity | prior_exposure: asserted
+        Something >>>I've seen<<< before several times but the contrast of it is slightly different
+  27. 100421 | NonFigure_5 | effort | prior_exposure: asserted
+        There is a lot of detail involved and while it's something >>>i've seen<<< a few times before it
+        still takes a lot of effort to create a work with so many components and colors
+  28. 100455 | Figure_3 | creativity | prior_exposure: asserted
+        This artwork is very nice and good, but it doesn't seem as creative and unique as the other
+        artworks. >>>I've seen<<< something like this picture before - but the way the art was made
+        seems creative (i.e the strokes/technique).
+  29. 100545 | NonFigure_3 | creativity | prior_exposure: asserted
+        Minimal creativity was involved because the image seems like if it was taken from any children's
+        Christmas movies. It seems like the >>>typical<<< village of Santa that is portrayed in a lot of
+        kids movies.
+  30. 100536 | NonFigure_3 | creativity | prior_exposure: asserted
+        >>>seen this drawing done before<<<, not super original
+  31. 100673 | Figure_1 | creativity | prior_exposure: asserted
+        The image was interesting but seemed like a >>>typical<<< AI-generated image without much unique
+        substance.
+  32. 100640 | NonFigure_2 | creativity | prior_exposure: asserted
+        Since the painting depicted an imaginative mushroom village rather than a >>>common<<<
+        phenomenon, it felt highly creative.
+  33. 100056 | NonFigure_2 | creativity | prior_exposure: asserted
+        A little >>>similar to<<< other illustrations
+  34. 100572 | NonFigure_3 | creativity | prior_exposure: asserted
+        There was not much creavity in this piece. The setting seemed very >>>generic<<< and
+        uninteresting.
+  35. 100450 | NonFigure_3 | effort | prior_exposure: asserted
+        Same as creativity, looks like it was >>>copied<<<
+  36. 100162 | NonFigure_5 | creativity | prior_exposure: asserted
+        It appears to be a futuristic setting, which is a >>>common<<< theme.
+  37. 100674 | NonFigure_5 | creativity | prior_exposure: asserted
+        I believe that the sci-fi / futuristic scene isn't something that is very original. Flying cars,
+        neon lights, tall buildings is all very >>>common<<< and has been done plenty previously. So I
+        wouldn't say it is very creative.
+  38. 100611 | NonFigure_2 | creativity | prior_exposure: asserted
+        I think creating a world in your mind and portraying it in art takes a great deal of creativity
+        because you're essentially thinking up something not in the real world, that nobody else >>>has
+        quite seen<<<, and communicating that with others.
+  39. 100169 | NonFigure_2 | creativity | prior_exposure: asserted
+        The candy-themed trees and concept were interesting and yet >>>familiar<<<
+  40. 100169 | NonFigure_3 | creativity | prior_exposure: asserted
+        Appears like a >>>generic<<< North Pole prompt
+
+MATCHED, read as NEGATED (the writer denies the work is familiar)  (70 responses in total; showing 40)
+--------------------------------------------------------------------------------------------------------
+   1. 100600 | NonFigure_2 | creativity | prior_exposure: negated
+        Very unique, >>>never have seen<<< something like this. Creativity to me is lots of fun colors-
+        this has it.
+   2. 100408 | Figure_5 | creativity | prior_exposure: negated
+        There is minimal creativity involved because I >>>have never seen<<< something like this before.
+        The details on the face and the addition of the smoke is very interesting. It makes me curious
+        about the idea and thought process behind the image.
+   3. 100408 | NonFigure_2 | creativity | prior_exposure: negated
+        Moderate creativity involved because it includes things that >>>I've never seen<<< before (candy
+        and mushroom plants/buildings). There is a diverse use of colors and details.
+   4. 100582 | Figure_5 | creativity | prior_exposure: negated
+        >>>I'd never seen<<< a monster? or character such as the one shown
+   5. 100070 | Figure_2 | creativity | prior_exposure: negated
+        This image is creative and more out of this world and not >>>commonly<<< done a lot.
+   6. 100554 | NonFigure_1 | creativity | prior_exposure: negated
+        Unlike anything I >>>have seen<<<, looks like it could have been human made
+   7. 100325 | Figure_1 | creativity | prior_exposure: negated
+        I >>>have never seen<<< anything like this before, and there seems to be some intellectual
+        contribution to the artwork.
+   8. 100213 | NonFigure_1 | effort | prior_exposure: negated
+        I think that this picture required a lot of effort because this is not an >>>ordinary<<< idea to
+        recreate. I'm assuming he had a specific idea in mind that was difficult to convey to the AI
+        generator, and it must have taken many trials in order to get it to produce the exact product he
+        envisioned.
+   9. 100213 | NonFigure_2 | effort | prior_exposure: negated
+        I thought that this image took a lot of effort to make because there was a great number of
+        details and it was not an >>>ordinary<<< picture to request. The spacing and intricate, unique
+        features definitely took a lot of trial and error before being able to produce this exact image.
+  10. 100213 | NonFigure_5 | creativity | prior_exposure: negated
+        This was an incredibly-detailed image, as it seemed as though there was no wasted space. It
+        captured a somewhat apocalyptic feel of the future, as it pictured a large city with aircrafts
+        flying around, and a sunset in the background. I >>>have not seen<<< another picture like this,
+        and the amount of details makes me wonder what the inspiration or meaning behind the image was.
+  11. 100521 | NonFigure_1 | creativity | prior_exposure: negated
+        Unlike the futuristic city and desert scene, this piece of art, featuring stuffed animals
+        seemingly tied to one another in long hanging chains, is really abstract and out there. I feel
+        like this suggests that Alex exercised a lot of creativity when prompting the AI because this
+        idea is not >>>common<<<. Many people before Alex have created art or envisioned futuristic
+        cities, such as the ones seen in sci-fi media, or desert oasis, but not many people have
+        imagined or made art of stuffed animals chained together and hung.
+  12. 100295 | Figure_4 | creativity | prior_exposure: negated
+        Its very creative. I >>>haven't seen<<< something like this and it looks cool.
+  13. 100513 | Figure_5 | effort | prior_exposure: negated
+        there seemed to be a lot of effort, considering the facial detail, the smoke fumes or air (not
+        sure what it was) are >>>typically<<< very hard to draw/paint.
+  14. 100513 | NonFigure_1 | creativity | prior_exposure: negated
+        the image was very original, nothing that i >>>have seen<<< before, it was very creative in its
+        color choice and the use of the ribbon/rope, etc...
+  15. 100233 | NonFigure_1 | creativity | prior_exposure: negated
+        The idea is something I >>>have never seen<<< before
+  16. 100432 | Figure_3 | creativity | prior_exposure: negated
+        I >>>have not seen<<< a scene like his artwork before and I don't think it's a visual
+        representation of something already created.
+  17. 100506 | Figure_5 | creativity | prior_exposure: negated
+        This image is more creative than some of the others (>>>I've never seen<<< it before). it looks
+        layered--the eyes look real/like a photograph, and the creature's skin looks 3D and drawn. I
+        also really liked the smoke, and it was cool to see the layers of this piece. I also think he's
+        using it to send a message about his personality, life, or the world.
+  18. 100523 | Figure_1 | creativity | prior_exposure: negated
+        Deep meaning behind the artwork, not like anything >>>I've ever seen<<< before.
+  19. 100527 | NonFigure_1 | creativity | prior_exposure: negated
+        >>>Never seen<<< this in real life so it seems pretty interesting
+  20. 100663 | NonFigure_4 | creativity | prior_exposure: negated
+        The scene wasn't anything I >>>haven't seen<<< before. A sunset in the desert isn't very
+        creative to me.
+  21. 100651 | NonFigure_4 | creativity | prior_exposure: negated
+        This image was something new that I >>>have never seen<<< before. The level of detail was very
+        intricate and well thought of, especially the placement of such strokes and colors.
+  22. 100665 | Figure_2 | creativity | prior_exposure: negated
+        I think significant creativity was involved because the monsters are unlike any I >>>have
+        seen<<< before and it has an abstract meaning of human fears.
+  23. 100215 | NonFigure_5 | creativity | prior_exposure: negated
+        This seems like a futuristic city, however it didn't speak out to me as anything new and
+        >>>never seen<<< before.
+  24. 100451 | NonFigure_2 | creativity | prior_exposure: negated
+        This required a moderate level of creativity given its complexity. It definitely required to
+        have some sort of creative vision to be able to execute the way AI did. For example, details
+        such as the pink clouds, random house in the back, swirly trees, are not very >>>generic<<< and
+        you don't usually see them without intention.
+  25. 100421 | Figure_1 | creativity | prior_exposure: negated
+        the way this work shows life on earth as well as how the environment is around it is beautiful
+        and not something >>>I've seen<<< before showing 2 aspects of the universe in one single art
+        piece
+  26. 100421 | NonFigure_1 | creativity | prior_exposure: negated
+        I don't think >>>i've seen<<< someone create a work depicting hanging stuffed animals or even
+        anything similar but it's slightly off putting and could be emotion inducing for some
+  27. 100629 | Figure_2 | creativity | prior_exposure: negated
+        The image was creative and original not like something that I >>>had seen<<< before and it had a
+        lot of detail
+  28. 100455 | Figure_1 | creativity | prior_exposure: negated
+        This piece is unique and >>>I've never seen<<< anything like it before, very creative.
+  29. 100455 | NonFigure_2 | creativity | prior_exposure: negated
+        This piece is creative because the idea >>>has never been seen<<< or done before.
+  30. 100536 | Figure_2 | creativity | prior_exposure: negated
+        >>>haven't seen<<< something like it.  seems to represent lots of emotion of the artist.
+  31. 100187 | Figure_1 | creativity | prior_exposure: negated
+        I don't think it's anything mindblowing nor a concept >>>I've never seen<<< before
+  32. 100122 | NonFigure_1 | creativity | prior_exposure: negated
+        >>>I've never seen<<< anything like it so it says a lot about creativity.
+  33. 100450 | NonFigure_1 | creativity | prior_exposure: negated
+        Very original, >>>never seen<<< something like this
+  34. 100162 | Figure_1 | creativity | prior_exposure: negated
+        The scene appears unique in regards to capturing a woman watering plants on a planet in space.
+        Not a >>>common<<< scene in paintings.
+  35. 100197 | Figure_1 | creativity | prior_exposure: negated
+        A great deal of creativity as the scene of a girl watering flowers in a glass case on another
+        planet in the galaxy is not a >>>common<<< picture or image.
+  36. 100674 | Figure_1 | creativity | prior_exposure: negated
+        I >>>have never seen<<< an image like this, or even expressed in that way. I believe it has the
+        potential to mean a lot of different things are to invoke certain emotions in somebody looking
+        at it. I would believe it if someone said it was a one of a kind. It is very creative and seems
+        very original.
+  37. 100660 | NonFigure_1 | creativity | prior_exposure: negated
+        Kind of freaky and not a >>>common<<</uninteresting image, but not very original or interesting
+  38. 100486 | Figure_5 | creativity | prior_exposure: negated
+        >>>I've never seen<<< such a creature smoking so it's pretty creative.
+  39. 100662 | Figure_3 | creativity | prior_exposure: negated
+        The idea is relatively straightforward and not as >>>common<<<
+  40. 100662 | Figure_5 | effort | prior_exposure: negated
+        In terms of effort, the background resembled the creature’s skin color and pattern. Nothing too
+        out of the >>>ordinary<<< that would require more details and examination for the overall image.
+
+NOT MATCHED  (1950 responses in total; showing 20)
+--------------------------------------------------------------------------------------------------------
+   1. 100600 | Figure_3 | effort
+        Lots of intricate details on the face, the armor and highly realistic
+   2. 100031 | Figure_5 | effort
+        There was a lot of effort because it looked so life like.
+   3. 100031 | NonFigure_3 | effort
+        There was a good amount of effort to construct an image that evoked nostalgia.
+   4. 100031 | NonFigure_4 | creativity
+        There was moderate creativity, but it was more abstract than detailed.
+   5. 100363 | NonFigure_2 | effort
+        I think there was a great deal of effort involved because the drawing looks really detailed with
+        different elements being involved , like the mushrooms.
+   6. 100563 | NonFigure_3 | creativity
+        I feel like this piece seems to not have much creativity because it doesn't seem to be anything
+        unique or new.
+   7. 100513 | Figure_1 | creativity
+        it was very creative, and although i had initially thought it was ai-generated, i saw an
+        artist's signature on the bottom corner establishing that it is an original art piece. i thought
+        it was very creative that the solar system was combined with plants.
+   8. 100579 | NonFigure_1 | creativity
+        AI prompted image
+   9. 100149 | Figure_1 | creativity
+        Although it is not as detailed as the previous image, there are a lot of factors in this image
+        that accounts for a lot of creativity. Too many factors to not also have a lot of prompt changes
+        to the AI to get the image wanted.
+  10. 100451 | Figure_1 | effort
+        There are some details, such as the planets orbiting the sky, where some changes would have had
+        to been remade.
+  11. 100661 | Figure_5 | effort
+        I think moderate effort was involved because there wasn't that much detail
+  12. 100661 | NonFigure_1 | effort
+        I think there was minimal effort because the artwork looked repetitive.
+  13. 100545 | Figure_5 | effort
+        A great deal of effort was involved because the image looks realistic and fake at the same time.
+        It looks fake because the colors are vibrant and and the quality of the image is perfect, which
+        shows it wasn't created by a person. At the same time the image looks realistic because the face
+        mask creates the illusion of depth, it feels as though I can touch it.
+  14. 100162 | NonFigure_3 | effort
+        There was a lot of detail put into the artwork.
+  15. 100611 | NonFigure_3 | effort
+        Again, because the individual elements of the scene (the reindeer, snowcapped winter houses,
+        northern lights, snow) are often associated with each other, I think this could easily be
+        created and recreated with an AI image generator without much effort.
+  16. 100486 | NonFigure_2 | creativity
+        It had a lot of factors and a detailed background; somewhat symmetrical.
+  17. 100592 | Figure_4 | creativity
+        The only really creative aspect is the character's pose, as well as the layout of the piece. The
+        nature is taken from reality, but the feel and lighting of the world seem somewhat original. The
+        pose of the man makes me wonder what joy he is feeling and where he is going on his boat. Thus
+        creativity went into the mood of the piece.
+  18. 100662 | NonFigure_3 | effort
+        It shouldn’t require more prompts to generate that image
+  19. 100155 | NonFigure_3 | effort
+        More effort could have been put in, such as adding people or opening up the space.
+  20. 100396 | NonFigure_4 | creativity
+        Not a lot of original thoughts being illustrated.
+
+========================================================================================================
+RULE: anchor_echo. In plain words: contains the rating scale's own wording
+========================================================================================================
+
+MATCHED  (322 responses in total; showing 40)
+--------------------------------------------------------------------------------------------------------
+   1. 100408 | NonFigure_3 | creativity
+        >>>Minimal creativity involved<<< because it just illustrates how a normal Christmas would look
+        like during the winter. The only creative addition is the northern lights but everything else is
+        what a typical winter day would look like in a village.
+   2. 100084 | Figure_1 | effort
+        AI art requires little to >>>no effort<<<.
+   3. 100084 | Figure_2 | effort
+        The attention to detail and medium chosen show >>>a great deal of effort<<< put into this art.
+   4. 100084 | NonFigure_3 | effort
+        Looks computer generated(as in little human touch/labor involved so >>>minimal effort<<<)
+   5. 100031 | NonFigure_4 | creativity
+        There was >>>moderate creativity<<<, but it was more abstract than detailed.
+   6. 100667 | Figure_3 | effort
+        >>>Minimal effort<<< because I believe minimal keywords could generate this artwork.
+   7. 100667 | NonFigure_1 | effort
+        >>>Minimal effort<<< since it's quick to procure.
+   8. 100593 | NonFigure_5 | creativity
+        this is not realistic and involves >>>a lot of creativity<<< to create such elaborate,
+        futuristic, digital artwork.
+   9. 100593 | NonFigure_5 | effort
+        definitely requires >>>a lot of effort<<< for all the minor details, it was very dense with lots
+        of elements so it took I while to complete I assume.
+  10. 100670 | NonFigure_3 | effort
+        >>>Moderate effort<<< as well because there isn't too much raging details
+  11. 100213 | NonFigure_1 | effort
+        I think that this picture required >>>a lot of effort<<< because this is not an ordinary idea to
+        recreate. I'm assuming he had a specific idea in mind that was difficult to convey to the AI
+        generator, and it must have taken many trials in order to get it to produce the exact product he
+        envisioned.
+  12. 100018 | Figure_1 | effort
+        Thinking of an original image and using skills to put it together must have been >>>a lot of
+        effort<<<.
+  13. 100018 | NonFigure_4 | effort
+        In conjunction with creativity, Alex must have had to use >>>a lot of effort<<< to make sure the
+        colors were cohesive and presented the image as a whole.
+  14. 100518 | NonFigure_3 | effort
+        The image is very detailed and defined, so >>>moderate effort<<< was likely employed
+  15. 100518 | NonFigure_5 | effort
+        Not >>>a lot of effort<<<, since all Alex did was plug the prompt into the AI generator
+  16. 100671 | Figure_4 | effort
+        This is 3-d, super life like which I think takes >>>a lot of effort<<< to do that.
+  17. 100563 | Figure_5 | effort
+        >>>Moderate effort<<< because there seems that he would've needed to ask the AI more in order to
+        get this level of detail.
+  18. 100563 | NonFigure_4 | creativity
+        I would say >>>moderate creativity<<< because it seems like the piece is fairly unique in its
+        design. The work looks realistic because of the paint strokes.
+  19. 100508 | Figure_2 | effort
+        I said >>>moderate effort<<< because it is a very cool piece but a lot of the monsters look
+        similar or are repeated.
+  20. 100577 | Figure_2 | creativity
+        This took >>>a lot of creativity<<< because it seems like a horror movie and this doesn't happen
+        in real life so I feel like it was creative on how they thought of what the monsters looked like
+        and how they showed up on mirrors all the time.
+  21. 100577 | NonFigure_2 | creativity
+        There is >>>a lot of creativity involved<<< but again I feel like a candy land is often visited
+        by others so I don't think this was the first time someone might have thought of it and or
+        brought it up to make it a reality and drawing to see what it would look like.
+  22. 100588 | Figure_2 | effort
+        The line work, shading, and intricacy of the entire scene looks like it would take >>>a great
+        deal of effort<<<. Additionally, the shadows and staggering of objects/ characters in the
+        artwork makes me think significant effort was involved.
+  23. 100506 | Figure_1 | creativity
+        I love the idea of a snow globe/planet garden, and I think it can serve as a
+        commentary/analytical perspective for Earth/the universe. If he input this idea into AI, the
+        idea in and of itself shows >>>significant creativity<<<.
+  24. 100589 | Figure_3 | creativity
+        The >>>creativity involved<<< is minimal because the prompt for this seems pretty
+        straightforward.
+  25. 100665 | NonFigure_1 | creativity
+        I think >>>a great deal of creativity<<< was involved because there appears to be an abstract
+        concept behind the hanging, stuffed teddy bears and rabbits.
+  26. 100665 | NonFigure_1 | effort
+        I think >>>a great deal of effort<<< was involved because it appears as if a human painted it
+        with the visual strokes of a paintbrush.
+  27. 100665 | NonFigure_3 | effort
+        I think >>>minimal effort<<< was involved because not much thought was put into this piece.
+  28. 100149 | Figure_1 | creativity
+        Although it is not as detailed as the previous image, there are a lot of factors in this image
+        that accounts for >>>a lot of creativity<<<. Too many factors to not also have a lot of prompt
+        changes to the AI to get the image wanted.
+  29. 100149 | NonFigure_5 | creativity
+        I think >>>minimal creativity<<< was present because coming up with the prompt for that image is
+        not original/very common (futuristic world buildings or something of the sort. Essentially, the
+        idea is not very creative.
+  30. 100629 | Figure_1 | effort
+        All the artist did was prompt the AI to get the desired images, so I would consider this to be
+        >>>a lot of effort<<< for the artist.
+  31. 100455 | NonFigure_4 | effort
+        This piece seems like it takes >>>a lot of effort<<< to put into making it, everything from the
+        brush strokes to the color choice.
+  32. 100649 | Figure_1 | effort
+        The reason I believe this required >>>moderate effort<<< as this would be hard to do with one
+        attempt of writing the input. This is something that would take lots of thought beforehand, and
+        lots of revision of the inputs.
+  33. 100545 | Figure_5 | creativity
+        >>>A great deal of creativity<<< was involved because there is a pattern to the image. The left
+        side is considered more "bright" while the left is more dull and dark. The face mask/shield has
+        an intricate design of swirls and the right side also has swirls in the background. The left
+        side is a greenish color and is also reflected in the background.
+  34. 100545 | NonFigure_2 | creativity
+        >>>A great deal of creativity<<< was involved because the image creates a fairytale story. For
+        example, some leprechauns or fairies (a small fairytale creature) could live there based on the
+        size of the house, the vibrant colors, the plants that are there such as the mushrooms (always
+        seem to be in fairytale landscapes).
+  35. 100572 | Figure_4 | effort
+        The attention to detail in the lighting, reflections in the water, and intricate textures of the
+        trees and moss suggest >>>significant effort<<<. The composition is well-balanced, with the
+        performer drawing attention while the surrounding environment adds depth and atmosphere. The
+        realism combined with a whimsical element showcases strong artistic execution.
+  36. 100674 | Figure_3 | effort
+        There seems to be a lot of detail put into this artwork. The textures, colors, and attention to
+        the lighting seem very meticulous. So it really gives off the impression that this took quite
+        >>>a lot of effort<<< for the work that was produced.
+  37. 100611 | Figure_5 | creativity
+        The concept of the image is quite interesting and led my mind in different directions of what
+        the purpose/story behind it was, which I believe involved >>>significant creativity<<<. I've
+        never seen an image quite like it with the intricacy of the background tying into the subject's
+        mask and even to the curves of the smoke leaving the subject's mouth. I also thought the color
+        choice was interesting and created a unique futuristic, scientific feel.
+  38. 100611 | NonFigure_5 | creativity
+        This image is very resemblant of the Tron Legacy movies in my personal opinion, so since it
+        seems to be pulling off a pre-existing concept that cuts down some creativity points for me. I
+        still think the overall concept is quite creative and involves imagining a world different from
+        our own which shows >>>moderate creativity<<<.
+  39. 100486 | Figure_5 | effort
+        It's hyper-realistic so >>>a lot of effort<<< would have to go into it to produce such details.
+  40. 100486 | NonFigure_5 | effort
+        It seemed like >>>a lot of effort<<< to create the buildings, the shading, the light detail.
+
+NOT MATCHED  (1898 responses in total; showing 20)
+--------------------------------------------------------------------------------------------------------
+   1. 100600 | Figure_4 | creativity
+        Its a realistic setting so nothing too crazy, could have been a real-life scenario but it is
+        still art
+   2. 100667 | Figure_1 | creativity
+        Although this is a very creative piece, this looks like a typical AI generated image. AI created
+        most of this creativity with a couple of words.
+   3. 100669 | Figure_3 | creativity
+        I like this image; it seems original and like something he put more thinking into.
+   4. 100325 | NonFigure_1 | effort
+        The stuffed bears are all at the same orientation, looked too similar to each other.
+   5. 100211 | Figure_3 | effort
+        The armor looks quite difficult to draw.
+   6. 100670 | Figure_4 | effort
+        lots of effort to draw the details
+   7. 100018 | NonFigure_3 | creativity
+        I find that the combination of unlikely events to be very creative. In other words, presenting
+        the aurora borealis, reindeers, and a cabin in the middle of a snow-covered area was very
+        creative.
+   8. 100383 | NonFigure_1 | effort
+        there is lots of paint use with colors and texture and detail
+   9. 100432 | NonFigure_2 | effort
+        There are a lot of colors and he had multiple textures going with the beanstalk and the plants
+        around it.
+  10. 100655 | Figure_1 | creativity
+        I definitelyinitely think this is creative. He had to describe interestingeresting idea, and
+        this is unique looking with a lot of ideas and meanings going on.
+  11. 100655 | NonFigure_1 | effort
+        great idea with brush strokes but come on its ai not that hard
+  12. 100451 | Figure_1 | effort
+        There are some details, such as the planets orbiting the sky, where some changes would have had
+        to been remade.
+  13. 100672 | NonFigure_1 | creativity
+        Cool idea and original
+  14. 100596 | NonFigure_4 | creativity
+        it seems creative but not like the others
+  15. 100164 | NonFigure_2 | effort
+        lots of colors and components
+  16. 100164 | NonFigure_3 | creativity
+        probably has been done many times before
+  17. 100056 | NonFigure_3 | effort
+        But overall very balanced
+  18. 100187 | NonFigure_4 | effort
+        colors and texture probably took time
+  19. 100660 | NonFigure_2 | creativity
+        Less AI-like style of drawing, sort of whimsical and different but not a novel setting
+  20. 100617 | NonFigure_2 | creativity
+        he gave the directions but the artwork was mostly created by the ai
+
+========================================================================================================
+RULE: says_machine_made. In plain words: mentions a machine, a program or an image generator making the work, whether stated, denied or supposed
+========================================================================================================
+column machine_made_reading: asserted 245, not_asserted 19, neither 1956 (of 2220 responses)
+
+MATCHED, machine_made_reading = asserted (at least one phrase put forward as a statement)  (245 responses in total; showing 40)
+--------------------------------------------------------------------------------------------------------
+   1. 100408 | NonFigure_4 | effort | machine_made_reading: asserted
+        No effort involved because it is an >>>AI generat<<<or.
+   2. 100408 | NonFigure_5 | effort | machine_made_reading: asserted
+        There is no effort involved however as Alex just used the >>>AI generat<<<or again to produce
+        this image.
+   3. 100084 | NonFigure_2 | creativity | machine_made_reading: asserted
+        It still leans towards looking like >>>AI-generat<<<ed art, but it has more of a human art
+        touch. It resembles Candyland and Alice in Wonderland. I have seen art like this before;
+        psychedelic art is very popular, which makes me think the creative process was less
+        original/intensive.
+   4. 100033 | Figure_1 | effort | machine_made_reading: asserted
+        It was >>>AI generat<<<ed, you cant have much effort beyond just writing a descriptive prompt.
+   5. 100669 | NonFigure_5 | effort | machine_made_reading: asserted
+        I feel like this is something one can >>>generate using AI<<<, and I have seen examples of this
+        before
+   6. 100088 | NonFigure_4 | effort | machine_made_reading: asserted
+        Human figures on camels look underdeveloped. Shoddy >>>AI generat<<<ion seems to be at fault for
+        this
+   7. 100332 | NonFigure_3 | creativity | machine_made_reading: asserted
+        It is not creative because the >>>AI is making<<< it, even if it technically is novel.
+   8. 100332 | NonFigure_5 | creativity | machine_made_reading: asserted
+        This reminds me of Tron. Not creative because >>>AI made<<< it.
+   9. 100533 | Figure_4 | effort | machine_made_reading: asserted
+        It looks >>>AI generat<<<ed
+  10. 100533 | NonFigure_3 | effort | machine_made_reading: asserted
+        It looks >>>AI generat<<<ed
+  11. 100165 | Figure_5 | creativity | machine_made_reading: asserted
+        He gave the prompt to >>>AI and Ai did<<< the creating.
+  12. 100165 | NonFigure_4 | creativity | machine_made_reading: asserted
+        It's pretty but it's not his work. >>>AI did<<< the creating.
+  13. 100018 | Figure_4 | effort | machine_made_reading: asserted
+        The image seems to be >>>AI-generat<<<ed. Taking a closer look on the man's fingers, there is a
+        lot of mistakes that hint toward AI-generated art.
+  14. 100518 | NonFigure_1 | creativity | machine_made_reading: asserted
+        This prompt is likely more complex than the last, since it's hard to determine what the image is
+        portraying, so there was likely some creativity required to come up with the prompt for the
+        >>>AI generat<<<or
+  15. 100521 | Figure_1 | effort | machine_made_reading: asserted
+        I believe it took Alex a moderate amount of effort with this piece because he would have to
+        repeatedly prompt the >>>AI to generat<<<e the intricate details of the space background which
+        includes faraway galaxies and planets.
+  16. 100521 | Figure_5 | effort | machine_made_reading: asserted
+        In terms of effort, I feel like, although the >>>AI did<<< most of the work by actually creating
+        the art for Alex, he still put in a decent amount of effort refining the prompts given how
+        detailed the stone-like mask is on the person.
+  17. 100521 | NonFigure_2 | effort | machine_made_reading: asserted
+        In terms of effort, I believe that Alex exercised a moderate amount in order to prompt the >>>AI
+        to generat<<<e such colorful plants and objects like the fence and hut.
+  18. 100295 | Figure_3 | effort | machine_made_reading: asserted
+        It looks like more of an image that was >>>generated by ai<<<.
+  19. 100579 | Figure_1 | effort | machine_made_reading: asserted
+        >>>AI made<<< the image
+  20. 100579 | NonFigure_5 | effort | machine_made_reading: asserted
+        >>>AI created<<< the image
+  21. 100588 | Figure_4 | effort | machine_made_reading: asserted
+        The detailing in the scene shows great effort in coloring and general imagery. Again it has
+        signifiers of being >>>AI generat<<<ed though, with the face of the man and brightness around
+        his body (typical of AI generation).
+  22. 100232 | Figure_4 | effort | machine_made_reading: asserted
+        reflections are cool, but looks >>>AI generat<<<ed
+  23. 100149 | Figure_3 | effort | machine_made_reading: asserted
+        Effort was minimal for the same reasons above, the prompt was simple and the >>>AI produc<<<ed
+        image shouldn't have taken long to achieve.
+  24. 100149 | NonFigure_4 | creativity | machine_made_reading: asserted
+        Once again, the fact that >>>AI is generat<<<ing these images decreases the creativity aspect of
+        the image. In this case, Alex did not edit it (from my understanding) and only guided the
+        prompts.
+  25. 100672 | Figure_1 | effort | machine_made_reading: asserted
+        Seems less >>>AI generat<<<ed and more original design
+  26. 100673 | Figure_4 | effort | machine_made_reading: asserted
+        As stated before, I believe the >>>AI generat<<<or is doing most of the work, not Alex.
+  27. 100056 | NonFigure_4 | effort | machine_made_reading: asserted
+        A little like >>>ai draw<<<ing and like some style mixed together
+  28. 100674 | NonFigure_5 | effort | machine_made_reading: asserted
+        Many parts of the image seem to be >>>AI-generat<<<ed. The moon at the top right seems to be cut
+        in half for some reason. There are some old-fashioned buildings that seem out of place in the
+        scene and what it is meant to represent. Just in general there are evidence of common mistake AI
+        would make so I imagine it was minimal effort.
+  29. 100611 | Figure_1 | effort | machine_made_reading: asserted
+        This image also looks like it could be >>>created by an AI<<< generator fairly easily due to the
+        appearance and style depicted. There are also a lot of individual elements to the picture that I
+        believe lend to the ease of prompting an AI generator to create and manipulate the image.
+  30. 100660 | NonFigure_2 | creativity | machine_made_reading: asserted
+        Less >>>AI-like style of draw<<<ing, sort of whimsical and different but not a novel setting
+  31. 100660 | NonFigure_2 | effort | machine_made_reading: asserted
+        Seems like a pretty basic "candy-land" setting with little refinement or tweaks to the >>>AI
+        generat<<<ion
+  32. 100222 | NonFigure_2 | effort | machine_made_reading: asserted
+        There was some effort in getting the exact >>>ai image<<< and style.
+  33. 100222 | NonFigure_3 | effort | machine_made_reading: asserted
+        Not as much effort was needed, as I think it would be harder for the >>>AI generat<<<or to get
+        this image incorrect multiple times.
+  34. 100222 | NonFigure_5 | creativity | machine_made_reading: asserted
+        This art piece seems more like a classic >>>AI image<<<. AI tends to use a lot of detail, which
+        is pictured here, and a city does not seem nearly as creative as other pieces that could be
+        made.
+  35. 100617 | Figure_2 | effort | machine_made_reading: asserted
+        mostly >>>produced by ai<<<
+  36. 100617 | Figure_3 | effort | machine_made_reading: asserted
+        >>>produced with ai<<<
+  37. 100617 | NonFigure_1 | effort | machine_made_reading: asserted
+        he gave directions but ultimately, the >>>ai created<<< the art
+  38. 100617 | NonFigure_5 | creativity | machine_made_reading: asserted
+        art >>>created with ai<<< is not very creative
+  39. 100617 | NonFigure_5 | effort | machine_made_reading: asserted
+        >>>created with ai<<<
+  40. 100438 | Figure_4 | effort | machine_made_reading: asserted
+        >>>AI art creation<<< requires minimal effort.
+
+MATCHED, machine_made_reading = not_asserted (every phrase denied, or only supposed)  (19 responses in total; showing 19)
+--------------------------------------------------------------------------------------------------------
+   1. 100408 | NonFigure_1 | effort | machine_made_reading: not_asserted
+        No effort involved as the >>>AI generat<<<or just created the image quickly.
+   2. 100408 | NonFigure_2 | effort | machine_made_reading: not_asserted
+        No effort involved as the >>>AI produc<<<ed everything for Alex.
+   3. 100408 | NonFigure_3 | effort | machine_made_reading: not_asserted
+        No effort as the >>>AI produc<<<ed the image.
+   4. 100084 | NonFigure_2 | effort | machine_made_reading: not_asserted
+        If this art isn't >>>AI-generat<<<ed, then the effort that went in feels significant. There are
+        lots of colors and fine details that require tedious and concentrated effort.
+   5. 100084 | NonFigure_5 | effort | machine_made_reading: not_asserted
+        Again, it depends on whether it is >>>AI or not, but IF it was draw<<<n, shortcuts can usually
+        be made, and elements can be duplicated to reduce the amount of effort needed to create the
+        image.
+   6. 100616 | Figure_4 | creativity | machine_made_reading: not_asserted
+        I think that the lighting and details such as the waves and trees but I did not like the very
+        obvious >>>AI generat<<<ed human dancing on the boat.
+   7. 100088 | Figure_1 | effort | machine_made_reading: not_asserted
+        Same as previous, there is no effort in the creation of >>>AI art<<<.
+   8. 100088 | NonFigure_1 | effort | machine_made_reading: not_asserted
+        No effort in the creation of >>>AI art<<<.
+   9. 100644 | Figure_4 | creativity | machine_made_reading: not_asserted
+        It appears as though this image required no more than a prompt into an >>>AI photo generat<<<or,
+        and for that reason there is minimal creativity.
+  10. 100644 | NonFigure_3 | effort | machine_made_reading: not_asserted
+        If not >>>AI generat<<<ed, I'd say there is a significant amount of effort particularly to
+        create the look of the northern lights.
+  11. 100644 | NonFigure_5 | creativity | machine_made_reading: not_asserted
+        If not >>>AI, then the creation<<< of something that is yet to exist is quite creative, but I
+        did not select a great deal becuase it resembles what is stereotypically seen as creative.
+  12. 100329 | Figure_5 | effort | machine_made_reading: not_asserted
+        This is actually so realistic that if someone told me it was >>>AI-generat<<<ed I could believe
+        them, which I think reflects how much work and effort must have gone into it to make it so
+        hyper-realistic.
+  13. 100506 | Figure_5 | effort | machine_made_reading: not_asserted
+        Again, >>>AI isn't really creating<<< the work yourself, but I think he put more effort into
+        this piece because of the multifaceted layers.
+  14. 100665 | Figure_5 | effort | machine_made_reading: not_asserted
+        I think moderate effort was involved because it does not look >>>AI-generat<<<ed, but it does
+        look like a photo rather than a painting.
+  15. 100486 | NonFigure_3 | effort | machine_made_reading: not_asserted
+        It's giving AI so if you just asked >>>AI to make<<< this image, there is no effort involved.
+  16. 100617 | Figure_1 | creativity | machine_made_reading: not_asserted
+        i don't find art >>>produced by ai<<< highly creative
+  17. 100617 | Figure_2 | creativity | machine_made_reading: not_asserted
+        i don't find art >>>produced by ai<<< highly creative
+  18. 100617 | Figure_3 | creativity | machine_made_reading: not_asserted
+        i don't find art >>>created with ai<<< to be creative
+  19. 100617 | Figure_5 | creativity | machine_made_reading: not_asserted
+        i don't find art >>>created by ai<<< creative
+
+NOT MATCHED  (1956 responses in total; showing 20)
+--------------------------------------------------------------------------------------------------------
+   1. 100624 | NonFigure_3 | effort
+        Detailed colors
+   2. 100084 | Figure_5 | creativity
+        The art is clearly AI.
+   3. 100616 | Figure_3 | effort
+        I think because it is only a man holding the sand time thing with the light.
+   4. 100088 | NonFigure_3 | creativity
+        Basic winter scene. Exists for the sake of existing
+   5. 100202 | NonFigure_4 | creativity
+        I think that the image seemed like a realistic scene, so it did not require too much creativity.
+        Also, because there was not a lot of detail.
+   6. 100503 | Figure_4 | creativity
+        Intricate environment, but nothing that interesting or out of the ordinary is happening.
+   7. 100325 | NonFigure_3 | creativity
+        I've seem similar images as this
+   8. 100295 | Figure_3 | creativity
+        It looks like something creative. This can be represented in a lot of ways.
+   9. 100295 | Figure_5 | creativity
+        I might not know what the picture is representing but it looks like it has good creativity.
+  10. 100329 | Figure_3 | effort
+        It is heavily detailed and realistic looking, which takes a lot of effort to replicate
+        effectively.
+  11. 100565 | Figure_2 | creativity
+        Something new and unusual
+  12. 100149 | NonFigure_2 | creativity
+        I think the creativity is very high in this image. There are a lot of intricate details that
+        result in (what I assume) are many prompt changes in order to achieve this specific image.
+  13. 100672 | NonFigure_4 | creativity
+        The color was very creative for the sunset- non mimetic coloring to show the sky.
+  14. 100056 | Figure_3 | creativity
+        Not so much meaning involved
+  15. 100592 | Figure_2 | effort
+        As for effort, I think there was a large amount of effort made to use hatching with multiple
+        lines to indicate texture and shading. From personal experience, this technique takes much
+        longer than simply shading in with gradient colors. I also believe much effort went into
+        thinking about the layout, how the mirrors would be used, and how to reverse images to show both
+        the reflection and the back of the subjects. Thus, significant effort was involved in planning
+        and execution.
+  16. 100592 | Figure_3 | creativity
+        The character was original, but the armor seems to be referenced from existing armor knight
+        designs. However, the knight holding the hourglass is an original idea, with the hourglass
+        design also being somewhat original. However, together, not much creativity was needed since
+        both subjects already exist in reality.
+  17. 100662 | NonFigure_1 | creativity
+        It is something I haven’t seen before. While I’ve seen images of teddy bears and bunnies, I’ve
+        never seen the idea of them hanging by their bows’s.
+  18. 100488 | Figure_2 | creativity
+        You can see the fear in the boys' eyes while the monsters are looking at him through the mirrors
+        and behind him. There are little dots throughout the image and it is in black. The monsters
+        share similar but different expressions.
+  19. 100396 | NonFigure_4 | effort
+        The colouring and shading seems very complete and detailed.
+  20. 100042 | Figure_1 | effort
+        It took a great deal to probably articulate it
+

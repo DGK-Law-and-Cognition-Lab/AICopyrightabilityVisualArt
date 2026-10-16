@@ -1,0 +1,7 @@
+arm,dimension,quantity,estimate,ci_lo,ci_hi,B,n_valid,resampled,n_responses,n_participants
+Human,creativity,concept,0.26785714285714285,0.21964285714285714,0.31785714285714284,2000,2000,"participants, with replacement",560,56
+Human,creativity,novelty_asserted,0.16964285714285715,0.13035714285714287,0.2161160714285712,2000,2000,"participants, with replacement",560,56
+Human,creativity,novelty_negated,0.075,0.05,0.10178571428571428,2000,2000,"participants, with replacement",560,56
+Human,creativity,novelty_either,0.24464285714285713,0.1892410714285714,0.30357142857142855,2000,2000,"participants, with replacement",560,56
+Human,creativity,execution,0.12142857142857143,0.09107142857142857,0.15535714285714286,2000,2000,"participants, with replacement",560,56
+Human,creativity,none_of_the_three,0.4714285714285714,0.40714285714285714,0.5393303571428569,2000,2000,"participants, with replacement",560,56

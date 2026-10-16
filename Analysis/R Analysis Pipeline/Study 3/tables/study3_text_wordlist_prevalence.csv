@@ -1,0 +1,109 @@
+dimension,word_list,Type,time,responses,flagged,percent
+creativity,anchor_echo,Human,under 1 hour,129,11,8.527131782945736
+creativity,anchor_echo,Human,10 hours,129,5,3.875968992248062
+creativity,anchor_echo,Human,100 hours,129,2,1.550387596899225
+creativity,anchor_echo,AI,under 1 hour,126,12,9.523809523809524
+creativity,anchor_echo,AI,10 hours,126,8,6.349206349206349
+creativity,anchor_echo,AI,100 hours,126,6,4.761904761904762
+creativity,prior_exposure_asserted,Human,under 1 hour,129,18,13.953488372093023
+creativity,prior_exposure_asserted,Human,10 hours,129,19,14.728682170542635
+creativity,prior_exposure_asserted,Human,100 hours,129,16,12.4031007751938
+creativity,prior_exposure_asserted,AI,under 1 hour,126,22,17.46031746031746
+creativity,prior_exposure_asserted,AI,10 hours,126,14,11.11111111111111
+creativity,prior_exposure_asserted,AI,100 hours,126,12,9.523809523809524
+creativity,prior_exposure_negated,Human,under 1 hour,129,11,8.527131782945736
+creativity,prior_exposure_negated,Human,10 hours,129,14,10.852713178294573
+creativity,prior_exposure_negated,Human,100 hours,129,5,3.875968992248062
+creativity,prior_exposure_negated,AI,under 1 hour,126,1,0.7936507936507936
+creativity,prior_exposure_negated,AI,10 hours,126,6,4.761904761904762
+creativity,prior_exposure_negated,AI,100 hours,126,9,7.142857142857143
+creativity,says_concept,Human,under 1 hour,129,26,20.155038759689923
+creativity,says_concept,Human,10 hours,129,35,27.131782945736433
+creativity,says_concept,Human,100 hours,129,35,27.131782945736433
+creativity,says_concept,AI,under 1 hour,126,36,28.571428571428573
+creativity,says_concept,AI,10 hours,126,41,32.53968253968254
+creativity,says_concept,AI,100 hours,126,22,17.46031746031746
+creativity,says_detail,Human,under 1 hour,129,22,17.05426356589147
+creativity,says_detail,Human,10 hours,129,24,18.6046511627907
+creativity,says_detail,Human,100 hours,129,25,19.37984496124031
+creativity,says_detail,AI,under 1 hour,126,19,15.079365079365079
+creativity,says_detail,AI,10 hours,126,27,21.428571428571427
+creativity,says_detail,AI,100 hours,126,34,26.984126984126984
+creativity,says_machine_made,Human,under 1 hour,129,6,4.651162790697675
+creativity,says_machine_made,Human,10 hours,129,4,3.10077519379845
+creativity,says_machine_made,Human,100 hours,129,5,3.875968992248062
+creativity,says_machine_made,AI,under 1 hour,126,11,8.73015873015873
+creativity,says_machine_made,AI,10 hours,126,10,7.936507936507937
+creativity,says_machine_made,AI,100 hours,126,8,6.349206349206349
+creativity,says_prompt,Human,under 1 hour,129,7,5.426356589147287
+creativity,says_prompt,Human,10 hours,129,8,6.2015503875969
+creativity,says_prompt,Human,100 hours,129,10,7.751937984496124
+creativity,says_prompt,AI,under 1 hour,126,23,18.253968253968253
+creativity,says_prompt,AI,10 hours,126,23,18.253968253968253
+creativity,says_prompt,AI,100 hours,126,25,19.841269841269842
+creativity,says_skill,Human,under 1 hour,129,1,0.7751937984496124
+creativity,says_skill,Human,10 hours,129,1,0.7751937984496124
+creativity,says_skill,Human,100 hours,129,4,3.10077519379845
+creativity,says_skill,AI,under 1 hour,126,0,0
+creativity,says_skill,AI,10 hours,126,1,0.7936507936507936
+creativity,says_skill,AI,100 hours,126,1,0.7936507936507936
+creativity,says_time,Human,under 1 hour,129,11,8.527131782945736
+creativity,says_time,Human,10 hours,129,5,3.875968992248062
+creativity,says_time,Human,100 hours,129,6,4.651162790697675
+creativity,says_time,AI,under 1 hour,126,8,6.349206349206349
+creativity,says_time,AI,10 hours,126,8,6.349206349206349
+creativity,says_time,AI,100 hours,126,12,9.523809523809524
+effort,anchor_echo,Human,under 1 hour,129,23,17.829457364341085
+effort,anchor_echo,Human,10 hours,129,29,22.48062015503876
+effort,anchor_echo,Human,100 hours,129,28,21.705426356589147
+effort,anchor_echo,AI,under 1 hour,126,23,18.253968253968253
+effort,anchor_echo,AI,10 hours,126,26,20.634920634920636
+effort,anchor_echo,AI,100 hours,126,26,20.634920634920636
+effort,prior_exposure_asserted,Human,under 1 hour,129,3,2.3255813953488373
+effort,prior_exposure_asserted,Human,10 hours,129,0,0
+effort,prior_exposure_asserted,Human,100 hours,129,2,1.550387596899225
+effort,prior_exposure_asserted,AI,under 1 hour,126,7,5.555555555555555
+effort,prior_exposure_asserted,AI,10 hours,126,7,5.555555555555555
+effort,prior_exposure_asserted,AI,100 hours,126,5,3.9682539682539684
+effort,prior_exposure_negated,Human,under 1 hour,129,1,0.7751937984496124
+effort,prior_exposure_negated,Human,10 hours,129,1,0.7751937984496124
+effort,prior_exposure_negated,Human,100 hours,129,0,0
+effort,prior_exposure_negated,AI,under 1 hour,126,0,0
+effort,prior_exposure_negated,AI,10 hours,126,0,0
+effort,prior_exposure_negated,AI,100 hours,126,0,0
+effort,says_concept,Human,under 1 hour,129,5,3.875968992248062
+effort,says_concept,Human,10 hours,129,5,3.875968992248062
+effort,says_concept,Human,100 hours,129,9,6.976744186046512
+effort,says_concept,AI,under 1 hour,126,8,6.349206349206349
+effort,says_concept,AI,10 hours,126,5,3.9682539682539684
+effort,says_concept,AI,100 hours,126,10,7.936507936507937
+effort,says_detail,Human,under 1 hour,129,54,41.86046511627907
+effort,says_detail,Human,10 hours,129,61,47.286821705426355
+effort,says_detail,Human,100 hours,129,58,44.96124031007752
+effort,says_detail,AI,under 1 hour,126,33,26.19047619047619
+effort,says_detail,AI,10 hours,126,43,34.12698412698413
+effort,says_detail,AI,100 hours,126,34,26.984126984126984
+effort,says_machine_made,Human,under 1 hour,129,12,9.30232558139535
+effort,says_machine_made,Human,10 hours,129,11,8.527131782945736
+effort,says_machine_made,Human,100 hours,129,7,5.426356589147287
+effort,says_machine_made,AI,under 1 hour,126,19,15.079365079365079
+effort,says_machine_made,AI,10 hours,126,17,13.492063492063492
+effort,says_machine_made,AI,100 hours,126,13,10.317460317460318
+effort,says_prompt,Human,under 1 hour,129,23,17.829457364341085
+effort,says_prompt,Human,10 hours,129,18,13.953488372093023
+effort,says_prompt,Human,100 hours,129,14,10.852713178294573
+effort,says_prompt,AI,under 1 hour,126,48,38.095238095238095
+effort,says_prompt,AI,10 hours,126,43,34.12698412698413
+effort,says_prompt,AI,100 hours,126,36,28.571428571428573
+effort,says_skill,Human,under 1 hour,129,6,4.651162790697675
+effort,says_skill,Human,10 hours,129,3,2.3255813953488373
+effort,says_skill,Human,100 hours,129,9,6.976744186046512
+effort,says_skill,AI,under 1 hour,126,3,2.380952380952381
+effort,says_skill,AI,10 hours,126,0,0
+effort,says_skill,AI,100 hours,126,2,1.5873015873015872
+effort,says_time,Human,under 1 hour,129,55,42.63565891472868
+effort,says_time,Human,10 hours,129,48,37.2093023255814
+effort,says_time,Human,100 hours,129,64,49.6124031007752
+effort,says_time,AI,under 1 hour,126,48,38.095238095238095
+effort,says_time,AI,10 hours,126,52,41.26984126984127
+effort,says_time,AI,100 hours,126,59,46.82539682539682

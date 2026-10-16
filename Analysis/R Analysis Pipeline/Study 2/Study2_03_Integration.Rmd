@@ -1,0 +1,884 @@
+---
+title: "Study 2: Modification and the Source Penalty (Text Integration)"
+subtitle: "Beyond the Original Sin | How Humans Evaluate Creative Contribution in AI-Assisted Artworks"
+author: "David G. Kamper, Alice Lin, Keith J. Holyoak"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+knit: (function(input, ...) rmarkdown::render(input, output_dir = if (isTRUE(as.logical(Sys.getenv("UNBLIND_STUDY2", "FALSE")))) dirname(input) else file.path(dirname(input), "blind_run"), envir = globalenv()))
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    theme: flatly
+    highlight: tango
+---
+
+```{r blind-switch}
+UNBLIND <- as.logical(Sys.getenv("UNBLIND_STUDY2", "FALSE"))
+# The blind switch, as in Study2_01_Quant.Rmd. While UNBLIND is FALSE this
+# file reads the blind long data file, shuffles its source labels again and
+# shuffles the ratings right after the ratings are built (section 2.1), and
+# writes every output to a blind_run/ subfolder of the folder its real
+# counterpart goes to. A value that is neither TRUE nor FALSE stops the run.
+if (is.na(UNBLIND)) stop("UNBLIND_STUDY2 must be TRUE or FALSE.")
+
+# A blind report belongs in blind_run/, and an unblinded report beside this
+# file. The knit: line in the header reads the same environment variable and
+# sends the report to the right folder when the file is knitted with
+# RStudio's Knit button. A call to rmarkdown::render() must pass
+# output_dir = "blind_run" in a blind run and leave it out in an unblinded
+# run. A run whose report would land in the wrong folder stops here, before
+# anything is written. The folder is read from the settings render() is
+# running with; a knit that does not go through render() is not checked.
+render_output_dir <- function() {
+  frame <- Find(function(e) exists("output_dir", envir = e, inherits = FALSE) &&
+                  exists("knit_input", envir = e, inherits = FALSE),
+                sys.frames())
+  if (is.null(frame)) return(NULL)
+  d <- get("output_dir", envir = frame)
+  normalizePath(if (is.null(d)) "." else d, mustWork = FALSE)
+}
+report_dir <- render_output_dir()
+if (!UNBLIND && !is.null(report_dir) && basename(report_dir) != "blind_run") {
+  stop("A blind report must be written to blind_run/. Knit with the Knit ",
+       "button, or run rmarkdown::render(\"Study2_03_Integration.Rmd\", ",
+       "output_dir = \"blind_run\").")
+}
+if (UNBLIND && !is.null(report_dir) && basename(report_dir) == "blind_run") {
+  stop("An unblinded report must not be written to blind_run/. Set the ",
+       "environment variable UNBLIND_STUDY2 to TRUE before knitting, or run ",
+       "rmarkdown::render(\"Study2_03_Integration.Rmd\") without output_dir.")
+}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = TRUE,
+                      fig.align = "center")
+```
+
+```{r banner, echo=FALSE, results='asis'}
+if (!UNBLIND) {
+  cat("**Blind run. The source labels are shuffled across participants and",
+      "the ratings across the responses to each question, so nothing in this",
+      "report is a result.**\n")
+} else {
+  cat("**Unblinded run on the real source labels and ratings.**\n")
+}
+```
+
+# 0. What this file does
+
+`Study2_02_Text.ipynb` measured the 20,659 justifications without seeing the
+condition or the rating. This file joins those two back onto the measures and
+runs what registration question 8
+(`Docs/Preregistration/AsPredicted/Study2_AsPredicted.md`) names for the
+text.
+
+Two checks, fixed for every study in the Study 1 registration, are registered
+for the creativity justifications (section 3):
+
+1. how well the words alone predict the rating and the source condition in
+   participants left out of fitting, by ridge regression;
+2. whether AI-condition participants reuse their own words across their
+   creativity justifications more than Human-condition participants,
+   relative to others writing about the same second work.
+
+A response is about one second work, a source image at one modification
+level, so the second work is the stimulus of both checks.
+
+Everything else is exploratory description with no verdict (section 4): the
+same two checks on the transformativeness and essence justifications, tone and
+concreteness from published word ratings, topics found by a model given no
+labels, and the words the first check leans on most when it predicts the
+rating and the source condition.
+
+Every justification was written after its rating, so none is read as the
+rating's cause. What follows describes what people wrote once their number
+was chosen.
+
+# 1. Setup
+
+## 1.1 Packages
+
+```{r packages}
+# dplyr, tidyr, tibble and readr build and write the tables. lme4 and
+# lmerTest fit the mixed models of section 4. glmnet fits the penalised
+# regressions, and Matrix stores the word counts. The two registered checks
+# come from the shared helper text_checks.R.
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(tidyr)
+  library(tibble)
+  library(readr)
+  library(lme4)
+  library(lmerTest)
+  library(Matrix)
+  library(glmnet)
+})
+```
+
+## 1.2 Paths
+
+```{r paths}
+# Every path is found from this file's own folder, which is the working
+# directory when the file is knitted. STUDY2_DIR names the Study 2 folder
+# instead, and STUDY_SHARED_R the folder of the shared R helpers. Printed
+# paths are relative to the Study 2 folder.
+STUDY_DIR <- normalizePath(Sys.getenv("STUDY2_DIR", getwd()), mustWork = TRUE)
+SHARED_R  <- Sys.getenv("STUDY_SHARED_R",
+                        file.path(STUDY_DIR, "..", "shared", "R"))
+source(file.path(SHARED_R, "fit_status.R"))
+source(file.path(SHARED_R, "text_checks.R"))
+
+mode_dir <- function(dir) if (UNBLIND) dir else file.path(dir, "blind_run")
+OUT_STUDY  <- mode_dir(STUDY_DIR)
+OUT_TABLES <- mode_dir(file.path(STUDY_DIR, "tables"))
+dir.create(OUT_TABLES, recursive = TRUE, showWarnings = FALSE)
+
+NLP_DIR     <- file.path(STUDY_DIR, "nlp")
+TEXT_TABLES <- file.path(STUDY_DIR, "tables")
+INPUTS <- c(
+  long_data   = file.path(OUT_STUDY, "study2_long_with_text.csv"),
+  measures    = file.path(NLP_DIR, "study2_text_measures.csv"),
+  wordcounts  = file.path(NLP_DIR, "study2_text_wordcounts.csv"),
+  vocabulary  = file.path(NLP_DIR, "study2_text_vocabulary.csv"),
+  tokens      = file.path(NLP_DIR, "study2_text_tokens.csv"),
+  affect      = file.path(NLP_DIR, "study2_text_affect.csv"),
+  topics      = file.path(NLP_DIR, "study2_text_topics.csv"),
+  topic_words = file.path(TEXT_TABLES, "study2_text_topics_top_words.csv")
+)
+QUANT_MANIFEST <- file.path(OUT_TABLES, "study2_quant_run_manifest.csv")
+TEXT_MANIFEST  <- file.path(TEXT_TABLES, "study2_text_run_manifest.csv")
+missing_inputs <- names(INPUTS)[!file.exists(INPUTS)]
+if (length(missing_inputs) > 0) {
+  stop("Missing input(s): ", paste(missing_inputs, collapse = ", "),
+       ". Knit Study2_01_Quant.Rmd in the same mode and run ",
+       "Study2_02_Text.ipynb first.")
+}
+for (p in names(INPUTS)) cat(sprintf("%-12s %s\n", p, relative_path(INPUTS[[p]], STUDY_DIR)))
+cat("Tables to:  ", relative_path(OUT_TABLES, STUDY_DIR), "\n")
+
+SEED           <- 20260421L
+MEASURES       <- c("transformativeness", "essence_change", "creativity")
+REGISTERED_DIM <- "creativity"
+OTHER_DIMS     <- c("transformativeness", "essence_change")
+SOURCE_LEVELS  <- c("Human", "AI")
+KEY            <- c("id", "stimulus_id", "dimension")
+N_RESPONSES    <- 20659L
+N_PARTICIPANTS <- 235L
+```
+
+## 1.3 Run record
+
+```{r run-record}
+# The run record stores the SHA-256 checksum of every input (a 64-character
+# fingerprint of the file's exact bytes), deletes the previous run's manifest
+# now and each output's previous copy before the chunk that writes it, and
+# writes the manifest last.
+run <- start_run_record(INPUTS,
+                        file.path(OUT_TABLES, "study2_integration_run_manifest.csv"),
+                        STUDY_DIR)
+write_run_inputs(run, file.path(OUT_TABLES, "study2_integration_run_inputs.csv"))
+cat("Run identifier:", run$run_id, "\n")
+
+# Each input must be the file its producing run recorded. The long data file
+# is checked against the manifest of Study2_01_Quant.Rmd in the same mode,
+# and the text tables against the notebook's manifest. A manifest on disk
+# means its run reached the end.
+if (!file.exists(QUANT_MANIFEST) || !file.exists(TEXT_MANIFEST)) {
+  stop("A run manifest is missing. Knit Study2_01_Quant.Rmd in the same mode ",
+       "and run Study2_02_Text.ipynb to the end first.")
+}
+quant_manifest <- read_csv(QUANT_MANIFEST, show_col_types = FALSE)
+text_manifest  <- read_csv(TEXT_MANIFEST, show_col_types = FALSE)
+recorded <- bind_rows(
+  select(quant_manifest, file, sha256),
+  select(text_manifest, file, sha256))
+input_check <- tibble(input = names(INPUTS),
+                      file  = relative_path(INPUTS, STUDY_DIR),
+                      sha256 = run$inputs$sha256) %>%
+  left_join(rename(recorded, recorded_sha256 = sha256), by = "file") %>%
+  mutate(matches_its_manifest = sha256 == recorded_sha256)
+print(as.data.frame(select(input_check, input, file, matches_its_manifest)))
+if (!all(input_check$matches_its_manifest %in% TRUE)) {
+  stop("Some input is not the file its producing run recorded.")
+}
+cat("The notebook measured", unique(text_manifest$input_file), "\n")
+```
+
+# 2. The ratings and the text tables
+
+## 2.1 The ratings, and the blind shuffle
+
+```{r ratings}
+# One row per response: the participant, the second work, the question, the
+# rating and the source condition. The second work, work_id in the long
+# data, names the source image and the modification level shown, and it is
+# the stimulus of every check below.
+long <- read_csv(INPUTS[["long_data"]], show_col_types = FALSE,
+                 col_types = cols(.default = col_character(),
+                                  rating = col_integer(),
+                                  k_points = col_integer()),
+                 na = "")
+expected_mode <- if (UNBLIND) "real" else "shuffled"
+if (!all(long$label_mode == expected_mode)) {
+  stop("The long data says label_mode ", paste(unique(long$label_mode), collapse = ", "),
+       ", and this run needs ", expected_mode, ". Knit Study2_01_Quant.Rmd in the ",
+       "same mode first.")
+}
+ratings <- long %>%
+  transmute(id, stimulus_id = work_id, dimension, rating, source)
+stopifnot(nrow(ratings) == N_RESPONSES, n_distinct(ratings$id) == N_PARTICIPANTS,
+          !anyDuplicated(ratings[, KEY]), all(ratings$source %in% SOURCE_LEVELS),
+          !anyNA(ratings$rating), all(long$k_points == 5))
+
+# In a blind run the source labels are shuffled here, after the ratings are
+# built and before any summary or model, with the method and seed of
+# Study2_01_Quant.Rmd. The blind long data file already carries shuffled
+# labels; shuffling them again keeps this file blind whichever long data file
+# it is given.
+#
+# The rating carries no label to shuffle, so in a blind run it is shuffled
+# itself. Within each question, the ratings are dealt again among the
+# responses. Each question keeps its ratings and their spread, and every link
+# between a rating and its participant, second work, justification and
+# source is cut. Without this step the parts of this file that relate the
+# words to the rating alone, such as the rating-from-words check of section
+# 3.1 and the lasso of section 4.4, would be real results. Responses are
+# taken in byte order of their identifiers, and the random-number state is
+# put back afterwards.
+shuffle_rating_within_dimension <- function(df, seed) {
+  ord <- order(df$dimension, df$id, df$stimulus_id, method = "radix")
+  had_seed <- exists(".Random.seed", envir = globalenv(), inherits = FALSE)
+  if (had_seed) old_seed <- get(".Random.seed", envir = globalenv())
+  on.exit({
+    if (had_seed) assign(".Random.seed", old_seed, envir = globalenv())
+    else if (exists(".Random.seed", envir = globalenv(), inherits = FALSE)) {
+      rm(".Random.seed", envir = globalenv())
+    }
+  }, add = TRUE)
+  set.seed(seed)
+  out <- df
+  for (dim in sort(unique(df$dimension), method = "radix")) {
+    rows <- ord[df$dimension[ord] == dim & !is.na(df$rating[ord])]
+    out$rating[rows] <- df$rating[rows][sample.int(length(rows))]
+  }
+  out
+}
+
+if (!UNBLIND) {
+  ratings_before <- ratings
+  ratings <- blind_shuffle(ratings, "id", "source", seed = SEED)
+  ratings <- shuffle_rating_within_dimension(ratings, seed = SEED)
+  stopifnot(identical(sort(table(distinct(ratings, id, source)$source)),
+                      sort(table(distinct(ratings_before, id, source)$source))))
+  for (dim in MEASURES) {
+    stopifnot(identical(sort(ratings$rating[ratings$dimension == dim]),
+                        sort(ratings_before$rating[ratings_before$dimension == dim])))
+  }
+  rm(ratings_before)
+  cat("Blind run: source labels shuffled across participants and ratings",
+      "within each question, seed", SEED, "\n")
+}
+ratings <- ratings %>% mutate(source = factor(source, levels = SOURCE_LEVELS))
+cat("Responses:", nrow(ratings), "| participants:", n_distinct(ratings$id),
+    "| second works:", n_distinct(ratings$stimulus_id), "\n")
+```
+
+## 2.2 The text tables and their contract
+
+```{r text-tables}
+# Every text table must carry its agreed columns and none of the forbidden
+# ones (the condition, the labels the models use, the rating, the text). The
+# readers in text_checks.R stop if one does.
+FORBIDDEN <- c(TEXT_FORBIDDEN_COLS, "source", "modification", "image_kind")
+measure_cols <- c("id", "stimulus_id", "stimulus_image", "stimulus_type",
+                  "stimulus_modification", "dimension", "n_words",
+                  "says_detail", "says_time", "says_skill", "says_concept",
+                  "says_prompt", "says_machine_made", "machine_made_reading",
+                  "prior_exposure", "anchor_echo",
+                  "detail_polarity", "time_polarity", "skill_polarity",
+                  "concept_polarity")
+measures <- read_csv(INPUTS[["measures"]], show_col_types = FALSE,
+                     col_types = cols(.default = col_character(),
+                                      n_words = col_integer()),
+                     na = character())
+check_text_table(measures, measure_cols, "The measures file", forbidden = FORBIDDEN)
+
+wordcounts <- read_text_wordcounts(INPUTS[["wordcounts"]])
+vocabulary <- read_text_vocabulary(INPUTS[["vocabulary"]])
+tokens     <- read_text_tokens(INPUTS[["tokens"]])
+
+affect <- read_csv(INPUTS[["affect"]], show_col_types = FALSE,
+                   col_types = cols(id = col_character(), stimulus_id = col_character(),
+                                    dimension = col_character(),
+                                    n_content_words = col_integer(),
+                                    n_vad_matched = col_integer(), valence = col_double(),
+                                    arousal = col_double(), dominance = col_double(),
+                                    n_conc_matched = col_integer(),
+                                    concreteness = col_double()))
+check_text_table(affect, c(KEY, "n_content_words", "n_vad_matched", "valence",
+                           "arousal", "dominance", "n_conc_matched",
+                           "concreteness"), "The affect file", forbidden = FORBIDDEN)
+topics <- read_csv(INPUTS[["topics"]], show_col_types = FALSE,
+                   col_types = cols(id = col_character(), stimulus_id = col_character(),
+                                    dimension = col_character(), topic = col_integer(),
+                                    weight = col_double()))
+check_text_table(topics, c(KEY, "topic", "weight"), "The topic file", forbidden = FORBIDDEN)
+topic_words <- read_csv(INPUTS[["topic_words"]], show_col_types = FALSE,
+                        col_types = cols(dimension = col_character(),
+                                         topic = col_integer(), rank = col_integer(),
+                                         word = col_character(), weight = col_double()))
+check_text_table(topic_words, c("dimension", "topic", "rank", "word", "weight"),
+                 "The topic word list", forbidden = FORBIDDEN)
+
+# Every table keyed by response names exactly the responses of the ratings.
+response_keys <- function(df) sort(unique(paste(df$id, df$stimulus_id, df$dimension)))
+rating_keys <- response_keys(ratings)
+for (nm in c("measures", "tokens", "affect", "topics")) {
+  stopifnot(identical(response_keys(get(nm)), rating_keys))
+}
+cat("Every table keyed by response names the same", length(rating_keys),
+    "responses as the ratings.\n")
+```
+
+## 2.3 Joining the measures to the ratings and the condition
+
+```{r join}
+# The measures were computed without the condition or the rating. They are
+# joined back here on the participant, the second work and the question, one
+# row to one row.
+run_clear_outputs(run, file.path(OUT_TABLES, "study2_text_join_check.csv"))
+joined <- measures %>%
+  inner_join(ratings, by = KEY, relationship = "one-to-one")
+join_check <- tibble(
+  rows_in_measures = nrow(measures),
+  rows_in_ratings  = nrow(ratings),
+  rows_joined      = nrow(joined),
+  only_in_measures = nrow(anti_join(measures, ratings, by = KEY)),
+  only_in_ratings  = nrow(anti_join(ratings, measures, by = KEY)))
+print(as.data.frame(join_check))
+stopifnot(join_check$rows_joined == N_RESPONSES, join_check$only_in_measures == 0,
+          join_check$only_in_ratings == 0)
+write_csv(join_check, file.path(OUT_TABLES, "study2_text_join_check.csv"))
+```
+
+# 3. The two registered checks, on creativity
+
+## 3.1 How closely the words track the rating and the condition
+
+```{r recoverability}
+# The first check asks how well the words alone predict the rating, and how
+# well they predict the source condition, in participants left out of
+# fitting. The model is ridge regression (a regression that shrinks each
+# word's weight toward zero), scored on ten folds grouped by participant, so
+# no participant is on both the fitting and the scoring side. For the rating
+# the score is the Pearson correlation between predicted and observed
+# ratings. For the condition it is the AUC, the probability that a randomly
+# chosen AI response gets a higher predicted probability of the AI condition
+# than a randomly chosen Human response; one half is chance. Each score has a
+# 95 percent interval from resampling participants and a permutation null,
+# the same pipeline rerun on shuffled outcomes 200 times. Every setting is
+# Study 1's, set as the defaults of text_recoverability(), and the reading
+# rule is recoverability_readings(). The check is descriptive and enters no
+# correction family.
+run_clear_outputs(run,
+                  file.path(OUT_TABLES, "study2_text_wordcount_check.csv"),
+                  file.path(OUT_TABLES, "study2_text_recoverability.csv"))
+
+wordcount_check <- check_text_wordcounts(ratings, wordcounts, vocabulary,
+                                         stim_cols = "stimulus_id", arm_col = "source",
+                                         arm_levels = SOURCE_LEVELS)
+print(as.data.frame(wordcount_check))
+write_csv(wordcount_check, file.path(OUT_TABLES, "study2_text_wordcount_check.csv"))
+
+with_readings <- function(tab) {
+  tab %>% left_join(recoverability_readings(tab) %>%
+                      select(dimension, target, predictors, reading),
+                    by = c("dimension", "target", "predictors"))
+}
+recover <- text_recoverability(ratings, wordcounts, dims = REGISTERED_DIM,
+                               stim_cols = "stimulus_id", arm_col = "source",
+                               arm_levels = SOURCE_LEVELS) %>%
+  with_readings() %>%
+  mutate(role = "registered", .after = dimension)
+stopifnot(nrow(recover) == 5)
+write_csv(recover, file.path(OUT_TABLES, "study2_text_recoverability.csv"))
+print(as.data.frame(select(recover, dimension, target, predictors, estimate,
+                           ci_low, ci_high, null_95th, status, reading)), digits = 3)
+```
+
+## 3.2 Within-person word overlap by condition
+
+```{r self-overlap}
+# The second check predicts that AI-condition participants reuse their own
+# words across their creativity justifications more than Human-condition
+# participants, relative to others writing about the same second work. For
+# each participant, the own-word overlap is the mean Jaccard overlap (the
+# words two texts share divided by the words either uses) across that
+# participant's creativity justifications, and the stranger baseline is the
+# overlap of each justification with other participants' justifications of
+# the same second work. Their difference is regressed on the condition with
+# the mean number of words as a covariate. The interval and p-value come from
+# 2,000 resamples of participants within each condition, with the stranger
+# baseline rebuilt in each. One measure is registered, so the Holm
+# correction is over one test. The reading is supported, opposite direction
+# or inconclusive.
+run_clear_outputs(run,
+                  file.path(OUT_TABLES, "study2_text_selfsimilarity_by_arm.csv"),
+                  file.path(OUT_TABLES, "study2_text_selfsimilarity_per_person.csv"))
+overlap <- text_self_overlap(ratings, tokens, dims = REGISTERED_DIM,
+                             stim_cols = "stimulus_id", arm_col = "source",
+                             arm_levels = SOURCE_LEVELS)
+overlap$by_arm <- overlap$by_arm %>% mutate(registered = TRUE, .after = role)
+stopifnot(sum(overlap$by_arm$role == "registered comparison") == 1,
+          nrow(overlap$per_person) == N_PARTICIPANTS)
+write_csv(overlap$by_arm,
+          file.path(OUT_TABLES, "study2_text_selfsimilarity_by_arm.csv"))
+write_csv(overlap$per_person,
+          file.path(OUT_TABLES, "study2_text_selfsimilarity_per_person.csv"))
+print(as.data.frame(overlap$by_arm %>%
+                      filter(role == "registered comparison") %>%
+                      select(dimension, quantity, estimate, ci_lo, ci_hi,
+                             p_raw, p_holm, reading, status)), digits = 3)
+```
+
+# 4. Exploratory description
+
+Everything in this section is exploratory. It describes what participants
+wrote after choosing their rating, and none of it tests a prediction.
+
+## 4.1 The two checks on the other two measures
+
+```{r other-measures}
+# The same two checks, with the same settings, on the transformativeness and
+# essence justifications. Each measure is run on its own, so each overlap
+# p-value is corrected over one test, and none of these rows carries a
+# registered verdict.
+run_clear_outputs(run,
+                  file.path(OUT_TABLES, "study2_text_recoverability_other_measures.csv"),
+                  file.path(OUT_TABLES, "study2_text_selfsimilarity_other_measures.csv"))
+recover_other <- text_recoverability(ratings, wordcounts, dims = OTHER_DIMS,
+                                     stim_cols = "stimulus_id", arm_col = "source",
+                                     arm_levels = SOURCE_LEVELS) %>%
+  with_readings() %>%
+  mutate(role = "exploratory", .after = dimension)
+overlap_other <- bind_rows(lapply(OTHER_DIMS, function(dim) {
+  text_self_overlap(ratings, tokens, dims = dim, stim_cols = "stimulus_id",
+                    arm_col = "source", arm_levels = SOURCE_LEVELS)$by_arm
+})) %>%
+  mutate(role = if_else(role == "registered comparison", "exploratory comparison", role),
+         p_holm = NA_real_, reading = NA_character_) %>%
+  mutate(registered = FALSE, .after = role)
+stopifnot(nrow(recover_other) == 10,
+          sum(overlap_other$role == "exploratory comparison") == 2)
+write_csv(recover_other,
+          file.path(OUT_TABLES, "study2_text_recoverability_other_measures.csv"))
+write_csv(overlap_other,
+          file.path(OUT_TABLES, "study2_text_selfsimilarity_other_measures.csv"))
+print(as.data.frame(select(recover_other, dimension, target, predictors, estimate,
+                           ci_low, ci_high, null_95th, status, reading)), digits = 3)
+print(as.data.frame(overlap_other %>%
+                      filter(role == "exploratory comparison") %>%
+                      select(dimension, quantity, estimate, ci_lo, ci_hi,
+                             p_raw, status)), digits = 3)
+```
+
+## 4.2 Tone and concreteness
+
+```{r affect}
+# Each justification's mean valence (how pleasant its words are, 1 to 9),
+# arousal (how excited they make a reader feel, 1 to 9), dominance (how much
+# in control they make a reader feel, 1 to 9) and concreteness (how much they
+# refer to things that can be seen or touched, 1 to 5), from Warriner,
+# Kuperman and Brysbaert (2013) and Brysbaert, Warriner and Kuperman (2014),
+# as the notebook scored them. A response with no matched word has no score
+# and drops out of that model. The model is Study 1's, per question and
+# measure:
+#
+#   score ~ source x rating_c + (1 | participant) + (1 | second work)
+#
+# where rating_c is the rating minus that question's mean rating, so the
+# source coefficient (AI minus Human, the Human condition as the reference)
+# is the difference at the average rating. The 24 p-values of the two
+# coefficients are corrected by Benjamini-Hochberg, which holds the expected
+# share of false positives among the rows called positive. The correction
+# makes a long table easier to read; it does not make it confirmatory.
+run_clear_outputs(run, file.path(OUT_TABLES, "study2_text_affect_by_arm.csv"))
+
+CONTROL <- lmerControl(optimizer = "bobyqa")
+rating_centres <- ratings %>% group_by(dimension) %>%
+  summarise(rating_centre = mean(rating), .groups = "drop")
+scored <- ratings %>%
+  left_join(rating_centres, by = "dimension") %>%
+  mutate(rating_c = rating - rating_centre)
+
+AFFECT_MEASURES <- c("valence", "arousal", "dominance", "concreteness")
+AFFECT_TERMS <- c(
+  "sourceAI"          = "source difference (AI minus Human) at the average rating",
+  "sourceAI:rating_c" = "source by rating interaction (AI minus Human, per rating point)")
+
+fit_log <- list()
+tidy_terms <- function(res, terms) {
+  if (res$status$fit_error) {
+    return(tibble(term = terms, estimate = NA_real_, std_error = NA_real_,
+                  df = NA_real_, t = NA_real_, p_raw = NA_real_))
+  }
+  co <- summary(res$fit)$coefficients
+  tibble(term = terms, estimate = co[terms, "Estimate"],
+         std_error = co[terms, "Std. Error"], df = co[terms, "df"],
+         t = co[terms, "t value"],
+         p_raw = na_unless_usable(co[terms, "Pr(>|t|)"], res$status))
+}
+
+affect_rows <- list()
+for (dim in MEASURES) {
+  for (m in AFFECT_MEASURES) {
+    d <- affect %>% filter(dimension == dim, !is.na(.data[[m]])) %>%
+      inner_join(scored, by = KEY, relationship = "one-to-one") %>%
+      mutate(score = .data[[m]])
+    res <- fit_with_status(lmerTest::lmer(
+      score ~ source * rating_c + (1 | id) + (1 | stimulus_id), data = d,
+      REML = TRUE, control = CONTROL))
+    step <- paste0("4.2 ", m, " ~ source x rating, ", dim)
+    fit_log[[step]] <- res$status %>% mutate(step = step, dimension = dim,
+                                             n_obs = nrow(d), .before = 1)
+    affect_rows[[step]] <- tidy_terms(res, names(AFFECT_TERMS)) %>%
+      mutate(dimension = dim, measure = m, .before = 1) %>%
+      mutate(quantity = unname(AFFECT_TERMS[term]),
+             ci_lo = na_unless_usable(estimate - qt(0.975, df) * std_error, res$status),
+             ci_hi = na_unless_usable(estimate + qt(0.975, df) * std_error, res$status),
+             mean_Human = mean(d$score[d$source == "Human"]),
+             mean_AI    = mean(d$score[d$source == "AI"]),
+             n_scored   = nrow(d),
+             n_participants = n_distinct(d$id),
+             converged = res$status$converged, singular = res$status$singular,
+             note = fit_note(res$status),
+             model = paste0(m, " ~ source * rating_c + (1 | id) + (1 | stimulus_id), REML, bobyqa"))
+  }
+}
+affect_by_arm <- bind_rows(affect_rows)
+affect_by_arm <- affect_by_arm %>%
+  mutate(p_bh = p.adjust(p_raw, method = "BH", n = nrow(affect_by_arm)),
+         .after = p_raw)
+stopifnot(nrow(affect_by_arm) == 24)
+write_csv(affect_by_arm, file.path(OUT_TABLES, "study2_text_affect_by_arm.csv"))
+print(as.data.frame(select(affect_by_arm, dimension, measure, term, estimate,
+                           ci_lo, ci_hi, p_bh, converged, singular)), digits = 3)
+```
+
+## 4.3 Topics found by a model given no labels
+
+```{r topics}
+# The notebook fitted a topic model to each question without the condition
+# or the rating, and gave each justification a weight on each topic, the
+# weights summing to one. The model is Study 1's, per question and topic:
+#
+#   weight ~ source + rating_c + (1 | participant) + (1 | second work)
+#
+# Topic weights are bounded and pile up at zero, so the source term is
+# tested against a permutation null: the source labels are dealt again among
+# the participants, each keeping one label, the model is refitted and the
+# source term's t value is recorded, 200 times. The p-value is the share of
+# shuffles, counting the observed data as one, whose t value is at least as
+# far from zero as the observed one. The same 200 shuffles serve every topic
+# of a question, they are drawn from the seed before the parallel section
+# starts, and the p-values are corrected by Benjamini-Hochberg within each
+# question. Each topic is labelled by its five heaviest words.
+run_clear_outputs(run, file.path(OUT_TABLES, "study2_text_topics_by_arm.csv"))
+
+N_TOPIC_PERM <- 200L
+topic_labels <- topic_words %>% filter(rank <= 5) %>% arrange(dimension, topic, rank) %>%
+  group_by(dimension, topic) %>%
+  summarise(topic_label = paste(word, collapse = ", "), .groups = "drop")
+topics_joined <- topics %>% filter(!is.na(weight)) %>%
+  inner_join(scored, by = KEY)
+
+# The source term's t value from one refit; a refit that fails gives NA and
+# is counted.
+topic_t <- function(d) {
+  fit <- tryCatch(suppressWarnings(suppressMessages(
+    lme4::lmer(weight ~ source + rating_c + (1 | id) + (1 | stimulus_id), data = d,
+               REML = TRUE, control = CONTROL))),
+    error = function(e) NULL)
+  if (is.null(fit)) return(NA_real_)
+  co <- summary(fit)$coefficients
+  if (!"sourceAI" %in% rownames(co)) NA_real_ else unname(co["sourceAI", "t value"])
+}
+
+topic_rows <- list()
+for (dim in MEASURES) {
+  d_dim  <- topics_joined %>% filter(dimension == dim)
+  id_arm <- distinct(d_dim, id, source)
+  id_arm <- id_arm[order(id_arm$id, method = "radix"), ]
+  set.seed(SEED)
+  shuffles <- replicate(N_TOPIC_PERM,
+                        setNames(sample(as.character(id_arm$source)), id_arm$id),
+                        simplify = FALSE)
+  for (k in sort(unique(d_dim$topic))) {
+    d <- d_dim %>% filter(topic == k)
+    res <- fit_with_status(lmerTest::lmer(
+      weight ~ source + rating_c + (1 | id) + (1 | stimulus_id), data = d,
+      REML = TRUE, control = CONTROL))
+    step <- paste0("4.3 topic ", k, " weight ~ source + rating, ", dim)
+    fit_log[[step]] <- res$status %>% mutate(step = step, dimension = dim,
+                                             n_obs = nrow(d), .before = 1)
+    usable <- fit_usable(res$status)
+    co <- if (res$status$fit_error) NULL else summary(res$fit)$coefficients
+    t_obs <- if (is.null(co)) NA_real_ else unname(co["sourceAI", "t value"])
+    t_null <- text_run_permutations(shuffles, function(lab) {
+      dd <- d
+      dd$source <- factor(lab[dd$id], levels = SOURCE_LEVELS)
+      topic_t(dd)
+    }, text_default_workers())
+    n_valid <- sum(!is.na(t_null))
+    topic_rows[[step]] <- tibble(
+      dimension = dim, topic = k,
+      quantity  = "source difference in topic weight (AI minus Human) at the same rating",
+      estimate  = if (is.null(co)) NA_real_ else unname(co["sourceAI", "Estimate"]),
+      std_error = if (usable) unname(co["sourceAI", "Std. Error"]) else NA_real_,
+      t         = if (usable) t_obs else NA_real_,
+      p_perm    = if (!usable || is.na(t_obs) || n_valid == 0) NA_real_ else
+        (1 + sum(abs(t_null) >= abs(t_obs), na.rm = TRUE)) / (1 + n_valid),
+      n_perm = N_TOPIC_PERM, n_perm_valid = n_valid, perm_seed = SEED,
+      rating_estimate = if (is.null(co)) NA_real_ else unname(co["rating_c", "Estimate"]),
+      mean_weight_Human = mean(d$weight[d$source == "Human"]),
+      mean_weight_AI    = mean(d$weight[d$source == "AI"]),
+      n_responses = nrow(d), n_participants = n_distinct(d$id),
+      converged = res$status$converged, singular = res$status$singular,
+      note = fit_note(res$status),
+      model = "weight ~ source + rating_c + (1 | id) + (1 | stimulus_id), REML, bobyqa; source term tested against source labels shuffled across participants")
+  }
+}
+topics_by_arm <- bind_rows(topic_rows) %>%
+  group_by(dimension) %>%
+  mutate(p_bh = p.adjust(p_perm, method = "BH", n = n()), .after = p_perm) %>%
+  ungroup() %>%
+  left_join(topic_labels, by = c("dimension", "topic")) %>%
+  relocate(topic_label, .after = topic)
+stopifnot(nrow(topics_by_arm) == nrow(distinct(topics, dimension, topic)))
+write_csv(topics_by_arm, file.path(OUT_TABLES, "study2_text_topics_by_arm.csv"))
+print(as.data.frame(select(topics_by_arm, dimension, topic, topic_label, estimate,
+                           p_perm, p_bh, n_perm_valid, converged, singular)),
+      digits = 3)
+```
+
+## 4.4 The words the first check leans on most
+
+```{r prediction-weights}
+# The first check (section 3.1) asks how well the words predict the rating
+# and the source condition, with ridge models that spread small weights over
+# every word. This asks which words do the predicting, with the lasso, a
+# penalised regression whose penalty sets most word weights to exactly zero,
+# so only the words a prediction cannot do without keep one. As in Study 1,
+# there are two models per measure:
+#
+#   rating  a lasso linear regression of the rating on the word counts;
+#   arm     a lasso logistic regression of the source condition (AI against
+#           Human) on the word counts, with the rating in the model and left
+#           unpenalised (penalty factor 0), so a word keeps a weight only if
+#           it tells the conditions apart beyond what the rating does.
+#
+# The penalty is chosen by ten-fold cross-validation grouped by participant,
+# with the vocabulary rebuilt inside each training fold by the five-response
+# floor. The held-out loss is the squared error for the rating and the
+# binomial deviance (minus twice the log-likelihood of the held-out
+# conditions) for the source. The chosen penalty is lambda.1se, the strongest
+# penalty whose cross-validated loss is within one standard error of the
+# best. The model is then refitted on every response at that penalty, and
+# the words with a nonzero weight are reported with their signs. A weight is
+# the change in the rating, or in the log-odds of the AI condition, for one
+# more use of the word, after the shrinkage. Among words that move together
+# the lasso tends to keep one, so a word missing from the list may still go
+# with the outcome. None of this tests a word.
+run_clear_outputs(run, file.path(OUT_TABLES, "study2_text_prediction_weights.csv"))
+
+prepared <- prepare_text_ratings(ratings, "stimulus_id", "source", SOURCE_LEVELS)
+wc_keyed <- wordcounts %>% mutate(.stim = stimulus_key(wordcounts, "stimulus_id"))
+
+# The held-out loss of a matrix of predictions, one column per penalty, on
+# the response scale. Probabilities are kept a little away from zero and
+# one, as glmnet does.
+heldout_loss <- function(pred, y, family) {
+  if (family == "binomial") {
+    p <- pmin(pmax(pred, 1e-5), 1 - 1e-5)
+    -2 * (y * log(p) + (1 - y) * log(1 - p))
+  } else {
+    (y - pred)^2
+  }
+}
+
+lasso_weights <- function(dim, target) {
+  fr     <- text_dimension_frame(prepared, wc_keyed, dim)
+  resp   <- fr$resp
+  counts <- fr$counts
+  is_arm <- target == "arm"
+  family <- if (is_arm) "binomial" else "gaussian"
+  y      <- if (is_arm) as.integer(resp$arm == SOURCE_LEVELS[2]) else resp$rating
+
+  set.seed(TEXT_SEED)
+  outer_by_id <- text_participant_folds(fr$id_arm, TEXT_N_OUTER_FOLDS, SOURCE_LEVELS)
+  outer_fold  <- unname(outer_by_id[resp$id])
+
+  # The source model carries the rating as its first column, unpenalised.
+  build_x <- function(words) {
+    X <- text_response_word_matrix(resp, counts, words)
+    if (is_arm) {
+      X <- cbind(Matrix::Matrix(resp$rating, ncol = 1, sparse = TRUE,
+                                dimnames = list(NULL, "rating")), X)
+    }
+    X
+  }
+  penalty <- function(X) if (is_arm) c(0, rep(1, ncol(X) - 1)) else rep(1, ncol(X))
+
+  vocab_all <- text_floor_vocabulary(resp, counts, rep(TRUE, nrow(resp)),
+                                     TEXT_WORD_MIN_RESPONSES)
+  X_all  <- build_x(vocab_all$word)
+  fitted <- text_with_warnings(glmnet::glmnet(X_all, y, family = family, alpha = 1,
+                                              penalty.factor = penalty(X_all)))
+  full_fit <- fitted$value
+  lam      <- full_fit$lambda
+  warns    <- fitted$warnings
+
+  fold_loss <- matrix(NA_real_, TEXT_N_OUTER_FOLDS, length(lam))
+  fold_n    <- integer(TEXT_N_OUTER_FOLDS)
+  for (k in seq_len(TEXT_N_OUTER_FOLDS)) {
+    tr <- outer_fold != k
+    Xk <- build_x(text_floor_vocabulary(resp, counts, tr, TEXT_WORD_MIN_RESPONSES)$word)
+    fk <- text_with_warnings(glmnet::glmnet(Xk[tr, , drop = FALSE], y[tr],
+                                            family = family, alpha = 1,
+                                            lambda = lam,
+                                            penalty.factor = penalty(Xk)))
+    warns <- c(warns, fk$warnings)
+    pk <- predict(fk$value, Xk[!tr, , drop = FALSE], s = lam, type = "response")
+    fold_loss[k, ] <- colMeans(heldout_loss(as.matrix(pk), y[!tr], family))
+    fold_n[k]      <- sum(!tr)
+  }
+  cvm  <- apply(fold_loss, 2, weighted.mean, w = fold_n)
+  cvsd <- sqrt(apply(sweep(fold_loss, 2, cvm)^2, 2, weighted.mean, w = fold_n) /
+                 (TEXT_N_OUTER_FOLDS - 1))
+  i_min      <- which.min(cvm)
+  lambda_1se <- max(lam[cvm <= cvm[i_min] + cvsd[i_min]])
+
+  warns  <- unique(warns)
+  status <- if (length(warns) == 0) "ok" else "nonconvergence"
+  b <- as.matrix(coef(full_fit, s = lambda_1se))[, 1]
+  rating_coef <- if (is_arm) unname(b["rating"]) else NA_real_
+  b <- b[setdiff(names(b), c("(Intercept)", "rating"))]
+  b <- b[b != 0]
+  words_tbl <- if (length(b) == 0) {
+    tibble(word = NA_character_, coefficient = NA_real_, sign = NA_character_,
+           rank = NA_integer_, n_responses_word = NA_integer_)
+  } else {
+    tibble(word = names(b), coefficient = unname(b)) %>%
+      mutate(sign = ifelse(coefficient > 0, "positive", "negative"),
+             rank = as.integer(rank(-abs(coefficient), ties.method = "first"))) %>%
+      left_join(rename(vocab_all, n_responses_word = n_responses), by = "word") %>%
+      arrange(rank)
+  }
+  model_text <- if (is_arm) {
+    paste0("lasso logistic regression (glmnet, alpha = 1), source condition ",
+           "(AI against Human) on the rating (penalty factor 0) and the word ",
+           "counts; penalty at lambda.1se from ten-fold cross-validation ",
+           "grouped by participant with the vocabulary rebuilt in each ",
+           "training fold; refitted on all responses")
+  } else {
+    paste0("lasso linear regression (glmnet, alpha = 1), rating on the word ",
+           "counts; penalty at lambda.1se from ten-fold cross-validation ",
+           "grouped by participant with the vocabulary rebuilt in each ",
+           "training fold; refitted on all responses")
+  }
+  words_tbl %>%
+    mutate(dimension = dim, target = target,
+           predictors = if (is_arm) "words, with the rating unpenalised" else "words",
+           .before = 1) %>%
+    mutate(rating_coefficient = rating_coef,
+           lambda_1se = lambda_1se, lambda_min = lam[i_min],
+           n_words_in_model = nrow(vocab_all), n_nonzero = length(b),
+           cv_loss = if (is_arm) "binomial deviance" else "squared error",
+           n_folds = TEXT_N_OUTER_FOLDS,
+           seed = TEXT_SEED, n_responses = nrow(resp), status = status,
+           note = if (length(warns) == 0) "status ok; no warning from any fit" else
+             paste0("status nonconvergence; ", paste(warns, collapse = "; ")),
+           model = model_text)
+}
+
+LASSO_TARGETS <- c("rating", "arm")
+prediction_weights <- bind_rows(lapply(MEASURES, function(dim) {
+  bind_rows(lapply(LASSO_TARGETS, function(tg) lasso_weights(dim, tg)))
+}))
+stopifnot(nrow(distinct(prediction_weights, dimension, target)) ==
+            length(MEASURES) * length(LASSO_TARGETS))
+write_csv(prediction_weights, file.path(OUT_TABLES, "study2_text_prediction_weights.csv"))
+for (dim in MEASURES) {
+  for (tg in LASSO_TARGETS) {
+    pw <- filter(prediction_weights, dimension == dim, target == tg)
+    cat(dim, tg, "model (", pw$status[1], "):", pw$n_nonzero[1], "of",
+        pw$n_words_in_model[1], "words keep a weight at lambda.1se\n")
+  }
+}
+```
+
+# 5. Fit status
+
+```{r fit-log}
+# One row per step that fits a model: the mixed models of sections 4.2 and
+# 4.3, and the two checks of sections 3 and 4.1, which report their own
+# status (ok, nonconvergence or error) from the warnings their fits raised.
+run_clear_outputs(run, file.path(OUT_TABLES, "study2_text_fit_log.csv"))
+check_status <- function(tab, step, kind) {
+  tab %>% distinct(dimension, status, note) %>%
+    transmute(step = step, dimension, kind = kind,
+              fit_error = status == "error", converged = status == "ok",
+              singular = NA, lme4_messages = note, usable = status == "ok")
+}
+fit_log_tbl <- bind_rows(
+  bind_rows(fit_log) %>% mutate(kind = "linear mixed model",
+                                usable = !fit_error & converged),
+  check_status(recover, "3.1 recoverability, registered", "ridge regressions"),
+  check_status(overlap$by_arm %>% filter(role == "registered comparison"),
+               "3.2 within-person overlap, registered", "ordinary least squares"),
+  check_status(recover_other, "4.1 recoverability, exploratory", "ridge regressions"),
+  check_status(overlap_other %>% filter(role == "registered comparison"),
+               "4.1 within-person overlap, exploratory", "ordinary least squares"),
+  prediction_weights %>% distinct(dimension, target, status, note) %>%
+    transmute(step = paste0("4.4 lasso word weights, ", target, " model"), dimension,
+              kind = "lasso regression",
+              fit_error = status == "error", converged = status == "ok",
+              singular = NA, lme4_messages = note, usable = status == "ok")
+) %>% relocate(step, dimension, kind, usable)
+print(as.data.frame(select(fit_log_tbl, step, dimension, usable, fit_error,
+                           converged, singular)))
+write_csv(fit_log_tbl, file.path(OUT_TABLES, "study2_text_fit_log.csv"))
+lmm_log <- filter(fit_log_tbl, kind == "linear mixed model")
+cat("Mixed models in section 4:", nrow(lmm_log), "| converged:", sum(lmm_log$converged),
+    "| singular:", sum(lmm_log$singular %in% TRUE), "| errored:",
+    sum(lmm_log$fit_error), "\n")
+cat("Registered checks, status: recoverability", unique(recover$status),
+    "| overlap", unique(overlap$by_arm$status), "\n")
+```
+
+# 6. Session information and the run manifest
+
+```{r session-info}
+SESSION_PATH  <- file.path(OUT_TABLES, "study2_integration_sessionInfo.txt")
+VERSIONS_PATH <- file.path(OUT_TABLES, "study2_integration_package_versions.csv")
+run_clear_outputs(run, SESSION_PATH, VERSIONS_PATH)
+writeLines(capture.output(sessionInfo()), SESSION_PATH)
+pkgs <- c("readr", "dplyr", "tidyr", "tibble", "lme4", "lmerTest", "Matrix",
+          "glmnet", "rmarkdown", "knitr")
+write_csv(tibble(package = pkgs,
+                 version = vapply(pkgs, function(p) as.character(packageVersion(p)),
+                                  character(1))),
+          VERSIONS_PATH)
+sessionInfo()
+```
+
+```{r manifest}
+# The manifest lists every output this run registered, whether this run
+# wrote it, and its SHA-256 checksum. It is written last.
+manifest <- write_run_manifest(run)
+stopifnot(all(manifest$written_this_run))
+if (!UNBLIND) {
+  cat("\nBlind run: the labels and the ratings were shuffled, and nothing in",
+      "this report is a result.\n")
+}
+```

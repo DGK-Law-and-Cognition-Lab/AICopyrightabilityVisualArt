@@ -1,0 +1,7 @@
+dimension,role,formula,usable,fit_error,converged,singular,lme4_messages
+creativity,registered model,rating ~ Type * time + (1 | id) + (1 | stimulus_id),TRUE,FALSE,TRUE,FALSE,
+creativity,random-slope refit,rating ~ Type * time + (1 + time | id) + (1 + Type | stimulus_id),TRUE,FALSE,TRUE,TRUE,boundary (singular) fit: see help('isSingular')
+creativity,cumulative-link check,ordered rating ~ Type * time + (1 | id) + (1 | stimulus_id),TRUE,FALSE,TRUE,FALSE,
+effort,registered model,rating ~ Type * time + (1 | id) + (1 | stimulus_id),TRUE,FALSE,TRUE,FALSE,
+effort,random-slope refit,rating ~ Type * time + (1 + time | id) + (1 + Type | stimulus_id),TRUE,FALSE,TRUE,TRUE,boundary (singular) fit: see help('isSingular')
+effort,cumulative-link check,ordered rating ~ Type * time + (1 | id) + (1 | stimulus_id),TRUE,FALSE,TRUE,FALSE,

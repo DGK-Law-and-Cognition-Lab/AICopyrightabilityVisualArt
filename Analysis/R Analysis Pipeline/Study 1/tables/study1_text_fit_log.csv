@@ -1,0 +1,57 @@
+run_id,step,model,status,note
+20261013T152252-dd351441,registered text test: detail vs time,flag ~ measure + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,registered text test: detail vs skill,flag ~ measure + (1 | id) + (1 | stimulus_id),ok,"status ok; first bobyqa pass stopped short (Model failed to converge with max|grad| = 0.0217008 (tol = 0.002, component 1)); refitted with bobyqa from that end point with maxfun = 200000; restart converged; not singular"
+20261013T152252-dd351441,3.2 effort ~ detail talk,rating ~ says_detail + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,3.2 effort ~ detail talk + word count,rating ~ says_detail + n_words_z + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,3.2 effort ~ says_time,rating ~ says_time + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,3.2 effort ~ says_skill,rating ~ says_skill + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"effort ~ detail polarity, Human arm",rating ~ polarity + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"effort ~ time polarity, Human arm",rating ~ polarity + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"effort ~ skill polarity, Human arm",rating ~ polarity + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,registered text test: concept vs execution,flag ~ measure + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,registered text test: concept vs novelty,flag ~ measure + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,4.2 creativity ~ concept talk,rating ~ says_concept + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,4.2 creativity ~ concept talk + word count,rating ~ says_concept + n_words_z + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,4.2 creativity ~ execution talk,rating ~ says_detail + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"creativity ~ concept polarity, Human arm",rating ~ polarity + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"creativity ~ detail polarity, Human arm",rating ~ polarity + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"4.3.3 creativity ~ prior exposure, Human arm",rating ~ prior_exposure + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"4.3.3 creativity ~ prior exposure, AI arm",rating ~ prior_exposure + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"4.3.3 effort ~ prior exposure, Human arm",rating ~ prior_exposure + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"4.3.3 effort ~ prior exposure, AI arm",rating ~ prior_exposure + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"4.3.3 creativity ~ prior exposure + arm, pooled",rating ~ prior_exposure + Type + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"4.3.3 effort ~ prior exposure + arm, pooled",rating ~ prior_exposure + Type + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"4.3.4 creativity ~ familiarity within and between, Human arm",rating ~ asserted_within + asserted_between + negated_within + negated_between + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"4.3.4 creativity ~ familiarity within and between, AI arm",rating ~ asserted_within + asserted_between + negated_within + negated_between + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"4.3.4 effort ~ familiarity within and between, Human arm",rating ~ asserted_within + asserted_between + negated_within + negated_between + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"4.3.4 effort ~ familiarity within and between, AI arm",rating ~ asserted_within + asserted_between + negated_within + negated_between + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"5.4 primary model refit, creativity, 0 participants excluded",rating ~ Type * stimulus_type + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"5.4 primary model refit, effort, 0 participants excluded",rating ~ Type * stimulus_type + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"5.4 primary model refit, creativity, 25 participants excluded",rating ~ Type * stimulus_type + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"5.4 primary model refit, effort, 25 participants excluded",rating ~ Type * stimulus_type + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"registered text test: prompt talk, effort vs creativity",says_prompt ~ dimension + (1 | id) + (1 | stimulus_id),singular,status singular; converged; singular fit: the random-intercept variance for stimulus_id was estimated at exactly zero
+20261013T152252-dd351441,7.2 random-slope sensitivity: detail vs time,flag ~ measure + (1 + measure | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,7.2 random-slope sensitivity: detail vs skill,flag ~ measure + (1 + measure | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,7.2 random-slope sensitivity: concept vs execution,flag ~ measure + (1 + measure | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,7.2 random-slope sensitivity: concept vs novelty,flag ~ measure + (1 + measure | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"7.2 random-slope sensitivity: prompt talk, effort vs creativity",says_prompt ~ dimension + (1 + dimension | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.1 valence ~ arm x rating, creativity",score ~ Type * rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.1 arousal ~ arm x rating, creativity",score ~ Type * rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.1 dominance ~ arm x rating, creativity",score ~ Type * rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.1 concreteness ~ arm x rating, creativity",score ~ Type * rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.1 valence ~ arm x rating, effort",score ~ Type * rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.1 arousal ~ arm x rating, effort",score ~ Type * rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.1 dominance ~ arm x rating, effort",score ~ Type * rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.1 concreteness ~ arm x rating, effort",score ~ Type * rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.2 topic 1 weight ~ arm + rating, creativity",weight ~ Type + rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.2 topic 2 weight ~ arm + rating, creativity",weight ~ Type + rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.2 topic 3 weight ~ arm + rating, creativity",weight ~ Type + rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.2 topic 4 weight ~ arm + rating, creativity",weight ~ Type + rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.2 topic 5 weight ~ arm + rating, creativity",weight ~ Type + rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.2 topic 6 weight ~ arm + rating, creativity",weight ~ Type + rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.2 topic 1 weight ~ arm + rating, effort",weight ~ Type + rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.2 topic 2 weight ~ arm + rating, effort",weight ~ Type + rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.2 topic 3 weight ~ arm + rating, effort",weight ~ Type + rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.2 topic 4 weight ~ arm + rating, effort",weight ~ Type + rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.2 topic 5 weight ~ arm + rating, effort",weight ~ Type + rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular
+20261013T152252-dd351441,"9.2 topic 6 weight ~ arm + rating, effort",weight ~ Type + rating_c + (1 | id) + (1 | stimulus_id),ok,status ok; converged; not singular

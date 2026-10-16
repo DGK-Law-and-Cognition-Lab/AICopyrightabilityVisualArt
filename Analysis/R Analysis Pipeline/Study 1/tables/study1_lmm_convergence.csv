@@ -1,0 +1,3 @@
+dimension,singular,converged,lme4_messages,optimizer
+creativity,FALSE,TRUE,,bobyqa
+effort,FALSE,TRUE,,bobyqa

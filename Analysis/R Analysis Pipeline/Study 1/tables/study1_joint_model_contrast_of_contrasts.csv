@@ -1,0 +1,2 @@
+Type_pairwise,dimension_revpairwise,estimate,SE,df,t.ratio,p.value,lower.CL,upper.CL,definition,random_structure,converged,singular,fit_error,lme4_messages,fit_note
+Human - AI,effort - creativity,0.4724350649350404,0.09847701861791627,109.00000312517516,4.797414377135587,5.133039342366781e-6,0.2772568156109642,0.6676133142591165,(Human - AI | effort) - (Human - AI | creativity); positive = larger AI penalty for effort,(1 + dimension | id) + (1 | stimulus_id:dimension),TRUE,FALSE,FALSE,,

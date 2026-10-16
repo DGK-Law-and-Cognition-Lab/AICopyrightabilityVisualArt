@@ -1,0 +1,1433 @@
+---
+title: "Structural Topics in the Justifications"
+subtitle: "Studies 2, 4 and 5, exploratory | Beyond the Original Sin | How Humans Evaluate Creative Contribution in AI-Assisted Artworks"
+author: "David G. Kamper, Alice Lin, Keith J. Holyoak"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    theme: flatly
+    highlight: tango
+---
+
+```{r knitr-options, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = TRUE,
+                      comment = "#>", fig.align = "center")
+```
+
+**This analysis is exploratory.** It was specified on 9 October 2026, after
+every registered result of the five studies was known. No registration, the
+plan of analysis filed for a study before its results were seen, names it,
+and nothing in it changes a registered verdict. Every table it writes says
+so in its last column, `analysis_status`, and each figure says so at its foot.
+Every justification was written after its rating, so nothing here is evidence
+of why anyone rated as they did. The analysis describes what people wrote once
+their number was chosen.
+
+# 0. What this file does
+
+In Studies 2, 4 and 5 each participant was told that the artist Alex made a
+first artwork either with design software and sketching tools (Human) or by
+prompting an AI system (AI). Each then rated second works that Alex made by
+hand from it, at three levels of modification: None (the first work shown
+again unchanged), Slight (colour and contrast adjustments) and Dramatic
+(substantial changes by hand). After every rating the participant wrote a
+short justification.
+
+Each study's own files already looked for topics in those justifications in
+two steps. A topic model, fitted without the label, gave each response a
+weight on each topic, and the label's effect on each weight was then tested
+topic by topic, as if the weights were measured without error. That approach
+stays as each study registered it.
+
+This file asks the same kind of question with the label inside the topic
+model, on the three studies pooled. A structural topic model, fitted with the
+R package stm, finds topics, groups of words that tend to appear in the same
+responses, and lets the share of each topic in a response, its prevalence,
+depend on covariates, quantities recorded for each response. Here the
+covariates are the source label, the modification level, the rating and the
+study. The label's effect on each topic is then estimated from repeated draws
+of every response's topic shares, so its uncertainty includes the uncertainty
+of those shares. It does not include the uncertainty of the topics' word
+lists, which are held at their estimates; section 7 examines that uncertainty
+separately.
+
+The question is whether the label changes what people write about, and
+whether that change differs as the second work moves away from the first. For
+each topic the file gives the AI minus Human difference in the topic's
+expected share at each level, the difference averaged over the levels, and
+the change in the difference from None to Dramatic.
+
+No person and no language model labels, codes or judges any response, and no
+topic is named by anyone. Each topic is identified by its number, its
+highest-probability words and its most distinctive words, all computed by the
+model.
+
+This file:
+
+1. reads each study's long data file, its word counts and the wording of its
+   rated items, and checks each against the record of the run that wrote it
+   (section 2);
+2. removes the words that the task itself put in front of every participant,
+   and the words too rare to model (section 3);
+3. builds one corpus, a collection of responses, for each question, with its
+   covariates (section 4);
+4. chooses the number of topics for each question by a rule fixed in code
+   (section 5);
+5. fits the model at that number, lists each topic's words and example
+   identifiers, and checks how stable the topics are (sections 6 and 7);
+6. estimates the label's effect on each topic (section 8) and draws one
+   figure per question (section 9);
+7. records the status of every fit, says what the numbers show, and records
+   the run (sections 10 to 12).
+
+Creativity is the primary question, because it is the one question asked of
+original artworks and second works alike. Transformativeness and essence
+change are secondary.
+
+Eight limits apply throughout.
+
+- Every justification was written after its rating. The words describe what
+  people wrote once they had rated, not what made them rate as they did.
+- The responses are short. After the vocabulary rule a modelled response
+  holds a few words (section 4 gives the numbers), so each response's topic
+  shares rest on little evidence, and the model leans on its covariates and
+  on the other responses to estimate them.
+- A response that keeps no word after the vocabulary rule is dropped, and
+  at None the share dropped differs between the labels (section 4 gives the
+  shares). Every label effect is therefore an effect among the responses
+  that kept a word, and part of a difference at None may come from which
+  responses kept one rather than from what the kept ones say.
+- Each participant wrote many responses, but the model treats every response
+  as independent of the others. stm has no term for the participant, so the
+  intervals of section 8 do not widen for responses that share a writer, and
+  they are likely too narrow.
+- The effects rest on 25 simulated sets of topic shares, stm's default, so
+  every standard error carries simulation noise, and another seed would move
+  each interval somewhat.
+- The model lets each study have its own baseline share of each topic but
+  assumes the label's effect is the same in all three studies. It leaves out
+  Study 4's source time and Study 5's editing time.
+- The item wording differs between studies. Study 2's creativity and essence
+  items carried no definition, while Studies 4 and 5 used Study 1's. The
+  vocabulary rule removes each study's own item words, so a word such as
+  *original* is removed from the responses of Studies 4 and 5 and kept in
+  those of Study 2. Section 3 lists every such word.
+- The topics a model finds depend in part on where its search starts.
+  Section 7 measures how far they do here, and a label effect on a topic that
+  another start does not recover says less than one on a topic that it does.
+
+# 1. Setup
+
+## 1.1 Packages
+
+```{r packages}
+# dplyr, tidyr, tibble and readr build and write the tables. stm fits the
+# structural topic models. MASS draws from the normal distributions of the
+# effect estimates. parallel runs the model fits on several processor cores.
+# ggplot2 draws the figures and knitr prints the tables.
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(tidyr)
+  library(tibble)
+  library(readr)
+  library(stm)
+  library(MASS, include.only = "mvrnorm")
+  library(ggplot2)
+})
+```
+
+## 1.2 Paths and constants
+
+```{r paths}
+# Every path is found from this file's own folder, which is the working
+# directory when the file is knitted. These environment variables override
+# the defaults:
+#   STRUCTURAL_TOPICS_DIR            this folder, where the outputs go
+#   PIPELINE_DIR                     the analysis pipeline folder, two levels up
+#   STUDY_SHARED_R                   the folder of the shared R helpers
+#   STUDY_SHARED_PYTHON              the folder of the shared Python module
+#   STUDY2_DIR, STUDY4_DIR, STUDY5_DIR  the three study folders
+# Printed paths are relative to the pipeline folder, so no printed line names
+# a folder particular to one machine.
+HERE <- normalizePath(Sys.getenv("STRUCTURAL_TOPICS_DIR", getwd()), mustWork = TRUE)
+PIPELINE_DIR <- normalizePath(Sys.getenv("PIPELINE_DIR", file.path(HERE, "..", "..")),
+                              mustWork = TRUE)
+SHARED_R      <- Sys.getenv("STUDY_SHARED_R", file.path(PIPELINE_DIR, "shared", "R"))
+SHARED_PYTHON <- Sys.getenv("STUDY_SHARED_PYTHON", file.path(PIPELINE_DIR, "shared", "python"))
+source(file.path(SHARED_R, "fit_status.R"))
+show <- function(p) relative_path(p, PIPELINE_DIR)
+
+STUDIES <- c("Study 2", "Study 4", "Study 5")
+STUDY_DIRS <- setNames(vapply(c(2, 4, 5), function(n) {
+  normalizePath(Sys.getenv(paste0("STUDY", n, "_DIR"),
+                           file.path(PIPELINE_DIR, paste("Study", n))), mustWork = TRUE)
+}, character(1)), STUDIES)
+
+TABLES  <- file.path(HERE, "tables")
+FIGURES <- file.path(HERE, "figures")
+for (p in c(TABLES, FIGURES)) dir.create(p, recursive = TRUE, showWarnings = FALSE)
+
+# Each study's files. Studies 2 and 5 hold the Human or AI label in the column
+# source, and Study 4 in the column label, where source names the source
+# image. The word counts name the second work stimulus_id, and the long data
+# files name it work_id.
+STUDY_FILES <- tibble(study = STUDIES, n = c(2, 4, 5),
+                      label_column = c("source", "label", "source")) %>%
+  mutate(folder         = STUDY_DIRS[study],
+         long           = file.path(folder, paste0("study", n, "_long_with_text.csv")),
+         wordcounts     = file.path(folder, "nlp", paste0("study", n, "_text_wordcounts.csv")),
+         item_scales    = file.path(folder, "tables", paste0("study", n, "_item_scales.csv")),
+         quant_manifest = file.path(folder, "tables", paste0("study", n, "_quant_run_manifest.csv")),
+         quant_inputs   = file.path(folder, "tables", paste0("study", n, "_quant_run_inputs.csv")),
+         text_manifest  = file.path(folder, "tables", paste0("study", n, "_text_run_manifest.csv")))
+
+INPUTS <- c(
+  shared_text_module = file.path(SHARED_PYTHON, "study_text.py"),
+  unlist(lapply(seq_len(nrow(STUDY_FILES)), function(k) {
+    s <- STUDY_FILES[k, ]
+    tag <- paste0("study", s$n)
+    setNames(c(s$long, s$wordcounts, s$item_scales, s$quant_manifest, s$text_manifest),
+             paste0(tag, c("_long", "_wordcounts", "_item_scales", "_quant_manifest",
+                           "_text_manifest")))
+  })),
+  study5_quant_inputs = STUDY_FILES$quant_inputs[STUDY_FILES$study == "Study 5"])
+missing_inputs <- names(INPUTS)[!file.exists(INPUTS)]
+if (length(missing_inputs) > 0) {
+  stop("Missing input(s): ", paste(missing_inputs, collapse = ", "),
+       ". Run each study's pipeline on its real labels first.")
+}
+for (p in names(INPUTS)) cat(sprintf("%-22s %s\n", p, show(INPUTS[[p]])))
+cat("Tables to:  ", show(TABLES), "\nFigures to: ", show(FIGURES), "\n")
+
+# The constants of the analysis. The seed is the one the registrations name
+# for R. A seed is the number that starts a random-number generator, so that
+# a rerun draws the same numbers.
+SEED            <- 20260421L
+K_RANGE         <- 4:12
+MIN_RESPONSES   <- 5L
+STABILITY_SEEDS <- SEED + 0:4
+N_SIMS          <- 25L    # estimateEffect's default number of simulated topic shares
+N_DRAWS         <- 500L   # draws per simulation, as stm's summary of the effects uses
+TOP_WORDS       <- 7L
+LABEL_WORDS     <- 4L
+N_EXAMPLES      <- 3L
+ALPHA           <- 0.05
+QUESTIONS  <- c("creativity", "transformativeness", "essence_change")
+ROLE       <- c(creativity = "primary", transformativeness = "secondary",
+                essence_change = "secondary")
+QUESTION_LABELS <- c(creativity = "Creativity", transformativeness = "Transformativeness",
+                     essence_change = "Essence change")
+SOURCE_LEVELS <- c("Human", "AI")
+MOD_LEVELS    <- c("None", "Slight", "Dramatic")
+REGISTERED <- tibble(study = STUDIES, participants = c(235L, 117L, 223L),
+                     analysed_ratings = c(20659L, 6178L, 11768L),
+                     six_point_ratings = c(0L, 140L, 274L))
+ANALYSIS_STATUS <- paste("exploratory; specified on 9 October 2026, after every registered",
+                         "result was known; no registration names it; changes no",
+                         "registered verdict")
+CAPTION_LEAD <- paste("Exploratory, specified after every registered result was known;",
+                      "changes no registered verdict.")
+
+# The prevalence model: the expected share of each topic in a response
+# depends on the label, the level, the two together, the centred rating and
+# the study. The model has no content covariate, so each topic has one list
+# of word probabilities for every response.
+PREVALENCE_TEXT <- "~ source * modification + rating_c + study"
+PREVALENCE      <- as.formula(PREVALENCE_TEXT)
+
+# The model fits run on several processor cores where the platform allows
+# it: one on Windows, where R cannot copy a running session to other cores,
+# and otherwise one fewer than the machine has, up to nine. Every fit gives
+# the same result from the same seed, so the results do not depend on the
+# number of cores.
+N_CORES <- if (.Platform$OS.type == "windows") 1L else
+  max(1L, min(9L, parallel::detectCores() - 1L))
+cat("Processor cores used for the fits:", N_CORES, "\n")
+
+# Progress lines go to the console that runs the knit, with the clock time,
+# so a long run can be followed while it works.
+progress <- function(...) {
+  cat(format(Sys.time(), "%H:%M:%S"), "|", ..., "\n", file = stderr())
+}
+progress("Structural topics: setup done")
+```
+
+## 1.3 Run record and table helpers
+
+```{r run-record}
+# The run record stores the SHA-256 checksum of every input (a 64-character
+# fingerprint of the file's exact bytes), deletes the previous run's manifest
+# now and each output's previous copy before the chunk that writes it, and
+# writes the manifest last. A manifest on disk therefore means the run
+# reached its end.
+run <- start_run_record(INPUTS, file.path(TABLES, "structural_topics_run_manifest.csv"), HERE)
+run$inputs <- run$inputs %>% mutate(file = show(INPUTS))
+cat("Run identifier:", run$run_id, "\n")
+
+# Every table carries the analysis status in its last column, so a table read
+# on its own still says what it is.
+table_path <- function(name) file.path(TABLES, name)
+write_table <- function(df, name) {
+  write_csv(mutate(df, analysis_status = ANALYSIS_STATUS), table_path(name), na = "NA")
+}
+run_clear_outputs(run, table_path("structural_topics_run_inputs.csv"))
+write_table(run$inputs, "structural_topics_run_inputs.csv")
+
+# Every table printed in this report opens its caption with the same status.
+show_table <- function(df, caption, digits = 3) {
+  knitr::kable(df, digits = digits, caption = paste(CAPTION_LEAD, caption))
+}
+```
+
+# 2. Inputs and checks
+
+## 2.1 Reading the inputs
+
+Each long data file holds one row per participant, second work and question,
+with the label, the level, the rating, the justification and `label_mode`,
+which says whether the labels are real or shuffled. Each word-count file holds
+one row per response and word, with the word's count in that response. The
+shared text module made it: it lower-cased each justification, split it into
+words, removed the function words (words such as *the* and *of* that carry
+grammar rather than content), and kept the words used in at least two
+responses of the study. The item-scale table holds the stem and the answer
+labels of every rated item.
+
+```{r read-inputs}
+# Every column is read as text, with no value read as missing, as the text
+# notebooks read the long data files; the rating and the number of answer
+# options are then turned into numbers.
+read_text_table <- function(path) {
+  read_csv(path, col_types = cols(.default = col_character()), na = character(),
+           progress = FALSE)
+}
+long <- setNames(lapply(STUDY_FILES$long, function(p) {
+  read_text_table(p) %>% mutate(rating = as.numeric(rating), k_points = as.integer(k_points))
+}), STUDIES)
+wordcounts <- setNames(lapply(STUDY_FILES$wordcounts, function(p) {
+  read_text_table(p) %>% mutate(count = as.integer(count))
+}), STUDIES)
+item_scales <- setNames(lapply(STUDY_FILES$item_scales, read_text_table), STUDIES)
+for (s in STUDIES) {
+  cat(sprintf("%s: %d rows of long data, %d word-count rows, %d rated items\n",
+              s, nrow(long[[s]]), nrow(wordcounts[[s]]), nrow(item_scales[[s]])))
+}
+progress("Inputs read")
+```
+
+## 2.2 The checks
+
+The run stops unless every input is the file its study's real run wrote and
+reproduces the study's registered analysed sample. A run manifest is the
+record a study's run writes last, listing every file it wrote with its
+checksum. A blind run, one on shuffled labels, writes its records to a
+`blind_run/` folder, so a match with the manifest in a study's `tables/`
+folder can only come from a real run.
+
+- The long data file and the item-scale table of Studies 2 and 4 must match
+  the study's quantitative run manifest. Study 5's item-scale table is
+  written by its build script and read by its quantitative run, which records
+  its checksum among that run's inputs; it must match that record.
+- The word counts must match the study's text run manifest. The text notebook
+  reads no label and no rating, so it has no real or blind mode.
+- `label_mode` must say `real` on every row, and the participants, analysed
+  ratings and six-point ratings must equal the registered counts.
+- Every response in the word counts must be a response in the long data file,
+  and no function word may appear in them.
+- The word pattern and function words read from the shared module (section
+  2.3), applied in R to every justification, must reproduce the deposited word
+  counts exactly. This shows that the item wording of section 3 is split into
+  words by the same rule as the responses.
+
+```{r input-checks}
+run_clear_outputs(run, table_path("structural_topics_input_checks.csv"))
+
+sha <- function(path) unname(tools::sha256sum(path))
+listed_sha <- function(manifest_path, file_label, column = "file") {
+  m <- read_csv(manifest_path, col_types = cols(.default = col_character()),
+                progress = FALSE)
+  row <- m[m[[column]] == file_label, , drop = FALSE]
+  if (nrow(row) != 1) return(NA_character_)
+  if ("written_this_run" %in% names(row) && !identical(row$written_this_run, "TRUE")) {
+    return(NA_character_)
+  }
+  row$sha256
+}
+check <- function(study, quantity, expected, observed) {
+  tibble(study = study, quantity = quantity,
+         expected = as.character(expected), observed = as.character(observed),
+         pass = identical(as.character(expected), as.character(observed)))
+}
+input_checks <- bind_rows(lapply(seq_len(nrow(STUDY_FILES)), function(k) {
+  s <- STUDY_FILES[k, ]
+  d <- long[[s$study]]
+  w <- wordcounts[[s$study]]
+  reg <- REGISTERED[REGISTERED$study == s$study, ]
+  scales_listed <- if (s$study == "Study 5") {
+    listed_sha(s$quant_inputs, basename(s$item_scales))
+  } else {
+    listed_sha(s$quant_manifest, file.path("tables", basename(s$item_scales)))
+  }
+  long_keys <- paste(d$id, d$work_id, d$dimension, sep = "|")
+  wc_keys   <- unique(paste(w$id, w$stimulus_id, w$dimension, sep = "|"))
+  bind_rows(
+    check(s$study, "long data file equals the one listed in the real run manifest",
+          TRUE, identical(sha(s$long), listed_sha(s$quant_manifest, basename(s$long)))),
+    check(s$study, "item-scale table equals the one the real quantitative run recorded",
+          TRUE, identical(sha(s$item_scales), scales_listed)),
+    check(s$study, "word counts equal the ones listed in the text run manifest",
+          TRUE, identical(sha(s$wordcounts),
+                          listed_sha(s$text_manifest, file.path("nlp", basename(s$wordcounts))))),
+    check(s$study, "label_mode says real on every row", TRUE,
+          "label_mode" %in% names(d) && all(d$label_mode == "real")),
+    check(s$study, "participants", reg$participants, n_distinct(d$id)),
+    check(s$study, "analysed ratings, on the five-point items", reg$analysed_ratings,
+          sum(d$k_points == 5)),
+    check(s$study, "six-point ratings, left out", reg$six_point_ratings,
+          sum(d$k_points == 6)),
+    check(s$study, "one row per participant, second work and question", TRUE,
+          !anyDuplicated(long_keys)),
+    check(s$study, "every response in the word counts is a response in the long data file",
+          TRUE, all(wc_keys %in% long_keys)),
+    check(s$study, "labels are Human or AI on every row", TRUE,
+          all(d[[s$label_column]] %in% SOURCE_LEVELS)),
+    check(s$study, "levels are None, Slight or Dramatic on every row", TRUE,
+          all(d$modification %in% MOD_LEVELS)),
+    check(s$study, "questions are the three rated ones on every row", TRUE,
+          all(d$dimension %in% QUESTIONS)))
+}))
+```
+
+## 2.3 The shared word lists, read from the shared module
+
+The function words, the task vocabulary and the pattern that splits a text
+into words are read from the shared Python module, `shared/python/study_text.py`,
+so this file applies the lists the studies applied and keeps no copy of its
+own. The task vocabulary is the shared list of words that the Study 1
+instrument put in front of every participant, such as *alex*, *artwork* and
+*creativity*. The module removes them, with their plurals, before its own
+topic model.
+
+```{r shared-lists}
+py_text <- paste(readLines(INPUTS[["shared_text_module"]], warn = FALSE), collapse = "\n")
+extract_one <- function(pattern, what) {
+  m <- regmatches(py_text, gregexpr(pattern, py_text, perl = TRUE))[[1]]
+  if (length(m) != 1) stop("Could not read ", what, " from the shared text module.")
+  m
+}
+fw_block <- extract_one('FUNCTION_WORDS = sorted\\(set\\("""[^"]*"""', "the function words")
+FUNCTION_WORDS <- sort(unique(strsplit(trimws(
+  gsub('^FUNCTION_WORDS = sorted\\(set\\("""|"""$', "", fw_block)), "\\s+")[[1]]))
+tv_block <- extract_one('TASK_VOCABULARY = \\[[^\\]]*\\]', "the task vocabulary")
+TASK_VOCABULARY <- gsub('"', "", regmatches(tv_block, gregexpr('"[^"]+"', tv_block))[[1]])
+wr_block <- extract_one('WORD_RE = re\\.compile\\(r"[^"]*"\\)', "the word pattern")
+WORD_PATTERN <- sub('^WORD_RE = re\\.compile\\(r"', "", sub('"\\)$', "", wr_block))
+# The module's own test of a task word: the word itself or its plural in s.
+plural_rule <- grepl('return word in TASK_VOCABULARY or (word.endswith("s") and word[:-1] in TASK_VOCABULARY)',
+                     py_text, fixed = TRUE)
+stopifnot(plural_rule, identical(WORD_PATTERN, "[a-z][a-z']+"))
+cat("Function words:", length(FUNCTION_WORDS), "| task words:", length(TASK_VOCABULARY),
+    "| word pattern:", WORD_PATTERN, "\n")
+cat("Task vocabulary:", paste(TASK_VOCABULARY, collapse = ", "), "\n")
+
+# The shared tokenize(): lower-case the text, take every run of letters and
+# apostrophes of two characters or more that starts with a letter, and drop
+# the function words.
+tokenize <- function(text) {
+  lowered <- tolower(text)
+  words <- regmatches(lowered, gregexpr(WORD_PATTERN, lowered, perl = TRUE))
+  lapply(words, function(w) w[!w %in% FUNCTION_WORDS])
+}
+is_task_word <- function(word) {
+  word %in% TASK_VOCABULARY |
+    (endsWith(word, "s") & substr(word, 1, nchar(word) - 1) %in% TASK_VOCABULARY)
+}
+
+# The R tokenizer, applied to every justification, must give the deposited
+# word counts: each response's count of each word used in at least two
+# responses of its study.
+recount_check <- bind_rows(lapply(STUDIES, function(s) {
+  d <- long[[s]]
+  toks <- tokenize(d$response_text)
+  rc <- tibble(id = rep(d$id, lengths(toks)), stimulus_id = rep(d$work_id, lengths(toks)),
+               dimension = rep(d$dimension, lengths(toks)), word = unlist(toks)) %>%
+    count(id, stimulus_id, dimension, word, name = "count")
+  kept <- rc %>% count(word, name = "responses") %>% filter(responses >= 2) %>% pull(word)
+  rc <- rc %>% filter(word %in% kept) %>% arrange(id, stimulus_id, dimension, word)
+  dep <- wordcounts[[s]] %>% arrange(id, stimulus_id, dimension, word)
+  bind_rows(
+    check(s, "the R tokenizer reproduces the deposited word counts", TRUE,
+          isTRUE(all.equal(as.data.frame(rc), as.data.frame(dep), check.attributes = FALSE))),
+    check(s, "no function word in the word counts", TRUE,
+          !any(wordcounts[[s]]$word %in% FUNCTION_WORDS)))
+}))
+input_checks <- bind_rows(input_checks, recount_check)
+write_table(input_checks, "structural_topics_input_checks.csv")
+show_table(input_checks, "Table 2.1. Every input check. The run stops if any fails.")
+if (!all(input_checks$pass)) stop("An input disagrees with its study's record or registered sample.")
+progress("Input checks passed")
+```
+
+# 3. The vocabulary rule
+
+A word that every participant read appears wherever people restate the
+question. Left in, such words would form topics about the wording of the
+task rather than about what people said of the work. The rule, fixed in code,
+removes from each study's responses:
+
+- the shared task vocabulary, with the plural of each task word, as the
+  shared module removes it;
+- every word in the stems or the answer labels of that study's rated items,
+  read from `tables/studyN_item_scales.csv` and split into words by the same
+  shared rule. The table holds every rated item, the two six-point
+  transformativeness items included, since participants read those too.
+
+Then, within each question's corpus, the three studies pooled, the rule keeps
+only words used in at least 5 responses. A word used more rarely carries too
+little information to place in a topic.
+
+```{r item-words}
+# Each study's item words: every word of every stem and answer label, split by
+# the shared rule. The answer labels of one item are joined by " | " in the
+# table, and the bar is not a letter, so it splits them.
+item_words <- setNames(lapply(STUDIES, function(s) {
+  sc <- item_scales[[s]]
+  sort(unique(unlist(tokenize(c(sc$stem, sc$anchors)))))
+}), STUDIES)
+for (s in STUDIES) {
+  cat(sprintf("%s, %d item words: %s\n", s, length(item_words[[s]]),
+              paste(item_words[[s]], collapse = ", ")))
+}
+only_some <- setdiff(Reduce(union, item_words), Reduce(intersect, item_words))
+cat("Item words of some studies but not all:", paste(only_some, collapse = ", "), "\n")
+```
+
+```{r apply-vocabulary}
+run_clear_outputs(run, table_path("structural_topics_vocabulary_removed.csv"),
+                  table_path("structural_topics_corpus_counts.csv"))
+
+# The analysed responses: the five-point items only, as each study's primary
+# analysis keeps them, with the label, level, rating and study.
+responses <- bind_rows(lapply(seq_len(nrow(STUDY_FILES)), function(k) {
+  s <- STUDY_FILES[k, ]
+  long[[s$study]] %>%
+    filter(k_points == 5) %>%
+    transmute(study = s$study, id, work = work_id, question = dimension,
+              source = .data[[s$label_column]], modification, rating)
+}))
+stopifnot(identical(as.integer(table(factor(responses$study, levels = STUDIES))),
+                    REGISTERED$analysed_ratings))
+
+# The word counts of the analysed responses only.
+words_all <- bind_rows(lapply(STUDIES, function(s) {
+  wordcounts[[s]] %>% transmute(study = s, id, work = stimulus_id, question = dimension,
+                                word, count)
+})) %>%
+  semi_join(responses, by = c("study", "id", "work", "question"))
+
+# The removal rule for each study: the task words with their plurals, and the
+# study's item words. The plurals are those found among the words of any of
+# the three studies, so the task part of the rule is the same in every study.
+present <- unique(words_all$word)
+plurals <- sort(present[is_task_word(present) & !present %in% TASK_VOCABULARY])
+rule_words <- bind_rows(lapply(STUDIES, function(s) {
+  bind_rows(
+    tibble(study = s, word = TASK_VOCABULARY, reason = "task vocabulary"),
+    tibble(study = s, word = plurals, reason = "plural of a task word"),
+    tibble(study = s, word = setdiff(item_words[[s]], c(TASK_VOCABULARY, plurals)),
+           reason = "item wording"))
+}))
+stopifnot(!anyDuplicated(rule_words[c("study", "word")]))
+
+# Each removed word, with the number of analysed responses to each question
+# in that study that used it. A word of the rule that no response used has 0.
+use_by_study <- words_all %>% count(study, question, word, name = "responses_using_it")
+# A word in the rule of every study is removed from all responses alike; any
+# other is removed from some studies' responses and kept in the others'.
+in_every_rule <- Reduce(intersect, split(rule_words$word, rule_words$study))
+vocab_removed_rule <- rule_words %>%
+  tidyr::crossing(question = QUESTIONS) %>%
+  left_join(use_by_study, by = c("study", "question", "word")) %>%
+  mutate(responses_using_it = coalesce(responses_using_it, 0L),
+         removed_in_all_three_studies = word %in% in_every_rule)
+
+words_rule <- words_all %>%
+  anti_join(rule_words, by = c("study", "word"))
+
+# The rarity rule, within each question's pooled corpus.
+responses_per_word <- words_rule %>% count(question, word, name = "responses_using_it")
+rare <- responses_per_word %>% filter(responses_using_it < MIN_RESPONSES)
+words_kept <- words_rule %>% anti_join(rare, by = c("question", "word"))
+
+vocab_removed <- bind_rows(
+  vocab_removed_rule %>%
+    transmute(question, scope = study, word, reason, responses_using_it,
+              removed_in_all_three_studies),
+  rare %>% transmute(question, scope = "three studies pooled", word,
+                     reason = paste("used in fewer than", MIN_RESPONSES, "responses"),
+                     responses_using_it, removed_in_all_three_studies = NA)) %>%
+  mutate(question = factor(question, levels = QUESTIONS)) %>%
+  arrange(question, scope, reason, desc(responses_using_it), word) %>%
+  mutate(question = as.character(question))
+write_table(vocab_removed, "structural_topics_vocabulary_removed.csv")
+
+# The removed task and item words that responses used, with how often, for
+# the report.
+removed_used <- vocab_removed_rule %>%
+  group_by(study, word, reason) %>%
+  summarise(responses_using_it = sum(responses_using_it), .groups = "drop") %>%
+  filter(responses_using_it > 0) %>%
+  arrange(study, desc(responses_using_it))
+show_table(removed_used %>%
+             group_by(study, reason) %>%
+             summarise(words = paste0(word, " (", responses_using_it, ")", collapse = ", "),
+                       .groups = "drop"),
+           paste("Table 3.1. Task and item words removed from each study's responses,",
+                 "with the number of analysed responses, over the three questions,",
+                 "that used each. Words of the rule that no response used are in the",
+                 "deposited table only."))
+rare_summary <- rare %>% group_by(question) %>%
+  summarise(rare_words = n(), responses_using_them = sum(responses_using_it), .groups = "drop")
+show_table(rare_summary, paste("Table 3.2. Words removed for being used in fewer than",
+                               MIN_RESPONSES, "responses to the question."))
+```
+
+# 4. The corpora and the covariates
+
+For each question one corpus pools the analysed responses of the three
+studies. A response that keeps no word after the vocabulary rule has nothing
+for a topic model to read, so it is dropped and counted. Each kept response is
+a document of the model, with four covariates:
+
+- `source`, the label, Human or AI;
+- `modification`, the level, None, Slight or Dramatic;
+- `rating_c`, the rating minus the mean rating of the question's modelled
+  responses, so that a value of 0 is an average rating. The rating is in the
+  model so that a label effect on a topic is not merely the label's effect on
+  the rating carried over into the words.
+- `study`, Study 2, 4 or 5, which gives each study its own baseline share of
+  each topic.
+
+R's default coding of factors (treatment contrasts, which compare each level
+with the first) is used; section 8 computes every difference from the model's
+predictions for each cell, so the coding does not change any reported number.
+
+```{r corpora}
+# One corpus per question. A document is a two-row matrix, as stm requires:
+# the first row holds the indices of the response's words in the
+# question's vocabulary, sorted, and the second row their counts.
+build_corpus <- function(q) {
+  w <- words_kept %>% filter(question == q)
+  vocab <- sort(unique(w$word), method = "radix")
+  meta <- responses %>% filter(question == q) %>%
+    semi_join(w, by = c("study", "id", "work")) %>%
+    arrange(study, id, work)
+  meta <- meta %>%
+    mutate(doc_key = paste(study, id, work, sep = "|"),
+           source = factor(source, levels = SOURCE_LEVELS),
+           modification = factor(modification, levels = MOD_LEVELS),
+           study = factor(study, levels = STUDIES),
+           rating_c = rating - mean(rating))
+  by_doc <- split(w, paste(w$study, w$id, w$work, sep = "|"))[meta$doc_key]
+  documents <- lapply(by_doc, function(x) {
+    ix <- match(x$word, vocab)
+    o <- order(ix)
+    rbind(as.integer(ix[o]), as.integer(x$count[o]))
+  })
+  names(documents) <- NULL
+  stopifnot(length(documents) == nrow(meta), all(vapply(documents, ncol, integer(1)) > 0))
+  list(question = q, documents = documents, vocab = vocab, meta = as.data.frame(meta),
+       rating_mean = mean(meta$rating))
+}
+corpora <- setNames(lapply(QUESTIONS, build_corpus), QUESTIONS)
+
+# The counts at each step, by question and study, and pooled.
+count_step <- function(q, s) {
+  r <- responses %>% filter(question == q, study %in% s)
+  a <- words_all %>% filter(question == q, study %in% s)
+  b <- words_rule %>% filter(question == q, study %in% s)
+  k <- words_kept %>% filter(question == q, study %in% s)
+  m <- corpora[[q]]$meta %>% filter(study %in% s)
+  doc_len <- vapply(corpora[[q]]$documents[corpora[[q]]$meta$study %in% s],
+                    function(d) sum(d[2, ]), numeric(1))
+  tibble(question = q, scope = if (length(s) == 1) s else "three studies pooled",
+         analysed_responses = nrow(r),
+         responses_with_a_counted_word = n_distinct(paste(a$study, a$id, a$work)),
+         responses_after_task_and_item_rule = n_distinct(paste(b$study, b$id, b$work)),
+         modelled_responses = nrow(m),
+         dropped_no_counted_word = nrow(r) - nrow(m),
+         modelled_human = sum(m$source == "Human"), modelled_ai = sum(m$source == "AI"),
+         modelled_none = sum(m$modification == "None"),
+         modelled_slight = sum(m$modification == "Slight"),
+         modelled_dramatic = sum(m$modification == "Dramatic"),
+         participants_modelled = n_distinct(paste(m$study, m$id)),
+         word_tokens_counted = sum(a$count), word_tokens_after_task_and_item_rule = sum(b$count),
+         word_tokens_modelled = sum(k$count),
+         vocabulary_size = if (length(s) == 1) n_distinct(k$word) else length(corpora[[q]]$vocab),
+         mean_words_per_modelled_response = mean(doc_len),
+         median_words_per_modelled_response = median(doc_len),
+         rating_mean_of_question = corpora[[q]]$rating_mean)
+}
+corpus_counts <- bind_rows(lapply(QUESTIONS, function(q) {
+  bind_rows(lapply(STUDIES, function(s) count_step(q, s)), count_step(q, STUDIES))
+}))
+stopifnot(all(corpus_counts$analysed_responses == corpus_counts$modelled_responses +
+                corpus_counts$dropped_no_counted_word))
+write_table(corpus_counts, "structural_topics_corpus_counts.csv")
+show_table(corpus_counts %>%
+             select(question, scope, analysed_responses, dropped_no_counted_word,
+                    modelled_responses, modelled_human, modelled_ai, vocabulary_size,
+                    word_tokens_modelled, mean_words_per_modelled_response),
+           "Table 4.1. The corpus of each question, by study and pooled.", digits = 2)
+progress("Corpora built:", paste(sprintf("%s %d documents, %d words", QUESTIONS,
+                                         vapply(corpora, function(x) length(x$documents), integer(1)),
+                                         vapply(corpora, function(x) length(x$vocab), integer(1))),
+                                 collapse = "; "))
+```
+
+The model reads only the responses that kept a word, so a label effect
+compares the responses that kept one in the AI arm, the participants told
+that the first work was made by prompting an AI system, with those in the
+Human arm. Table 4.2 gives the share of analysed responses dropped in each
+cell of label and level. Where the two labels lose different shares at a
+level, the responses the model compares at that level were selected
+differently in the two arms.
+
+```{r dropped-by-cell}
+run_clear_outputs(run, table_path("structural_topics_dropped_by_label_and_level.csv"))
+# Each analysed response is marked modelled or dropped, and the dropped share
+# is counted in each cell of label and level, by study and pooled.
+SCOPES <- c(STUDIES, "three studies pooled")
+dropped_by_cell <- bind_rows(lapply(QUESTIONS, function(q) {
+  kept <- corpora[[q]]$meta %>%
+    transmute(study = as.character(study), id, work, modelled = TRUE)
+  d <- responses %>% filter(question == q) %>%
+    left_join(kept, by = c("study", "id", "work")) %>%
+    mutate(modelled = coalesce(modelled, FALSE))
+  bind_rows(d, mutate(d, study = "three studies pooled")) %>%
+    group_by(question, scope = study, source, modification) %>%
+    summarise(analysed_responses = n(), dropped_no_counted_word = sum(!modelled),
+              share_dropped = mean(!modelled), .groups = "drop")
+})) %>%
+  mutate(question = factor(question, levels = QUESTIONS), scope = factor(scope, levels = SCOPES),
+         source = factor(source, levels = SOURCE_LEVELS),
+         modification = factor(modification, levels = MOD_LEVELS)) %>%
+  arrange(question, scope, modification, source) %>%
+  mutate(across(c(question, scope, source, modification), as.character))
+# The cells add up to the counts of Table 4.1.
+stopifnot(isTRUE(all.equal(
+  as.data.frame(dropped_by_cell %>% group_by(question, scope) %>%
+    summarise(a = as.numeric(sum(analysed_responses)),
+              d = as.numeric(sum(dropped_no_counted_word)), .groups = "drop") %>%
+    arrange(question, scope)),
+  as.data.frame(corpus_counts %>% arrange(question, scope) %>%
+    transmute(question, scope, a = as.numeric(analysed_responses),
+              d = as.numeric(dropped_no_counted_word))),
+  check.attributes = FALSE)))
+write_table(dropped_by_cell, "structural_topics_dropped_by_label_and_level.csv")
+show_table(dropped_by_cell %>% filter(scope == "three studies pooled") %>%
+             select(question, modification, source, analysed_responses,
+                    dropped_no_counted_word, share_dropped),
+           paste("Table 4.2. Analysed responses dropped for keeping no word, by label and",
+                 "level, the three studies pooled. The deposited table gives each study."))
+```
+
+# 5. Choosing the number of topics
+
+The number of topics, K, is chosen by a rule fixed in code. `stm::searchK`
+fits the model at every K from 4 to 12. Before it fits, it draws a random
+tenth of the documents, from seed 20260421, sets aside half the word
+occurrences of each drawn document (rounded down, and at least one), and fits
+each model without them. A drawn document with only one distinct word gives
+up none, so fewer documents than a tenth lose words; Table 5.1 gives both
+numbers. The held-out likelihood is the log probability that a fitted model
+gives to each word it did not see, averaged over the set-aside words of each
+document and then over the documents; a higher value means the model predicts
+unseen words better. The chosen K is the one with the highest held-out
+likelihood, and an exact tie goes to the smaller K.
+
+Two further measures are reported for every K, from the same fits. Semantic
+coherence is high when a topic's most probable words tend to appear in the
+same documents. Exclusivity is high when a topic's top words are probable in
+that topic and rare in the others. searchK computes both on each topic's ten
+most probable words and averages them over topics; exclusivity uses FREX with
+weight 0.7, a score that combines how frequent a word is in the topic with how
+exclusive it is to it.
+
+Every fit starts from a spectral initialisation, a starting point computed
+from the matrix of how often each pair of words appears together, with no
+random draw, so the same data always give the same start. A fit is an
+iterative search, the expectation-maximisation algorithm, which alternates
+between estimating each response's topic shares and estimating the topics
+and covariate effects. It stops when the bound, the quantity the search
+maximises, rises by less than 0.00001 of itself from one iteration to the
+next, or falls; stm allows at most 500 iterations. A fit that reached 500 is
+marked as not settled.
+
+```{r search-k}
+search_results <- list()
+for (q in QUESTIONS) {
+  cp <- corpora[[q]]
+  progress(sprintf("searchK for %s: K = %d to %d on %d documents and %d words, %d cores",
+                   q, min(K_RANGE), max(K_RANGE), length(cp$documents), length(cp$vocab),
+                   min(N_CORES, length(K_RANGE))))
+  started <- Sys.time()
+  sk <- stm::searchK(cp$documents, cp$vocab, K = K_RANGE, init.type = "Spectral",
+                     heldout.seed = SEED, cores = min(N_CORES, length(K_RANGE)),
+                     prevalence = PREVALENCE, data = cp$meta, seed = SEED, verbose = FALSE)
+  minutes <- as.numeric(difftime(Sys.time(), started, units = "mins"))
+  progress(sprintf("searchK for %s done in %.1f minutes", q, minutes))
+  # searchK's own call to make.heldout, repeated with the same seed, counts
+  # the drawn documents that gave up words; it skips a drawn document with
+  # one distinct word.
+  held <- stm::make.heldout(cp$documents, cp$vocab, N = floor(0.1 * length(cp$documents)),
+                            proportion = 0.5, seed = SEED)
+  search_results[[q]] <- as_tibble(lapply(sk$results, unlist)) %>%
+    transmute(question = q, role = ROLE[[q]], K = as.integer(K),
+              heldout_likelihood = heldout, semantic_coherence = semcoh,
+              exclusivity = exclus, residual_dispersion = residual,
+              lower_bound = bound, em_iterations = as.integer(em.its),
+              reached_iteration_limit = em_iterations >= 500L,
+              heldout_documents_drawn = floor(0.1 * length(cp$documents)),
+              heldout_documents_with_words_held_out = length(held$missing$index),
+              heldout_share_of_words = 0.5, heldout_seed = SEED,
+              minutes_for_all_k = minutes)
+}
+```
+
+```{r choose-k}
+run_clear_outputs(run, table_path("structural_topics_searchk.csv"),
+                  table_path("structural_topics_chosen_k.csv"))
+searchk <- bind_rows(search_results)
+
+# The rule: the highest held-out likelihood, an exact tie going to the
+# smaller K. Ordering by the held-out likelihood, largest first, and then by
+# K puts the chosen K first and the runner-up second.
+chosen_k <- searchk %>%
+  group_by(question, role) %>%
+  summarise(chosen_K = K[order(-heldout_likelihood, K)][1],
+            heldout_likelihood_chosen = heldout_likelihood[order(-heldout_likelihood, K)][1],
+            runner_up_K = K[order(-heldout_likelihood, K)][2],
+            heldout_likelihood_runner_up = heldout_likelihood[order(-heldout_likelihood, K)][2],
+            rule = paste("highest held-out likelihood over K =", min(K_RANGE), "to",
+                         paste0(max(K_RANGE), "; an exact tie goes to the smaller K")),
+            .groups = "drop") %>%
+  mutate(question = factor(question, levels = QUESTIONS)) %>% arrange(question) %>%
+  mutate(question = as.character(question))
+searchk <- searchk %>% left_join(chosen_k %>% select(question, chosen_K), by = "question") %>%
+  mutate(chosen = K == chosen_K) %>% select(-chosen_K)
+write_table(searchk, "structural_topics_searchk.csv")
+write_table(chosen_k, "structural_topics_chosen_k.csv")
+show_table(searchk %>% select(question, K, heldout_documents_drawn,
+                              heldout_documents_with_words_held_out, heldout_likelihood,
+                              semantic_coherence, exclusivity, em_iterations, chosen),
+           "Table 5.1. The searchK diagnostics for every K.", digits = 4)
+show_table(chosen_k %>% select(-rule), "Table 5.2. The chosen K of each question.", digits = 4)
+```
+
+```{r search-k-figure, fig.width = 9, fig.height = 6}
+# The three diagnostics against K, one row of panels per question, with the
+# chosen K marked by a filled point.
+searchk %>%
+  select(question, K, chosen, `Held-out likelihood` = heldout_likelihood,
+         `Semantic coherence` = semantic_coherence, Exclusivity = exclusivity) %>%
+  pivot_longer(c(`Held-out likelihood`, `Semantic coherence`, Exclusivity),
+               names_to = "diagnostic", values_to = "value") %>%
+  mutate(question = factor(QUESTION_LABELS[question], levels = QUESTION_LABELS),
+         diagnostic = factor(diagnostic, levels = c("Held-out likelihood",
+                                                    "Semantic coherence", "Exclusivity"))) %>%
+  ggplot(aes(K, value)) +
+  geom_line(colour = "grey50") +
+  geom_point(aes(fill = chosen), shape = 21, size = 2, colour = "black") +
+  scale_fill_manual(values = c(`FALSE` = "white", `TRUE` = "black"), guide = "none") +
+  scale_x_continuous(breaks = K_RANGE) +
+  facet_grid(diagnostic ~ question, scales = "free_y") +
+  labs(x = "Number of topics, K", y = NULL,
+       caption = paste(CAPTION_LEAD, "The filled point is the chosen K.")) +
+  theme_bw(base_size = 10) +
+  theme(panel.grid.minor = element_blank(),
+        strip.background = element_rect(fill = "grey92", colour = "grey60"),
+        plot.caption = element_text(hjust = 0, colour = "grey30"))
+```
+
+# 6. The models at the chosen number of topics
+
+## 6.1 The fits
+
+For each question the model is fitted once more, at the chosen K, to every
+modelled document, from the spectral start and with seed 20260421. The same K
+is also fitted five more times from a different start, for the stability
+check of section 7: the latent Dirichlet allocation (LDA) start, which draws
+initial topics by a short run of a simpler topic model and so depends on the
+seed, here 20260421 to 20260425. The eighteen fits run on several processor
+cores at once. Section 10 gives the convergence of each; section 8 says what
+follows for a question whose spectral fit did not converge.
+
+```{r final-fits}
+# Fit one model and keep every warning it raises, its error if it stops, and
+# how long it took.
+fit_stm <- function(q, K, init, seed) {
+  cp <- corpora[[q]]
+  warns <- character(0)
+  started <- Sys.time()
+  fit <- withCallingHandlers(
+    tryCatch(stm::stm(cp$documents, cp$vocab, K = K, prevalence = PREVALENCE,
+                      data = cp$meta, init.type = init, seed = seed, verbose = FALSE),
+             error = function(e) e),
+    warning = function(w) {
+      warns <<- c(warns, conditionMessage(w))
+      invokeRestart("muffleWarning")
+    })
+  list(question = q, K = K, init = init, seed = seed, fit = fit, warnings = warns,
+       minutes = as.numeric(difftime(Sys.time(), started, units = "mins")))
+}
+jobs <- bind_rows(lapply(QUESTIONS, function(q) {
+  K <- chosen_k$chosen_K[chosen_k$question == q]
+  bind_rows(tibble(question = q, K = K, init = "Spectral", seed = SEED),
+            tibble(question = q, K = K, init = "LDA", seed = STABILITY_SEEDS))
+}))
+progress(sprintf("Fitting %d models at the chosen K on %d cores", nrow(jobs), N_CORES))
+started <- Sys.time()
+fits <- if (N_CORES > 1L) {
+  parallel::mclapply(seq_len(nrow(jobs)), function(i) {
+    fit_stm(jobs$question[i], jobs$K[i], jobs$init[i], jobs$seed[i])
+  }, mc.cores = N_CORES, mc.preschedule = FALSE)
+} else {
+  lapply(seq_len(nrow(jobs)), function(i) {
+    fit_stm(jobs$question[i], jobs$K[i], jobs$init[i], jobs$seed[i])
+  })
+}
+failed <- vapply(fits, function(f) inherits(f, "try-error") || inherits(f$fit, "error"),
+                 logical(1))
+if (any(failed)) stop("A model fit at the chosen K stopped with an error.")
+progress(sprintf("Fits at the chosen K done in %.1f minutes",
+                 as.numeric(difftime(Sys.time(), started, units = "mins"))))
+
+spectral <- setNames(lapply(QUESTIONS, function(q) {
+  fits[[which(jobs$question == q & jobs$init == "Spectral")]]$fit
+}), QUESTIONS)
+# The search stops when the bound, the quantity the search maximises, rises
+# by less than a set share of itself from one iteration to the next, or
+# falls. The last relative change shows how far a fit that reached the limit
+# was from that threshold.
+relative_change <- function(bound) {
+  n <- length(bound)
+  if (n < 2) return(NA_real_)
+  (bound[n] - bound[n - 1]) / abs(bound[n - 1])
+}
+fit_rows <- bind_rows(lapply(fits, function(f) {
+  tibble(question = f$question, model = paste0("stm, ", f$init, " start"),
+         K = f$K, seed = f$seed, documents = length(corpora[[f$question]]$documents),
+         fit_error = FALSE, converged = isTRUE(f$fit$convergence$converged),
+         em_iterations = length(f$fit$convergence$bound),
+         final_lower_bound = tail(f$fit$convergence$bound, 1),
+         last_relative_change = relative_change(f$fit$convergence$bound),
+         convergence_threshold = f$fit$settings$convergence$em.converge.thresh,
+         minutes = f$minutes, messages = paste(unique(f$warnings), collapse = " | "))
+}))
+print(as.data.frame(fit_rows %>% select(question, model, K, seed, converged, em_iterations,
+                                        last_relative_change)))
+```
+
+## 6.2 The words of each topic
+
+Each topic is a probability distribution over the question's vocabulary.
+Its highest-probability words are the seven it gives the most probability
+to. Its FREX words are the seven with the highest FREX score, which combines
+a word's rank by how often the topic uses it with its rank by how exclusive
+it is to the topic, here with equal weight, so a FREX word is both common in
+the topic and rare in the others. Each topic's mean share is its expected
+proportion averaged over the question's documents.
+
+```{r topic-words}
+run_clear_outputs(run, table_path("structural_topics_topic_words.csv"),
+                  table_path("structural_topics_topic_examples.csv"))
+topic_words <- bind_rows(lapply(QUESTIONS, function(q) {
+  fit <- spectral[[q]]
+  lt <- stm::labelTopics(fit, n = TOP_WORDS)
+  K <- fit$settings$dim$K
+  tibble(question = q, role = ROLE[[q]], topic = seq_len(K),
+         topic_label = vapply(seq_len(K), function(k) {
+           paste0("Topic ", k, ": ", paste(lt$prob[k, seq_len(LABEL_WORDS)], collapse = ", "))
+         }, character(1)),
+         highest_probability_words = apply(lt$prob, 1, paste, collapse = ", "),
+         frex_words = apply(lt$frex, 1, paste, collapse = ", "),
+         mean_topic_share = colMeans(fit$theta))
+}))
+write_table(topic_words, "structural_topics_topic_words.csv")
+show_table(topic_words %>% select(question, topic, highest_probability_words, frex_words,
+                                  mean_topic_share),
+           "Table 6.1. The seven highest-probability and seven FREX words of every topic.")
+```
+
+## 6.3 Example identifiers
+
+For each topic, the three documents with the largest share of that topic are
+listed by their study, participant identifier and second work, so that a
+reader can find them in the deposited data. No response text is printed. An
+exact tie in the share goes to the document that comes first in the order of
+study, participant and second work.
+
+```{r topic-examples}
+topic_examples <- bind_rows(lapply(QUESTIONS, function(q) {
+  fit <- spectral[[q]]
+  meta <- corpora[[q]]$meta
+  bind_rows(lapply(seq_len(fit$settings$dim$K), function(k) {
+    top <- order(-fit$theta[, k], seq_len(nrow(meta)))[seq_len(N_EXAMPLES)]
+    tibble(question = q, topic = k, example = seq_len(N_EXAMPLES),
+           study = as.character(meta$study[top]), id = meta$id[top], work = meta$work[top],
+           topic_share = fit$theta[top, k])
+  }))
+}))
+write_table(topic_examples, "structural_topics_topic_examples.csv")
+show_table(topic_examples, "Table 6.2. Three example identifiers for every topic.")
+```
+
+# 7. Stability
+
+A topic found from one start might not be found from another. Each LDA refit
+of section 6.1 is compared with the spectral fit: for each spectral topic, the
+correlation (Pearson's, across the vocabulary) between its word probabilities
+and those of every topic of the refit, and the largest of these, the
+best-match correlation. A value near 1 means some topic of the refit puts
+nearly the same probabilities on the same words. The table gives the mean of
+the five best-match correlations for each topic, the smallest of them, and in
+how many refits the best match of the topic is also the best match of another
+spectral topic, which would mean the refit merged them.
+
+```{r stability}
+run_clear_outputs(run, table_path("structural_topics_stability.csv"))
+word_probs <- function(fit) exp(fit$beta$logbeta[[1]])
+stability <- bind_rows(lapply(QUESTIONS, function(q) {
+  ref <- word_probs(spectral[[q]])
+  per_seed <- bind_rows(lapply(which(jobs$question == q & jobs$init == "LDA"), function(i) {
+    r <- cor(t(ref), t(word_probs(fits[[i]]$fit)))
+    best <- apply(r, 1, which.max)
+    tibble(topic = seq_len(nrow(r)), seed = jobs$seed[i],
+           best_match_correlation = apply(r, 1, max), best_match = best,
+           shared = best %in% best[duplicated(best)],
+           refit_converged = isTRUE(fits[[i]]$fit$convergence$converged))
+  }))
+  per_seed %>% group_by(topic) %>%
+    summarise(mean_best_match_correlation = mean(best_match_correlation),
+              min_best_match_correlation = min(best_match_correlation),
+              refits_with_best_match_shared = sum(shared),
+              refits = n(), refits_converged = sum(refit_converged), .groups = "drop") %>%
+    mutate(question = q, role = ROLE[[q]], .before = 1) %>%
+    mutate(seeds = paste(range(STABILITY_SEEDS), collapse = " to "),
+           start_compared = "LDA start against the spectral fit")
+})) %>%
+  left_join(topic_words %>% select(question, topic, topic_label), by = c("question", "topic")) %>%
+  relocate(topic_label, .after = topic)
+write_table(stability, "structural_topics_stability.csv")
+show_table(stability %>% select(question, topic_label, mean_best_match_correlation,
+                                min_best_match_correlation, refits_with_best_match_shared),
+           "Table 7.1. Best-match correlations of the five LDA refits with the spectral fit.")
+progress("Stability done")
+```
+
+# 8. The label's effect on each topic
+
+## 8.1 The method
+
+`stm::estimateEffect` fits a linear regression of each topic's share on the
+covariates of the prevalence model. A document's topic shares are estimates,
+not data, so it uses the method of composition: it draws a full set of
+document shares from the fitted model 25 times, fits the regression to each
+draw, and keeps each fit's coefficients with their covariance matrix, which
+holds each coefficient's squared standard error and how each pair of
+coefficients varies together. The draws use stm's "Global" approximation to
+the uncertainty of the shares, which centres each document's draw on its
+estimated shares and gives every document the same spread, estimated once
+from the whole model. The variation from draw to draw carries the
+uncertainty of each document's topic shares into the effects. The topics'
+word probabilities are held at their estimates, so their uncertainty is not
+carried; section 7 examines it separately.
+
+For each topic, each of the 25 coefficient sets gives 500 draws from a normal
+distribution with its coefficients as the mean and its covariance matrix, as
+stm's own summary of the effects does, 12,500 draws in all. Each draw gives
+the predicted share of the topic in each of the six cells of label and level,
+at the average rating and in the same study; with no label by study or label
+by rating term in the model, a difference between cells is the same in every
+study and at every rating. Three quantities follow:
+
+a. the AI minus Human difference in expected topic share at None, at Slight
+   and at Dramatic;
+b. the AI minus Human difference averaged over the three levels with equal
+   weight;
+c. whether the label difference changes across the levels: the difference at
+   Dramatic minus the difference at None.
+
+The estimate is the mean of the draws, its standard error their standard
+deviation, and its t statistic the estimate divided by the standard error.
+The 95 percent interval is the estimate plus or minus the standard error
+times the 97.5th percentile of the t distribution, the distribution that the
+t statistic follows when the true difference is zero, here with the residual
+degrees of freedom of the regression (documents minus coefficients). The
+two-sided p-value, the probability of a t statistic at least as far from zero
+if the true difference were zero, comes from the same distribution, as in
+stm's summary. The Benjamini-Hochberg adjustment, which controls the expected share of false
+findings among the results called significant, is applied across the topics
+of each question, separately for (b) and for (c). It is description: no
+p-value here tests a registered hypothesis, and the (a) values carry no
+adjustment.
+
+The pipeline's rule for a model that did not converge, written in
+`shared/R/fit_status.R` for the mixed models and applied in the same way
+here, is that its numbers carry no interval, p-value or verdict. When the
+spectral fit of a question did not converge (section 6.1), its estimates are
+kept as description, and its standard errors, intervals, t statistics and
+p-values are set to missing, with a note saying why.
+
+```{r effects}
+run_clear_outputs(run, table_path("structural_topics_label_effects_by_level.csv"),
+                  table_path("structural_topics_label_effects_averaged_and_change.csv"))
+
+# The predicted cells: the six cells of label and level, at rating_c = 0 and
+# in Study 2. Each cell's row of the design matrix holds the covariate values
+# that multiply the coefficients, so the row times the coefficients is the
+# cell's predicted share. Each reported quantity is a difference of rows.
+cells <- expand.grid(source = factor(SOURCE_LEVELS, levels = SOURCE_LEVELS),
+                     modification = factor(MOD_LEVELS, levels = MOD_LEVELS))
+cells$rating_c <- 0
+cells$study <- factor(STUDIES[1], levels = STUDIES)
+X_cells <- model.matrix(PREVALENCE, data = cells)
+rownames(X_cells) <- paste(cells$source, cells$modification)
+diff_at <- function(level) X_cells[paste("AI", level), ] - X_cells[paste("Human", level), ]
+L_level <- rbind(None = diff_at("None"), Slight = diff_at("Slight"),
+                 Dramatic = diff_at("Dramatic"))
+L_all <- rbind(L_level,
+               `averaged over levels` = colMeans(L_level),
+               `Dramatic minus None` = L_level["Dramatic", ] - L_level["None", ])
+# Under R's default coding the difference at None is the AI coefficient, the
+# difference at Slight adds the AI by Slight coefficient, and the change from
+# None to Dramatic is the AI by Dramatic coefficient. The check confirms that
+# the differences built from the cells say the same.
+unit <- function(...) {
+  v <- setNames(numeric(ncol(X_cells)), colnames(X_cells))
+  v[c(...)] <- 1
+  v
+}
+stopifnot(all.equal(L_all["None", ], unit("sourceAI")),
+          all.equal(L_all["Slight", ], unit("sourceAI", "sourceAI:modificationSlight")),
+          all.equal(L_all["Dramatic minus None", ], unit("sourceAI:modificationDramatic")))
+
+effect_rows <- list()
+effect_status <- list()
+for (q in QUESTIONS) {
+  fit <- spectral[[q]]
+  K <- fit$settings$dim$K
+  meta <- corpora[[q]]$meta
+  warns <- character(0)
+  set.seed(SEED)
+  eff <- withCallingHandlers(
+    stm::estimateEffect(as.formula(paste0("1:", K, " ", PREVALENCE_TEXT)), fit,
+                        metadata = meta, uncertainty = "Global", nsims = N_SIMS),
+    warning = function(w) {
+      warns <<- c(warns, conditionMessage(w))
+      invokeRestart("muffleWarning")
+    })
+  stopifnot(identical(names(eff$parameters[[1]][[1]]$est), colnames(X_cells)))
+  rdf <- nrow(meta) - ncol(X_cells)
+  converged <- isTRUE(fit$convergence$converged)
+  set.seed(SEED)
+  for (k in seq_len(K)) {
+    draws <- do.call(rbind, lapply(eff$parameters[[k]], function(p) {
+      mvrnorm(N_DRAWS, p$est, p$vcov)
+    }))
+    contrast <- draws %*% t(L_all)
+    est <- colMeans(contrast)
+    se  <- apply(contrast, 2, sd)
+    tval <- est / se
+    effect_rows[[length(effect_rows) + 1]] <- tibble(
+      question = q, role = ROLE[[q]], topic = k, quantity = rownames(L_all),
+      estimate = est, se = se,
+      ci95_lo = est - qt(0.975, rdf) * se, ci95_hi = est + qt(0.975, rdf) * se,
+      t = tval, df = rdf, p = 2 * pt(abs(tval), rdf, lower.tail = FALSE),
+      draws = nrow(draws), model_converged = converged)
+  }
+  effect_status[[q]] <- tibble(question = q, model = "estimateEffect, Global uncertainty",
+                               K = K, seed = SEED, documents = nrow(meta), fit_error = FALSE,
+                               converged = NA, em_iterations = NA_integer_,
+                               final_lower_bound = NA_real_, last_relative_change = NA_real_,
+                               convergence_threshold = NA_real_, minutes = NA_real_,
+                               messages = paste(unique(warns), collapse = " | "))
+  progress(sprintf("Effects for %s done", q))
+}
+# A question whose model did not converge keeps its estimates as description;
+# every uncertainty column is set to missing and the note says why.
+UNCERTAINTY_COLUMNS <- c("se", "ci95_lo", "ci95_hi", "t", "p")
+effects <- bind_rows(effect_rows) %>%
+  mutate(across(all_of(UNCERTAINTY_COLUMNS), ~ ifelse(model_converged, .x, NA_real_)),
+         note = ifelse(model_converged, "",
+                       paste("the model fit did not converge within 500 iterations, so the",
+                             "interval and p-value are set to NA; the estimate is description"))) %>%
+  left_join(topic_words %>% select(question, topic, topic_label), by = c("question", "topic")) %>%
+  relocate(topic_label, .after = topic) %>%
+  mutate(difference = "AI minus Human, expected topic share",
+         nsims = N_SIMS, draws_per_sim = N_DRAWS, uncertainty = "Global")
+
+by_level <- effects %>% filter(quantity %in% MOD_LEVELS) %>%
+  rename(level = quantity) %>%
+  mutate(adjustment = "none; description")
+avg_change <- effects %>% filter(!quantity %in% MOD_LEVELS) %>%
+  group_by(question, quantity) %>%
+  mutate(p_bh = p.adjust(p, method = "BH"),
+         adjustment = "Benjamini-Hochberg across the topics of this question; description") %>%
+  ungroup()
+cat("Questions whose model did not converge, reported as description only:",
+    if (all(effects$model_converged)) "none" else
+      paste(unique(effects$question[!effects$model_converged]), collapse = ", "), "\n")
+write_table(by_level, "structural_topics_label_effects_by_level.csv")
+write_table(avg_change, "structural_topics_label_effects_averaged_and_change.csv")
+```
+
+## 8.2 The difference at each level
+
+```{r effects-by-level-table}
+show_table(by_level %>% select(question, topic_label, level, estimate, ci95_lo, ci95_hi, p),
+           "Table 8.1. AI minus Human in expected topic share at each level, uncorrected.",
+           digits = 4)
+```
+
+## 8.3 The difference averaged over levels, and its change
+
+```{r effects-avg-table}
+show_table(avg_change %>% select(question, topic_label, quantity, estimate, ci95_lo, ci95_hi,
+                                 p, p_bh),
+           paste("Table 8.2. AI minus Human averaged over levels, and the difference at",
+                 "Dramatic minus the difference at None, with Benjamini-Hochberg",
+                 "adjusted p-values as description."), digits = 4)
+```
+
+# 9. The figures
+
+One greyscale figure per question shows each topic's AI minus Human difference
+in expected share at None, Slight and Dramatic, with its 95 percent interval.
+Each topic is labelled by its number and its four highest-probability words. A
+point to the right of the dashed line means AI-arm responses gave the topic a
+larger share. The intervals carry no adjustment for the number of topics.
+
+```{r figures, fig.width = 7.5, fig.height = 6}
+fig_paths <- unlist(lapply(QUESTIONS, function(q) {
+  file.path(FIGURES, paste0("structural_topics_", q, c(".pdf", ".png")))
+}))
+run_clear_outputs(run, fig_paths)
+
+LEVEL_SHAPES <- c(None = 21, Slight = 22, Dramatic = 24)
+LEVEL_FILLS  <- c(None = "white", Slight = "grey60", Dramatic = "black")
+LEVEL_OFFSET <- c(None = 0.22, Slight = 0, Dramatic = -0.22)
+FIG_STATUS <- paste("Exploratory analysis, specified after every registered result was",
+                    "known; it changes no registered verdict. Intervals are 95 percent and",
+                    "unadjusted; responses that share a writer are treated as independent.")
+figure_for <- function(q) {
+  converged <- all(by_level$model_converged[by_level$question == q])
+  status <- if (converged) FIG_STATUS else paste(
+    FIG_STATUS, "This model did not converge within 500 iterations, so its estimates",
+    "are description and no interval is drawn.")
+  d <- by_level %>% filter(question == q) %>%
+    mutate(level = factor(level, levels = MOD_LEVELS),
+           y = -topic + LEVEL_OFFSET[as.character(level)])
+  K <- max(d$topic)
+  labels <- topic_words %>% filter(question == q) %>% arrange(topic)
+  ggplot(d, aes(x = estimate, y = y)) +
+    geom_vline(xintercept = 0, linetype = "dashed", colour = "grey40", linewidth = 0.4) +
+    geom_linerange(aes(xmin = ci95_lo, xmax = ci95_hi), colour = "black", linewidth = 0.4,
+                   na.rm = TRUE) +
+    geom_point(aes(shape = level, fill = level), size = 2, colour = "black") +
+    scale_shape_manual(values = LEVEL_SHAPES, name = "Modification level") +
+    scale_fill_manual(values = LEVEL_FILLS, name = "Modification level") +
+    scale_y_continuous(breaks = -seq_len(K), labels = labels$topic_label, expand = c(0.03, 0.03)) +
+    labs(x = "AI minus Human, expected topic share", y = NULL,
+         title = paste0(QUESTION_LABELS[[q]], " (", ROLE[[q]], "): the label's effect on each topic"),
+         caption = paste(strwrap(status, 110), collapse = "\n")) +
+    theme_classic(base_size = 10) +
+    theme(legend.position = "bottom",
+          axis.text = element_text(colour = "black"),
+          plot.title = element_text(face = "bold", size = 10),
+          plot.caption = element_text(hjust = 0, colour = "grey30", size = 8),
+          plot.caption.position = "plot",
+          panel.grid.major.y = element_line(colour = "grey92", linewidth = 0.3))
+}
+for (q in QUESTIONS) {
+  K <- max(by_level$topic[by_level$question == q])
+  height <- 1.8 + 0.42 * K
+  g <- figure_for(q)
+  ggsave(file.path(FIGURES, paste0("structural_topics_", q, ".pdf")), g,
+         width = 7.5, height = height, device = "pdf")
+  ggsave(file.path(FIGURES, paste0("structural_topics_", q, ".png")), g,
+         width = 7.5, height = height, dpi = 300, bg = "white")
+  print(g)
+}
+```
+
+# 10. Fit status
+
+A model fit converged when the expectation-maximisation search stopped
+because the bound, the quantity it maximises, rose by less than 0.00001 of
+itself from one iteration to the next, or fell, before the limit of 500
+iterations. For each fit at the chosen K the table gives that last relative
+change. searchK does not return the convergence flag, so its fits are marked
+by whether they reached the limit. The effects come from linear regressions,
+which have no iterative search, and the table records any warning they
+raised.
+
+```{r fit-status}
+run_clear_outputs(run, table_path("structural_topics_fit_status.csv"))
+fit_status <- bind_rows(
+  searchk %>% transmute(question, model = "searchK, Spectral start, held-out documents",
+                        K, seed = SEED, documents = NA_integer_, fit_error = FALSE,
+                        converged = !reached_iteration_limit, em_iterations,
+                        final_lower_bound = lower_bound, last_relative_change = NA_real_,
+                        convergence_threshold = NA_real_, minutes = NA_real_, messages = ""),
+  fit_rows %>% mutate(documents = as.integer(documents)),
+  bind_rows(effect_status) %>% mutate(documents = as.integer(documents))) %>%
+  mutate(question = factor(question, levels = QUESTIONS)) %>%
+  arrange(question) %>% mutate(question = as.character(question))
+write_table(fit_status, "structural_topics_fit_status.csv")
+show_table(fit_status %>% count(model, converged, name = "fits"),
+           "Table 10.1. Fits by kind and convergence.")
+cat("Fits:", nrow(fit_status), "| topic-model fits that did not settle:",
+    sum(fit_status$converged %in% FALSE), "| fits with a warning:",
+    sum(nzchar(fit_status$messages)), "\n")
+```
+
+# 11. What the numbers show
+
+```{r summary-text, results = "asis"}
+# Every number in this section is read from the tables above.
+f3 <- function(x) formatC(x, format = "f", digits = 3)
+f4 <- function(x) formatC(x, format = "f", digits = 4)
+pct <- function(x) formatC(100 * x, format = "f", digits = 1)
+n_ <- function(x) format(x, big.mark = ",")
+p_text <- function(p) if (p < 1e-4) "below .0001" else paste("=", signif(p, 2))
+trend_text <- function(h) {
+  steps <- sign(diff(h))
+  if (all(steps > 0)) "rising with every added topic"
+  else if (all(steps < 0)) "falling with every added topic"
+  else sprintf("rising at %d of the %d steps from one K to the next and falling at the others",
+               sum(steps > 0), length(steps))
+}
+words_of <- function(q, k) {
+  topic_words$highest_probability_words[topic_words$question == q & topic_words$topic == k]
+}
+for (q in QUESTIONS) {
+  ck <- chosen_k %>% filter(question == q)
+  sk <- searchk %>% filter(question == q)
+  fr <- fit_rows %>% filter(question == q, model == "stm, Spectral start")
+  cc <- corpus_counts %>% filter(question == q, scope == "three studies pooled")
+  st <- stability %>% filter(question == q) %>% arrange(desc(mean_best_match_correlation))
+  av <- avg_change %>% filter(question == q, quantity == "averaged over levels")
+  ch <- avg_change %>% filter(question == q, quantity == "Dramatic minus None")
+  lv <- by_level %>% filter(question == q)
+  converged <- isTRUE(fr$converged)
+  dc <- dropped_by_cell %>% filter(question == q, scope == "three studies pooled")
+  share_dropped <- function(src, lev) dc$share_dropped[dc$source == src & dc$modification == lev]
+  cat(sprintf("**%s (%s).** ", QUESTION_LABELS[[q]], ROLE[[q]]))
+  cat(sprintf(paste(
+    "Of %s analysed responses, %s kept at least one word and were modelled; %s were",
+    "dropped for having none. At None, %s percent of the AI arm's analysed responses",
+    "and %s percent of the Human arm's were dropped; at Dramatic, %s and %s percent. "),
+    n_(cc$analysed_responses), n_(cc$modelled_responses), n_(cc$dropped_no_counted_word),
+    pct(share_dropped("AI", "None")), pct(share_dropped("Human", "None")),
+    pct(share_dropped("AI", "Dramatic")), pct(share_dropped("Human", "Dramatic"))))
+  cat(sprintf(paste(
+    "A modelled response held %s words on average, from a",
+    "vocabulary of %s. Over K = %d to %d the held-out likelihood ranged from %s to %s,",
+    "%s. It was highest at K = %d (%s), and next",
+    "highest at K = %d (%s). The searchK fit at K = %d %s. The model at K = %d %s",
+    "%s %d iterations. "),
+    formatC(cc$mean_words_per_modelled_response, format = "f", digits = 2),
+    n_(cc$vocabulary_size), min(K_RANGE), max(K_RANGE),
+    f4(min(sk$heldout_likelihood)), f4(max(sk$heldout_likelihood)),
+    trend_text(sk$heldout_likelihood[order(sk$K)]),
+    ck$chosen_K, f4(ck$heldout_likelihood_chosen), ck$runner_up_K,
+    f4(ck$heldout_likelihood_runner_up), ck$chosen_K,
+    if (sk$reached_iteration_limit[sk$K == ck$chosen_K]) "reached the limit of 500 iterations"
+    else "settled before the limit",
+    ck$chosen_K, if (converged) "converged" else "did not converge",
+    if (converged) "after" else "within", fr$em_iterations))
+  cat(sprintf(paste(
+    "Against the %d refits from the LDA start, the mean best-match correlation of a",
+    "topic ranged from %s (topic %d) to %s (topic %d), with a median of %s over the",
+    "%d topics. "),
+    length(STABILITY_SEEDS), f3(min(st$mean_best_match_correlation)), st$topic[nrow(st)],
+    f3(max(st$mean_best_match_correlation)), st$topic[1],
+    f3(median(st$mean_best_match_correlation)), nrow(st)))
+  big_av <- av[which.max(abs(av$estimate)), ]
+  big_ch <- ch[which.max(abs(ch$estimate)), ]
+  if (converged) {
+    cat(sprintf(paste(
+      "Averaged over levels, %d of %d topics have a Benjamini-Hochberg adjusted p-value",
+      "below .05 for the AI minus Human difference, and %d of %d for its change from None",
+      "to Dramatic. Of the %d differences at single levels, %d have a 95 percent interval",
+      "that excludes zero, with no adjustment. The largest averaged difference is that of",
+      "topic %d (%s): %s percentage points of expected share (95 percent interval %s to",
+      "%s; adjusted p %s). The largest change from None to Dramatic is that of topic %d",
+      "(%s): %s percentage points (95 percent interval %s to %s; adjusted p %s), with an",
+      "AI minus Human difference of %s points at None, %s at Slight and %s at Dramatic."),
+      sum(av$p_bh < ALPHA), nrow(av), sum(ch$p_bh < ALPHA), nrow(ch),
+      nrow(lv), sum(lv$ci95_lo > 0 | lv$ci95_hi < 0),
+      big_av$topic, words_of(q, big_av$topic), pct(big_av$estimate), pct(big_av$ci95_lo),
+      pct(big_av$ci95_hi), p_text(big_av$p_bh),
+      big_ch$topic, words_of(q, big_ch$topic), pct(big_ch$estimate), pct(big_ch$ci95_lo),
+      pct(big_ch$ci95_hi), p_text(big_ch$p_bh),
+      pct(lv$estimate[lv$topic == big_ch$topic & lv$level == "None"]),
+      pct(lv$estimate[lv$topic == big_ch$topic & lv$level == "Slight"]),
+      pct(lv$estimate[lv$topic == big_ch$topic & lv$level == "Dramatic"])))
+  } else {
+    cat(sprintf(paste(
+      "Because the model did not converge, its label effects carry no interval or",
+      "p-value and are description only. The largest averaged AI minus Human difference",
+      "is that of topic %d (%s), %s percentage points of expected share, and the largest",
+      "change from None to Dramatic that of topic %d (%s), %s points."),
+      big_av$topic, words_of(q, big_av$topic), pct(big_av$estimate),
+      big_ch$topic, words_of(q, big_ch$topic), pct(big_ch$estimate)))
+  }
+  cat("\n\n")
+}
+cat(paste(
+  "Four things limit what these numbers say. The justifications were written after",
+  "the ratings, so they describe what people wrote once their number was chosen. The",
+  "model reads only the responses that kept a word, and at None the two arms lost",
+  "different shares of their responses, so a difference at None compares responses",
+  "selected differently in the two arms. The",
+  "model treats each response as independent of the others by the same writer, so",
+  "its intervals are likely too narrow and the count of intervals that exclude zero",
+  "is likely too high. And a topic that the LDA refits do not recover depends on where",
+  "the search started as well as on the data, so a label effect on such a topic may",
+  "not survive another start. Nothing here tests a registered hypothesis or changes a",
+  "registered verdict.\n\n"))
+```
+
+# 12. Session information and the run manifest
+
+```{r session-info}
+SESSION_PATH  <- table_path("structural_topics_sessionInfo.txt")
+VERSIONS_PATH <- table_path("structural_topics_package_versions.csv")
+run_clear_outputs(run, SESSION_PATH, VERSIONS_PATH)
+writeLines(c(paste("Analysis status:", ANALYSIS_STATUS), "",
+             capture.output(sessionInfo())), SESSION_PATH)
+pkgs <- c("stm", "readr", "dplyr", "tidyr", "tibble", "MASS", "ggplot2", "rmarkdown", "knitr")
+write_table(tibble(package = pkgs,
+                   version = vapply(pkgs, function(p) as.character(packageVersion(p)),
+                                    character(1))),
+            basename(VERSIONS_PATH))
+sessionInfo()
+```
+
+```{r manifest}
+# The manifest lists every output this run registered, whether this run
+# wrote it, and its SHA-256 checksum. It is written last, and then written
+# again with the analysis status as its last column; it does not list itself,
+# so the second write changes no checksum in it.
+manifest <- write_run_manifest(run)
+stopifnot(all(manifest$written_this_run))
+write_table(manifest, basename(run$manifest_path))
+progress("Run complete; manifest written")
+```

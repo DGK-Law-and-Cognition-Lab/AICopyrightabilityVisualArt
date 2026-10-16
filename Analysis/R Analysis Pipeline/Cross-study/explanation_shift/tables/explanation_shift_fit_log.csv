@@ -1,0 +1,7 @@
+analysis,step,kind,usable,n_obs,fit_error,converged,singular,lme4_messages,n_perm,n_perm_valid,n_perm_converged
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it","3 shift, creativity, embedding distance",linear mixed model,TRUE,4383,FALSE,TRUE,FALSE,,200,200,200
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it","3 shift, creativity, word distance",linear mixed model,TRUE,4228,FALSE,TRUE,FALSE,,200,200,200
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it","3 shift, transformativeness, embedding distance",linear mixed model,TRUE,3941,FALSE,TRUE,FALSE,,200,200,200
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it","3 shift, transformativeness, word distance",linear mixed model,TRUE,3819,FALSE,TRUE,FALSE,,200,200,200
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it","3 shift, essence_change, embedding distance",linear mixed model,TRUE,4383,FALSE,TRUE,FALSE,,200,200,200
+"exploratory: specified on 9 October 2026, after the registered results of all five studies were known; no registration names it","3 shift, essence_change, word distance",linear mixed model,TRUE,4218,FALSE,TRUE,TRUE,boundary (singular) fit: see help('isSingular'),200,200,200

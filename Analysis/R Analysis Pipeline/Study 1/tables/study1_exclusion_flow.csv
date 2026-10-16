@@ -1,0 +1,6 @@
+step,n,n_dropped
+Initial records in export (incl. previews),119,NA
+After (0) Status == IP Address (previews removed),117,2
+After (1) Finished == TRUE,114,3
+After (2) Seriousness == Yes,111,3
+After (3) Attention check passed,111,0

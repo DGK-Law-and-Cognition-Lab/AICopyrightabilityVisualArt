@@ -1,0 +1,136 @@
+run_id,file,written_this_run,sha256,role,item,status,detail,recorded_at
+20261013T163928-9970f6fa,study1_long_with_text.csv,NA,5ed3dca926744ddf0ba0d838863c728d8eea0226a12ce75bda286dd1c34a2c6a,input,study1_long_with_text.csv,read,,2026-10-13 16:39:28
+20261013T163928-9970f6fa,models/study1_lmm_creativity.rds,NA,843bfd623c5c0f891f776f2312bd8c5ab08f3e49733a6755edb785d25667c89d,input,study1_lmm_creativity.rds,read,,2026-10-13 16:39:28
+20261013T163928-9970f6fa,models/study1_lmm_effort.rds,NA,892b18205b7c26e1d395286f376ab9bd04e0e0c83b393dd5d6f05f313fc557e7,input,study1_lmm_effort.rds,read,,2026-10-13 16:39:28
+20261013T163928-9970f6fa,nlp/study1_text_measures.csv,NA,37091958c1d35d3e869be5957953a201d983032ac4fcccb06cf2ca20e80b5791,input,study1_text_measures.csv,read,,2026-10-13 16:39:28
+20261013T163928-9970f6fa,tables/study1_h3_equivalence.csv,NA,bb1753a05f2440e8698aa592306a122090d89cceb3ff0e4e52917a275ebf0989,input,study1_h3_equivalence.csv,read,,2026-10-13 16:39:28
+20261013T163928-9970f6fa,tables/study1_h4_variance_partition.csv,NA,8eb9bca2d3e001d21385bfdbe1d781592ca1fc99150c8e028154bfd3c44ff5c0,input,study1_h4_variance_partition.csv,read,,2026-10-13 16:39:28
+20261013T163928-9970f6fa,tables/study1_h4_variance_test.csv,NA,499b8678ab6a36e9b9d5b1d9bfa2c9b547b16020d745fde8a443cecb28b62e07,input,study1_h4_variance_test.csv,read,,2026-10-13 16:39:28
+20261013T163928-9970f6fa,tables/study1_confirmatory_family.csv,NA,d502d85829e95b88558fc42e57ea4256f2c2506ef932396cfb090241b2d06fbc,input,study1_confirmatory_family.csv,read,,2026-10-13 16:39:28
+20261013T163928-9970f6fa,NA,NA,NA,fit,"primary LMM (Study1_01_Quant.Rmd), creativity",ok,none,2026-10-13 16:39:31
+20261013T163928-9970f6fa,NA,NA,NA,fit,"primary LMM (Study1_01_Quant.Rmd), effort",ok,none,2026-10-13 16:39:34
+20261013T163928-9970f6fa,NA,NA,NA,input,"H1 contrast, creativity (confirmatory family against the model file)",agrees,study1_confirmatory_family.csv 0.4482468; recomputed 0.448247,2026-10-13 16:39:34
+20261013T163928-9970f6fa,NA,NA,NA,input,"H1 contrast, effort (confirmatory family against the model file)",agrees,study1_confirmatory_family.csv 0.9206818; recomputed 0.920682,2026-10-13 16:39:34
+20261013T163928-9970f6fa,models/study1_brms_primary_creativity.rds,NA,f6c51b9911b0ac3ae70cdc61dd7c9de5e8ffe406375fde0457623b50f44da009,cache,"brms primary (Gaussian), creativity",fitted,no saved fit on disk; fitted and saved,2026-10-13 16:40:33
+20261013T163928-9970f6fa,models/study1_brms_primary_effort.rds,NA,2d9d2e6b611e5cc228c662ffa6d54f651ec27e888faab401b555d3f8e0383b9e,cache,"brms primary (Gaussian), effort",fitted,no saved fit on disk; fitted and saved,2026-10-13 16:41:24
+20261013T163928-9970f6fa,NA,NA,NA,fit,"brms primary (Gaussian), creativity",ok,max Rhat (all parameters) 1.0032; min bulk ESS 1549; min tail ESS 3154; 0 divergent transitions; 0 iterations at max_treedepth 10,2026-10-13 16:41:26
+20261013T163928-9970f6fa,NA,NA,NA,fit,"brms primary (Gaussian), effort",ok,max Rhat (all parameters) 1.0032; min bulk ESS 1272; min tail ESS 2266; 0 divergent transitions; 0 iterations at max_treedepth 10,2026-10-13 16:41:27
+20261013T163928-9970f6fa,models/study1_brms_cumulative_creativity.rds,NA,29e3aa9c5d5fff8f662e2c2dfca752d95caf84386d1bd6b26ae29b5c8358e73c,cache,"brms cumulative (ordinal), creativity",fitted,no saved fit on disk; fitted and saved,2026-10-13 16:46:17
+20261013T163928-9970f6fa,models/study1_brms_cumulative_effort.rds,NA,2bf0f7b7171968c61f787c64f1217bbcbf29b6a3864c6493bf6248a36228eb68,cache,"brms cumulative (ordinal), effort",fitted,no saved fit on disk; fitted and saved,2026-10-13 16:50:31
+20261013T163928-9970f6fa,NA,NA,NA,fit,"brms cumulative (ordinal), creativity",ok,max Rhat (all parameters) 1.0026; min bulk ESS 1629; min tail ESS 3329; 0 divergent transitions; 0 iterations at max_treedepth 12,2026-10-13 16:50:34
+20261013T163928-9970f6fa,NA,NA,NA,fit,"brms cumulative (ordinal), effort",ok,max Rhat (all parameters) 1.0052; min bulk ESS 1467; min tail ESS 2379; 0 divergent transitions; 0 iterations at max_treedepth 12,2026-10-13 16:50:36
+20261013T163928-9970f6fa,NA,NA,NA,cache,knitr chunk sensitivity-power-v2,computed,computed in this run,2026-10-13 17:01:43
+20261013T163928-9970f6fa,NA,NA,NA,fit,"power simulation, creativity, TypeAI at 0.15",ok,ok,2026-10-13 17:01:43
+20261013T163928-9970f6fa,NA,NA,NA,fit,"power simulation, creativity, TypeAI at 0.25",ok,ok,2026-10-13 17:01:43
+20261013T163928-9970f6fa,NA,NA,NA,fit,"power simulation, creativity, TypeAI at 0.35",ok,ok,2026-10-13 17:01:43
+20261013T163928-9970f6fa,NA,NA,NA,fit,"power simulation, creativity, TypeAI at 0.45",ok,ok,2026-10-13 17:01:43
+20261013T163928-9970f6fa,NA,NA,NA,fit,"power simulation, creativity, TypeAI at 0.55",ok,ok,2026-10-13 17:01:43
+20261013T163928-9970f6fa,NA,NA,NA,fit,"power simulation, effort, TypeAI at 0.15",ok,ok,2026-10-13 17:01:43
+20261013T163928-9970f6fa,NA,NA,NA,fit,"power simulation, effort, TypeAI at 0.25",ok,ok,2026-10-13 17:01:43
+20261013T163928-9970f6fa,NA,NA,NA,fit,"power simulation, effort, TypeAI at 0.35",ok,ok,2026-10-13 17:01:43
+20261013T163928-9970f6fa,NA,NA,NA,fit,"power simulation, effort, TypeAI at 0.45",ok,ok,2026-10-13 17:01:43
+20261013T163928-9970f6fa,NA,NA,NA,fit,"power simulation, effort, TypeAI at 0.55",ok,ok,2026-10-13 17:01:43
+20261013T163928-9970f6fa,NA,NA,NA,fit,"power simulation, creativity, TypeAI:stimulus_typeFigure at 0.20",ok,ok,2026-10-13 17:01:43
+20261013T163928-9970f6fa,NA,NA,NA,fit,"power simulation, creativity, TypeAI:stimulus_typeFigure at 0.30",ok,ok,2026-10-13 17:01:43
+20261013T163928-9970f6fa,NA,NA,NA,fit,"power simulation, effort, TypeAI:stimulus_typeFigure at 0.20",ok,ok,2026-10-13 17:01:43
+20261013T163928-9970f6fa,NA,NA,NA,fit,"power simulation, effort, TypeAI:stimulus_typeFigure at 0.30",ok,ok,2026-10-13 17:01:43
+20261013T163928-9970f6fa,NA,NA,NA,cache,knitr chunk h3-equivalence-power,computed,computed in this run,2026-10-13 17:10:54
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H3 equivalence power, creativity, true interaction 0.00",ok,"1000 of 1000 refits used; 0 singular, 0 failed, 0 warnings",2026-10-13 17:10:55
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H3 equivalence power, creativity, true interaction 0.10",ok,"1000 of 1000 refits used; 0 singular, 0 failed, 0 warnings",2026-10-13 17:10:55
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H3 equivalence power, effort, true interaction 0.00",ok,"1000 of 1000 refits used; 0 singular, 0 failed, 0 warnings",2026-10-13 17:10:55
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H3 equivalence power, effort, true interaction 0.10",ok,"1000 of 1000 refits used; 0 singular, 0 failed, 0 warnings",2026-10-13 17:10:55
+20261013T163928-9970f6fa,NA,NA,NA,cache,knitr chunk h4-resolution,computed,computed in this run,2026-10-13 17:25:28
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H4 resolution, creativity, null_pooled, true ratio 1.000",ok,"1000 of 1000 datasets used; 0 singular, 0 failed",2026-10-13 17:25:28
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H4 resolution, effort, null_pooled, true ratio 1.000",ok,"1000 of 1000 datasets used; 0 singular, 0 failed",2026-10-13 17:25:28
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H4 resolution, creativity, observed, true ratio 2.098",ok,"1000 of 1000 datasets used; 0 singular, 0 failed",2026-10-13 17:25:28
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H4 resolution, effort, observed, true ratio 4.230",ok,"1000 of 1000 datasets used; 0 singular, 0 failed",2026-10-13 17:25:28
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H4 resolution, creativity, grid, true ratio 1.250",ok,"1000 of 1000 datasets used; 0 singular, 0 failed",2026-10-13 17:25:28
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H4 resolution, creativity, grid, true ratio 1.500",ok,"1000 of 1000 datasets used; 0 singular, 0 failed",2026-10-13 17:25:28
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H4 resolution, creativity, grid, true ratio 2.000",ok,"1000 of 1000 datasets used; 0 singular, 0 failed",2026-10-13 17:25:28
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H4 resolution, creativity, grid, true ratio 3.000",ok,"1000 of 1000 datasets used; 0 singular, 0 failed",2026-10-13 17:25:28
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H4 resolution, effort, grid, true ratio 1.250",ok,"1000 of 1000 datasets used; 0 singular, 0 failed",2026-10-13 17:25:28
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H4 resolution, effort, grid, true ratio 1.500",ok,"1000 of 1000 datasets used; 0 singular, 0 failed",2026-10-13 17:25:28
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H4 resolution, effort, grid, true ratio 2.000",ok,"1000 of 1000 datasets used; 0 singular, 0 failed",2026-10-13 17:25:28
+20261013T163928-9970f6fa,NA,NA,NA,fit,"H4 resolution, effort, grid, true ratio 3.000",ok,"1000 of 1000 datasets used; 0 singular, 0 failed",2026-10-13 17:25:28
+20261013T163928-9970f6fa,NA,NA,NA,fit,"covariates (section 5), creativity",ok,none,2026-10-13 17:25:32
+20261013T163928-9970f6fa,NA,NA,NA,fit,"covariates (section 5), effort",ok,none,2026-10-13 17:25:35
+20261013T163928-9970f6fa,NA,NA,NA,fit,"length covariate (section 5.1), creativity",ok,none,2026-10-13 17:25:40
+20261013T163928-9970f6fa,NA,NA,NA,fit,"length covariate (section 5.1), effort",ok,none,2026-10-13 17:25:43
+20261013T163928-9970f6fa,NA,NA,NA,fit,"engagement refit (section 6), creativity",ok,none,2026-10-13 17:25:47
+20261013T163928-9970f6fa,NA,NA,NA,fit,"engagement refit (section 6), effort",ok,none,2026-10-13 17:25:51
+20261013T163928-9970f6fa,NA,NA,NA,fit,"stimulus as fixed (section 7), creativity",ok,none,2026-10-13 17:25:51
+20261013T163928-9970f6fa,NA,NA,NA,fit,"stimulus as fixed (section 7), effort",ok,none,2026-10-13 17:25:52
+20261013T163928-9970f6fa,NA,NA,NA,cache,knitr chunk specification-curve-v2,computed,computed in this run,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, participant-OLS_clusterSE, n/a (participant-level OLS, cluster-robust SE), demog_length",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, participant-OLS_clusterSE, n/a (participant-level OLS, cluster-robust SE), demographics",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, participant-OLS_clusterSE, n/a (participant-level OLS, cluster-robust SE), none",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, trial-CLMM, intercepts_only, demog_length",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, trial-CLMM, intercepts_only, demographics",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, trial-CLMM, intercepts_only, none",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, trial-CLMM, maximal, demog_length",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, trial-CLMM, maximal, demographics",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, trial-CLMM, maximal, none",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, trial-GEE, n/a (GEE, exchangeable working correlation), demog_length",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, trial-GEE, n/a (GEE, exchangeable working correlation), demographics",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, trial-GEE, n/a (GEE, exchangeable working correlation), none",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, trial-LMM, intercepts_only, demog_length",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, trial-LMM, intercepts_only, demographics",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, trial-LMM, intercepts_only, none",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, trial-LMM, maximal, demog_length",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, trial-LMM, maximal, demographics",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, creativity, trial-LMM, maximal, none",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, participant-OLS_clusterSE, n/a (participant-level OLS, cluster-robust SE), demog_length",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, participant-OLS_clusterSE, n/a (participant-level OLS, cluster-robust SE), demographics",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, participant-OLS_clusterSE, n/a (participant-level OLS, cluster-robust SE), none",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, trial-CLMM, intercepts_only, demog_length",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, trial-CLMM, intercepts_only, demographics",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, trial-CLMM, intercepts_only, none",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, trial-CLMM, maximal, demog_length",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, trial-CLMM, maximal, demographics",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, trial-CLMM, maximal, none",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, trial-GEE, n/a (GEE, exchangeable working correlation), demog_length",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, trial-GEE, n/a (GEE, exchangeable working correlation), demographics",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, trial-GEE, n/a (GEE, exchangeable working correlation), none",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, trial-LMM, intercepts_only, demog_length",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, trial-LMM, intercepts_only, demographics",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, trial-LMM, intercepts_only, none",ok,,2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, trial-LMM, maximal, demog_length",singular,boundary (singular) fit: see help('isSingular'),2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, trial-LMM, maximal, demographics",singular,boundary (singular) fit: see help('isSingular'),2026-10-13 17:30:23
+20261013T163928-9970f6fa,NA,NA,NA,fit,"specification curve, effort, trial-LMM, maximal, none",singular,boundary (singular) fit: see help('isSingular'),2026-10-13 17:30:23
+20261013T163928-9970f6fa,Study1_04_Robustness.Rmd,NA,de351dc0210fdd68c05c7dae76e2e1a1042a818edb495795508be70c96743b25,source,Study1_04_Robustness.Rmd,read,the notebook as it stood when this run finished,2026-10-13 17:30:34
+20261013T163928-9970f6fa,NA,NA,NA,setting,seed_notebook,20260421,,2026-10-13 17:30:34
+20261013T163928-9970f6fa,NA,NA,NA,setting,RUN_PRIOR_SENSITIVITY,FALSE,,2026-10-13 17:30:34
+20261013T163928-9970f6fa,NA,NA,NA,setting,BRMS_FILE_REFIT,on_change,,2026-10-13 17:30:34
+20261013T163928-9970f6fa,NA,NA,NA,setting,REGISTERED_EQUIV_BOUND,0.2,,2026-10-13 17:30:34
+20261013T163928-9970f6fa,NA,NA,NA,setting,POWER_NSIM,200,,2026-10-13 17:30:34
+20261013T163928-9970f6fa,NA,NA,NA,setting,H3_POW_NSIM,1000,,2026-10-13 17:30:34
+20261013T163928-9970f6fa,NA,NA,NA,setting,H3_POW_SEED,20260421,,2026-10-13 17:30:34
+20261013T163928-9970f6fa,NA,NA,NA,setting,H4_RES_NSIM,1000,,2026-10-13 17:30:34
+20261013T163928-9970f6fa,NA,NA,NA,setting,H4_RES_SEED,20260421,,2026-10-13 17:30:34
+20261013T163928-9970f6fa,NA,NA,NA,setting,R_version,R version 4.5.2 (2025-10-31),,2026-10-13 17:30:34
+20261013T163928-9970f6fa,NA,NA,NA,setting,packages,lme4 2.0.1; lmerTest 3.2.1; emmeans 2.0.3; brms 2.23.0; simr 1.0.9; ordinal 2025.12.29; geepack 1.3.13; sandwich 3.1.1; posterior 1.7.0; pbkrtest 0.5.5,,2026-10-13 17:30:34
+20261013T163928-9970f6fa,NA,NA,NA,run,20261013T163928-9970f6fa,complete,"started 2026-10-13 16:39:28; finished 2026-10-13 17:30:34; 51.1 minutes; 22 outputs written, 1 not written; 0 fits not converged or in error",2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_brms_primary_fixed.csv,TRUE,60514547f37adf2c52b47d6e914a82ef2db0380e86e9f7caf49028948101ef5b,output,study1_brms_primary_fixed.csv,written,10 rows x 19 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_brms_cumulative_fixed.csv,TRUE,865874e9bead54ac27d9f389a0b49f6c01badcfd61c5c84b962a465b267cc34c,output,study1_brms_cumulative_fixed.csv,written,16 rows x 19 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_brms_prior_sensitivity.csv,FALSE,NA,output,study1_brms_prior_sensitivity.csv,not written,not run: RUN_PRIOR_SENSITIVITY is FALSE,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_equivalence_sensitivity.csv,TRUE,be48d50f8987f8042a6e995e697c338c383eb78fa584ea70b1ae1727dbd1f634,output,study1_equivalence_sensitivity.csv,written,8 rows x 27 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_sensitivity_power.csv,TRUE,576cd3193213a50f0642457db4a807e62a209a8d5aabceae864c94c5c2a13e91,output,study1_sensitivity_power.csv,written,14 rows x 15 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_sensitivity_power_80pct.csv,TRUE,0ff2635d96922db3906ee5047428ed904916d227e4dd4298cfd7dd923b265f6d,output,study1_sensitivity_power_80pct.csv,written,4 rows x 8 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_h3_equivalence_power.csv,TRUE,e2afbce627e072a04cfecb4a69c4a36a911187d3792867ae31911574fd87ef6b,output,study1_h3_equivalence_power.csv,written,12 rows x 34 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_h4_resolution.csv,TRUE,231c6bb6d26a5debb0f3bdaef3f43cc09527733b04f57d2c574b568c07ab9fd3,output,study1_h4_resolution.csv,written,12 rows x 35 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_covariate_robustness.csv,TRUE,db317eaa4f95bae589dc2182a15a42f78ab18334c64ef9a7bfdbbe7b8b22226a,output,study1_covariate_robustness.csv,written,18 rows x 17 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_length_covariate.csv,TRUE,b991e3889aa39d0eec504e6221710cbc6ea5e4eaf1a21c207296b0adba085cf0,output,study1_length_covariate.csv,written,12 rows x 17 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_engagement_by_condition.csv,TRUE,f1f1fdcf78cf56fb045a7340275c16a045f63aafb3b0c8cd7b368ba3843441db,output,study1_engagement_by_condition.csv,written,9 rows x 2 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_engagement_trimmed_fits.csv,TRUE,ebc7fe092261d4fb35d60d4517a69ea239bf6f38029348a05a157206fc60824a,output,study1_engagement_trimmed_fits.csv,written,10 rows x 18 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_engagement_per_participant.csv,TRUE,853a6ab588cfd22803e799ff5178293d540702a95ef8c4e275fe337f7c3b968a,output,study1_engagement_per_participant.csv,written,111 rows x 9 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_stimulus_as_fixed.csv,TRUE,ae780f4639c3fb0560b76f612f768d2a45bd0c26bdf31eb321672e5e28182d74,output,study1_stimulus_as_fixed.csv,written,4 rows x 17 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_specification_curve.csv,TRUE,bf372ede20c3a9887df35cbeacdeda5983fe44a4d0c7f9e7dc06a8325ecf4c09,output,study1_specification_curve.csv,written,36 rows x 26 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_specification_curve_failures.csv,TRUE,f75c2116c6aa2b6e240da50f2a05ca51fe6e73d3ef217d06ed1433001293c743,output,study1_specification_curve_failures.csv,written,0 rows x 9 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_specification_curve_counts.csv,TRUE,e32e0b60b28c2a4570aca2f0812d02e47931da7f254e77c8af29d48f1286e048,output,study1_specification_curve_counts.csv,written,2 rows x 14 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_robustness_h1_contrast.csv,TRUE,8c99a755dad4afc9ac5e91546f84b2ca9b771082b10aa03e6db89094b2dfd316,output,study1_robustness_h1_contrast.csv,written,14 rows x 19 columns,2026-10-13 17:30:34
+20261013T163928-9970f6fa,figures/study1_brms_ppc.pdf,TRUE,a10be73bca4ef9d533f6614cc3e108ab43b3bbb314fc00990452c86565338959,output,study1_brms_ppc.pdf,written,figure,2026-10-13 17:30:34
+20261013T163928-9970f6fa,figures/study1_specification_curve_creativity.pdf,TRUE,861c4e7b551ce6de10dd08084c65bf64055e95579a4f8c84d097c93021145e2c,output,study1_specification_curve_creativity.pdf,written,figure,2026-10-13 17:30:34
+20261013T163928-9970f6fa,figures/study1_specification_curve_effort.pdf,TRUE,4d418f6282c57eec5f14b84866bca7e0112063cb939e2377aab5ed1f9aa06d79,output,study1_specification_curve_effort.pdf,written,figure,2026-10-13 17:30:34
+20261013T163928-9970f6fa,Docs/Writing/Final Paper/figures/study1_specification_curve_creativity.pdf,TRUE,75d068e3d686ed3722e3076db217f3ae27876de42006021795dcda8b78a71f59,output,study1_specification_curve_creativity.pdf,written,figure,2026-10-13 17:30:34
+20261013T163928-9970f6fa,Docs/Writing/Final Paper/figures/study1_specification_curve_effort.pdf,TRUE,93a97a2af00ffc1c1e43791a7d212997e6c6ff53741981667a36e8b2b4b1998e,output,study1_specification_curve_effort.pdf,written,figure,2026-10-13 17:30:34
+20261013T163928-9970f6fa,tables/study1_robustness_run_manifest.csv,TRUE,NA,output,study1_robustness_run_manifest.csv,written,this file,2026-10-13 17:30:34

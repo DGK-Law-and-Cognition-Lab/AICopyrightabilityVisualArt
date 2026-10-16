@@ -1,0 +1,7 @@
+rating,term,test,clmm_chisq,clmm_df,clmm_p_raw,clmm_converged,clmm_singular,note,clmm_p_holm,clmm_holm_significant,lmm_p_holm,lmm_holm_significant,verdicts_agree
+transformativeness,editing_time,"editing time, averaged over the other factors",3.7187722796260734,2,0.15576822093459988,TRUE,FALSE,,0.6230728837383995,FALSE,1,FALSE,TRUE
+transformativeness,source:editing_time,source by editing time,2.9885499502530593,2,0.22441124950043317,TRUE,FALSE,,0.6732337485012996,FALSE,1,FALSE,TRUE
+essence_change,editing_time,"editing time, averaged over the other factors",0.5039096881191686,2,0.7772798360784626,TRUE,FALSE,,1,FALSE,1,FALSE,TRUE
+essence_change,source:editing_time,source by editing time,5.437469101326678,2,0.0659581683576152,TRUE,FALSE,,0.329790841788076,FALSE,1,FALSE,TRUE
+creativity,editing_time,"editing time, averaged over the other factors",0.2487523682983933,2,0.8830475898865883,TRUE,FALSE,,1,FALSE,1,FALSE,TRUE
+creativity,source:editing_time,source by editing time,9.654396894332287,2,0.008008927298427834,TRUE,FALSE,,0.048053563790567,TRUE,0.048165904375827955,TRUE,TRUE

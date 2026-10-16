@@ -1,0 +1,16 @@
+quantity,registered,observed,match
+participants,235,235,TRUE
+participants in the Human condition,122,122,TRUE
+participants in the AI condition,113,113,TRUE
+correct answers to the task question,235,235,TRUE
+participants who saw all ten source images,235,235,TRUE
+participants who saw five Figure and five NonFigure images,235,235,TRUE
+participants with 90 ratings,228,228,TRUE
+participants with 87 ratings,7,7,TRUE
+participants lacking the trial 1FigureMin and only it,7,7,TRUE
+ratings,21129,21129,TRUE
+justifications,21129,21129,TRUE
+"ratings on the two six-point items, dropped",470,470,TRUE
+"justifications on the two six-point items, dropped",470,470,TRUE
+ratings analysed,20659,20659,TRUE
+justifications analysed,20659,20659,TRUE

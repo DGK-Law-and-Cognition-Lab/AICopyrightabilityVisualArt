@@ -1,0 +1,1016 @@
+---
+title: "Study 2: Modification and the Source Penalty (Ratings)"
+subtitle: "Beyond the Original Sin | How Humans Evaluate Creative Contribution in AI-Assisted Artworks"
+author: "David G. Kamper, Alice Lin, Keith J. Holyoak"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+knit: (function(input, ...) rmarkdown::render(input, output_dir = if (isTRUE(as.logical(Sys.getenv("UNBLIND_STUDY2", "FALSE")))) dirname(input) else file.path(dirname(input), "blind_run"), envir = globalenv()))
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    theme: flatly
+    highlight: tango
+---
+
+```{r blind-switch}
+UNBLIND <- as.logical(Sys.getenv("UNBLIND_STUDY2", "FALSE"))
+# The blind switch. UNBLIND is FALSE unless the environment variable
+# UNBLIND_STUDY2 (a named setting the operating system passes to R) is set to
+# TRUE. While it is FALSE, the labels are shuffled right after the data are
+# built (section 3), and every output goes to a blind_run/ subfolder of the
+# folder its real counterpart goes to. A value that is neither TRUE nor FALSE
+# stops the run, so a typing error cannot unblind it.
+if (is.na(UNBLIND)) stop("UNBLIND_STUDY2 must be TRUE or FALSE.")
+
+# A blind report belongs in blind_run/, and an unblinded report beside this
+# file. The knit: line in the header reads the same environment variable and
+# sends the report to the right folder when the file is knitted with
+# RStudio's Knit button. A call to rmarkdown::render() must pass
+# output_dir = "blind_run" in a blind run and leave it out in an unblinded
+# run. A run whose report would land in the wrong folder stops here, before
+# anything is written. The folder is read from the settings render() is
+# running with; a knit that does not go through render() is not checked.
+render_output_dir <- function() {
+  frame <- Find(function(e) exists("output_dir", envir = e, inherits = FALSE) &&
+                  exists("knit_input", envir = e, inherits = FALSE),
+                sys.frames())
+  if (is.null(frame)) return(NULL)
+  d <- get("output_dir", envir = frame)
+  normalizePath(if (is.null(d)) "." else d, mustWork = FALSE)
+}
+report_dir <- render_output_dir()
+if (!UNBLIND && !is.null(report_dir) && basename(report_dir) != "blind_run") {
+  stop("A blind report must be written to blind_run/. Knit with the Knit ",
+       "button, or run rmarkdown::render(\"Study2_01_Quant.Rmd\", ",
+       "output_dir = \"blind_run\").")
+}
+if (UNBLIND && !is.null(report_dir) && basename(report_dir) == "blind_run") {
+  stop("An unblinded report must not be written to blind_run/. Set the ",
+       "environment variable UNBLIND_STUDY2 to TRUE before knitting, or run ",
+       "rmarkdown::render(\"Study2_01_Quant.Rmd\") without output_dir.")
+}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = TRUE,
+                      fig.align = "center")
+```
+
+```{r banner, echo=FALSE, results='asis'}
+if (!UNBLIND) {
+  cat("**Blind run. The source labels are shuffled across participants, the",
+      "modification labels across the versions of each source image that a",
+      "participant saw, and the image-kind labels across the ten source",
+      "images, so nothing in this report is a result.**\n")
+} else {
+  cat("**Unblinded run on the real source, modification and image-kind labels.**\n")
+}
+```
+
+# 0. What this file does
+
+In Study 1, telling participants that the artist Alex made an artwork by
+prompting an AI system lowered its rated creativity. Study 2 asks whether that
+penalty reaches a second work that Alex makes by hand from the first. Three
+accounts give different answers. If an AI origin taints whatever is built on
+it, the penalty holds at every level of modification. If raters judge the
+second work partly by the first, the penalty is largest when the second work
+is the first unchanged and shrinks as Alex changes more. If raters judge only
+what Alex added, the penalty is absent.
+
+Each participant was told that Alex made the ten first works either with
+graphic design software and digital sketching tools (Human) or by writing
+prompts for an AI system (AI), and that he made every second work himself
+with design tools. Each participant then saw every source image at three
+levels of modification: None (the first work shown again unchanged), Slight
+(colour and contrast adjustments) and Dramatic (substantial changes by hand).
+After each second work they rated how transformative it is compared to the
+first, how much the first work's essence changed, and how much creativity went
+into it, and wrote a justification after every rating.
+
+The registration (`Docs/Preregistration/AsPredicted/Study2_AsPredicted.md`)
+is the specification for everything below. This file:
+
+1. reads the two Qualtrics exports and the survey file and applies the five
+   registered exclusion steps in order (section 2);
+2. scores each rating by its position on the answer scale, builds the long
+   data, checks every count the registration states, and drops the two
+   six-point items (section 2);
+3. shuffles the labels in a blind run and writes the long data file (section 3);
+4. fits the registered model on each measure and runs the four registered
+   tests per measure, twelve in one Holm family, with the equivalence test of
+   the source penalty (section 5);
+5. checks tests 1, 2 and 4 with cumulative-link models (section 6);
+6. gives the exploratory source contrast at each modification level
+   (section 7);
+7. records the status of every fit and the run (sections 8 and 9).
+
+# 1. Setup
+
+## 1.1 Packages
+
+```{r packages}
+# dplyr, tidyr, tibble and readr build and write the tables. lme4 fits the
+# linear mixed models, regressions that give each participant and each source
+# image its own baseline, and lmerTest supplies Satterthwaite degrees of
+# freedom (an approximation to the degrees of freedom a test in a mixed model
+# has). emmeans gives estimated marginal means, the model's predicted mean for
+# each condition averaged equally over the other factors, and the contrasts
+# between them. ordinal fits the cumulative-link mixed models of section 6.
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(tidyr)
+  library(tibble)
+  library(readr)
+  library(lme4)
+  library(lmerTest)
+  library(emmeans)
+  library(ordinal)
+})
+```
+
+## 1.2 Paths and registered constants
+
+```{r paths}
+# Every path is found from this file's own folder, which is the working
+# directory when the file is knitted. Three environment variables override
+# the defaults:
+#   STUDY2_DIR           the Study 2 folder, where the outputs go
+#   STUDY_SHARED_R       the folder of the shared R helpers
+#   STUDY2_PROJECT_ROOT  the project root, the folder that holds Data and
+#                        Analysis
+# Printed paths are relative to the Study 2 folder or the project root, so no
+# printed line names a folder particular to one machine.
+STUDY_DIR <- normalizePath(Sys.getenv("STUDY2_DIR", getwd()), mustWork = TRUE)
+SHARED_R  <- Sys.getenv("STUDY_SHARED_R",
+                        file.path(STUDY_DIR, "..", "shared", "R"))
+source(file.path(SHARED_R, "fit_status.R"))
+source(file.path(SHARED_R, "qualtrics_import.R"))
+
+PROJECT_ROOT <- find_project_root(start = STUDY_DIR,
+                                  env_var = "STUDY2_PROJECT_ROOT")
+EXPORTS <- study_export_paths(PROJECT_ROOT, 2)
+
+# A blind run writes each file to a blind_run/ subfolder of the folder its
+# real counterpart goes to.
+mode_dir <- function(dir) if (UNBLIND) dir else file.path(dir, "blind_run")
+OUT_STUDY  <- mode_dir(STUDY_DIR)
+OUT_TABLES <- mode_dir(file.path(STUDY_DIR, "tables"))
+for (p in c(OUT_STUDY, OUT_TABLES)) {
+  dir.create(p, recursive = TRUE, showWarnings = FALSE)
+}
+
+cat("Values export: ", relative_path(EXPORTS$values, PROJECT_ROOT), "\n")
+cat("Labels export: ", relative_path(EXPORTS$labels, PROJECT_ROOT), "\n")
+cat("Survey file:   ", relative_path(EXPORTS$qsf, PROJECT_ROOT), "\n")
+cat("Long data to:  ", relative_path(OUT_STUDY, STUDY_DIR), "\n")
+cat("Tables to:     ", relative_path(OUT_TABLES, STUDY_DIR), "\n")
+
+# The registered constants.
+SEED          <- 20260421L  # the Study 1 seed, used for every shuffle
+EQ_BOUND      <- 0.224      # half the 0.448-point Study 1 creativity penalty
+ALPHA         <- 0.05
+N_FAMILY      <- 12L        # four tests on each of three measures
+MEASURES      <- c("transformativeness", "essence_change", "creativity")
+SOURCE_LEVELS <- c("Human", "AI")
+MOD_LEVELS    <- c("None", "Slight", "Dramatic")
+KIND_LEVELS   <- c("Figure", "NonFigure")
+SIX_POINT_ITEMS <- c("1NonFigureNoneTrans", "1NonFigureMinTrans")
+TASK_ANSWER   <- "Viewing images for a set amount of time and answering questions"
+```
+
+## 1.3 Run record
+
+```{r run-record}
+# The run record ties every output to this run. It stores the SHA-256
+# checksum of each input (a 64-character fingerprint of the file's exact
+# bytes), deletes the previous run's manifest now, deletes each output's
+# previous copy before the chunk that writes it, and writes the manifest
+# last. A manifest on disk therefore means the run reached its end.
+run <- start_run_record(
+  c(values_export = EXPORTS$values,
+    labels_export = EXPORTS$labels,
+    survey_file   = EXPORTS$qsf),
+  file.path(OUT_TABLES, "study2_quant_run_manifest.csv"),
+  STUDY_DIR)
+write_run_inputs(run, file.path(OUT_TABLES, "study2_quant_run_inputs.csv"))
+cat("Run identifier:", run$run_id, "\n")
+print(as.data.frame(run$inputs[, c("input", "file", "bytes", "sha256")]))
+
+if (!UNBLIND) {
+  # A short note in each blind folder says what the folder holds.
+  blind_notes <- file.path(c(OUT_STUDY, OUT_TABLES), "BLIND_RUN.txt")
+  run_clear_outputs(run, blind_notes)
+  for (f in blind_notes) {
+    writeLines(c(
+      "Outputs of a blind run of the Study 2 pipeline.",
+      "The source labels were shuffled across participants, the modification",
+      "labels across the versions of each source image a participant saw, and",
+      "the image-kind labels across the ten source images, before any summary",
+      "or model. Study2_03_Integration.Rmd also shuffles the ratings across the",
+      "responses to each question before it relates any word to a rating. No",
+      "number in this folder describes the real conditions or the real link",
+      "between the words and the ratings. A run with UNBLIND_STUDY2 set to TRUE",
+      "writes the real outputs one folder up."), f)
+  }
+}
+```
+
+# 2. Import, exclusions and the registered counts
+
+## 2.1 The exclusion flow
+
+```{r exclusions}
+# Qualtrics, the survey platform, exports the study twice: the Values export
+# holds raw choice codes and the Labels export holds the text each
+# participant saw. read_qualtrics_pair() reads both and checks that they hold
+# the same records in the same order.
+run_clear_outputs(run, file.path(OUT_TABLES, "study2_exclusion_flow.csv"))
+
+ex <- read_qualtrics_pair(EXPORTS$values, EXPORTS$labels)
+stopifnot(all(trim_answer(ex$labels$Status) %in% c("IP Address", "Survey Preview")))
+
+# The registered steps, in the order of registration question 6. Each step
+# returns TRUE for the records it keeps. Survey Preview records are the
+# survey test runs. A blank seriousness answer counts as an answer other than
+# "Yes, I did". A blank arithmetic answer passes. The condition is the
+# embedded Type field.
+steps <- list(
+  "survey test runs (Status is Survey Preview)" =
+    function(v, l) trim_answer(l$Status) == "IP Address",
+  "unfinished sessions" =
+    function(v, l) trim_answer(l$Finished) == "True",
+  "seriousness answer other than Yes, I did (blanks included)" =
+    function(v, l) trim_answer(l$Seriousness) == "Yes, I did",
+  "wrong answer to What does 8+7 equal? (a blank passes)" =
+    function(v, l) {
+      a <- trim_answer(l$AttentionCheck2)
+      a == "" | a == "15"
+    },
+  "no recorded condition" =
+    function(v, l) trim_answer(l$Type) %in% SOURCE_LEVELS
+)
+flow <- exclusion_flow(ex$values, ex$labels, steps)
+
+# One line per step, so the flow can be read off the report.
+ff <- flow$flow
+cat("Records in the export:", ff$n[1], "\n")
+for (i in 2:nrow(ff)) {
+  cat(sprintf("Step %d, %s: %d -> %d (%d removed)\n",
+              i - 1, ff$step[i], ff$n[i - 1], ff$n[i], ff$removed[i]))
+}
+
+# The counts the registration states. The run stops if the exports give
+# anything else.
+REGISTERED_FLOW <- c(275L, 275L, 244L, 235L, 235L, 235L)
+ff$registered_n <- REGISTERED_FLOW
+if (!identical(as.integer(ff$n), REGISTERED_FLOW)) {
+  stop("The exclusion flow does not match the registration: ",
+       paste(ff$n, collapse = " -> "), " against ",
+       paste(REGISTERED_FLOW, collapse = " -> "), ".")
+}
+write_csv(ff, file.path(OUT_TABLES, "study2_exclusion_flow.csv"))
+
+# The arithmetic step lets a blank answer pass. The number of blanks that
+# reach it is printed, so the report shows whether the rule mattered.
+after3 <- exclusion_flow(ex$values, ex$labels, steps[1:3])
+n_blank_arith <- sum(trim_answer(after3$labels$AttentionCheck2) == "")
+cat("Blank answers to the arithmetic question at step 4:", n_blank_arith, "\n")
+
+# The task question never ended a session, so it is not a criterion. The
+# registration states that all 235 answered it correctly.
+n_task_right <- sum(trim_answer(flow$labels$AttentionCheck) == TASK_ANSWER)
+cat("Correct answers to the task question:", n_task_right, "of",
+    nrow(flow$labels), "\n")
+```
+
+## 2.2 Scoring by position
+
+```{r scoring}
+# Each rating is scored 1 to k by the position of its label among the item's
+# answer options, read from the survey file in the order they were shown,
+# because the numeric export stores raw choice codes rather than scale
+# positions. read_item_scales() leaves out the questions in the survey's
+# Trash block, deleted before launch, among them a duplicate 1FigureMaxCreat
+# (QID28). An answer whose label is not among the item's options is scored NA
+# and listed in the log.
+run_clear_outputs(run, file.path(OUT_TABLES, "study2_item_scales.csv"))
+
+scales <- read_item_scales(EXPORTS$qsf, ITEM_FAMILIES$derivative$pattern)
+cat("Rating items:", nrow(scales), "| five-point:", sum(scales$k == 5),
+    "| six-point:", sum(scales$k == 6), "\n")
+cat("Six-point items:", paste(scales$item[scales$k == 6], collapse = ", "), "\n")
+stopifnot(nrow(scales) == 90, all(scales$k %in% c(5L, 6L)),
+          setequal(scales$item[scales$k == 6], SIX_POINT_ITEMS))
+write_csv(select(scales, item, question_id, k, anchors, stem),
+          file.path(OUT_TABLES, "study2_item_scales.csv"))
+
+# One row per participant and rating item, with the rating scored by
+# position and the written justification that followed it. The justification
+# column ends in Resp, Re or R, which varies from item to item.
+built <- reshape_ratings_long(flow$values, flow$labels, scales, "derivative",
+                              carry_values = "Type")
+cat("Rows:", nrow(built$long), "| answers that could not be scored:",
+    nrow(built$unscored), "\n")
+if (nrow(built$unscored) > 0) {
+  print(as.data.frame(built$unscored))
+  stop("Some recorded answer could not be scored by position.")
+}
+```
+
+## 2.3 The long data and the registered counts
+
+```{r long-data}
+run_clear_outputs(run, file.path(OUT_TABLES, "study2_sample_checks.csv"))
+
+# The analysis columns. image is the source image, such as 3NonFigure, and
+# work_id names the second work, one source image at one modification level,
+# such as 3NonFigure_Slight. image and work_id name what was shown and are
+# never shuffled. image_kind (Figure when the image shows a human or humanoid
+# figure, NonFigure otherwise) and modification are the labels the models
+# use, and a blind run shuffles them in section 3.
+long_all <- built$long %>%
+  transmute(id, source = Type, image = stimulus_id, image_kind = stimulus_type,
+            modification, work_id = paste0(stimulus_id, "_", modification),
+            dimension, item, k_points, rating, rating_label,
+            response_text = justification)
+
+# The design of registration question 4. Every participant saw all ten source
+# images, five with a figure and five without, each at the three modification
+# levels, which makes 30 second works. Seven participants lack the trial
+# 1FigureMin, the first figure image at Slight, and so saw 29.
+ALL_WORKS <- as.vector(outer(unique(long_all$image), MOD_LEVELS, paste, sep = "_"))
+design <- long_all %>%
+  group_by(id) %>%
+  summarise(n_images    = n_distinct(image),
+            n_figure    = n_distinct(image[image_kind == "Figure"]),
+            n_nonfigure = n_distinct(image[image_kind == "NonFigure"]),
+            n_works     = n_distinct(work_id),
+            missing     = paste(setdiff(ALL_WORKS, work_id), collapse = " "),
+            n_rated     = sum(!is.na(rating)),
+            n_justified = sum(response_text != ""),
+            .groups = "drop")
+answers_per_work <- long_all %>% count(id, work_id, name = "n_answers")
+
+participants <- distinct(long_all, id, source)
+sample_checks <- tribble(
+  ~quantity,                                                 ~registered, ~observed,
+  "participants",                                            235L,   nrow(participants),
+  "participants in the Human condition",                     122L,   sum(participants$source == "Human"),
+  "participants in the AI condition",                        113L,   sum(participants$source == "AI"),
+  "correct answers to the task question",                    235L,   n_task_right,
+  "participants who saw all ten source images",              235L,   sum(design$n_images == 10),
+  "participants who saw five Figure and five NonFigure images", 235L, sum(design$n_figure == 5 & design$n_nonfigure == 5),
+  "participants with 90 ratings",                            228L,   sum(design$n_rated == 90),
+  "participants with 87 ratings",                            7L,     sum(design$n_rated == 87),
+  "participants lacking the trial 1FigureMin and only it",   7L,     sum(design$missing == "1Figure_Slight"),
+  "ratings",                                                 21129L, sum(!is.na(long_all$rating)),
+  "justifications",                                          21129L, sum(long_all$response_text != ""),
+  "ratings on the two six-point items, dropped",             470L,   sum(long_all$item %in% SIX_POINT_ITEMS & !is.na(long_all$rating)),
+  "justifications on the two six-point items, dropped",      470L,   sum(long_all$item %in% SIX_POINT_ITEMS & long_all$response_text != ""),
+  "ratings analysed",                                        20659L, sum(!long_all$item %in% SIX_POINT_ITEMS & !is.na(long_all$rating)),
+  "justifications analysed",                                 20659L, sum(!long_all$item %in% SIX_POINT_ITEMS & long_all$response_text != "")
+) %>% mutate(match = registered == observed)
+print(as.data.frame(sample_checks))
+write_csv(sample_checks, file.path(OUT_TABLES, "study2_sample_checks.csv"))
+if (!all(sample_checks$match)) stop("The sample does not match the registration.")
+
+# Every row holds a rating and a justification, every participant has 30 or
+# 29 second works with three answers each, and only the seven named
+# participants lack a work.
+stopifnot(all(!is.na(long_all$rating)), all(long_all$response_text != ""),
+          all(answers_per_work$n_answers == 3),
+          all(design$n_works == 30 | design$missing == "1Figure_Slight"),
+          all(design$n_rated == design$n_justified))
+cat("Every participant saw all ten source images at all three levels, apart",
+    "from the seven who lack 1FigureMin.\n")
+
+# The primary data drop the two six-point transformativeness items with their
+# justifications (registration question 6), so every rating left is on five
+# points.
+long <- long_all %>% filter(!item %in% SIX_POINT_ITEMS)
+stopifnot(nrow(long) == 20659, all(long$k_points == 5))
+cat("Rows analysed:", nrow(long), "\n")
+```
+
+# 3. The blind shuffle and the long data file
+
+```{r blind-shuffle}
+# In a blind run the labels are shuffled here, after the data are built and
+# before any summary or model.
+#
+# Source is a between-participant label. blind_shuffle() deals each
+# participant another participant's source label, so each condition keeps
+# its 122 or 113 participants.
+#
+# Modification varies within each participant, so a shuffle across
+# participants would leave its link to the ratings in place. It is shuffled
+# within each participant and source image: the modification labels of that
+# participant's versions of the image are dealt again among those versions,
+# each version keeping one label for all three of its ratings. Every
+# participant keeps the same number of works at each level, and the link
+# between a work's level and its ratings is cut.
+#
+# Image kind is a property of the source image, so the ten image-kind labels
+# are dealt again among the ten images, five of each kind as before.
+#
+# Every shuffle uses the registered seed, takes its units in byte order of
+# their identifiers so the result is the same on every machine, and puts the
+# random-number state back afterwards.
+keep_random_state <- function(expr) {
+  had_seed <- exists(".Random.seed", envir = globalenv(), inherits = FALSE)
+  if (had_seed) old_seed <- get(".Random.seed", envir = globalenv())
+  on.exit({
+    if (had_seed) assign(".Random.seed", old_seed, envir = globalenv())
+    else if (exists(".Random.seed", envir = globalenv(), inherits = FALSE)) {
+      rm(".Random.seed", envir = globalenv())
+    }
+  }, add = TRUE)
+  expr
+}
+
+shuffle_modification_within <- function(df, seed) {
+  units <- distinct(df, id, image, work_id, modification)
+  if (anyDuplicated(units[, c("id", "work_id")]) > 0) {
+    stop("Some second work carries more than one modification label.")
+  }
+  units <- units[order(units$id, units$image, units$work_id, method = "radix"), ]
+  key <- paste(units$id, units$image, sep = "\r")
+  groups <- split(seq_len(nrow(units)), factor(key, levels = unique(key)))
+  new_mod <- keep_random_state({
+    set.seed(seed)
+    out <- character(nrow(units))
+    for (rows in groups) out[rows] <- units$modification[rows][sample.int(length(rows))]
+    out
+  })
+  m <- match(paste(df$id, df$work_id), paste(units$id, units$work_id))
+  df$modification <- new_mod[m]
+  df
+}
+
+shuffle_image_kind <- function(df, seed) {
+  units <- distinct(df, image, image_kind)
+  if (anyDuplicated(units$image) > 0) stop("Some image carries more than one kind.")
+  units <- units[order(units$image, method = "radix"), ]
+  new_kind <- keep_random_state({
+    set.seed(seed)
+    units$image_kind[sample.int(nrow(units))]
+  })
+  df$image_kind <- new_kind[match(df$image, units$image)]
+  df
+}
+
+# Two count tables are the same when every column holds the same values.
+same_columns <- function(a, b) {
+  identical(names(a), names(b)) &&
+    all(vapply(names(a), function(n) identical(a[[n]], b[[n]]), logical(1)))
+}
+per_level_before <- count(distinct(long, id, work_id, modification), id, modification)
+kinds_before <- count(distinct(long, image, image_kind), image_kind)
+if (!UNBLIND) {
+  long <- blind_shuffle(long, "id", "source", seed = SEED)
+  long <- shuffle_modification_within(long, seed = SEED)
+  long <- shuffle_image_kind(long, seed = SEED)
+  # The design survives the shuffle: 122 and 113 participants, the same
+  # number of works per participant at each level, and five images of each
+  # kind.
+  stopifnot(identical(sort(table(distinct(long, id, source)$source)),
+                      sort(table(participants$source))),
+            same_columns(count(distinct(long, id, work_id, modification), id, modification),
+                         per_level_before),
+            same_columns(count(distinct(long, image, image_kind), image_kind),
+                         kinds_before))
+  cat("Blind run: source labels shuffled across participants, modification",
+      "labels within each participant and source image, image-kind labels",
+      "across the ten images, seed", SEED, "\n")
+}
+
+long <- long %>%
+  mutate(source       = factor(source, levels = SOURCE_LEVELS),
+         modification = factor(modification, levels = MOD_LEVELS),
+         image_kind   = factor(image_kind, levels = KIND_LEVELS),
+         dimension    = factor(dimension, levels = MEASURES),
+         label_mode   = if (UNBLIND) "real" else "shuffled") %>%
+  arrange(id, work_id, dimension)
+stopifnot(!anyNA(long$source), !anyNA(long$modification),
+          !anyNA(long$image_kind), !anyNA(long$dimension))
+```
+
+```{r write-long}
+# The long data file is the input of Study2_02_Text.ipynb, which reads only
+# its identifier, second-work, question and text columns, and of
+# Study2_03_Integration.Rmd. It carries the condition and the rating, so in a
+# blind run it is written to blind_run/ with the shuffled labels, and its
+# label_mode column says "shuffled" on every row.
+LONG_PATH <- file.path(OUT_STUDY, "study2_long_with_text.csv")
+run_clear_outputs(run, LONG_PATH)
+write_csv(long %>% mutate(across(where(is.factor), as.character)), LONG_PATH, na = "")
+cat("Wrote", relative_path(LONG_PATH, STUDY_DIR), "with", nrow(long),
+    "rows | label_mode", unique(long$label_mode), "\n")
+```
+
+# 4. Cell counts
+
+```{r cell-counts}
+# Counts only: participants per source condition, and ratings per source,
+# modification level and measure.
+run_clear_outputs(run, file.path(OUT_TABLES, "study2_cell_counts.csv"))
+cell_counts <- long %>%
+  group_by(source, modification, dimension) %>%
+  summarise(participants = n_distinct(id), ratings = n(), .groups = "drop") %>%
+  rename(measure = dimension)
+print(as.data.frame(cell_counts))
+stopifnot(sum(cell_counts$ratings) == 20659)
+write_csv(cell_counts, file.path(OUT_TABLES, "study2_cell_counts.csv"))
+```
+
+# 5. The registered models and tests
+
+## 5.1 The fits
+
+```{r fit-models}
+# Each measure gets the registered linear mixed model:
+#
+#   rating ~ source x modification x image kind
+#            + (1 | participant) + (1 | source image)
+#
+# Every factor uses sum-to-zero contrasts, a coding in which a factor's
+# effects add to zero across its levels, so each effect is read against the
+# average of the other factors. The fit is by restricted maximum likelihood
+# (REML, the usual estimator of the variances in a mixed model) with the
+# bobyqa optimizer, as in Study 1. fit_with_status() keeps every warning and
+# records whether the fit stopped with an error, whether it converged and
+# whether it is singular (a variance estimated at zero).
+SUM_CONTRASTS <- list(source = "contr.sum", modification = "contr.sum",
+                      image_kind = "contr.sum")
+FORMULA <- rating ~ source * modification * image_kind + (1 | id) + (1 | image)
+
+model_data <- function(m) {
+  long %>%
+    filter(dimension == m) %>%
+    mutate(id = factor(id), image = factor(image))
+}
+data_by_measure <- setNames(lapply(MEASURES, model_data), MEASURES)
+primary <- lapply(data_by_measure, function(d) {
+  fit_with_status(lmerTest::lmer(FORMULA, data = d, REML = TRUE,
+                                 contrasts = SUM_CONTRASTS,
+                                 control = lmerControl(optimizer = "bobyqa")))
+})
+for (m in MEASURES) {
+  st <- primary[[m]]$status
+  cat(m, ": rows", nrow(data_by_measure[[m]]), "| fit error", st$fit_error,
+      "| converged", st$converged, "| singular", st$singular, "\n")
+}
+stopifnot(sum(vapply(data_by_measure, nrow, integer(1))) == 20659)
+```
+
+## 5.2 Estimated marginal means
+
+```{r emmeans}
+# The model's mean for each modification level, each source condition and
+# each source and level together, each averaged equally over the factors not
+# named, with 95 percent confidence intervals (the range of means compatible
+# with the data). emmeans switches off Satterthwaite degrees of freedom above
+# 3,000 observations unless told otherwise; the registration names them, so
+# the limit is raised above the size of any model here.
+run_clear_outputs(run, file.path(OUT_TABLES, "study2_emmeans.csv"))
+
+emm_of <- function(fit, spec, d) {
+  emmeans::emmeans(fit, spec, data = d, lmer.df = "satterthwaite",
+                   lmerTest.limit = 25000)
+}
+
+GRIDS <- list("modification" = ~ modification, "source" = ~ source,
+              "source by modification" = ~ source * modification)
+emm_table <- bind_rows(lapply(MEASURES, function(m) {
+  res <- primary[[m]]
+  if (res$status$fit_error) {
+    return(tibble(measure = m, note = fit_note(res$status, "mean")))
+  }
+  bind_rows(lapply(names(GRIDS), function(g) {
+    s <- as_tibble(summary(emm_of(res$fit, GRIDS[[g]], data_by_measure[[m]]))) %>%
+      mutate(across(where(is.factor), as.character))
+    for (col in c("source", "modification")) {
+      if (!col %in% names(s)) s[[col]] <- NA_character_
+    }
+    s %>%
+      transmute(measure = m, means_of = g, source, modification,
+                emmean, se = SE, df,
+                ci95_lo = na_unless_usable(lower.CL, res$status),
+                ci95_hi = na_unless_usable(upper.CL, res$status),
+                averaged_over = "the factors not named, equal weights",
+                note = fit_note(res$status, "interval"))
+  }))
+}))
+n_fit_errors <- sum(vapply(primary, function(r) isTRUE(r$status$fit_error), logical(1)))
+stopifnot(nrow(emm_table) == 11 * (3 - n_fit_errors) + n_fit_errors)
+write_csv(emm_table, file.path(OUT_TABLES, "study2_emmeans.csv"))
+print(as.data.frame(select(emm_table, measure, means_of, source, modification,
+                           emmean, se, ci95_lo, ci95_hi)), digits = 4)
+```
+
+## 5.3 The four registered tests and the Holm family
+
+```{r confirmatory}
+# Four tests per measure, each a contrast between estimated marginal means
+# with Satterthwaite degrees of freedom:
+#
+#   1. Slight minus None, averaged over source and image kind;
+#   2. Dramatic minus Slight, averaged the same way. H1 holds on a measure
+#      when both are positive and significant;
+#   3. Human minus AI, averaged over modification and image kind, by an
+#      equivalence test: two one-sided tests of whether the difference lies
+#      inside plus or minus 0.224 rating points. One asks whether it lies
+#      above -0.224, the other whether it lies below +0.224, and the larger
+#      of the two one-sided p-values is the test's p-value;
+#   4. Human minus AI at None, minus Human minus AI at Dramatic, two-sided.
+#      A positive value means the penalty shrinks as Alex changes more.
+#
+# Tests 1, 2 and 4 are two-sided t tests. Holm's method corrects the twelve
+# p-values together: they are ordered, the smallest is compared with .05
+# divided by twelve, the next with .05 divided by eleven, and so on, stopping
+# at the first that fails. This holds the chance of any false positive among
+# the twelve at .05. The correction is told the family has twelve members
+# whatever happens, so a missing p-value never makes it lighter for the
+# others.
+run_clear_outputs(run,
+                  file.path(OUT_TABLES, "study2_confirmatory_family.csv"),
+                  file.path(OUT_TABLES, "study2_equivalence.csv"),
+                  file.path(OUT_TABLES, "study2_hypothesis_readings.csv"))
+
+# The contrast weights of test 4, matched to the cells by their labels so
+# that no weight depends on the order emmeans lists the cells in.
+interaction_weights <- function(grid) {
+  cell <- function(s, mo) as.numeric(grid$source == s & grid$modification == mo)
+  (cell("Human", "None") - cell("AI", "None")) -
+    (cell("Human", "Dramatic") - cell("AI", "Dramatic"))
+}
+
+TEST_NAMES <- c(
+  "1" = "Slight minus None",
+  "2" = "Dramatic minus Slight",
+  "3" = "Human minus AI, averaged over modification (equivalence)",
+  "4" = "Human minus AI at None, minus Human minus AI at Dramatic")
+
+# The four contrasts of one fit, as one row each. The function takes the
+# emmeans call so that the same code serves the cumulative-link models.
+four_contrasts <- function(emm) {
+  e_mod <- emm(~ modification)
+  stopifnot(identical(as.character(e_mod@grid$modification), MOD_LEVELS))
+  c12 <- emmeans::contrast(e_mod, list("Slight minus None" = c(-1, 1, 0),
+                                       "Dramatic minus Slight" = c(0, -1, 1)),
+                           adjust = "none")
+  e_src <- emm(~ source)
+  stopifnot(identical(as.character(e_src@grid$source), SOURCE_LEVELS))
+  c3 <- emmeans::contrast(e_src, list("Human minus AI" = c(1, -1)), adjust = "none")
+  e_sm <- emm(~ source * modification)
+  w4 <- interaction_weights(e_sm@grid)
+  stopifnot(sum(w4 != 0) == 4, sum(w4) == 0)
+  c4 <- emmeans::contrast(e_sm, list("interaction" = w4), adjust = "none")
+  # emmeans names the interval columns lower.CL and upper.CL when the test
+  # has finite degrees of freedom, and asymp.LCL and asymp.UCL when it is a z
+  # test, as in the cumulative-link models.
+  s <- function(ct, level, infer = c(TRUE, TRUE)) {
+    tab <- as_tibble(summary(ct, infer = infer, level = level))
+    names(tab)[names(tab) %in% c("lower.CL", "asymp.LCL")] <- "ci_lo"
+    names(tab)[names(tab) %in% c("upper.CL", "asymp.UCL")] <- "ci_hi"
+    tab
+  }
+  rows <- bind_rows(s(c12, 0.95), s(c3, 0.95), s(c4, 0.95))
+  stat <- intersect(c("t.ratio", "z.ratio"), names(rows))
+  ci90 <- s(c3, 0.90, infer = c(TRUE, FALSE))
+  tibble(test = 1:4, estimate = rows$estimate, se = rows$SE, df = rows$df,
+         statistic = rows[[stat]], p_two_sided = rows$p.value,
+         ci95_lo = rows$ci_lo, ci95_hi = rows$ci_hi,
+         ci90_lo = c(NA, NA, ci90$ci_lo, NA),
+         ci90_hi = c(NA, NA, ci90$ci_hi, NA),
+         equivalence_check = c(NA, NA,
+                               as_tibble(summary(emmeans::test(c3, delta = EQ_BOUND,
+                                                               side = "equivalence")))$p.value,
+                               NA))
+}
+
+# The two one-sided tests of test 3, written out. With symmetric bounds the
+# larger p-value equals the p-value emmeans gives for side = "equivalence",
+# and the run checks that the two agree.
+tost <- function(est, se, df, bound) {
+  p_lower <- pt((est + bound) / se, df, lower.tail = FALSE)
+  p_upper <- pt((est - bound) / se, df, lower.tail = TRUE)
+  tibble(p_lower = p_lower, p_upper = p_upper, p_tost = pmax(p_lower, p_upper))
+}
+
+test_rows <- function(res, m) {
+  base <- tibble(measure = m, test = 1:4, test_name = unname(TEST_NAMES))
+  if (res$status$fit_error) {
+    return(base %>% mutate(estimate = NA_real_, se = NA_real_, df = NA_real_,
+                           statistic = NA_real_, p_two_sided = NA_real_,
+                           ci95_lo = NA_real_, ci95_hi = NA_real_,
+                           ci90_lo = NA_real_, ci90_hi = NA_real_,
+                           p_lower = NA_real_, p_upper = NA_real_,
+                           p_family = NA_real_, converged = FALSE,
+                           singular = NA, note = fit_note(res$status)))
+  }
+  d <- data_by_measure[[m]]
+  ct <- four_contrasts(function(spec) emm_of(res$fit, spec, d))
+  eq <- tost(ct$estimate[3], ct$se[3], ct$df[3], EQ_BOUND)
+  stopifnot(abs(eq$p_tost - ct$equivalence_check[3]) < 1e-8)
+  base %>%
+    bind_cols(select(ct, -test, -equivalence_check)) %>%
+    mutate(p_lower = c(NA, NA, eq$p_lower, NA),
+           p_upper = c(NA, NA, eq$p_upper, NA),
+           p_family = ifelse(test == 3, eq$p_tost, p_two_sided),
+           across(c(p_two_sided, p_lower, p_upper, p_family,
+                    ci95_lo, ci95_hi, ci90_lo, ci90_hi),
+                  ~ na_unless_usable(.x, res$status)),
+           converged = res$status$converged, singular = res$status$singular,
+           note = fit_note(res$status))
+}
+
+family <- bind_rows(lapply(MEASURES, function(m) test_rows(primary[[m]], m))) %>%
+  mutate(p_holm = p.adjust(p_family, method = "holm", n = N_FAMILY),
+         holm_significant = p_holm < ALPHA,
+         reading = case_when(
+           is.na(p_holm) ~ NA_character_,
+           test %in% 1:2 & holm_significant & estimate > 0 ~ "positive and significant",
+           test %in% 1:2 & holm_significant & estimate < 0 ~ "negative and significant",
+           test %in% 1:2 ~ "not significant",
+           test == 3 & holm_significant ~ "equivalent: inside plus or minus 0.224",
+           test == 3 ~ "not shown to lie inside plus or minus 0.224",
+           test == 4 & holm_significant & estimate > 0 ~
+             "significant and positive: the penalty shrinks from None to Dramatic",
+           test == 4 & holm_significant & estimate < 0 ~
+             "significant and negative: the penalty grows from None to Dramatic",
+           TRUE ~ "not significant"),
+         family = "twelve registered tests, Holm, family-wise alpha .05",
+         bound = ifelse(test == 3, EQ_BOUND, NA_real_)) %>%
+  relocate(p_holm, holm_significant, reading, .after = p_family)
+stopifnot(nrow(family) == N_FAMILY)
+write_csv(family, file.path(OUT_TABLES, "study2_confirmatory_family.csv"))
+print(as.data.frame(select(family, measure, test, estimate, se, df, p_family,
+                           p_holm, reading, converged, singular)), digits = 4)
+```
+
+## 5.4 The equivalence tests and the readings of the three hypotheses
+
+```{r readings}
+# The equivalence test of each measure, with its 90 percent interval. Both
+# one-sided tests pass at .05 exactly when that interval lies inside the
+# bound. The registered verdict rests on the Holm-corrected p-value. A pass
+# means that less than half of Study 1's creativity penalty reaches a
+# second work made by hand. A fail means only that the penalty is not shown
+# to be small.
+equivalence <- family %>%
+  filter(test == 3) %>%
+  transmute(measure, contrast = test_name, estimate, se, df, ci90_lo, ci90_hi,
+            bound, p_lower, p_upper, p_tost = p_family, p_holm,
+            equivalent = holm_significant,
+            interval_inside_bound = ci90_lo > -bound & ci90_hi < bound,
+            reading, converged, singular, note)
+stopifnot(nrow(equivalence) == 3)
+write_csv(equivalence, file.path(OUT_TABLES, "study2_equivalence.csv"))
+
+# The three hypotheses, read on each measure from the Holm family.
+#   H1  ratings rise from None to Slight to Dramatic: tests 1 and 2 both
+#       positive and significant;
+#   H2  averaged over modification, the penalty is small or absent: test 3;
+#   H3  whether the penalty changes with modification, no direction
+#       predicted: test 4.
+readings <- bind_rows(lapply(MEASURES, function(m) {
+  f <- filter(family, measure == m)
+  r <- setNames(f$reading, f$test)
+  tibble(
+    measure = m,
+    hypothesis = c("H1", "H2", "H3"),
+    rule = c("tests 1 and 2 both positive and significant after Holm",
+             "test 3 significant after Holm (the equivalence test passes)",
+             "test 4 two-sided after Holm; positive means the penalty shrinks"),
+    reading = if (anyNA(r)) NA_character_ else c(
+      if (all(r[c("1", "2")] == "positive and significant")) "holds" else "does not hold",
+      if (r[["3"]] == "equivalent: inside plus or minus 0.224")
+        "small or absent: inside plus or minus 0.224" else "not shown to be small",
+      r[["4"]]))
+}))
+
+# H1 and H2 are stated over the three measures: H1 that ratings rise on all
+# three, H2 that the penalty is small or absent on each. Each is read over
+# the three measures as well, and it holds there only when it holds on every
+# measure. H3 asks a question of each measure and has no such reading.
+ACROSS <- tribble(
+  ~hypothesis, ~needed,                                        ~yes,                               ~no,
+  "H1",        "holds",                                        "holds on every measure",           "does not hold on every measure",
+  "H2",        "small or absent: inside plus or minus 0.224",  "small or absent on every measure", "not shown to be small on every measure")
+across_measures <- bind_rows(lapply(seq_len(nrow(ACROSS)), function(i) {
+  h <- ACROSS$hypothesis[i]
+  r <- readings$reading[readings$hypothesis == h]
+  tibble(measure = "all three measures", hypothesis = h,
+         rule = paste(h, "holds on each of the three measures"),
+         reading = if (anyNA(r)) NA_character_ else
+           if (all(r == ACROSS$needed[i])) ACROSS$yes[i] else ACROSS$no[i])
+}))
+readings <- bind_rows(readings, across_measures)
+stopifnot(nrow(readings) == 11)
+write_csv(readings, file.path(OUT_TABLES, "study2_hypothesis_readings.csv"))
+print(as.data.frame(readings))
+```
+
+# 6. Cumulative-link checks of tests 1, 2 and 4
+
+```{r clmm}
+# A cumulative-link mixed model treats the five answers as ordered
+# categories: it estimates where the cut points between neighbouring answers
+# fall on an underlying scale instead of assuming the answers are evenly
+# spaced. Each measure gets the registered model in that form, with the logit
+# link (a logistic curve for the chance of answering above each cut point),
+# the same random intercepts and the same sum-to-zero contrasts:
+#
+#   ordered rating ~ source x modification x image kind
+#                    + (1 | participant) + (1 | source image)
+#
+# Tests 1, 2 and 4 are the same contrasts on the underlying scale, from
+# emmeans, each with a Wald z test (the estimate divided by its standard
+# error, compared with a normal distribution). The check keeps the family of
+# twelve: the nine p-values from these models stand in for the linear
+# model's p-values of tests 1, 2 and 4, and the three equivalence p-values of
+# test 3, which this check does not cover, come from the linear model. Holm
+# corrects the twelve, and each verdict on tests 1, 2 and 4 (significant or
+# not, and in which direction) is set beside the linear model's.
+#
+# A fit counts as converged when the optimizer returns code 0 and raises no
+# warning about convergence, the Hessian (the matrix of second derivatives
+# the standard errors come from) or singularity, as in Study 1. It counts as
+# singular when a random-effect standard deviation lies below 1e-4.
+run_clear_outputs(run, file.path(OUT_TABLES, "study2_clmm_check.csv"))
+
+fit_clmm <- function(d) {
+  d$rating_ord <- factor(d$rating, levels = 1:5, ordered = TRUE)
+  warns <- character(0)
+  fit <- withCallingHandlers(
+    tryCatch(ordinal::clmm(rating_ord ~ source * modification * image_kind +
+                             (1 | id) + (1 | image),
+                           data = d, link = "logit", Hess = TRUE,
+                           contrasts = SUM_CONTRASTS),
+             error = function(e) e),
+    warning = function(w) {
+      warns <<- c(warns, conditionMessage(w))
+      invokeRestart("muffleWarning")
+    })
+  failed <- inherits(fit, "error")
+  status <- tibble(
+    fit_error = failed,
+    converged = !failed && isTRUE(fit$optRes$convergence == 0) &&
+      !any(grepl("converge|Hessian|singular", warns, ignore.case = TRUE)),
+    singular  = if (failed) NA else
+      any(vapply(ordinal::VarCorr(fit), function(m) any(attr(m, "stddev") < 1e-4),
+                 logical(1))),
+    lme4_messages = paste(unique(c(if (failed) conditionMessage(fit), warns)),
+                          collapse = " | "))
+  list(fit = fit, data = d, status = status,
+       max_abs_gradient = if (failed) NA_real_ else max(abs(fit$gradient)))
+}
+
+clmm_fits <- lapply(data_by_measure, fit_clmm)
+for (m in MEASURES) {
+  cl <- clmm_fits[[m]]
+  cat(m, "cumulative-link fit: fit error", cl$status$fit_error,
+      "| converged", cl$status$converged, "| singular", cl$status$singular,
+      "| largest absolute gradient", signif(cl$max_abs_gradient, 3), "\n")
+}
+
+clmm_rows <- bind_rows(lapply(MEASURES, function(m) {
+  cl <- clmm_fits[[m]]
+  base <- tibble(measure = m, test = c(1L, 2L, 4L),
+                 test_name = unname(TEST_NAMES[c("1", "2", "4")]))
+  if (cl$status$fit_error) {
+    return(base %>% mutate(clmm_estimate = NA_real_, clmm_se = NA_real_,
+                           clmm_z = NA_real_, clmm_p = NA_real_,
+                           clmm_converged = FALSE, clmm_singular = NA,
+                           note = fit_note(cl$status)))
+  }
+  ct <- four_contrasts(function(spec) emmeans::emmeans(cl$fit, spec, data = cl$data))
+  base %>%
+    mutate(clmm_estimate = ct$estimate[test], clmm_se = ct$se[test],
+           clmm_z = ct$statistic[test],
+           clmm_p = na_unless_usable(ct$p_two_sided[test], cl$status),
+           clmm_converged = cl$status$converged,
+           clmm_singular = cl$status$singular,
+           note = fit_note(cl$status))
+}))
+
+lmm_side <- select(family, measure, test, lmm_estimate = estimate,
+                   lmm_p = p_family, lmm_p_holm = p_holm,
+                   lmm_holm_significant = holm_significant)
+clmm_family <- bind_rows(
+  clmm_rows %>% mutate(p_in_family = clmm_p, p_from = "cumulative-link model"),
+  family %>% filter(test == 3) %>%
+    transmute(measure, test, test_name, p_in_family = p_family,
+              p_from = "linear model (equivalence test, not checked here)")) %>%
+  mutate(p_holm = p.adjust(p_in_family, method = "holm", n = N_FAMILY))
+stopifnot(nrow(clmm_family) == N_FAMILY)
+
+clmm_check <- clmm_family %>%
+  filter(test != 3) %>%
+  rename(clmm_p_holm = p_holm) %>%
+  mutate(clmm_holm_significant = clmm_p_holm < ALPHA) %>%
+  left_join(lmm_side, by = c("measure", "test")) %>%
+  mutate(same_direction = sign(clmm_estimate) == sign(lmm_estimate),
+         verdicts_agree = clmm_holm_significant == lmm_holm_significant &
+           (!clmm_holm_significant | same_direction),
+         family = "twelve: the nine cumulative-link p-values of tests 1, 2 and 4 with the linear model's three equivalence p-values, Holm",
+         model = "ordered rating ~ source * modification * image_kind + (1 | id) + (1 | image), logit link, Laplace approximation, sum-to-zero contrasts; contrasts of estimated marginal means on the underlying scale, Wald z tests") %>%
+  select(measure, test, test_name, clmm_estimate, clmm_se, clmm_z, clmm_p,
+         clmm_p_holm, clmm_holm_significant, lmm_estimate, lmm_p, lmm_p_holm,
+         lmm_holm_significant, same_direction, verdicts_agree, clmm_converged,
+         clmm_singular, note, family, model) %>%
+  arrange(factor(measure, levels = MEASURES), test)
+stopifnot(nrow(clmm_check) == 9)
+write_csv(clmm_check, file.path(OUT_TABLES, "study2_clmm_check.csv"))
+print(as.data.frame(select(clmm_check, measure, test, clmm_p_holm,
+                           clmm_holm_significant, lmm_holm_significant,
+                           verdicts_agree)), digits = 4)
+```
+
+# 7. Exploratory: the source contrast at each modification level
+
+```{r source-by-level}
+# Human minus AI at each modification level, averaged over image kind, on
+# each measure, with a 95 percent interval and a two-sided t test. The
+# registration lists this as exploratory, so the nine tests are not
+# corrected and carry no verdict.
+run_clear_outputs(run, file.path(OUT_TABLES, "study2_source_by_modification.csv"))
+source_by_level <- bind_rows(lapply(MEASURES, function(m) {
+  res <- primary[[m]]
+  if (res$status$fit_error) {
+    return(tibble(measure = m, modification = MOD_LEVELS,
+                  role = "exploratory, uncorrected", note = fit_note(res$status)))
+  }
+  ct <- emmeans::contrast(emm_of(res$fit, ~ source | modification, data_by_measure[[m]]),
+                          list("Human minus AI" = c(1, -1)), adjust = "none")
+  as_tibble(summary(ct, infer = c(TRUE, TRUE), level = 0.95)) %>%
+    mutate(across(where(is.factor), as.character)) %>%
+    transmute(measure = m, modification, contrast, estimate, se = SE, df,
+              t = t.ratio,
+              ci95_lo = na_unless_usable(lower.CL, res$status),
+              ci95_hi = na_unless_usable(upper.CL, res$status),
+              p_two_sided = na_unless_usable(p.value, res$status),
+              role = "exploratory, uncorrected",
+              converged = res$status$converged, singular = res$status$singular,
+              note = fit_note(res$status))
+}))
+stopifnot(nrow(source_by_level) == 9)
+write_csv(source_by_level, file.path(OUT_TABLES, "study2_source_by_modification.csv"))
+print(as.data.frame(select(source_by_level, measure, modification, estimate,
+                           ci95_lo, ci95_hi, p_two_sided)), digits = 4)
+```
+
+# 8. Fit status
+
+```{r fit-status}
+# One row per fit in this file: the registered model and the cumulative-link
+# model, on each measure.
+run_clear_outputs(run, file.path(OUT_TABLES, "study2_fit_status.csv"))
+status_row <- function(status, m, role, formula, d, gradient = NA_real_) {
+  status %>% mutate(measure = m, role = role, formula = formula,
+                    n_obs = nrow(d), n_participants = n_distinct(d$id),
+                    n_images = n_distinct(d$image),
+                    usable = fit_usable(status),
+                    max_abs_gradient = gradient, .before = 1)
+}
+fit_status <- bind_rows(lapply(MEASURES, function(m) {
+  bind_rows(
+    status_row(primary[[m]]$status, m, "registered model", deparse1(FORMULA),
+               data_by_measure[[m]]),
+    status_row(clmm_fits[[m]]$status, m, "cumulative-link check",
+               "ordered rating ~ source * modification * image_kind + (1 | id) + (1 | image)",
+               data_by_measure[[m]], clmm_fits[[m]]$max_abs_gradient))
+}))
+print(as.data.frame(select(fit_status, measure, role, n_obs, fit_error,
+                           converged, singular, usable)))
+write_csv(fit_status, file.path(OUT_TABLES, "study2_fit_status.csv"))
+cat("Fits converged:", sum(fit_status$converged), "of", nrow(fit_status),
+    "| singular:", sum(fit_status$singular %in% TRUE), "\n")
+```
+
+# 9. Session information and the run manifest
+
+```{r session-info}
+SESSION_PATH  <- file.path(OUT_TABLES, "study2_quant_sessionInfo.txt")
+VERSIONS_PATH <- file.path(OUT_TABLES, "study2_quant_package_versions.csv")
+run_clear_outputs(run, SESSION_PATH, VERSIONS_PATH)
+writeLines(capture.output(sessionInfo()), SESSION_PATH)
+pkgs <- c("readr", "dplyr", "tidyr", "tibble", "jsonlite", "Matrix", "lme4",
+          "lmerTest", "emmeans", "ordinal", "rmarkdown", "knitr")
+write_csv(tibble(package = pkgs,
+                 version = vapply(pkgs, function(p) as.character(packageVersion(p)),
+                                  character(1))),
+          VERSIONS_PATH)
+sessionInfo()
+```
+
+```{r manifest}
+# The manifest lists every output this run registered, whether this run
+# wrote it, and its SHA-256 checksum. It is written last.
+manifest <- write_run_manifest(run)
+stopifnot(all(manifest$written_this_run))
+if (!UNBLIND) {
+  cat("\nBlind run: the labels were shuffled, and nothing in this report is a result.\n")
+}
+```

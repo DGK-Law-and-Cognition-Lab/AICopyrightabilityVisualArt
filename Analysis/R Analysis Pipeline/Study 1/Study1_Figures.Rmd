@@ -1,0 +1,753 @@
+---
+title: "Study 1: Manuscript Figures"
+author: "David G. Kamper"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    code_folding: show
+---
+
+```{r knitr-options, include=FALSE}
+knitr::opts_chunk$set(
+  echo       = TRUE,
+  warning    = FALSE,
+  message    = FALSE,
+  fig.align  = "center",
+  fig.retina = 2
+)
+```
+
+# Purpose
+
+This notebook draws Figure 1 of the Study 1 main text and writes the LaTeX
+macros that the manuscript reads with `\input{}`. A macro is a short name,
+such as `\SoneN`, that LaTeX replaces with its value when the manuscript is
+compiled.
+
+It fits no model and reruns no analysis. It reads:
+
+  - `study1_long_with_text.csv`                        (the ratings, one row per participant, image and dimension)
+  - `models/study1_lmm_creativity.rds`                 (the primary creativity model)
+  - `models/study1_lmm_effort.rds`                     (the primary effort model)
+  - `tables/study1_bootstrap_d.csv`                    (registered Cohen's d, the Human minus AI difference expressed in standard deviations, with an interval from resampling participants; written by Study1_01_Quant.Rmd)
+  - `tables/study1_confirmatory_family.csv`            (the registered H1 contrasts, the Human minus AI difference on each dimension averaged over the two image kinds, checked against the F macros; written by Study1_01_Quant.Rmd)
+  - `tables/study1_text_effort_prevalence.csv`         (effort-talk rates, the share of effort justifications that mention each kind of reason; written by Study1_03_Integration.Rmd)
+  - `tables/study1_text_creativity_prevalence.csv`     (creativity-talk rates, the same for creativity justifications; written by Study1_03_Integration.Rmd)
+
+The last four are read only if they are on disk, so this notebook can be
+knitted before the notebooks that write them have run. Each missing file has
+its own consequence. Without the bootstrap table, d is computed here under the
+same convention and the console says it is not the registered estimate.
+Without the confirmatory family, the check of the F macros against it is
+skipped. Without a prevalence table, its macros are left out. In each case the
+console names the missing file.
+
+It writes:
+
+  - `figures/study1_fig1_ratings.{pdf,png}`  (Figure 1: the two rating dimensions, side by side)
+  - `tables/study1_inline.tex`               (the LaTeX macro definitions; no other notebook writes this file)
+  - `tables/study1_figures_run_manifest.csv` (the run record of the knit: every file read and written, with its fingerprint and status)
+
+Every output is deleted before it is drawn or written, so a knit that stops
+partway leaves no figure or macro file from an earlier knit behind.
+
+The figures drawn from the written justifications come from
+`Study1_03_Integration.Rmd`, where the text measures are joined to the ratings
+and modelled. They show how often each kind of reason appears, detail talk
+against the effort rating, and the denotation profiles, which set out what the
+justifications under each rated word were about.
+
+Knit again whenever the figure or the macros need refreshing. No model is
+refit, so a knit is quick.
+
+---
+
+# 1. Setup
+
+## 1.1 Project paths
+
+The paths follow the same layout as `Study1_01_Quant.Rmd`, and `PROJECT_ROOT`
+is found the same way: from this file's own folder, or from the environment
+variable `STUDY1_PROJECT_ROOT` when it is set.
+
+```{r paths}
+PROJECT_ROOT <- local({
+  is_root <- function(p) dir.exists(file.path(p, "Data")) &&
+                         dir.exists(file.path(p, "Analysis"))
+  root <- Sys.getenv("STUDY1_PROJECT_ROOT")
+  if (nzchar(root)) {
+    root <- normalizePath(root, mustWork = FALSE)
+    if (!is_root(root)) {
+      stop("The folder STUDY1_PROJECT_ROOT names has no Data and Analysis ",
+           "folders.")
+    }
+  } else {
+    root <- normalizePath(getwd(), mustWork = TRUE)
+    while (!is_root(root)) {
+      if (identical(dirname(root), root)) {
+        stop("No folder at or above the working directory holds both Data ",
+             "and Analysis. Knit this file from its own folder, or set ",
+             "STUDY1_PROJECT_ROOT to the project root.")
+      }
+      root <- dirname(root)
+    }
+  }
+  root
+})
+
+STUDY_NUM    <- 1
+STUDY_FOLDER <- paste("Study", STUDY_NUM)
+
+PATH_ANALYSIS    <- file.path(PROJECT_ROOT, "Analysis",
+                              "R Analysis Pipeline", STUDY_FOLDER)
+PATH_OUT         <- PATH_ANALYSIS
+PATH_OUT_FIG     <- file.path(PATH_OUT, "figures")
+PATH_OUT_TAB     <- file.path(PATH_OUT, "tables")
+PATH_OUT_MODELS  <- file.path(PATH_OUT, "models")
+
+PATH_PAPER       <- file.path(PROJECT_ROOT, "Docs", "Writing", "Final Paper")
+PATH_PAPER_FIG   <- file.path(PATH_PAPER, "figures")
+PATH_PAPER_TAB   <- file.path(PATH_PAPER, "tables")
+
+# The run record of this knit sits beside the analysis tables, under the name
+# every stage of the pipeline uses: tables/study1_<stage>_run_manifest.csv.
+PATH_RUN_MANIFEST <- file.path(PATH_OUT_TAB, "study1_figures_run_manifest.csv")
+
+# Stop at once if the project folder cannot be found.
+if (!dir.exists(PROJECT_ROOT)) {
+  stop("PROJECT_ROOT does not exist:\n  ", PROJECT_ROOT,
+       "\nIs Google Drive mounted? Edit PROJECT_ROOT to point to your copy.")
+}
+
+# Create the output folders if they are missing.
+for (p in c(PATH_OUT_FIG, PATH_OUT_TAB,
+            PATH_PAPER_FIG, PATH_PAPER_TAB)) {
+  dir.create(p, recursive = TRUE, showWarnings = FALSE)
+}
+
+cat("Figures will be written to:\n  ", PATH_OUT_FIG,
+    "\n   and\n  ", PATH_PAPER_FIG, "\n")
+```
+
+## 1.2 Packages
+
+```{r packages}
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(readr)
+  library(stringr)
+  library(ggplot2)
+})
+```
+
+## 1.3 Run record
+
+Each knit has a run identifier and keeps a list of the files it read and
+wrote. The last chunk saves that list to `tables/study1_figures_run_manifest.csv`.
+
+```{r run-record}
+# One row per file: the run identifier, the stage, the role of the file (this
+# source file, an input or an output), its path within the project, its
+# SHA-256 fingerprint (a 64-character code computed from the file's bytes,
+# which changes if a single byte changes), its size, and a status (knitted,
+# read, absent or written) with a note. The manifest from an earlier knit is
+# deleted here, before anything else is written, so a knit that stops partway
+# leaves no manifest claiming it finished. The digest package computes the
+# fingerprints; it is called as digest::digest() and is not attached with
+# library().
+RUN_STAGE   <- "figures"
+RUN_STARTED <- format(Sys.time(), "%Y-%m-%dT%H:%M:%S%z")
+RUN_ID      <- paste0(RUN_STAGE, "-", format(Sys.time(), "%Y%m%dT%H%M%S"), "-",
+                      substr(digest::digest(c(RUN_STARTED, Sys.getpid())), 1, 8))
+unlink(PATH_RUN_MANIFEST)
+
+# The file being knitted. When the code runs outside a knit, the copy in the
+# analysis folder is fingerprinted instead.
+SOURCE_FILE <- knitr::current_input(dir = TRUE)
+if (is.null(SOURCE_FILE)) {
+  SOURCE_FILE <- file.path(PATH_ANALYSIS, "Study1_Figures.Rmd")
+}
+
+file_sha256 <- function(path) {
+  if (!file.exists(path)) return(NA_character_)
+  digest::digest(file = path, algo = "sha256")
+}
+path_in_project <- function(path) {
+  root <- paste0(PROJECT_ROOT, "/")
+  ifelse(startsWith(path, root), substring(path, nchar(root) + 1L), path)
+}
+
+# The fingerprint and size are taken from the full path before the row is
+# built. Inside tibble() a later argument can see an earlier column, and the
+# path column there holds the project-relative form, not the full path.
+run_ledger <- list()
+record_file <- function(role, path, status, note = "") {
+  sha   <- file_sha256(path)
+  bytes <- if (file.exists(path)) file.size(path) else NA_real_
+  run_ledger[[length(run_ledger) + 1L]] <<- tibble::tibble(
+    run_id = RUN_ID, stage = RUN_STAGE, role = role,
+    path   = path_in_project(path), status = status,
+    sha256 = sha, bytes = bytes, note = note
+  )
+  invisible(NULL)
+}
+record_file("source", SOURCE_FILE, "knitted")
+```
+
+## 1.4 Theme and palette
+
+Figure 1 uses one greyscale palette and one `theme_paper()` function for its
+axes and panel labels. Grey prints cleanly in black and white, and it gives
+neither condition a colour that could read as a judgment about it.
+
+```{r theme}
+PAL_TYPE <- c("Human" = "#A1A1A1", "AI" = "#3E3E3E")
+
+theme_paper <- function(base_size = 11) {
+  theme_classic(base_size = base_size) +
+    theme(
+      legend.position    = "none",
+      strip.background   = element_blank(),
+      strip.placement    = "outside",
+      strip.text         = element_text(size = base_size, face = "bold"),
+      axis.line          = element_line(color = "black", linewidth = 0.4),
+      axis.ticks         = element_line(color = "black", linewidth = 0.4),
+      axis.text          = element_text(color = "black"),
+      panel.grid         = element_blank(),
+      plot.title         = element_text(size = base_size, face = "bold",
+                                        hjust = 0),
+      plot.margin        = margin(8, 8, 8, 8)
+    )
+}
+```
+
+---
+
+# 2. Load data
+
+```{r load-data}
+# The ratings from Study1_01_Quant.Rmd in long format: one row per
+# participant, image and dimension.
+long_path <- file.path(PATH_OUT, "study1_long_with_text.csv")
+record_file("input", long_path, if (file.exists(long_path)) "read" else "absent")
+long <- read_csv(long_path, show_col_types = FALSE) %>%
+  mutate(
+    Type          = factor(Type,          levels = c("Human", "AI")),
+    stimulus_type = factor(stimulus_type, levels = c("NonFigure", "Figure")),
+    dimension     = factor(dimension,     levels = c("creativity", "effort")),
+    id            = factor(id),
+    stimulus_id   = factor(stimulus_id)
+  )
+
+# Checks on the structure. No identifier is missing. Each participant has one
+# Type, the attribution condition (told that a person, Human, or AI made the
+# works), and 10 ratings on each dimension, one per image: 5 figurative and 5
+# non-figurative.
+stopifnot(!any(is.na(long$id)), !any(is.na(long$Type)),
+          !any(is.na(long$dimension)), !any(is.na(long$stimulus_id)))
+stopifnot(all((long %>% distinct(id, Type) %>% count(id) %>% pull(n)) == 1L))
+stopifnot(all((long %>% count(id, dimension) %>% pull(n)) == 10L))
+
+cat("Ratings loaded: ", nrow(long), " rows, ",
+    dplyr::n_distinct(long$id), " participants.\n", sep = "")
+```
+
+---
+
+# 3. Figure 1: Ratings by Creator Type
+
+Figure 1 has two panels, creativity on the left and effort on the right. Each
+dot is one participant's mean rating over the ten images, both image kinds
+together, so every participant appears once in each panel. Behind the dots, a
+violin gives a smoothed outline of how those means are spread (wider where
+more participants fall), and a boxplot marks the median and the middle half of
+the participants.
+
+```{r fig1-ratings, fig.width=7.2, fig.height=3.6}
+# Both copies of the figure are deleted before it is drawn, so a knit that
+# stops in this chunk leaves no figure from an earlier knit behind.
+fig1_paths <- as.vector(outer(c(PATH_OUT_FIG, PATH_PAPER_FIG),
+                              c("study1_fig1_ratings.pdf",
+                                "study1_fig1_ratings.png"),
+                              file.path))
+unlink(fig1_paths)
+
+participant_cell <- long %>%
+  group_by(id, Type, dimension) %>%
+  summarise(rating_mean = mean(rating, na.rm = TRUE), .groups = "drop") %>%
+  mutate(
+    dimension = factor(stringr::str_to_title(as.character(dimension)),
+                       levels = c("Creativity", "Effort"))
+  )
+
+# Jitter is a small random sideways shift that keeps overlapping dots
+# visible. `height = 0` confines it to the category axis, so each dot stays at
+# its true participant mean on the rating axis. The shift is drawn from a
+# fixed seed (20260421), so every knit places each dot in the same spot.
+# `coord_cartesian(ylim=)` narrows the view without removing data. Setting
+# `scale_y_continuous(limits=)` instead would turn any value outside the
+# limits into NA and drop it from the violin and boxplot as well, without a
+# message.
+fig1 <- ggplot(participant_cell,
+               aes(x = Type, y = rating_mean, fill = Type)) +
+  geom_violin(width = 0.85, alpha = 0.55, trim = FALSE) +
+  geom_boxplot(width = 0.22, alpha = 0.85, outlier.shape = NA) +
+  geom_jitter(position = position_jitter(width = 0.07, height = 0,
+                                         seed = 20260421),
+              alpha = 0.30, size = 0.8, color = "black") +
+  facet_wrap(~ dimension, ncol = 2) +
+  scale_y_continuous(breaks = 1:5) +
+  coord_cartesian(ylim = c(1, 5)) +
+  scale_fill_manual(values = PAL_TYPE) +
+  labs(x = "Creator Type", y = "Mean rating (1–5)") +
+  theme_paper(base_size = 11)
+
+fig1
+
+# Save to both the analysis folder and the manuscript folder.
+# 7.2 in is about 18.3 cm, the Nature Communications double-column width.
+for (target_dir in c(PATH_OUT_FIG, PATH_PAPER_FIG)) {
+  ggsave(file.path(target_dir, "study1_fig1_ratings.pdf"),
+         fig1, width = 7.2, height = 3.6, device = cairo_pdf)
+  ggsave(file.path(target_dir, "study1_fig1_ratings.png"),
+         fig1, width = 7.2, height = 3.6, dpi = 300)
+}
+for (p in fig1_paths) record_file("output", p, "written")
+```
+
+---
+
+# 4. Inline LaTeX macros
+
+This section writes `study1_inline.tex`. It defines, as `\newcommand{}`
+macros, each Study 1 number that this notebook supplies to the manuscript
+text. The manuscript, kept on Overleaf (an online LaTeX editor), should load
+the file near the top of the document with
+
+```
+\input{tables/study1_inline.tex}
+```
+
+and then use the macro names in place of numbers, for example
+`\SoneMCreatHum` for the mean creativity rating in the Human condition. A
+number typed by hand can drift from the analysis; a macro cannot, provided the
+manuscript source does load this file.
+
+**One writer per file.** This notebook is the only writer of
+`study1_inline.tex`, and every macro in it starts with `\Sone` followed by a
+CamelCase name. A notebook that needs macros of its own writes them to a file
+of its own. If two notebooks wrote the same file, the one knitted last would
+overwrite the other without warning.
+
+```{r inline-stats}
+# This chunk is the only writer of study1_inline.tex (see the text above). Do
+# not add a second writer.
+
+# Both copies of the macro file are deleted first, so a check that stops this
+# chunk leaves no macro file from an earlier knit for the manuscript to read.
+inline_paths <- file.path(c(PATH_OUT_TAB, PATH_PAPER_TAB), "study1_inline.tex")
+unlink(inline_paths)
+
+# The two primary models saved by Study1_01_Quant.Rmd. Each is a linear mixed
+# model: a regression of the rating on attribution, image kind and their
+# interaction that gives each participant and each image its own baseline.
+creat_path <- file.path(PATH_OUT_MODELS, "study1_lmm_creativity.rds")
+eff_path   <- file.path(PATH_OUT_MODELS, "study1_lmm_effort.rds")
+creat_res  <- readRDS(creat_path)
+eff_res    <- readRDS(eff_path)
+record_file("input", creat_path, "read")
+record_file("input", eff_path,   "read")
+
+# Formatting for an F test, a p-value, and a d with its interval.
+fmt_F <- function(row) sprintf("$F(%.0f, %.1f) = %.2f$",
+                               row$NumDF, row$DenDF, row$`F value`)
+fmt_p <- function(p) {
+  if (is.na(p))      "NA"
+  else if (p < 0.001) "< 0.001"
+  else                sprintf("%.3f", p)
+}
+fmt_d <- function(d, lo, hi) sprintf("%.2f, 95\\%% CI [%.2f, %.2f]",
+                                     d, lo, hi)
+
+# The Type row of each model's ANOVA table, which tests each model term with
+# an F statistic (denominator degrees of freedom by the Satterthwaite
+# approximation).
+ac <- as.data.frame(creat_res$anova_sat) %>%
+  tibble::rownames_to_column("term") %>%
+  filter(term == "Type")
+ae <- as.data.frame(eff_res$anova_sat) %>%
+  tibble::rownames_to_column("term") %>%
+  filter(term == "Type")
+stopifnot(nrow(ac) == 1L, nrow(ae) == 1L)
+
+# What the Type F tests. Each dimension's primary model includes the
+# attribution-by-image-kind interaction. In that model the type III F for
+# Type (which tests Type after every other term is in the model) tests the
+# attribution difference averaged with equal weight over the two image kinds.
+# That average is the registered H1 contrast. It is not the TypeAI
+# coefficient, which is the difference at the non-figurative image kind only.
+# With one numerator degree of freedom (a single contrast under test), the F
+# is the square of the contrast's t and has the same p-value. When the
+# confirmatory family is on disk the two are compared here, and the chunk
+# stops if they disagree, since that would mean the macro and the registered
+# test came from different fits.
+conf_path <- file.path(PATH_OUT_TAB, "study1_confirmatory_family.csv")
+if (file.exists(conf_path)) {
+  conf_fam <- read_csv(conf_path, show_col_types = FALSE)
+  record_file("input", conf_path, "read")
+  stopifnot(all(c("hypothesis", "test", "statistic", "p_raw") %in% names(conf_fam)))
+  check_h1_F <- function(row, dim) {
+    h1 <- conf_fam %>%
+      filter(hypothesis == "H1", grepl(dim, test, ignore.case = TRUE))
+    stopifnot(nrow(h1) == 1L, row$NumDF == 1)
+    if (abs(row$`F value` - h1$statistic^2) > 1e-4 * max(1, h1$statistic^2) ||
+        abs(row$`Pr(>F)` - h1$p_raw) > 1e-6 + 1e-4 * h1$p_raw) {
+      stop(sprintf(paste0("The %s Type F (%.4f, p = %.3g) does not match the ",
+                          "square of the registered H1 t (%.4f, p = %.3g) in ",
+                          "study1_confirmatory_family.csv. Re-run ",
+                          "Study1_01_Quant.Rmd so both come from one fit."),
+                   dim, row$`F value`, row$`Pr(>F)`, h1$statistic^2, h1$p_raw))
+    }
+    cat(sprintf("%s: Type F = %.3f equals the registered H1 t squared (%.3f).\n",
+                dim, row$`F value`, h1$statistic^2))
+  }
+  check_h1_F(ac, "creativity")
+  check_h1_F(ae, "effort")
+} else {
+  cat("pending: run Study1_01_Quant.Rmd section 7.9 (missing ",
+      "study1_confirmatory_family.csv); the Type F macros are written without ",
+      "the check against the registered H1 contrast.\n", sep = "")
+  record_file("input", conf_path, "absent")
+}
+
+# Sample sizes are counted from the data. Each participant id must belong to
+# exactly one Type. The counts are then checked against the analytic N of 111
+# (56 Human, 55 AI).
+id_type <- long %>% distinct(id, Type)
+stopifnot(!any(duplicated(id_type$id)), !any(is.na(id_type$Type)))
+n_total <- nrow(id_type)
+n_hum   <- sum(id_type$Type == "Human")
+n_ai    <- sum(id_type$Type == "AI")
+stopifnot(n_total == n_hum + n_ai)
+stopifnot(n_total == 111L, n_hum == 56L, n_ai == 55L)  # analytic N
+
+# Cell means. Each participant's ratings are first averaged over all ten
+# images, both image kinds together; the mean and SD of those participant
+# means are then taken within each Type and dimension.
+marg <- long %>%
+  group_by(id, Type, dimension) %>%
+  summarise(m = mean(rating, na.rm = TRUE), .groups = "drop") %>%
+  group_by(Type, dimension) %>%
+  summarise(M = mean(m), SD = sd(m), N = n(), .groups = "drop")
+stopifnot(nrow(marg) == 4L)
+
+pull1 <- function(df, col) {
+  x <- df[[col]]
+  stopifnot(length(x) == 1L, !is.na(x))
+  x
+}
+m_creat_hum <- marg %>% filter(Type == "Human", dimension == "creativity") %>% pull1("M")
+m_creat_ai  <- marg %>% filter(Type == "AI",    dimension == "creativity") %>% pull1("M")
+m_eff_hum   <- marg %>% filter(Type == "Human", dimension == "effort")     %>% pull1("M")
+m_eff_ai    <- marg %>% filter(Type == "AI",    dimension == "effort")     %>% pull1("M")
+
+sd_creat_hum <- marg %>% filter(Type == "Human", dimension == "creativity") %>% pull1("SD")
+sd_creat_ai  <- marg %>% filter(Type == "AI",    dimension == "creativity") %>% pull1("SD")
+sd_eff_hum   <- marg %>% filter(Type == "Human", dimension == "effort")     %>% pull1("SD")
+sd_eff_ai    <- marg %>% filter(Type == "AI",    dimension == "effort")     %>% pull1("SD")
+
+# ---- Cohen's d ---------------------------------------------------------------
+# Cohen's d is the difference between two group means divided by their pooled
+# SD (the spread of scores within the groups, combined across both groups
+# with each weighted by its size). The registered convention
+# (Docs/Preregistration/Study1_Preregistration.md, section 6) is
+# d = (M_Human - M_AI) / pooled SD on participant means, with a bootstrap
+# percentile CI: the 2.5th and 97.5th percentiles of d over B = 10,000
+# resamples of participants, seed 20260421. Study1_01_Quant.Rmd saves the
+# result to tables/study1_bootstrap_d.csv. This chunk reads that CSV, so the
+# manuscript macro and the supplement table (Study1_Supplements.Rmd section
+# 10.5) report the same numbers. If the CSV is absent, d is computed below
+# under the same convention and the console says so. If it is present but
+# lacks the expected columns, the chunk stops.
+boot_path <- file.path(PATH_OUT_TAB, "study1_bootstrap_d.csv")
+if (file.exists(boot_path)) {
+  bd <- read_csv(boot_path, show_col_types = FALSE)
+  record_file("input", boot_path, "read")
+  bd_req <- c("dimension", "d", "ci_lo", "ci_hi")
+  if (!all(bd_req %in% names(bd))) {
+    stop("study1_bootstrap_d.csv exists but lacks expected columns (",
+         paste(bd_req, collapse = ", "), "). Found: ",
+         paste(names(bd), collapse = ", "),
+         ". Align the writer in Study1_01_Quant.Rmd or this reader.")
+  }
+  # Sign convention: the CSV stores M_Human - M_AI, and the manuscript reports
+  # the size of the gap, |Human - AI|, so abs() is applied here. Taking
+  # absolute values is safe only when d and both CI limits have the same
+  # sign. A CI that crosses zero would be folded into a positive interval that
+  # misstates the uncertainty. The sign check therefore runs on the signed
+  # values, before abs(), because after folding a crossing interval looks the
+  # same as one that lies on one side of zero.
+  get_d <- function(dim) {
+    r <- bd %>% filter(dimension == dim)
+    stopifnot(nrow(r) == 1L, !is.na(r$d), !is.na(r$ci_lo), !is.na(r$ci_hi),
+              r$ci_lo <= r$d, r$d <= r$ci_hi)
+    if (sign(r$ci_lo) != sign(r$ci_hi) || sign(r$d) != sign(r$ci_lo)) {
+      stop(sprintf(paste0("study1_bootstrap_d.csv: %s CI [%.3f, %.3f] ",
+                          "straddles zero; |Human - AI| cannot be reported ",
+                          "from abs(). Report the signed d in the manuscript."),
+                   dim, r$ci_lo, r$ci_hi))
+    }
+    list(d = abs(r$d), lo = min(abs(r$ci_lo), abs(r$ci_hi)),
+         hi = max(abs(r$ci_lo), abs(r$ci_hi)))
+  }
+  d_creat <- get_d("creativity")
+  d_eff   <- get_d("effort")
+  stopifnot(d_creat$lo <= d_creat$hi, d_eff$lo <= d_eff$hi)
+  bd_B    <- if ("B"    %in% names(bd)) as.integer(bd$B[1])    else NA_integer_
+  bd_seed <- if ("seed" %in% names(bd)) as.integer(bd$seed[1]) else NA_integer_
+  d_source <- sprintf("registered: tables/study1_bootstrap_d.csv (B = %s, seed = %s)",
+                      ifelse(is.na(bd_B), "see Study1_01_Quant.Rmd", bd_B),
+                      ifelse(is.na(bd_seed), "see Study1_01_Quant.Rmd", bd_seed))
+  cat("Cohen's d read from", boot_path, "\n")
+} else {
+  # Fallback when the registered CSV is missing. d is computed here under the
+  # registered convention: participant means, pooled SD, stratified resampling
+  # of participants, percentile CI, B = 10,000, seed 20260421. These values
+  # are not the registered numbers. The macros carry those only after
+  # Study1_01_Quant.Rmd section 9.1 writes the CSV and this notebook is
+  # knitted again.
+  # Stratified means that each arm's participants are resampled separately,
+  # so both arm sizes stay fixed across replicates. Study1_01_Quant.Rmd
+  # resamples the same way. Resampling the two arms as one pool would let
+  # their sizes vary and would not be the registered scheme.
+  warning("tables/study1_bootstrap_d.csv not found; falling back to inline ",
+          "bootstrap d. Run Study1_01_Quant.Rmd (registered bootstrap d) and ",
+          "re-knit so the manuscript macros carry the registered estimate.")
+  cat("Warning: study1_bootstrap_d.csv not found; d is computed inline ",
+      "and is not the registered estimate.\n")
+  record_file("input", boot_path, "absent", "inline bootstrap d used in its place")
+  B <- 10000L
+  pooled_d <- function(x_h, x_a) {
+    n_h <- length(x_h); n_a <- length(x_a)
+    sp  <- sqrt(((n_h - 1) * var(x_h) + (n_a - 1) * var(x_a)) / (n_h + n_a - 2))
+    (mean(x_h) - mean(x_a)) / sp
+  }
+  boot_d <- function(dim_name) {
+    pp <- long %>% filter(dimension == dim_name, !is.na(rating)) %>%
+      group_by(id, Type) %>% summarise(m = mean(rating), .groups = "drop")
+    h <- pp$m[pp$Type == "Human"]; a <- pp$m[pp$Type == "AI"]
+    stopifnot(length(h) > 2L, length(a) > 2L)
+    d_obs <- pooled_d(h, a)
+    set.seed(20260421)   # reset per dimension, as in Quant section 9.1
+    reps <- vapply(seq_len(B), function(b) {
+      pooled_d(sample(h, length(h), replace = TRUE),
+               sample(a, length(a), replace = TRUE))
+    }, numeric(1))
+    ci <- unname(quantile(reps, c(0.025, 0.975), type = 7))
+    # Signed d and CI must share a sign for the |Human - AI| report.
+    if (sign(ci[1]) != sign(ci[2]) || sign(d_obs) != sign(ci[1])) {
+      stop(sprintf(paste0("Fallback bootstrap d for %s has a CI straddling ",
+                          "zero [%.3f, %.3f]; report the signed d instead."),
+                   dim_name, ci[1], ci[2]))
+    }
+    list(d = abs(d_obs), lo = min(abs(ci)), hi = max(abs(ci)))
+  }
+  d_creat <- boot_d("creativity")
+  d_eff   <- boot_d("effort")
+  d_source <- sprintf("fallback, inline bootstrap (B = %d, seed 20260421), not the registered CSV", B)
+}
+
+# ---- Text-measure rates for the manuscript's headline sentences --------------
+# The written justifications are measured by fixed search patterns in
+# Study1_02_Text.ipynb and modelled in Study1_03_Integration.Rmd, which writes
+# the two prevalence tables read here. Both give one row per quantity with a
+# participant-resampled 95% interval, one obtained by resampling whole
+# participants so that each person's justifications stay together. The macros
+# below report those numbers, rounded to whole percentages, and do not
+# recompute them under a slightly different convention.
+#
+# Both rates are for the arm told a person made the work. That is the arm the
+# denotation questions are about: what the words "effort" and "creativity"
+# meant to someone judging a human-made picture. The machine arm's own use of
+# the words is a separate question, reported in Study1_03_Integration.Rmd.
+#
+# Each read is guarded by file.exists(). If a table has not been written yet,
+# its macros are left out and the console names the notebook section that
+# writes it. A macro file with gaps is safer than one carrying numbers no
+# analysis produced.
+read_prevalence <- function(csv_name, section) {
+  path <- file.path(PATH_OUT_TAB, csv_name)
+  if (!file.exists(path)) {
+    cat("pending: run Study1_03_Integration.Rmd ", section,
+        " (missing ", csv_name, ")\n", sep = "")
+    record_file("input", path, "absent")
+    return(NULL)
+  }
+  d <- read_csv(path, show_col_types = FALSE)
+  record_file("input", path, "read")
+  req <- c("quantity", "estimate", "ci_lo", "ci_hi")
+  if (!all(req %in% names(d))) {
+    stop(csv_name, " is missing expected columns (",
+         paste(req, collapse = ", "), "). Found: ",
+         paste(names(d), collapse = ", "),
+         ". Align Study1_03_Integration.Rmd (writer) with this reader.")
+  }
+  d
+}
+
+prev_effort <- read_prevalence("study1_text_effort_prevalence.csv",
+                               "section 3.1 (effort-talk prevalence)")
+prev_creat  <- read_prevalence("study1_text_creativity_prevalence.csv",
+                               "section 4.1 (creativity-talk prevalence)")
+
+# One macro per quantity: the rate as a whole percentage, with the
+# participant-resampled interval beside it in the same units.
+prevalence_macro <- function(d, wanted, macro) {
+  if (is.null(d)) return(character(0))
+  r <- d[!is.na(d$quantity) & d$quantity == wanted, , drop = FALSE]
+  if (nrow(r) != 1L) {
+    stop(sprintf(paste0("Expected exactly one row for the quantity '%s' but ",
+                        "found %d. Quantities present: %s."),
+                 wanted, nrow(r), paste(d$quantity, collapse = ", ")))
+  }
+  if (is.na(r$estimate) || is.na(r$ci_lo) || is.na(r$ci_hi)) {
+    stop(sprintf("The row for '%s' has an NA estimate or interval.", wanted))
+  }
+  sprintf("\\newcommand{\\%s}{%.0f\\%% (95\\%% CI [%.0f, %.0f])}",
+          macro, 100 * r$estimate, 100 * r$ci_lo, 100 * r$ci_hi)
+}
+
+text_macros <- c(
+  prevalence_macro(prev_effort, "detail",         "SoneEffortDetail"),
+  prevalence_macro(prev_effort, "time",           "SoneEffortTime"),
+  prevalence_macro(prev_effort, "skill",          "SoneEffortSkill"),
+  prevalence_macro(prev_creat,  "concept",        "SoneCreatConcept"),
+  prevalence_macro(prev_creat,  "novelty_either", "SoneCreatNovelty"),
+  prevalence_macro(prev_creat,  "execution",      "SoneCreatExecution")
+)
+
+# The macro file, line by line.
+lines <- c(
+  "% Written by Study1_Figures.Rmd, the only writer of this file. Do not edit by hand.",
+  "% Edit Study1_Figures.Rmd, knit, and re-input this file.",
+  "% A notebook that needs macros of its own writes them to a file of its own.",
+  "",
+  "% --- Sample (derived from study1_long_with_text.csv) ---",
+  sprintf("\\newcommand{\\SoneN}{%d}",    n_total),
+  sprintf("\\newcommand{\\SoneNHum}{%d}", n_hum),
+  sprintf("\\newcommand{\\SoneNAI}{%d}",  n_ai),
+  "",
+  "% --- H1: attribution effect on each dimension, averaged over the two image kinds",
+  "% (type III F for Type in the primary model; the same test as the registered marginal contrast) ---",
+  sprintf("\\newcommand{\\SoneCreatTypeF}{%s}",  fmt_F(ac)),
+  sprintf("\\newcommand{\\SoneCreatTypeP}{%s}",  fmt_p(ac$`Pr(>F)`)),
+  sprintf("\\newcommand{\\SoneEffTypeF}{%s}",    fmt_F(ae)),
+  sprintf("\\newcommand{\\SoneEffTypeP}{%s}",    fmt_p(ae$`Pr(>F)`)),
+  "",
+  "% --- Cell means ---",
+  sprintf("\\newcommand{\\SoneMCreatHum}{%.2f}",  m_creat_hum),
+  sprintf("\\newcommand{\\SoneMCreatAI}{%.2f}",   m_creat_ai),
+  sprintf("\\newcommand{\\SoneMEffHum}{%.2f}",    m_eff_hum),
+  sprintf("\\newcommand{\\SoneMEffAI}{%.2f}",     m_eff_ai),
+  sprintf("\\newcommand{\\SoneSDCreatHum}{%.2f}", sd_creat_hum),
+  sprintf("\\newcommand{\\SoneSDCreatAI}{%.2f}",  sd_creat_ai),
+  sprintf("\\newcommand{\\SoneSDEffHum}{%.2f}",   sd_eff_hum),
+  sprintf("\\newcommand{\\SoneSDEffAI}{%.2f}",    sd_eff_ai),
+  "",
+  sprintf("%% --- Cohen's d (|Human - AI| on participant means; source: %s) ---", d_source),
+  sprintf("\\newcommand{\\SoneCreatD}{%s}", fmt_d(d_creat$d, d_creat$lo, d_creat$hi)),
+  sprintf("\\newcommand{\\SoneEffD}{%s}",   fmt_d(d_eff$d,   d_eff$lo,   d_eff$hi)),
+  ""
+)
+
+# The text-measure macros are appended only for the tables that exist. Their
+# comment line is written with them, so a manuscript reading this file never
+# finds a heading with nothing under it.
+if (length(text_macros) > 0) {
+  lines <- c(
+    lines,
+    paste0("% --- Rates in the written justifications, human-attribution arm ",
+           "(share of justifications, with a participant-resampled 95% CI) ---"),
+    text_macros,
+    ""
+  )
+}
+
+# Write the same file to the analysis tables folder and the manuscript tables
+# folder.
+for (p in inline_paths) {
+  writeLines(lines, p)
+  record_file("output", p, "written")
+}
+
+# Print the file in the knitted report.
+cat(paste(lines, collapse = "\n"), "\n")
+```
+
+---
+
+# 5. Output manifest
+
+This notebook writes:
+
+```
+figures/
+  study1_fig1_ratings.pdf      # Figure 1 (two panels of violins, creativity and effort)
+  study1_fig1_ratings.png
+
+tables/
+  study1_inline.tex            # \newcommand{} macros for the manuscript text (only writer)
+  study1_figures_run_manifest.csv  # run record of the knit (analysis folder only)
+```
+
+The figure and the macro file are written to both `Analysis/.../Study 1/`
+and the `Final Paper/` folder, so the manuscript can read them from its own
+folder without a copy step.
+
+```{r run-manifest}
+# The run record of this knit: one row per role and path, with the start and
+# finish times and the R version beside each row. It is written last, after
+# every other chunk has finished, so its presence means the knit ran to the
+# end.
+run_manifest <- dplyr::bind_rows(run_ledger) %>%
+  group_by(role, path) %>%
+  slice_tail(n = 1) %>%
+  ungroup() %>%
+  mutate(started_at  = RUN_STARTED,
+         finished_at = format(Sys.time(), "%Y-%m-%dT%H:%M:%S%z"),
+         r_version   = R.version.string) %>%
+  arrange(factor(role, levels = c("source", "input", "output")), path)
+write_csv(run_manifest, PATH_RUN_MANIFEST)
+cat("Run ", RUN_ID, ": ",
+    sum(run_manifest$role == "output" & run_manifest$status == "written"),
+    " outputs written. Run record written to ", basename(PATH_RUN_MANIFEST),
+    ".\n", sep = "")
+run_manifest %>% count(role, status)
+```
+
+# 6. Notes
+
+  - Every input is a saved analysis output, and no model is refit. A knit
+    takes about 5 s, longer on the fallback path, which draws B = 10,000
+    bootstrap resamples.
+  - After rerunning an analysis notebook, knit this file again. To change
+    Figure 1, edit its chunk in section 3 and knit again.
+  - Figure 1 is 7.2 in wide (about 18.3 cm), the Nature Communications
+    double-column width.
+  - The figures built from the written justifications come from
+    `Study1_03_Integration.Rmd`, beside the models they summarise. This
+    notebook draws only Figure 1 and reads that notebook's prevalence tables
+    for the macros in section 4.
+  - Every macro in `study1_inline.tex` comes from a saved analysis output,
+    except d on the fallback path, which is computed here. A text-measure
+    quantity whose table is not on disk gets no macro, and the console names
+    the section that writes the table.
+  - The two Type F macros test the H1 contrast, the attribution difference
+    averaged over the two image kinds. When
+    `tables/study1_confirmatory_family.csv` is on disk, the knit stops if
+    either F differs from the square of the registered contrast's t.
+  - The figure files and the macro file are deleted at the start of the chunk
+    that writes them, and `tables/study1_figures_run_manifest.csv` records the
+    fingerprint of every file the knit read and wrote.

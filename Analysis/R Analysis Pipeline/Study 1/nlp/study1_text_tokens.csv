@@ -1,0 +1,2221 @@
+id,stimulus_id,dimension,content_words
+100111,Figure_1,creativity,idea original seen
+100111,Figure_1,effort,different involved many parts
+100111,Figure_2,creativity,pretty unique
+100111,Figure_2,effort,detail involved lot
+100111,Figure_3,creativity,aspects glass glowing hour many unique
+100111,Figure_3,effort,effects shadows sketched
+100111,Figure_4,creativity,artwork represented scene simple
+100111,Figure_4,effort,artworks compared details effort less needed previous
+100111,Figure_5,creativity,artwork idea original piece unique
+100111,Figure_5,effort,aspects different many
+100111,NonFigure_1,creativity,animals artwork color creative design etc eyes making simple stuffed thought
+100111,NonFigure_1,effort,artwork colors different effort etc involved many significant textures think
+100111,NonFigure_2,creativity,aspects colors many unique
+100111,NonFigure_2,effort,detail lot
+100111,NonFigure_3,creativity,generic pretty scene
+100111,NonFigure_3,effort,aspects detail different lot work
+100111,NonFigure_4,creativity,artwork colors creative creativity landscape simple texture think
+100111,NonFigure_4,effort,artwork aspects different many
+100111,NonFigure_5,creativity,artwork seen similar things
+100111,NonFigure_5,effort,detail involved lot
+100501,Figure_1,creativity,alex created creative normally portrait think
+100501,Figure_1,effort,detailed lot put thought
+100501,Figure_2,creativity,appreciate creativity horror movie thought
+100501,Figure_2,effort,detailed image
+100501,Figure_3,creativity,creative man super timer
+100501,Figure_3,effort,effort looks man realistic work
+100501,Figure_4,creativity,boat lake simple trees work
+100501,Figure_4,effort,effort involved much theres
+100501,Figure_5,creativity,intercate looks pictures seen similar work
+100501,Figure_5,effort,detailed
+100501,NonFigure_1,creativity,alex art designing normally person piece think thought way
+100501,NonFigure_1,effort,creative looks relatively remade simple work
+100501,NonFigure_2,creativity,board candyland game looks movie work
+100501,NonFigure_2,effort,detailed drawn image
+100501,NonFigure_3,creativity,easily holiday movie picture thought
+100501,NonFigure_3,effort,artistic background made person picture
+100501,NonFigure_4,creativity,creativity image natural needed replicate
+100501,NonFigure_4,effort,copy picture
+100501,NonFigure_5,creativity,creative drawn dystopian movies nice seen similar super
+100501,NonFigure_5,effort,detailed intricate
+100499,Figure_1,creativity,complicated concept image pretty
+100499,Figure_1,effort,done editing image looks lot make right touch ups
+100499,Figure_2,creativity,behind details hidden image looks lot prompt thought
+100499,Figure_2,effort,changes details done hidden image iterations looks many went
+100499,Figure_3,creativity,image interesting
+100499,Figure_3,effort,boring image much probably take thought
+100499,Figure_4,creativity,artist creativity last less looks movie pretty recreate scene trying
+100499,Figure_4,effort,didnt get image looks much take
+100499,Figure_5,creativity,complicated looks prompt
+100499,Figure_5,effort,get image iterations look looks multiple went
+100499,NonFigure_1,creativity,behind creative image looks lot thought
+100499,NonFigure_1,effort,get image looks touch ups
+100499,NonFigure_2,creativity,busy figure image loud prompt
+100499,NonFigure_2,effort,come editing looked lot required
+100499,NonFigure_3,creativity,creative going lot picture
+100499,NonFigure_3,effort,last required think thinking
+100499,NonFigure_4,creativity,creativity desert image look much pretty took
+100499,NonFigure_4,effort,buts effort image looks make pretty touch tried went
+100499,NonFigure_5,creativity,concept cool creative
+100499,NonFigure_5,effort,effort image looks lot make pretty put
+100668,Figure_1,creativity,believe creativity flowers human incorporating lot showcased space watering
+100668,Figure_1,effort,effort image put story tell
+100668,Figure_2,creativity,faces interesting makes mirror monster story told
+100668,Figure_2,effort,attention audiences catches color detail effort put story telling
+100668,Figure_3,creativity,feels story telling
+100668,Figure_3,effort,color different enjoyed grey pop
+100668,Figure_4,creativity,dont enjoyed image know story tell trying
+100668,Figure_4,effort,attention catch detail included lot much
+100668,Figure_5,creativity,background creative detail face made think
+100668,Figure_5,effort,able background blend complex detail face together
+100668,NonFigure_1,creativity,decorations party reminded used
+100668,NonFigure_1,effort,attention caught felt images
+100668,NonFigure_2,creativity,image included lorax lot movie reminded things
+100668,NonFigure_2,effort,back complicated first looking
+100668,NonFigure_3,creativity,compared different enjoyed holiday reminds seasons sky viewing
+100668,NonFigure_3,effort,attention background caught difference enjoyed especially sky
+100668,NonFigure_4,creativity,colors fun image incorporated making many view
+100668,NonFigure_4,effort,colors deal due effort great involved said technique
+100668,NonFigure_5,creativity,attention caught different far image
+100668,NonFigure_5,effort,detail different included lot
+100624,Figure_1,creativity,ai generated looks
+100624,Figure_1,effort,ai generated looks
+100624,Figure_2,creativity,black creative idea white
+100624,Figure_2,effort,detailed pretty
+100624,Figure_3,creativity,complex idea metaphor
+100624,Figure_3,effort,diffucult image super
+100624,Figure_4,creativity,funny kind photo
+100624,Figure_4,effort,detailed scenery
+100624,Figure_5,creativity,detailed human looks made
+100624,Figure_5,effort,details effort especially requires smoke
+100624,NonFigure_1,creativity,metaphor
+100624,NonFigure_1,effort,decent details
+100624,NonFigure_2,creativity,lorax reminds
+100624,NonFigure_2,effort,colors nice scenery
+100624,NonFigure_3,creativity,complex idea
+100624,NonFigure_3,effort,colors detailed
+100624,NonFigure_4,creativity,beautiful photo
+100624,NonFigure_4,effort,blending color complex techniques
+100624,NonFigure_5,creativity,ai generated looks
+100624,NonFigure_5,effort,ai effort generated low means
+100600,Figure_1,creativity,creativity exist otherworldly takes think
+100600,Figure_1,effort,blank darkness effort focus going lot main much probably put reason significant space surrounding take
+100600,Figure_2,creativity,artist characters choices color expressions intentional looks made shading story unique
+100600,Figure_2,effort,intricate line looked lot taken time work
+100600,Figure_3,creativity,behind creativity gives looks meaning message piece points secret
+100600,Figure_3,effort,armor details face highly intricate lots realistic
+100600,Figure_4,creativity,art crazy life real realistic scenario setting
+100600,Figure_4,effort,created details digitally draw less little looks lot lots shading things work
+100600,Figure_5,creativity,associate creativity unique
+100600,Figure_5,effort,background challenging different looks mask portray textures
+100600,NonFigure_1,creativity,animals colors creatively dark hanged interesting light look looks spin
+100600,NonFigure_1,effort,background blurred effect effort focus get looks lot main paint remain strokes subjects
+100600,NonFigure_2,creativity,colors creativity fun lots seen unique
+100600,NonFigure_2,effort,art effort going lot makes piece required
+100600,NonFigure_3,creativity,art discredit fully nature realistic scene
+100600,NonFigure_3,effort,back harder lights look northern produce snow
+100600,NonFigure_4,creativity,colors creative desitions dessert etc made many painting people placed realistic sky throughout trees vs
+100600,NonFigure_4,effort,additionally create drawing effort hard illusion little paint people shading sky strokes think
+100600,NonFigure_5,creativity,creativity future look need realistic thinking
+100600,NonFigure_5,effort,blurred cars etc new shading techniques
+100408,Figure_1,creativity,artwork bubble colors creative creativity deal details everyday eye full great illustrates inside intricate involved life living make nobody normally opening small space thinks vibrant woman
+100408,Figure_1,effort,ai effort involved used
+100408,Figure_2,creativity,boy creative little mirrors moderately monster reflections surrounds use
+100408,Figure_2,effort,ai alex artwork digital effort generator involved produce simply used
+100408,Figure_3,creativity,behind creativity fire holding hourglass illustrates image involved sand soldier story thought
+100408,Figure_3,effort,ai effort utilized
+100408,Figure_4,creativity,artwork boat creativity dancing detail interesting involved landscape makes man minimal nice river shows significance simply singing wonder
+100408,Figure_4,effort,ai effort generator involved
+100408,Figure_5,creativity,addition behind creativity curious details face idea image interesting involved makes minimal process seen smoke thought
+100408,Figure_5,effort,ai effort involved
+100408,NonFigure_1,creativity,animals artwork behind bunch colors creativity different hanging involved much put stuffed thought
+100408,NonFigure_1,effort,ai created effort generator image involved quickly
+100408,NonFigure_2,creativity,buildings candy colors creativity details diverse includes involved moderate mushroom plants seen things use
+100408,NonFigure_2,effort,ai alex effort involved produced
+100408,NonFigure_3,creativity,addition christmas creative creativity day illustrates involved lights look minimal normal northern typical village winter
+100408,NonFigure_3,effort,ai effort image produced
+100408,NonFigure_4,creativity,camels creativity different illustrates image involved landscape new traveler travelers typical walk walking
+100408,NonFigure_4,effort,ai effort generator involved
+100408,NonFigure_5,creativity,advancements artwork city colors creative creativity details develop exist eye future illustrates image opening pleasing shows significant today world
+100408,NonFigure_5,effort,ai alex effort generator image involved produce used
+100084,Figure_1,creativity,ai art create creativity minimal prompt requires
+100084,Figure_1,effort,ai art effort little requires
+100084,Figure_2,creativity,aesthetic black child creative differing expressions gothic gritty horror horrors love moody placement reflection surrounded white
+100084,Figure_2,effort,art attention chosen deal detail effort great medium put show
+100084,Figure_3,creativity,black color creative done fantasy journeys medieval million quests seen spot themes thing times white
+100084,Figure_3,effort,actual art drawn indicating labor looks sketched time went
+100084,Figure_4,creativity,bland boring feels hate honestly image uncanny valley
+100084,Figure_4,effort,copy elements look pasted photograph superimposed
+100084,Figure_5,creativity,ai art clearly
+100084,Figure_5,effort,ai art clearly
+100084,NonFigure_1,creativity,animals cheery childlike colors contrast creative dark despair despite emotions evokes feels joy piece stuffed suffering unique wonder
+100084,NonFigure_1,effort,colors details easy effort hard indicate much sketch tell texture went
+100084,NonFigure_2,creativity,ai alice art candyland creative generated human intensive leans less looking makes original popular process psychedelic resembles seen think touch wonderland
+100084,NonFigure_2,effort,ai art colors concentrated details effort feels fine generated lots require significant tedious went
+100084,NonFigure_3,creativity,background computer desktop etc looks mean north old pole snow
+100084,NonFigure_3,effort,computer effort generated human involved labor little looks minimal touch
+100084,NonFigure_4,creativity,classic cool painting spin sunset
+100084,NonFigure_4,effort,blending colors etc hand looks painted texture
+100084,NonFigure_5,creativity,cookie creative cutter cyberpunk feels images seen thousands times
+100084,NonFigure_5,effort,ai amount create depends drawn duplicated effort elements image made needed reduce shortcuts usually
+100031,Figure_1,creativity,conveyed idea message unique
+100031,Figure_1,effort,aspects clear detailed image
+100031,Figure_2,creativity,confusing creative faces picture scary whole
+100031,Figure_2,effort,black white
+100031,Figure_3,creativity,looking makes man significance timer wonder
+100031,Figure_3,effort,background details image man many
+100031,Figure_4,creativity,colors detailed interesting landscape looked man pose vibrant
+100031,Figure_4,effort,deal details effort great involved many required significant thinking work
+100031,Figure_5,creativity,creative emotions evoked looking many
+100031,Figure_5,effort,effort life looked lot
+100031,NonFigure_1,creativity,abstract bears many painting teddy type
+100031,NonFigure_1,effort,brush see strokes
+100031,NonFigure_2,creativity,colors construction creative exists image imaginative lots real world
+100031,NonFigure_2,effort,attention details effort great image lot required throughout tiny
+100031,NonFigure_3,creativity,background creative image looks pretty winter wonderland
+100031,NonFigure_3,effort,amount construct effort evoked good image nostalgia
+100031,NonFigure_4,creativity,abstract creativity detailed moderate
+100031,NonFigure_4,effort,brush effort moderate see strokes
+100031,NonFigure_5,creativity,futuristic looked world
+100031,NonFigure_5,effort,details gave image impressive many rise
+100190,Figure_1,creativity,bit brought cool image little made new piece super think
+100190,Figure_1,effort,ai alex credit generated give less made super want
+100190,Figure_2,creativity,especially intricate liked message piece profound think
+100190,Figure_2,effort,ai creation generated much take think
+100190,Figure_3,creativity,give higher hreativity liked particularly piece rating
+100190,Figure_3,effort,alex's effort minimal part put took
+100190,Figure_4,creativity,intricate piece
+100190,Figure_4,effort,ai alex credit generated give less wanted
+100190,Figure_5,creativity,art detailed interesting
+100190,Figure_5,effort,answer change clearly effort fact human input made tell unrealistic
+100190,NonFigure_1,creativity,cute get much piece
+100190,NonFigure_1,effort,effort little make took
+100190,NonFigure_2,creativity,creative fact fully human less makes piece said slightly think
+100190,NonFigure_2,effort,alex creation effort muhc piece put
+100190,NonFigure_3,creativity,creative familiar image piece think
+100190,NonFigure_3,effort,ai clearly dislike effort made tell terms
+100190,NonFigure_4,creativity,ai based creative creativity feel generated human image less made put rated significant thought
+100190,NonFigure_4,effort,ai effort generated piece put real
+100190,NonFigure_5,creativity,ai back creative creativity fact generated human image less meaning think ties
+100190,NonFigure_5,effort,ai effort generated put
+100582,Figure_1,creativity,concept seen shown
+100582,Figure_1,effort,artwork aspect detail galaxy small
+100582,Figure_2,creativity,artwork behind creative message personal
+100582,Figure_2,effort,detail mirrors monsters
+100582,Figure_3,creativity,artwork behind meaningful message original powerful
+100582,Figure_3,effort,armor detail lot man
+100582,Figure_4,creativity,artwork original
+100582,Figure_4,effort,detail lot trees water
+100582,Figure_5,creativity,character monster seen shown
+100582,Figure_5,effort,artwork background detail lot smoke
+100582,NonFigure_1,creativity,artwork seen shown significance understand
+100582,NonFigure_1,effort,brushes digital effort lot messy painting put
+100582,NonFigure_2,creativity,artwork color lot original
+100582,NonFigure_2,effort,artwork detail trees whole
+100582,NonFigure_3,creativity,different new setting sky
+100582,NonFigure_3,effort,artwork aspects detail house lot smaller
+100582,NonFigure_4,creativity,creative setting
+100582,NonFigure_4,effort,detailed sand sky
+100582,NonFigure_5,creativity,concept original
+100582,NonFigure_5,effort,artwork buildings detail lot overall
+100667,Figure_1,creativity,ai couple created creative creativity generated image looks piece typical words
+100667,Figure_1,effort,create keywords long minimal piece probably take tweaking
+100667,Figure_2,creativity,child create creativity drawn exhibit fearfully feel looks mirror monsters peice pen piece prompt similar simple surround work
+100667,Figure_2,effort,ai created effort minimal mostly
+100667,Figure_3,creativity,ai artwork detail holding hourglass knight lacks pretty sand significant simple
+100667,Figure_3,effort,artwork believe effort generate keywords minimal
+100667,Figure_4,creativity,background detail expected generate image keywords minimal overall
+100667,Figure_4,effort,artwork aspects bit create details generate input linger prompt seconds specific take
+100667,Figure_5,creativity,ai alien creating creative details filling generate humanoid image input lot multiple perfect prompt prompts render similar stated take typically wonder
+100667,Figure_5,effort,ai artwork aspect consuming creating generates inputted prompts quick time
+100667,NonFigure_1,creativity,creativity feel hanging minimal paint piece plushies prompt repetitive sting
+100667,NonFigure_1,effort,effort minimal procure quick
+100667,NonFigure_2,creativity,ai artwork couple creativity detail due fantasy generate input involve look words
+100667,NonFigure_2,effort,ai artwork effort generate minimal paint prompt used
+100667,NonFigure_3,creativity,ai artwork associated cabin creativity elements fire generate help included objects paint prompts reindeer snow typically used warmth
+100667,NonFigure_3,effort,add ai basic detailed details effort fill fit gaps generated know minimal prompt sure
+100667,NonFigure_4,creativity,ai alex artwork come created didnt general guide idea paint prompts understanding used
+100667,NonFigure_4,effort,able ai coming especially idea painting perfect process prompts quick relatively seconds take use used various
+100667,NonFigure_5,creativity,ai artwork aspects create creative creativity detail exhibits extremely fills gaps great include minimal overall piece prompt similar specific tweak words
+100667,NonFigure_5,effort,ai art create input minimal prompts takes time
+100516,Figure_1,creativity,bubble girl idea interesting plants space watering
+100516,Figure_1,effort,amazing details lighting lots
+100516,Figure_2,creativity,boy demons feels little phrase put representation seeing visual world
+100516,Figure_2,effort,black depth execute feel good hard job perception white
+100516,Figure_3,creativity,going hourglass man much
+100516,Figure_3,effort,armour details lots
+100516,Figure_4,creativity,boat crazy man
+100516,Figure_4,effort,detail realism trees
+100516,Figure_5,creativity,alien design mask unique
+100516,Figure_5,effort,clean colors looks lot lots realistic swirls theres
+100516,NonFigure_1,creativity,art bears combination interesting normally ribbon see
+100516,NonFigure_1,effort,details lot shading
+100516,NonFigure_2,creativity,blends going image looks lot place
+100516,NonFigure_2,effort,color details great little lots scheme
+100516,NonFigure_3,creativity,christmas common feel houses idea snowy time
+100516,NonFigure_3,effort,color colorful coming houses matches scheme skies tones warm
+100516,NonFigure_4,creativity,color crazy going image much nice skies touch
+100516,NonFigure_4,effort,detail drawing great lot shown simpler
+100516,NonFigure_5,creativity,cool future futuristic looks take
+100516,NonFigure_5,effort,depth perception
+100063,Figure_1,creativity,bubble cool living looked planet thought
+100063,Figure_1,effort,colors concept cool different planet plus variations
+100063,Figure_2,creativity,angle appearing attention detail filled horror image looked mirror monsters movie nice scene touch
+100063,Figure_2,effort,child different expression facial monsters thought types
+100063,Figure_3,creativity,fire glass hour instead sand typical
+100063,Figure_3,effort,colors crazy many
+100063,Figure_4,creativity,creative familiar familiarity feel looks lot made movies scene seen super
+100063,Figure_4,effort,ai chat easy feel generate gpt image prompt put
+100063,Figure_5,creativity,alien creative looks movie super
+100063,Figure_5,effort,color cool effect minimal smoke way
+100063,NonFigure_1,creativity,blue dangling know leads ribbon toys
+100063,NonFigure_1,effort,animals colors complex cool different effect liked lots oil painting
+100063,NonFigure_2,creativity,colors complex lot packed patterns showed
+100063,NonFigure_2,effort,blank colors complex looks lot patterns place single space textures took
+100063,NonFigure_3,creativity,basic card christmas looks
+100063,NonFigure_3,effort,pictures seen similar
+100063,NonFigure_4,creativity,abstract basic dessert foreign scene
+100063,NonFigure_4,effort,oil painting strokes top
+100063,NonFigure_5,creativity,combines creative elements futurisitc looked looks nyc planet real see skyscrapers sunset world
+100063,NonFigure_5,effort,circle colors corner depth enjoyable inconsistency level look perfect planet right top
+100593,Figure_1,creativity,adds art combining elements meaning opposing
+100593,Figure_1,effort,color detail lots
+100593,Figure_2,creativity,detail much peaking scenery
+100593,Figure_2,effort,black detail much white
+100593,Figure_3,creativity,adds art creative expand layers making meaning portrait trying
+100593,Figure_3,effort,definitely effort looks lots shading sketch
+100593,Figure_4,creativity,movie scene
+100593,Figure_4,effort,digital effort involves less
+100593,Figure_5,creativity,alien combined element interesting see smoking sort
+100593,Figure_5,effort,detail lots shading
+100593,NonFigure_1,creativity,animals color elements going mainly many repetitive stuffed
+100593,NonFigure_1,effort,depths details involved many takes time
+100593,NonFigure_2,creativity,artwork contained created dense elements little lot piece world
+100593,NonFigure_2,effort,color depths details effort involves lot lots many tiny
+100593,NonFigure_3,creativity,movie scene
+100593,NonFigure_3,effort,colors details many solid
+100593,NonFigure_4,creativity,common definitely seen
+100593,NonFigure_4,effort,details effort incvoles lots
+100593,NonFigure_5,creativity,artwork create creativity digital elaborate futuristic involves lot realistic
+100593,NonFigure_5,effort,assume complete definitely dense details effort elements lot lots minor requires took
+100182,Figure_1,creativity,galaxy make vibes worldly
+100182,Figure_1,effort,draw effort galaxy looks took
+100182,Figure_2,creativity,imagined monster
+100182,Figure_2,effort,art done look much nicely piece previous time took
+100182,Figure_3,creativity,aesthetically art books creative fan fantasy fire hourglass image look looks lot moderate pleasing ranked thought
+100182,Figure_3,effort,art artist clearly creating digital effort final piece productions spent takes think time
+100182,Figure_4,creativity,background juxtaposition kind man singing swampy
+100182,Figure_4,effort,boat capture details effort put smaller wake
+100182,Figure_5,creativity,artful done head interesting keep looking piece smoke view want
+100182,Figure_5,effort,artistic create elements long look lots realistic smoke textural time took
+100182,NonFigure_1,creativity,abstract bears hanging
+100182,NonFigure_1,effort,blurry brush effort image making put see sides strokes
+100182,NonFigure_2,creativity,child conjure fun great imagination looks whimsical
+100182,NonFigure_2,effort,colored coloring drawn looks lots needed pencils similar strokes thin time
+100182,NonFigure_3,creativity,christmas design image original seen time years
+100182,NonFigure_3,effort,addition cabin lights log looks northern placed put snow strucutre think time
+100182,NonFigure_4,creativity,beautiful desert found internet looking region scene
+100182,NonFigure_4,effort,ar away brush camels create depth ehte mountains needed perception see strokes time viewer
+100182,NonFigure_5,creativity,creative currently design exist futuristic imagined world
+100182,NonFigure_5,effort,ai done drawn image nice vibe
+100616,Figure_1,creativity,ai alex couple creating creativity due fact involved minimal prompt revise thing think times work
+100616,Figure_1,effort,effort minimal prompt put revised
+100616,Figure_2,creativity,comics original think use
+100616,Figure_2,effort,art details lack traits wrong
+100616,Figure_3,creativity,bit effort higher little prefer rating shading think
+100616,Figure_3,effort,holding light man sand thing think time
+100616,Figure_4,creativity,ai boat dancing details generated human lighting obvious think trees waves
+100616,Figure_4,effort,improve lot moderate putting
+100616,Figure_5,creativity,feel human photoshoot terms think
+100616,Figure_5,effort,color detail face grading make pleasing prominent
+100616,NonFigure_1,creativity,feel likely make person rating significant
+100616,NonFigure_1,effort,ai aware bunnies complete ear ears moderate saying think
+100616,NonFigure_2,creativity,art artists believe creativity deal design form great involved made originality put significant
+100616,NonFigure_2,effort,amount art detail extraordinary highest made piece rated think
+100616,NonFigure_3,creativity,claus common especially idea moderately north pole rating santa
+100616,NonFigure_3,effort,common feel minimal photo rating think
+100616,NonFigure_4,creativity,brush color liked present saying significant strokes study
+100616,NonFigure_4,effort,art high human looks made rating real think
+100616,NonFigure_5,creativity,fi ideas minimal movies sci shows similar
+100616,NonFigure_5,effort,feel lot photos repeated similar
+100033,Figure_1,creativity,creative descriptive desired detailed get image order probably prompt sense specifically words
+100033,Figure_1,effort,ai beyond cant descriptive effort generated much prompt writing
+100033,Figure_2,creativity,ai creative definitely doesnt inspired much piece previous prompt think whoever wrote
+100033,Figure_2,effort,ai effort isnt look much
+100033,Figure_3,creativity,creative fairly probably prompt simple
+100033,Figure_3,effort,likely prompt simple
+100033,Figure_4,creativity,appealing creative visually
+100033,Figure_4,effort,im probably prompt simple sure
+100033,Figure_5,creativity,ai blatantly generated inspired look
+100033,Figure_5,effort,ai effort going much probably standards
+100033,NonFigure_1,creativity,addition detail involving liked paint strokes visibility
+100033,NonFigure_1,effort,ai generated nice paint prompt strokes touch
+100033,NonFigure_2,creativity,art creative definitely direction far favorite multiple photo piece revisions think vibe
+100033,NonFigure_2,effort,ai day end generated
+100033,NonFigure_3,creativity,christmas looks nice probably prompt simple themed
+100033,NonFigure_3,effort,christmas probably prompt simple themed
+100033,NonFigure_4,creativity,ai detail including look piece real resemble strokes visibility
+100033,NonFigure_4,effort,adding additional ai appear effort generated impressive make piece prompt real resemble respect strokes visible
+100033,NonFigure_5,creativity,cyber futuristic grand looks probably prompt simple
+100033,NonFigure_5,effort,cant effort high likely prompt simple
+100669,Figure_1,creativity,ai examples feel generate seen using
+100669,Figure_1,effort,ai examples feel generate seen using
+100669,Figure_2,creativity,behind child clutching collar creative expression face feared image looks mirror monster monsters
+100669,Figure_2,effort,detailed effort emotion felt ito junji reminds went
+100669,Figure_3,creativity,image original put thinking
+100669,Figure_3,effort,creating effort image original piece put thoughtful
+100669,Figure_4,creativity,ai examples feel generate seen using
+100669,Figure_4,effort,ai examples feel generate seen using
+100669,Figure_5,creativity,ai examples feel generate seen using
+100669,Figure_5,effort,ai examples feel generate seen using
+100669,NonFigure_1,creativity,ai examples feel generate seen using
+100669,NonFigure_1,effort,ai examples feel generate seen using
+100669,NonFigure_2,creativity,detail detailed fine focused image think
+100669,NonFigure_2,effort,detail detailed fine focused image think
+100669,NonFigure_3,creativity,ai drawn examples feel generate images inspiration painted seen taken using
+100669,NonFigure_3,effort,ai examples feel generate seen using
+100669,NonFigure_4,creativity,characters idea lighting original put scene shadowing silhouette thought
+100669,NonFigure_4,effort,created effort image put thinking
+100669,NonFigure_5,creativity,ai background drawn dystopian examples feel fi futuristic generate inspiration looks movie sci seen set using
+100669,NonFigure_5,effort,ai examples feel generate seen using
+100363,Figure_1,creativity,bubble elements lot nicely planets plants think together watering women
+100363,Figure_1,effort,amount details effort lot shows think used
+100363,Figure_2,creativity,art boy's captures creative eyes fear nice style think
+100363,Figure_2,effort,amount art detailed monster show style think
+100363,Figure_3,creativity,drawing glass hour interesting knight look stood watching
+100363,Figure_3,effort,alone armor details good knights looks think
+100363,Figure_4,creativity,nice see sticks
+100363,Figure_4,effort,detail makes moving water
+100363,Figure_5,creativity,drawing effect mask see smoke theme
+100363,Figure_5,effort,detail elements looks lot much refine
+100363,NonFigure_1,creativity,bears creative drawing hanging pretty ribbon think
+100363,NonFigure_1,effort,bears draw many take teddy think
+100363,NonFigure_2,creativity,bright colors embodied looking picture stand theme think type wonderland
+100363,NonFigure_2,effort,deal detailed different drawing effort elements great involved looks mushrooms think
+100363,NonFigure_3,creativity,christmas drawing embodies sticks theme winter
+100363,NonFigure_3,effort,background houses
+100363,NonFigure_4,creativity,colors environment looks nice sky
+100363,NonFigure_4,effort,looks painted painting pretty
+100363,NonFigure_5,creativity,amount concept cool creativity moderate think used
+100363,NonFigure_5,effort,ai created effort image looks lot made prompt using
+100088,Figure_1,creativity,derivative look natural sloppy uninspired work
+100088,Figure_1,effort,ai art creation effort previous
+100088,Figure_2,creativity,ai's alongside boy clearly demons inspired linework looking piece reflection
+100088,Figure_2,effort,previous
+100088,Figure_3,creativity,artwork bad elder imitation looks scrolls
+100088,Figure_3,effort,behind creation ingenuity piece
+100088,Figure_4,creativity,artist aspect developing emphasis face little looks man piece place uncanny weird
+100088,Figure_4,effort,previous
+100088,Figure_5,creativity,behind clear meaning original work
+100088,Figure_5,effort,previous
+100088,NonFigure_1,creativity,animals aspects behind clear human looks mind pertaining piece produced stuffed theme unnatural work
+100088,NonFigure_1,effort,ai art creation effort
+100088,NonFigure_2,creativity,borrowed dr ideation la original scene suess
+100088,NonFigure_2,effort,activity ai art effortful production
+100088,NonFigure_3,creativity,basic existing exists sake scene winter
+100088,NonFigure_3,effort,aspects certain figures houses legs look mainly places reindeer uncanny underdeveloped
+100088,NonFigure_4,creativity,desert much scene
+100088,NonFigure_4,effort,ai camels fault figures generation human look shoddy underdeveloped
+100088,NonFigure_5,creativity,bad basic blade futuristic looks rip runner scene
+100088,NonFigure_5,effort,ai effort little put seemingly throwing together
+100202,Figure_1,creativity,artwork creative grandiose image seen think
+100202,Figure_1,effort,create creating detail difficult digitally effort extremely included lot think
+100202,Figure_2,creativity,creative different eery image making think
+100202,Figure_2,effort,black detail difficult effort image involved lines lot make making monsters significant stand strokes think white
+100202,Figure_3,creativity,contrast creative featured image lighting think tone
+100202,Figure_3,effort,detailed elements fairly features image lot man sketch think work
+100202,Figure_4,creativity,common creative depicted disney imagery reminded scene think
+100202,Figure_4,effort,create details fairly image lot rest simple taken think time trees
+100202,Figure_5,creativity,creative face found image intriguing mask material seen think whole
+100202,Figure_5,effort,bit create difficult digitally image made
+100202,NonFigure_1,creativity,creative kind less looked think wallpaper work
+100202,NonFigure_1,effort,brush complex creating digitally effort involved looked moderate stroke style think
+100202,NonFigure_2,creativity,artwork candy creativity detailed exactly existing fairly imagery involved land lot moderate reminds scene think
+100202,NonFigure_2,effort,details different drawing effort include moderate needs scenery think
+100202,NonFigure_3,creativity,animation common creativity disney holds image less looks pixar realistic scene style think
+100202,NonFigure_3,effort,amount colors creative detail effort extraordinary featured image involved lot range takes think
+100202,NonFigure_4,creativity,creativity detail image lot much realistic require scene think
+100202,NonFigure_4,effort,brushstrokes created difficult digitally fairly image replicate rest simple texture think
+100202,NonFigure_5,creativity,across books buildings depiction fi future homogenous image less looked making movies original reminded scene sci stand
+100202,NonFigure_5,effort,buildings colors create difficult digitally image looked particularly spotlights stand think
+100503,Figure_1,creativity,art concept concepts interesting lots mixed piece together
+100503,Figure_1,effort,scene simple space style
+100503,Figure_2,creativity,come full hard intense scene
+100503,Figure_2,effort,distinct lines lots sense style
+100503,Figure_3,creativity,conceptual interesting
+100503,Figure_3,effort,style unique
+100503,Figure_4,creativity,environment happening interesting intricate ordinary
+100503,Figure_4,effort,ai complicated face looks realistic used weird
+100503,Figure_5,creativity,image striking unique
+100503,Figure_5,effort,depth lots
+100503,NonFigure_1,creativity,hard interesting looking understand
+100503,NonFigure_1,effort,basic form paint style
+100503,NonFigure_2,creativity,artworks based dr going lot partly previous seuss
+100503,NonFigure_2,effort,complex intricate technique
+100503,NonFigure_3,creativity,arctic scene simple
+100503,NonFigure_3,effort,good much technique variation
+100503,NonFigure_4,creativity,easily going landscape much place real replicable
+100503,NonFigure_4,effort,human intricate looks painted possibly technique
+100503,NonFigure_5,creativity,city exist futuristic items looking novel real world
+100503,NonFigure_5,effort,ai detail effects half lots mirror moon odd ship space split using
+100070,Figure_1,creativity,bubble creative idea looks unique woman
+100070,Figure_1,effort,detail effortful image look lot making
+100070,Figure_2,creativity,commonly creative done image lot world
+100070,Figure_2,effort,details effort intricate lot put
+100070,Figure_3,creativity,convey creative gpoing image much sure think trying
+100070,Figure_3,effort,character detailed focus looks needed
+100070,Figure_4,creativity,basic compared far image images seen
+100070,Figure_4,effort,background basic effortful look
+100070,Figure_5,creativity,alien consideration creative details image looks require thought
+100070,Figure_5,effort,detail detailed effortful looks small smoke
+100070,NonFigure_1,creativity,color combinations completely done idea new nice scream unique
+100070,NonFigure_1,effort,brush detailed details image intricate look looks many repetitive simples small strokes thick
+100070,NonFigure_2,creativity,artwork color combination creativitly fairytale fun look looks made pleasing storybook thoughtful visually world
+100070,NonFigure_2,effort,color details effort intricate involved looks lot scheme small
+100070,NonFigure_3,creativity,creative details done image look looks lot northern pleasing pretty sky type visually
+100070,NonFigure_3,effort,color details effot looks put schemes small
+100070,NonFigure_4,creativity,brush detailed image look looks nicely pleasing real sky strokes visually
+100070,NonFigure_4,effort,brush details effortful looks small strokes
+100070,NonFigure_5,creativity,actions colors complex detailed going image lots
+100070,NonFigure_5,effort,detailed effort lot makes went
+100554,Figure_1,creativity,havent seen
+100554,Figure_1,effort,ai made prompts
+100554,Figure_2,creativity,different story
+100554,Figure_2,effort,ai art prompts
+100554,Figure_3,creativity,creative
+100554,Figure_3,effort,ai looks made
+100554,Figure_4,creativity,creative plain pretty
+100554,Figure_4,effort,ai
+100554,Figure_5,creativity,ai creative noticable
+100554,Figure_5,effort,ai making prompts
+100554,NonFigure_1,creativity,human looks made seen unlike
+100554,NonFigure_1,effort,create effort human look made order prompts takes
+100554,NonFigure_2,creativity,colorful vibrant
+100554,NonFigure_2,effort,ai
+100554,NonFigure_3,creativity,creative images ive looks lot seen snow
+100554,NonFigure_3,effort,ai
+100554,NonFigure_4,creativity,interesting look
+100554,NonFigure_4,effort,ai
+100554,NonFigure_5,creativity,alex come different ideas order result
+100554,NonFigure_5,effort,ai completely work
+100037,Figure_1,creativity,created earth idea liked nature planets protection sense surrounding woman
+100037,Figure_1,effort,consuming creativity imagination time
+100037,Figure_2,creativity,demons fear ghosts
+100037,Figure_2,effort,detail expressions facial reflections
+100037,Figure_3,creativity,expression fire interesting man's see time watches
+100037,Figure_3,effort,armor detail face fire lighting man's seen
+100037,Figure_4,creativity,dancing guess happy interesting jumping man scared
+100037,Figure_4,effort,detail liked reflection ripples see water
+100037,Figure_5,creativity,angle artwork coming liked person smoke
+100037,Figure_5,effort,artwork correctly dimensions effort getting includes lot think
+100037,NonFigure_1,creativity,bears bows hanging interesting see
+100037,NonFigure_1,effort,animals colors detailed different extremely look stuffed
+100037,NonFigure_2,creativity,colors different dimensions nature world
+100037,NonFigure_2,effort,artwork creating different effort imagining requires world
+100037,NonFigure_3,creativity,cabin common google image pops think winter
+100037,NonFigure_3,effort,believe common effort image requires
+100037,NonFigure_4,creativity,good image scenic
+100037,NonFigure_4,effort,brush depth image included palate sky strokes
+100037,NonFigure_5,creativity,artwork buildings colors detail flying involved lot structure used vehicles
+100037,NonFigure_5,effort,appealing correctly details get lot taken think time
+100332,Figure_1,creativity,ai code creative unique
+100332,Figure_1,effort,alex effort inputs little put revised time
+100332,Figure_2,creativity,ai creative intellectual original think
+100332,Figure_2,effort,alex code drawing effort inputing low painting
+100332,Figure_3,creativity,ai created creative exact image
+100332,Figure_3,effort,axel effort inputing low prompts
+100332,Figure_4,creativity,ai created creative exact image
+100332,Figure_4,effort,alex inputing prompts
+100332,Figure_5,creativity,ai created creative novel robot technically
+100332,Figure_5,effort,ai alex effort low
+100332,NonFigure_1,creativity,ai created creative exact image
+100332,NonFigure_1,effort,alex code drawing effort inputing low painting
+100332,NonFigure_2,creativity,ai candy creative done land lorax reminds super
+100332,NonFigure_2,effort,alex code drawing effort inputing low painting
+100332,NonFigure_3,creativity,ai creative making novel technically
+100332,NonFigure_3,effort,alex code drawing effort inputing low painting
+100332,NonFigure_4,creativity,ai created creative exact image
+100332,NonFigure_4,effort,alex code drawing effort inputing low painting
+100332,NonFigure_5,creativity,ai creative made reminds tron
+100332,NonFigure_5,effort,alex code drawing effort inputing low painting
+100533,Figure_1,creativity,different imaginative life planet
+100533,Figure_1,effort,ai detailed generated looks
+100533,Figure_2,creativity,concept creatures fear looking monkey protraryed scary surrounding thorugh
+100533,Figure_2,effort,detailed penmanship
+100533,Figure_3,creativity,looks metaphor quickly running time
+100533,Figure_3,effort,ai crosshatching details generated looks see
+100533,Figure_4,creativity,bayou going guy simple situation
+100533,Figure_4,effort,ai generated looks
+100533,Figure_5,creativity,human inside looks scary statue stuck
+100533,Figure_5,effort,detail drawing especially lot saw shading
+100533,NonFigure_1,creativity,bears cute hanging looks scary
+100533,NonFigure_1,effort,effort seeing shows strokes
+100533,NonFigure_2,creativity,based environment existing lorax
+100533,NonFigure_2,effort,colored details look pencils see
+100533,NonFigure_3,creativity,realistic
+100533,NonFigure_3,effort,ai generated looks
+100533,NonFigure_4,creativity,added desert palm trees water
+100533,NonFigure_4,effort,give strokes sunset texture
+100533,NonFigure_5,creativity,depiction future marvel movies usual
+100533,NonFigure_5,effort,details drawing lots strokes
+100165,Figure_1,creativity,ai concept creating
+100165,Figure_1,effort,easy typed
+100165,Figure_2,creativity,ai creating
+100165,Figure_2,effort,ai work
+100165,Figure_3,creativity,ai barely image make needs pretty say
+100165,Figure_3,effort,type
+100165,Figure_4,creativity,ai heavy idea lifting
+100165,Figure_4,effort,prompt typed
+100165,Figure_5,creativity,ai creating gave prompt
+100165,Figure_5,effort,typed
+100165,NonFigure_1,creativity,ai creativity make minimal needed tell
+100165,NonFigure_1,effort,typing
+100165,NonFigure_2,creativity,care creative cute image make
+100165,NonFigure_2,effort,effort fed low prompt
+100165,NonFigure_3,creativity,idea literally prompt sure typed
+100165,NonFigure_3,effort,basic image type
+100165,NonFigure_4,creativity,ai creating pretty work
+100165,NonFigure_4,effort,effort low typing
+100165,NonFigure_5,creativity,ai basic concept images pretty smushed together
+100165,NonFigure_5,effort,type
+100325,Figure_1,creativity,artwork contribution intellectual seen
+100325,Figure_1,effort,attention detail lot plants sky
+100325,Figure_2,creativity,artwork meaning significant
+100325,Figure_2,effort,attention detail go lots thought
+100325,Figure_3,creativity,images seen similar
+100325,Figure_3,effort,background bare
+100325,Figure_4,creativity,unique
+100325,Figure_4,effort,added background could've elements plain
+100325,Figure_5,creativity,design face meaning mouth released seen similar smoke underlying
+100325,Figure_5,effort,attention detail lot
+100325,NonFigure_1,creativity,bears ceiling colorful hanging idea meaning sort stuffed teddy unique
+100325,NonFigure_1,effort,bears looked orientation similar stuffed
+100325,NonFigure_2,creativity,candy copy direct dr land reminds seuss
+100325,NonFigure_2,effort,attention detail different elements lot
+100325,NonFigure_3,creativity,images similar
+100325,NonFigure_3,effort,copy houses looked pasted
+100325,NonFigure_4,creativity,bright colors creative details efforts landscape painting textures
+100325,NonFigure_4,effort,attention detail fine
+100325,NonFigure_5,creativity,city futuristic pictures seen similar
+100325,NonFigure_5,effort,attention detail fine
+100211,Figure_1,creativity,bubble contrast girl idea natural world
+100211,Figure_1,effort,ai drawn effort feels generated hand lot take think truly
+100211,Figure_2,creativity,boy dark evocative got imagery interesting liked looking photo
+100211,Figure_2,effort,ai alex boy draw drawn effort fingers generation hand lot made mistake monsters sign think truly unless
+100211,Figure_3,creativity,artists' bit depicting difficult found hourglass knight message parse
+100211,Figure_3,effort,armor difficult draw looks
+100211,Figure_4,creativity,attempting clue portray unique
+100211,Figure_4,effort,aware difficult drawing looked portray portraying sunlight water
+100211,Figure_5,creativity,artistic happening image looks unsure whimsical
+100211,Figure_5,effort,ai drawn generated hand impressed incredibly photograph
+100211,NonFigure_1,creativity,animals feel hanging imagery interesting much stuffed
+100211,NonFigure_1,effort,bit design difficult drawing easy fairly replicate simple
+100211,NonFigure_2,creativity,book creative dr feels generic oxymoronic picture straight suess think
+100211,NonFigure_2,effort,allows bit error freedom looks shapes think tricky whimsical work
+100211,NonFigure_3,creativity,confused corner generic right scene top winter
+100211,NonFigure_3,effort,difficult drawing imagine lights northern
+100211,NonFigure_4,creativity,art believe desert generic oasis pretty
+100211,NonFigure_4,effort,actually cast color difficult figure give looked notably phantom river saw shadow sunset
+100211,NonFigure_5,creativity,city cyberpunk generic looked particularly stood vaporwave
+100211,NonFigure_5,effort,creative drawing imagine light reflections took work
+100644,Figure_1,creativity,ai concept creativity generated given holds image level piece prompt
+100644,Figure_1,effort,ai believe effort little put see
+100644,Figure_2,creativity,creativity creatures different expressions involves involving lot mirrors
+100644,Figure_2,effort,able black contrast create depth different effortful impressive involving perspectives white
+100644,Figure_3,creativity,conceptually creativity getting make moderate necessarily put uncreative understand work
+100644,Figure_3,effort,create difficult effortful glow lamp line particularly task work
+100644,Figure_4,creativity,ai appears creativity generator image minimal photo prompt reason required
+100644,Figure_4,effort,ai artist effort indeed put work
+100644,Figure_5,creativity,becuase creative creativity exceptionally moderate void
+100644,Figure_5,effort,deal effort great indicates nature realistic work
+100644,NonFigure_1,creativity,creativity lower made pattern rank repeated scale uniformity work
+100644,NonFigure_1,effort,actual appears digitally done labor lines lot remind strokes work
+100644,NonFigure_2,creativity,artist come creatively design fictional first landscape lot takes things world
+100644,NonFigure_2,effort,effortful illustrations intricate planning
+100644,NonFigure_3,creativity,across ai artist becuase believe chairs creative decided details distorted elements lead moderately oddly plane say shaped space work
+100644,NonFigure_3,effort,ai amount create effort generated lights look northern particularly say significant
+100644,NonFigure_4,creativity,act becuase choosing colors concept consider creativity elements exists likely much scene used work
+100644,NonFigure_4,effort,achieve consider depths different difficult large lighting plane requiring skill technical
+100644,NonFigure_5,creativity,ai becuase creation creative deal exist great resembles seen select stereotypically
+100644,NonFigure_5,effort,amount compared details effort immense lots simplistic takes weight work
+100670,Figure_1,creativity,creativity different emergence incapsulated lot lots nature outside see space stories themes
+100670,Figure_1,effort,based detailed drawn effort story super tell way
+100670,Figure_2,creativity,children creative horror jab scare specifically takes things
+100670,Figure_2,effort,drawing effort knowing lot monsters present work
+100670,Figure_3,creativity,creativity looked lot nuances
+100670,Figure_3,effort,art creating details effort lot takes think took
+100670,Figure_4,creativity,creativity inspiration lot see
+100670,Figure_4,effort,details draw effort lots
+100670,Figure_5,creativity,art creative kind normally outside see work
+100670,Figure_5,effort,details look lots make realistic shadowing
+100670,NonFigure_1,creativity,bears creativity inspiration moderate teddy used
+100670,NonFigure_1,effort,bears detail effort exactly image life looks lot real teddy
+100670,NonFigure_2,creativity,children's creativity inspired kind looks movie seen
+100670,NonFigure_2,effort,colors effort good large look lot make mesh take
+100670,NonFigure_3,creativity,basic creativity inspired original pretty
+100670,NonFigure_3,effort,details effort moderate much raging
+100670,NonFigure_4,creativity,choose colors creative lot match thinking together
+100670,NonFigure_4,effort,detail details effort lot miniscule
+100670,NonFigure_5,creativity,creative explores fictional landscape life lot takes thinking
+100670,NonFigure_5,effort,buildings colors details effort many
+100213,Figure_1,creativity,appeared background behind centerpiece complexity creative deeper definitely due extraordinary feel garden image including introduces lady meaning nurturing outer picture piece rarity seen setting simply space
+100213,Figure_1,effort,alex amount attempts countless definitely details envisioned error exact exactly get image large lot order probably produce prompts specify took trials
+100213,Figure_2,creativity,added beyond black boy choice complexity complication culminated demons drawing emotions idea image intricate layer level looking meaning mirror portrayed seeing space surface texture thought use wasted white
+100213,Figure_2,effort,ai attempts details drawing entire generated images included know look lot many order perfect picture small specifically texture think took typically
+100213,Figure_3,creativity,color deeper definitely extraordinary holding hourglass image introduces man meaning possible provoking scheme seen showing simply thought unique
+100213,Figure_3,effort,assume built color create creative details effort idea image lot much necessarily probably produce prompt scheme simple simply taken think thought took wrong
+100213,Figure_4,creativity,consist definitely details first high image many meaning ordinary picture pictures place rate seen setting simply somewhat thought took understand unique viewing
+100213,Figure_4,effort,amount assuming details effort extreme fairly great image noticed number order produce prompts require side simple specific things thought took uncomplicated veered
+100213,Figure_5,creativity,background creative deeper details euphoric exactly flowing going image images man many mask meaning mouth pattern picture picturing piece seen similar smoke somewhat suggest thought unique wearing
+100213,Figure_5,effort,ai alex capture create effort envisioned exactly generator get idea image lot multiple order prompts specific sure taken think took wanted
+100213,NonFigure_1,creativity,across average behind cartoon comes creative deeper fact image life liked looked made meaning painting person picture sight texture thought unique way
+100213,NonFigure_1,effort,ai assuming convey difficult effort envisioned exact generator get idea lot many mind order ordinary picture produce product recreate required specific taken think trials
+100213,NonFigure_2,creativity,basis cartoon creativity details dr higher image interesting lorax many picture rate regular reminded see setting seuss thought
+100213,NonFigure_2,effort,able definitely details effort error exact features great image intricate lot make number ordinary picture produce request spacing thought took trial unique
+100213,NonFigure_3,creativity,animals aurora borealis cartoon childhood christmas covered create creative different feel helped higher houses image inclusion look lot magical many nostalgic objects parts picture pictures pretty previously rank reason seasons seen similar snow somewhat thought
+100213,NonFigure_3,effort,ai alone amount assuming create details due energy features guessing idea image included long lot many present scheme sure thought time took works
+100213,NonFigure_4,creativity,beyond cartoon deeper desert detail details exact feel first glance image involved life look lot meaning nice noticed picture portrayals real scenario seen simply sunset thought typical
+100213,NonFigure_4,effort,additionally believe camels capture color create creativity difficult due enforced image improved message number order paint picture somewhat specific texture theme thought true
+100213,NonFigure_5,creativity,aircrafts amount apocalyptic background behind captured city detailed details feel flying future image incredibly inspiration large makes meaning picture pictured seen somewhat space sunset wasted wonder
+100213,NonFigure_5,effort,appeared cluttered cohesive color considering detailed fit generated going got image making much overall perfectly picture piece prompts scheme type
+100419,Figure_1,creativity,creativity detailed part taken work
+100419,Figure_1,effort,detailed effort part taken work
+100419,Figure_2,creativity,creativtiy detailed likely prompts provided required revised
+100419,Figure_2,effort,effort much prompts require revising
+100419,Figure_3,creativity,creativity detailed part taken work
+100419,Figure_3,effort,detailed effort part taken work
+100419,Figure_4,creativity,creativity detailed part taken work
+100419,Figure_4,effort,detailed effort part taken work
+100419,Figure_5,creativity,creativity detailed part taken work
+100419,Figure_5,effort,detailed effort part taken work
+100419,NonFigure_1,creativity,ai art creative idea inherently utilize
+100419,NonFigure_1,effort,ai amounts effort large require resorting
+100419,NonFigure_2,creativity,creativity detailed part taken work
+100419,NonFigure_2,effort,detailed effort part taken work
+100419,NonFigure_3,creativity,creativity detailed part taken work
+100419,NonFigure_3,effort,detailed effort part taken work
+100419,NonFigure_4,creativity,creativity detailed part taken work
+100419,NonFigure_4,effort,detailed effort part taken work
+100419,NonFigure_5,creativity,creativity detailed part taken work
+100419,NonFigure_5,effort,detailed effort part taken work
+100018,Figure_1,creativity,greenery idea optimistic original planting space
+100018,Figure_1,effort,effort image lot original put skills thinking together using
+100018,Figure_2,creativity,horror presents scary scene sense terror
+100018,Figure_2,effort,create details difficult line scary shading work
+100018,Figure_3,creativity,conceptualize difficult scenery think
+100018,Figure_3,effort,able detail draw much think
+100018,Figure_4,creativity,boat depicted man middle natural original river scenery totally
+100018,Figure_4,effort,ai art closer fingers generated hint image look lot man's mistakes taking
+100018,Figure_5,creativity,artwork disturbing idea original presents strange uncanny words
+100018,Figure_5,effort,come design difficult looks monster original
+100018,NonFigure_1,creativity,depicted original scenery unnatural
+100018,NonFigure_1,effort,animals art artwork create repetition requires skill stuffed subjects uses
+100018,NonFigure_2,creativity,artwork fantastical life objects real seen typically used whimsical
+100018,NonFigure_2,effort,choosing colors create effort fantasyland lot take try vibrant
+100018,NonFigure_3,creativity,area aurora borealis cabin combination covered creative events find middle presenting reindeers snow unlikely words
+100018,NonFigure_3,effort,efforts image recreate relation skills
+100018,NonFigure_4,creativity,alex's choice colors creativity deal great imagery objects produce require work
+100018,NonFigure_4,effort,alex cohesive colors conjunction creativity effort image lot make presented sure use whole
+100018,NonFigure_5,creativity,aesthetic city conceptualize cyberpunk interesting neo think
+100018,NonFigure_5,effort,details easy including many objects task thought
+100518,Figure_1,creativity,amount creating creativity detailed image likely moderate prompt thought used
+100518,Figure_1,effort,effort generator lot minimal plug prompt take
+100518,Figure_2,creativity,complex creative image layed likely prompt way
+100518,Figure_2,effort,effort employed generating human likely looks made moderate painting
+100518,Figure_3,creativity,amount creativity depth likely little prompt requiring
+100518,Figure_3,effort,ai amount effort high plug prompt take
+100518,Figure_4,creativity,creativity formed likely moderate prompt scene unique
+100518,Figure_4,effort,ai alex's amount effort generator image likely low moderate realistic terms used work
+100518,Figure_5,creativity,actual ai artist creates creatively enter generator image think
+100518,Figure_5,effort,ai amount artwork create effort high prompting require
+100518,NonFigure_1,creativity,ai come complex creativity determine generator hard image last likely portraying prompt required
+100518,NonFigure_1,effort,ai effort generator lot prompt take work write
+100518,NonFigure_2,creativity,amount creative creativity involved likely moderate prompt whimsical
+100518,NonFigure_2,effort,ai art effort generating generator human image might've used
+100518,NonFigure_3,creativity,complex creative prompt
+100518,NonFigure_3,effort,defined detailed effort employed image likely moderate
+100518,NonFigure_4,creativity,coming creativity human image looks make painted physically probably prompt used
+100518,NonFigure_4,effort,effort generating image looks moderate painted probably used
+100518,NonFigure_5,creativity,basic city creativity employed fi generic likely minimal prompt sci
+100518,NonFigure_5,effort,ai alex effort generator lot plug prompt
+100671,Figure_1,creativity,able alex's becaue bubble color come girl grow image life made pallete place plants protecting single space survive taking use
+100671,Figure_1,effort,alex art details effort eye lof lot noticed pleasing put shows small thought
+100671,Figure_2,creativity,actual becaue behind boy creatvity demon expressions facial mirror painting reflection shows use
+100671,Figure_2,effort,boy creatures demonic effort everywhere get high look scared
+100671,Figure_3,creativity,carrying creatviity going image knight lot much time
+100671,Figure_3,effort,details effrot good looks make much regards take
+100671,Figure_4,creativity,back creativity happy look looks man perfect realistic takes think trees water
+100671,Figure_4,effort,effort life lot super takes think
+100671,Figure_5,creativity,adding alex background boring covered creative extra face image lots made orginal textures work
+100671,Figure_5,effort,cholor deatils eyes looking lots mans mask matched realistic smoke
+100671,NonFigure_1,creativity,bears colors creatvity hanging lot loved require symbolism teddy think used
+100671,NonFigure_1,effort,back bears blurred effort ones requires see textures
+100671,NonFigure_2,creativity,colors creative full life little made small town
+100671,NonFigure_2,effort,add details general grass leaves little lot require small time veins vines
+100671,NonFigure_3,creativity,concept creativity deep lot require
+100671,NonFigure_3,effort,effrot everyhting flaws good invovled looks real work
+100671,NonFigure_4,creativity,creatvity designs draw idea landscape moderate originally seen think
+100671,NonFigure_4,effort,blend colors different digital effort fpr image pieces pretty require requires say see significant sure textures together used
+100671,NonFigure_5,creativity,creativity depicting future lots moment present society
+100671,NonFigure_5,effort,city come details futuristic life little lots make small
+100521,Figure_1,creativity,alex art box bubble come concept contained far garden generate idea must've outer planet space thought truly unique
+100521,Figure_1,effort,ai alex amount background believe details effort faraway galaxies generate includes intricate moderate piece planets prompt repeatedly space took
+100521,Figure_2,creativity,ai alex's art creativity describing detailed faces generate horror ideas imagine level part picture piece present pretty require significant terrifying think vision
+100521,Figure_2,effort,ai alex amount black creatures draw effort elaborate entire image intricate likely moderate monsters prompt refine required shading terms think white
+100521,Figure_3,creativity,alex amount containing creativity drawing envisioned featuring fire grains holding hourglass idea instead knight moderate overall required sand simplistic think unconventional
+100521,Figure_3,effort,ai alex art background colors effort get image minimal minimalistic much must've piece prompted put say way
+100521,Figure_4,creativity,alex box come concept dancing man outside raft river swamp think unconventional would've
+100521,Figure_4,effort,alex amount detailed drawing effort feel idea polish put reason refined representing resulting substantial super unique visual
+100521,Figure_5,creativity,alex armor believe come creativity effort idea lot mask novel person pretty stone terms took unconventional wearing
+100521,Figure_5,effort,actually ai alex amount art creating decent detailed effort feel given mask person prompts put refining stone terms work
+100521,NonFigure_1,creativity,abstract ai alex animals art chained chains cities city common created creativity desert envisioned exercised featuring feel fi futuristic hanging hung idea imagined long lot made many media oasis ones people piece prompting scene sci seemingly seen stuffed suggests tied together unlike
+100521,NonFigure_1,effort,ai alex animals art believe effort generated given lot much paint painting prompt put revise simple stuffed think would've
+100521,NonFigure_2,creativity,add alex alice amount art believe charlie chocolate creativity draws exercise exercised existing factory fantasyland feel generating idea ideas image inspiration level lot moderate much pulled reason setting significant sources terms twist whimsical wonderland
+100521,NonFigure_2,effort,ai alex amount believe colorful effort exercised fence generate hut moderate objects order plants prompt terms
+100521,NonFigure_3,creativity,alex associated cabin cabins christmas common concept effort feel idea image imagine much overall special take unique winter
+100521,NonFigure_3,effort,ai ai's alex christmas effort extensive gave get given image knowledge minimal much pool prompt rating season
+100521,NonFigure_4,creativity,ai alex alex's camels capture caravan complex containing creativity depiction description desert detailed draft feel generate higher level lighting oasis painting part scene specific suggest sunset try visual words would've
+100521,NonFigure_4,effort,ai alex art brushes generate get give human likely makes multiple painted painting prompt quality refine sky smudged specific style think times top
+100521,NonFigure_5,creativity,ai alex art city come creativity describing description futuristic generate idea kind model moderate plugging prompt required wanted
+100521,NonFigure_5,effort,adjust ai alex appeared art consider draw effort generate he'd involved likely minimal piece prompt refine used using wanted
+100563,Figure_1,creativity,aspects creativity different lot piece unique
+100563,Figure_1,effort,account ai different effort inputting lot moderate needs parts prompts take think tool
+100563,Figure_2,creativity,detail expression lot piece
+100563,Figure_2,effort,amount creating details effort explain ideas increase needed order piece produce prompt
+100563,Figure_3,creativity,able ai articulate artist creativity image minimal produce prompt think
+100563,Figure_3,effort,ai artist effort image order produce tool work
+100563,Figure_4,creativity,boat creativity image landscape little look looks man ordinary overall random realistic
+100563,Figure_4,effort,effort face holes little made man obvious
+100563,Figure_5,creativity,amount box creating creativity good image new outside piece produce thinking used
+100563,Figure_5,effort,ai ask detail effort get level moderate needed order would've
+100563,NonFigure_1,creativity,creativity innovative new piece slightly unique
+100563,NonFigure_1,effort,ai effort little mistakes obvious say think
+100563,NonFigure_2,creativity,art assume creativity existing inspiration made minimal piece pieces think took want work
+100563,NonFigure_2,effort,effort image minimal new unique
+100563,NonFigure_3,creativity,creativity feel much new piece unique
+100563,NonFigure_3,effort,ai create easy effort little piece prompt simple think tool
+100563,NonFigure_4,creativity,creativity design fairly looks moderate paint piece realistic say strokes unique work
+100563,NonFigure_4,effort,compared effort looks painting piece real realistic
+100563,NonFigure_5,creativity,creative details dystopian futuristic imagining moderately piece world
+100563,NonFigure_5,effort,artist change edit effort generated image moderate order pieces prompts specific
+100295,Figure_1,creativity,cool creative depicted feel mother nature person possibly represents way
+100295,Figure_1,effort,detail image lot theres
+100295,Figure_2,creativity,auidence clear creativity digital dont image images looks message see shown significant think typically
+100295,Figure_2,effort,complicated draw look looked much required shawdows time
+100295,Figure_3,creativity,creative looks lot represented ways
+100295,Figure_3,effort,ai generated image looks
+100295,Figure_4,creativity,cool creative looks seen
+100295,Figure_4,effort,background bit blurry detail detailed face lot man's picture
+100295,Figure_5,creativity,creativity good know looks picture representing
+100295,Figure_5,effort,color details digital image little lot put
+100295,NonFigure_1,creativity,captivating creative defintley image looks seen
+100295,NonFigure_1,effort,animal awhile brush canvas colors considering different effect effort individual looked made mixed painting put stuffed ton took
+100295,NonFigure_2,creativity,alice creative reminds think wonderland
+100295,NonFigure_2,effort,detail image long must've plant time ton took tree
+100295,NonFigure_3,creativity,christmas creativity feel line look mean much picture pop seen similar somthing theres titled
+100295,NonFigure_3,effort,ai generated looks picture
+100295,NonFigure_4,creativity,creative think
+100295,NonFigure_4,effort,art brush colors effect im individual's looked looks real sure ton took
+100295,NonFigure_5,creativity,amount creative feel images seen various
+100295,NonFigure_5,effort,back building color created details digital image little looks person scheme time ton took
+100513,Figure_1,creativity,ai art artist's bottom combined corner creative establishing generated initially original piece plants saw signature solar system thought
+100513,Figure_1,effort,additionally bubble considering detail details effort entrapped girl lots much planets plants sphere taken water
+100513,Figure_2,creativity,components concept different many none original seen
+100513,Figure_2,effort,amount components different effort faces lot shadows sketching
+100513,Figure_3,creativity,combined concepts creativity hourglass knight much picture tied together used usually
+100513,Figure_3,effort,appeared armor details displaying effort fire including knight's lots sketch
+100513,Figure_4,creativity,authentic bayou person picture typical
+100513,Figure_4,effort,ai generated picture
+100513,Figure_5,creativity,abstract creative idea seen
+100513,Figure_5,effort,air considering detail draw effort facial fumes hard lot paint smoke sure typically
+100513,NonFigure_1,creativity,choice color creative etc image original ribbon rope seen use
+100513,NonFigure_1,effort,amount assumed bears considering detailed image many painting taken time would've
+100513,NonFigure_2,creativity,cool dr drawings interesting look lot ordinary reminded seuss strange thought
+100513,NonFigure_2,effort,amount colors considering details different effort etc lot plant sky unique ways
+100513,NonFigure_3,creativity,christmas north picture pole scenery set typical
+100513,NonFigure_3,effort,decor details effort etc houses including lights northern reindeer
+100513,NonFigure_4,creativity,desert image oasis ordinary original typical
+100513,NonFigure_4,effort,brushstrokes effort efforts image lot lots painting picture signified takes took typically visible
+100513,NonFigure_5,creativity,buildings colors creative details etc futuristic image lot typical
+100513,NonFigure_5,effort,ai disingenuous generated
+100508,Figure_1,creativity,bubble concept creative solar surrounding system whole woman
+100508,Figure_1,effort,details effort flowers flowy hair looked lot running water watering went
+100508,Figure_2,creativity,behind boy creativity internal looking lot meaning mirror monsters mosnters people perceive said surroundings think
+100508,Figure_2,effort,cool effort look lot moderate monsters piece repeated said similar
+100508,Figure_3,creativity,bigger creative danger destruction fire getting goes going hourglass passing past thought time
+100508,Figure_3,effort,coloring detailed liked piece shading thought
+100508,Figure_4,creativity,cool creative forest looked looking plain super
+100508,Figure_4,effort,al beautiful effort get lighting look think took trees
+100508,Figure_5,creativity,background colorful creative giving mask patterned person super
+100508,Figure_5,effort,cool effort lot patters repeated super took
+100508,NonFigure_1,creativity,bears concept cool creative hanging opinion
+100508,NonFigure_1,effort,awhile bears design look make paint realistic take
+100508,NonFigure_2,creativity,creative fairy vibes whimsicle
+100508,NonFigure_2,effort,characters create different effort involved lot mushroom think took
+100508,NonFigure_3,creativity,colors creative houses reindeer sky super walking
+100508,NonFigure_3,effort,effort features lot many structures take
+100508,NonFigure_4,creativity,camels desert kind plain walking
+100508,NonFigure_4,effort,beautiful lighting long sky sun take think time
+100508,NonFigure_5,creativity,cabin city colorful creative differentiation house look looking loved modern picture thought ultra
+100508,NonFigure_5,effort,buildings detail fine lot sky
+100383,Figure_1,creativity,cool futuristic super unique
+100383,Figure_1,effort,colors come dimension execute idea incorporate lot
+100383,Figure_2,creativity,image metaphorical potentially religious
+100383,Figure_2,effort,black sketch white
+100383,Figure_3,creativity,crazy good job mean unique
+100383,Figure_3,effort,armor detail glowing hourglass lots
+100383,Figure_4,creativity,boat guy
+100383,Figure_4,effort,detail feel hard wasnt ya
+100383,Figure_5,creativity,crazy idea pattern
+100383,Figure_5,effort,details textures unique
+100383,NonFigure_1,creativity,bears colors teddy
+100383,NonFigure_1,effort,colors detail lots paint texture use
+100383,NonFigure_2,creativity,landscape new otherworldy purely unique whimsical
+100383,NonFigure_2,effort,color dimension lots use
+100383,NonFigure_3,creativity,lanscape typical
+100383,NonFigure_3,effort,effort looks lot realistic take
+100383,NonFigure_4,creativity,dessert scene
+100383,NonFigure_4,effort,blending color depth lots nature pretty
+100383,NonFigure_5,creativity,day futuristic see
+100383,NonFigure_5,effort,colors details landscape lots
+100104,Figure_1,creativity,behind concept meaning
+100104,Figure_1,effort,ai creativity effort generated lends looks
+100104,Figure_2,creativity,creativity detail level shows story told used visually
+100104,Figure_2,effort,cohesive concept detail lot thought throughout work
+100104,Figure_3,creativity,conceptual looks
+100104,Figure_3,effort,actually creating spent think time
+100104,Figure_4,creativity,artistic based brought elements story together told vision
+100104,Figure_4,effort,ai generated obviously
+100104,Figure_5,creativity,ai creativity looks lot made much went
+100104,Figure_5,effort,ai effort feeding minimal prompt requires
+100104,NonFigure_1,creativity,behind conceptual deeper meaning unnatural
+100104,NonFigure_1,effort,creating looks thought went work
+100104,NonFigure_2,creativity,scene thought unnatural work
+100104,NonFigure_2,effort,effort human looks made real went
+100104,NonFigure_3,creativity,familiar scene
+100104,NonFigure_3,effort,ai effort looks much
+100104,NonFigure_4,creativity,happening story thought
+100104,NonFigure_4,effort,ai effort generated little looks prompt put
+100104,NonFigure_5,creativity,city cliche future
+100104,NonFigure_5,effort,ai generated looks
+100577,Figure_1,creativity,created creativity enjoyable image imagining impossible look lot made needed nice order thing
+100577,Figure_1,effort,able anyone beautiful create definitely effort feel image lot put random think took
+100577,Figure_2,creativity,creative creativity feel happen horror life looked lot mirrors monsters movie real showed thought time took
+100577,Figure_2,effort,come effort happen idea life long probably real significant thinking thought time together took
+100577,Figure_3,creativity,asked creative knight life person timer
+100577,Figure_3,effort,anyone effort feel much quickly think
+100577,Figure_4,creativity,creative creativity everyday hard image life man might've minimal normal someone's standing thing
+100577,Figure_4,effort,boat creating effort image imagine minimal much need river think thinking
+100577,Figure_5,creativity,definitely design format going make person picture standing thought unique
+100577,Figure_5,effort,effort image imagining lot probably put think time took
+100577,NonFigure_1,creativity,bears ceiling creative cute definitely everyone hanging idea know looks teddy thinking thinks time took
+100577,NonFigure_1,effort,definitely effort image set think thinking time took wanted
+100577,NonFigure_2,creativity,brought candy creativity drawing feel first involved land look lot make reality see think thought time visited
+100577,NonFigure_2,effort,candy detail effort involved lot picture trees
+100577,NonFigure_3,creativity,arrived audience cabins creative day experience lived lot normal place reindeer right santa somewhat think wanted
+100577,NonFigure_3,effort,create effort lights much northern piece snow take think thinking took
+100577,NonFigure_4,creativity,creativity feel heard much seen somewhere think took world
+100577,NonFigure_4,effort,anyone effort happen much take think vacation went
+100577,NonFigure_5,creativity,advancing couple creative feel image look people showed technology think world years
+100577,NonFigure_5,effort,easily effort involved many much people talk think
+100579,Figure_1,creativity,ai image prompted
+100579,Figure_1,effort,ai image made
+100579,Figure_2,creativity,creative prompt somewhat
+100579,Figure_2,effort,ai generated image
+100579,Figure_3,creativity,ai creativity form prompt
+100579,Figure_3,effort,ai image made
+100579,Figure_4,creativity,ai image prompted
+100579,Figure_4,effort,ai generated image
+100579,Figure_5,creativity,ai image prompted
+100579,Figure_5,effort,ai generated image
+100579,NonFigure_1,creativity,ai image prompted
+100579,NonFigure_1,effort,ai generated image
+100579,NonFigure_2,creativity,ai appear fictional used
+100579,NonFigure_2,effort,ai usage
+100579,NonFigure_3,creativity,ai used
+100579,NonFigure_3,effort,ai used
+100579,NonFigure_4,creativity,ai image prompted
+100579,NonFigure_4,effort,ai generated
+100579,NonFigure_5,creativity,ai fictional looks used
+100579,NonFigure_5,effort,ai created image
+100329,Figure_1,creativity,actually artist creating creative exist life mind real relied scene think
+100329,Figure_1,effort,actually create detailed draw idea incredibly long reflect screen taken time
+100329,Figure_2,creativity,brings characters dracula etc existing incorporates new together vampires way
+100329,Figure_2,effort,detail involve lot much paintings requires shading work
+100329,Figure_3,creativity,armor creative holding hourglass original soldier super think traditional
+100329,Figure_3,effort,detailed effectively effort heavily looking lot realistic replicate takes
+100329,Figure_4,creativity,boat creative cute forest jungle man particularly scene strike
+100329,Figure_4,effort,draw hyper incredible long realism take time
+100329,Figure_5,creativity,alien artwork creative existing far ideas separates think version
+100329,Figure_5,effort,actually ai believe effort generated gone hyper make much realistic reflects think told work
+100329,NonFigure_1,creativity,bring cute drawing ideas original required think together
+100329,NonFigure_1,effort,background detail drawing going little simple wise
+100329,NonFigure_2,creativity,alex art aspects base certain creative creativity definitely developed elements existing formed inspired level looked lorax' making mind movie reminded scene screen trees
+100329,NonFigure_2,effort,definitely detail draw involved long looks much time took
+100329,NonFigure_3,creativity,artic artist basic believes creative looks north replication
+100329,NonFigure_3,effort,accurate definitely details drawn effort focus incredibly lot require ti
+100329,NonFigure_4,creativity,artist basic believes desert egypt version
+100329,NonFigure_4,effort,appears art digital hard incredibly painting programs replicate
+100329,NonFigure_5,creativity,city concept drawn feel futuristic new original super ton
+100329,NonFigure_5,effort,definitely detail difficult drawing effort incredible incredibly looks much seen throughout
+100233,Figure_1,creativity,colors details nice
+100233,Figure_1,effort,easy explain prompt
+100233,Figure_2,creativity,backstory conveying levels picture
+100233,Figure_2,effort,come effort looks lot prompt took
+100233,Figure_3,creativity,design pretty standard
+100233,Figure_3,effort,describe easy replicate
+100233,Figure_4,creativity,detail lot
+100233,Figure_4,effort,scene standard
+100233,Figure_5,creativity,design detail much standard
+100233,Figure_5,effort,easy likely prompt
+100233,NonFigure_1,creativity,idea seen
+100233,NonFigure_1,effort,describe probably prompt took
+100233,NonFigure_2,creativity,creative fictional lots thinking took
+100233,NonFigure_2,effort,abundant detail long probably time took
+100233,NonFigure_3,creativity,artwork cabin creative details made sky snowy
+100233,NonFigure_3,effort,ai come much prompt tell time
+100233,NonFigure_4,creativity,detailed pretty
+100233,NonFigure_4,effort,effort looks minimal took
+100233,NonFigure_5,creativity,creative futuristic sort thinking took
+100233,NonFigure_5,effort,describe easy fairly
+100432,Figure_1,creativity,alex create creating digitally head know life resemble
+100432,Figure_1,effort,art aspects back bubble clear draw executed female idea lot planets plants sky space texture tried watering
+100432,Figure_2,creativity,art artwork based creativity existing pre seen think
+100432,Figure_2,effort,art artwork effort faces features lot shadowing significant think throughout
+100432,Figure_3,creativity,artwork created representation scene seen think visual
+100432,Figure_3,effort,armor art deal detailing effort face facial great hair piece soldier soldier's specifically think wearing
+100432,Figure_4,creativity,artwork create creativity digital help idea intricacies moderate say system used using
+100432,Figure_4,effort,actually artwork effort involved make minimal reasoning say
+100432,Figure_5,creativity,alex art created describes known literature look resemble
+100432,Figure_5,effort,able art draw effort layers mask person requires swirled tell
+100432,NonFigure_1,creativity,animal's animals crazily creative creativity drawn ear hanging head minimal ribbons stuffed super think
+100432,NonFigure_1,effort,artwork colors create lot lots smaller strokes texture used
+100432,NonFigure_2,creativity,alex creative drawn existing fantastical front less look magical make see
+100432,NonFigure_2,effort,beanstalk colors going lot multiple plants textures
+100432,NonFigure_3,creativity,artwork christmas find generic holiday lights northern product reindeer scene seen sort village
+100432,NonFigure_3,effort,characters done effort hard life lights northern put real scene shadows sky way
+100432,NonFigure_4,creativity,change created creative different environment life location look make picture real saw scene shot show situation somewhere tv
+100432,NonFigure_4,effort,camels colors creating line lots people smaller used work
+100432,NonFigure_5,creativity,alternate artists depict future lot scene tried world
+100432,NonFigure_5,effort,added away buildings drew light objects reflecting roads scene sense take tell things understanding
+100588,Figure_1,creativity,artwork context cool creative emphasis fascinating lot nature otherworldly puts space unique
+100588,Figure_1,effort,ai artwork coloring complex effort generated layers looks lot subjects take
+100588,Figure_2,creativity,additionally artwork behind child contrast creativity creatures different elements entities innocent interesting shows significant think thought unique work
+100588,Figure_2,effort,additionally artwork characters deal effort entire great intricacy involved line looks makes objects scene shading shadows significant staggering take think work
+100588,Figure_3,creativity,artwork colors contrasting cool creative creativity flame focal hourglass knight main moderately piece point rest say
+100588,Figure_3,effort,alex artwork decently digitally doable draw hard person probably regularly subject
+100588,Figure_4,creativity,boat dancing forest makes man pretty scene typical unique
+100588,Figure_4,effort,ai body brightness coloring detailing effort face general generated generation great imagery man scene shows signifiers typical
+100588,Figure_5,creativity,component cool exhibitions human idea interesting lot mask material mix original see smoke themes think thought unique working
+100588,Figure_5,effort,background central character decently difficult effort intricacy make require shadows shape significant use
+100588,NonFigure_1,creativity,artist's artwork clear creativity elicit emotions feelings intention makes message process think
+100588,NonFigure_1,effort,amount brush call decent demand effort imagery less moderate perspective repetitive say slightly work
+100588,NonFigure_2,creativity,artwork candy creative decently drew familiar fantastical imagery inspiration land likely mystical original pull typical
+100588,NonFigure_2,effort,details easy effort lot make point probably repetitive replicate require small
+100588,NonFigure_3,creativity,artwork cabins creativity elements elk feel less makes pretty reflects scene snow think typical winter
+100588,NonFigure_3,effort,amount art associated assume cabins cold creating decent digitally effort entire making platforms procreate put scene snow takes vibe warm
+100588,NonFigure_4,creativity,alex artistry camels coloring created creativity desert great involved much original painted painting people sand scene scenes sun think typical
+100588,NonFigure_4,effort,ai bit brush coloring complex decently detail effort generated looked minimal say significant strokes
+100588,NonFigure_5,creativity,additionally alex artwork creative creativity detail details futuristic house landscape likely moon planet show sky smaller vehicles
+100588,NonFigure_5,effort,ai artwork counted deal detailing distancing effort generated great intricacy looks lot perspective study sure take work
+100506,Figure_1,creativity,ai analytical commentary creativity earth garden globe idea input love perspective planet serve shows significant snow think universe
+100506,Figure_1,effort,create image manually paint
+100506,Figure_2,creativity,concept cool creative idea mirror monsters piece
+100506,Figure_2,effort,ai art created digital draw input paint stuff
+100506,Figure_3,creativity,art artificial create creative idea innovative intelligence moderately new think try
+100506,Figure_3,effort,ai alex consider create effort made physically piece think work
+100506,Figure_4,creativity,ai art backstory boat create guy idea intellectual interesting lake new original piece pretty standing understanding using
+100506,Figure_4,effort,abilities computer create generated hand human piece
+100506,Figure_5,creativity,cool creative creature's drawn eyes image layered layers life liked look looks message personality photograph piece real see seen send skin smoke think using world
+100506,Figure_5,effort,ai creating effort layers multifaceted piece put think work
+100506,NonFigure_1,creativity,creative idea image
+100506,NonFigure_1,effort,ai colors create depth effort probably style took
+100506,NonFigure_2,creativity,associate books candy charlie childhood chocolate colors creative creativity dr factory games guess looked looks new particularly piece plants rating reminded seuss think way
+100506,NonFigure_2,effort,ai completely digital generated
+100506,NonFigure_3,creativity,frozen images looks scene seen similar
+100506,NonFigure_3,effort,computer hand make piece used
+100506,NonFigure_4,creativity,brushstrokes colors creative etc idea nice painting somewhat
+100506,NonFigure_4,effort,ai brushstrokes camels colors create effort palm probably reflection river took trees
+100506,NonFigure_5,creativity,blur colors cool create creative depth idea innovative input looked new piece revised shapes visually
+100506,NonFigure_5,effort,ai artistic definitely digital effort input little made manually piece produce revisions takes thought traditional work
+100523,Figure_1,creativity,artwork behind deep meaning seen
+100523,Figure_1,effort,create effort lot took work
+100523,Figure_2,creativity,artwork behind deep meaning
+100523,Figure_2,effort,action come idea intricate put took
+100523,Figure_3,creativity,behind deeper meaning message
+100523,Figure_3,effort,hard look lot make picture pieces similar
+100523,Figure_4,creativity,lot seen work
+100523,Figure_4,effort,easy intricate make
+100523,Figure_5,creativity,behind creative deeper message sure
+100523,Figure_5,effort,detailed long make time took
+100523,NonFigure_1,creativity,behind deeper design intricate meaning
+100523,NonFigure_1,effort,hard make
+100523,NonFigure_2,creativity,design intricate long picture time took
+100523,NonFigure_2,effort,hard make
+100523,NonFigure_3,creativity,movie scene see
+100523,NonFigure_3,effort,copied could've easily
+100523,NonFigure_4,creativity,lot seen work
+100523,NonFigure_4,effort,hand long looks make painted takes time
+100523,NonFigure_5,creativity,lot pieces seen
+100523,NonFigure_5,effort,detailed intricate
+100565,Figure_1,creativity,bland pretty
+100565,Figure_1,effort,okay
+100565,Figure_2,creativity,new unusual
+100565,Figure_2,effort,detailed
+100565,Figure_3,creativity,creative
+100565,Figure_3,effort,detailed intricate
+100565,Figure_4,creativity,creative guy pose pretty
+100565,Figure_4,effort,ai generated looks
+100565,Figure_5,creativity,creative expecting
+100565,Figure_5,effort,ai effort generated looks minimally said
+100565,NonFigure_1,creativity,bears bows far favorite loved
+100565,NonFigure_1,effort,intricate think
+100565,NonFigure_2,creativity,interesting new
+100565,NonFigure_2,effort,detailed
+100565,NonFigure_3,creativity,special
+100565,NonFigure_3,effort,beautiful crafted pretty
+100565,NonFigure_4,creativity,creative images seen similar super
+100565,NonFigure_4,effort,beautiful pretty
+100565,NonFigure_5,creativity,intersting
+100565,NonFigure_5,effort,ai generated looks
+100527,Figure_1,creativity,concept novel
+100527,Figure_1,effort,intense pretty
+100527,Figure_2,creativity,average horror image investigative style
+100527,Figure_2,effort,detailed
+100527,Figure_3,creativity,glass guy holding hour idea kind knight metaphorical soldier
+100527,Figure_3,effort,pretty prompt simple
+100527,Figure_4,creativity,normal pretty scene
+100527,Figure_4,effort,easy pretty prompt
+100527,Figure_5,creativity,background cool face similar
+100527,Figure_5,effort,amount dones experience fact good hard know means part smoke spent time trying
+100527,NonFigure_1,creativity,interesting life pretty real seen
+100527,NonFigure_1,effort,hard oil painting texture
+100527,NonFigure_2,creativity,creative fantasy gives vibes
+100527,NonFigure_2,effort,art depth love prompt style
+100527,NonFigure_3,creativity,area cheer christmas cold holiday idea normal pretty vibes
+100527,NonFigure_3,effort,pretty prompt simple
+100527,NonFigure_4,creativity,ai cool pretty
+100527,NonFigure_4,effort,ai work
+100527,NonFigure_5,creativity,cool futuristic looks
+100527,NonFigure_5,effort,complete moon seperated things
+100655,Figure_1,creativity,creative definitelyinitely describe going idea ideas interestingeresting looking lot meanings think unique
+100655,Figure_1,effort,actually ai alot create hard help physically technology think time took
+100655,Figure_2,creativity,creativity deeper little meaning shows
+100655,Figure_2,effort,deeper effort idea think
+100655,Figure_3,creativity,games get hunger odd
+100655,Figure_3,effort,effort
+100655,Figure_4,creativity,artistic bit boat creativity dessorts face little person probably reason
+100655,Figure_4,effort,artwork effort hard make online probably think
+100655,Figure_5,creativity,ai cause create creativity dont easily get ideas less much needed online think use used work
+100655,Figure_5,effort,drew effort im made much physically sure took
+100655,NonFigure_1,creativity,brush effect fake interesting looks painting pretending real stroke
+100655,NonFigure_1,effort,ai brush come great hard idea strokes
+100655,NonFigure_2,creativity,board game looks seen simple
+100655,NonFigure_2,effort,effort many seen simple times
+100655,NonFigure_3,creativity,ive overdone seen
+100655,NonFigure_3,effort,effort reused simple
+100655,NonFigure_4,creativity,brush nice strokes
+100655,NonFigure_4,effort,brush digital effort look looks purposeful strokes think
+100655,NonFigure_5,creativity,cool feel ive million picture seen times unique
+100655,NonFigure_5,effort,ai effort fine inputing
+100663,Figure_1,creativity,art cool idea middle piece planet unique woman
+100663,Figure_1,effort,ai detailed looked moderate rate thought work
+100663,Figure_2,creativity,cool detailed provoking scene thought
+100663,Figure_2,effort,different effort include look made pencil shadings
+100663,Figure_3,creativity,colorful detailed novel particularly super
+100663,Figure_3,effort,art completely digitized effort looks pencil shows think
+100663,Figure_4,creativity,advertisement color creative cruise disneyland idea jungle looks lots novel ride
+100663,Figure_4,effort,ai artwork generated looks seen
+100663,Figure_5,creativity,colorful cool idea
+100663,Figure_5,effort,ai artwork effort find full looked personally typical
+100663,NonFigure_1,creativity,angles bears colorful different included looked novel piece teddy work
+100663,NonFigure_1,effort,detailed looked piece thought work
+100663,NonFigure_2,creativity,artwork dr looked reminiscent suess twist
+100663,NonFigure_2,effort,appeared colorful detailed effort signifies textured
+100663,NonFigure_3,creativity,art aurora creative easily looks part sky think unique
+100663,NonFigure_3,effort,ai artwork looked thought
+100663,NonFigure_4,creativity,creative desert scene seen sunset
+100663,NonFigure_4,effort,accurate ai detailed paint piece put strokes sunset thought
+100663,NonFigure_5,creativity,art feel game inspired movie previous scene seen video
+100663,NonFigure_5,effort,art detailed effort legit look make medium physical using
+100651,Figure_1,creativity,artwork beautiful deep different image layers lot original reflection required self story telling thought
+100651,Figure_1,effort,ambition artwork deal details different gain great involved many momentum techniques utilized
+100651,Figure_2,creativity,artist convey different emotion face interpersonal interpretation relationships required self sense showed world
+100651,Figure_2,effort,artworks deal depicted effort great intricate past sketches took
+100651,Figure_3,creativity,artwork creativity focuses going heavily image images involve involved leads lot main think
+100651,Figure_3,effort,ability audience detail focus get great image intricate level main point shift skill takes
+100651,Figure_4,creativity,artwork creativity ideas lot original past seen
+100651,Figure_4,effort,canvas deal effort great hard idea physical produce required work
+100651,Figure_5,creativity,bring deal effort focus great life mental patterns require shapes
+100651,Figure_5,effort,artworks deal dimension effort great involve much took
+100651,NonFigure_1,creativity,bears dimension focus image plenty teddy
+100651,NonFigure_1,effort,color details dimension effort intricate little lots plenty
+100651,NonFigure_2,creativity,candy dimension focus hills lot
+100651,NonFigure_2,effort,details intricate lot
+100651,NonFigure_3,creativity,deal great ideas images imagination involved new presented seen self thought used
+100651,NonFigure_3,effort,animations color details etc image lot objects schemes shapes small tell went work
+100651,NonFigure_4,creativity,colors detail especially image intricate level new placement seen strokes thought
+100651,NonFigure_4,effort,artwork color creating deal detail effort great illusion intricate involved looked placement spent thought time
+100651,NonFigure_5,creativity,behind ideas image imagination key lead lot thought took went
+100651,NonFigure_5,effort,bright colors different dimensions execution image lot multi took work
+100589,Figure_1,creativity,alex artwork bit contributed creating creativity image inputted little minimal part prompts rated took
+100589,Figure_1,effort,alex effort little logic minimal prompts put rated using
+100589,Figure_2,creativity,abnormal alex artwork conveys faces first image message plates put see things thought
+100589,Figure_2,effort,clearly prompts put thought
+100589,Figure_3,creativity,creativity involved minimal pretty prompt straightforward
+100589,Figure_3,effort,logic used
+100589,Figure_4,creativity,artwork creativity minimal ordinary pretty
+100589,Figure_4,effort,logic used
+100589,Figure_5,creativity,contributing creativity higher inputting minimal prompts rate revising
+100589,Figure_5,effort,creativity effort logic minimal rated using
+100589,NonFigure_1,creativity,animals artwork background ceiling create hanging looks pastel simple stuffed wrote
+100589,NonFigure_1,effort,logic used
+100589,NonFigure_2,creativity,ai alex amount artwork created creation creativity defined help higher involvement originality presence rate solely work
+100589,NonFigure_2,effort,ai alex artwork assuming done drawing effort gave made moderate put refined
+100589,NonFigure_3,creativity,artwork give minimal seen
+100589,NonFigure_3,effort,effort logic minimal rate used
+100589,NonFigure_4,creativity,alex bit contributed creativity inputted little prompts
+100589,NonFigure_4,effort,developing effort little prompts put revising
+100589,NonFigure_5,creativity,adds alex's artwork creativity futuristic theme
+100589,NonFigure_5,effort,ai created detailed details intricate probably prompts
+100065,Figure_1,creativity,bubble details girl insane loveee outerspace pretty
+100065,Figure_1,effort,aesthetically audibly gasped going lot pleasing
+100065,Figure_2,creativity,emotion going good lot provoked scary suppose viewer
+100065,Figure_2,effort,happening lot
+100065,Figure_3,creativity,black catching eye idk white
+100065,Figure_3,effort,hyperrealistic looked photo real
+100065,Figure_4,creativity,ai boat clear didnt features guy looked
+100065,Figure_4,effort,ai looked
+100065,Figure_5,creativity,connected image sense swirls unique
+100065,Figure_5,effort,detailed looks sharp
+100065,NonFigure_1,creativity,bears cool hanging interesting kinda scary sure
+100065,NonFigure_1,effort,looks painting
+100065,NonFigure_2,creativity,colorful different happening lot things
+100065,NonFigure_2,effort,detail lots
+100065,NonFigure_3,creativity,aesthetic cute
+100065,NonFigure_3,effort,fake looked
+100065,NonFigure_4,creativity,beautiful looked painting real
+100065,NonFigure_4,effort,ai looked painting real
+100065,NonFigure_5,creativity,cool feel hundred ive mean pictures seen types unique
+100065,NonFigure_5,effort,intricate looks
+100665,Figure_1,creativity,aspects creativity deeper extraterrestrial human involved meaning piece significant think
+100665,Figure_1,effort,ai concept effort generated involved look lot think thought took
+100665,Figure_2,creativity,abstract creativity fears human involved meaning monsters seen significant think unlike
+100665,Figure_2,effort,appears done effort human involved significant sketch think
+100665,Figure_3,creativity,creativity designers game involved looks medieval professional see significant think video
+100665,Figure_3,effort,ai effort generated heavily involved look looks moderate original piece think
+100665,Figure_4,creativity,appears concept creativity involved man original significant singing swamp think thought
+100665,Figure_4,effort,ai effort generated heavily human involved looks minimal think touch
+100665,Figure_5,creativity,alien appears creativity deal great human hybrid involved seen think unlike
+100665,Figure_5,effort,ai effort generated involved look moderate painting photo think
+100665,NonFigure_1,creativity,abstract appears bears behind concept creativity deal great hanging involved rabbits stuffed teddy think
+100665,NonFigure_1,effort,appears deal effort great human involved paintbrush painted strokes think visual
+100665,NonFigure_2,creativity,appears book creativity differences dr involved kid's moderate seuss spin think
+100665,NonFigure_2,effort,attention detail drawn effort hand involved look much scene significant think
+100665,NonFigure_3,creativity,aurora bit cliche creativity involved lights minimal setting snow think unoriginal
+100665,NonFigure_3,effort,effort involved minimal much piece put think thought
+100665,NonFigure_4,creativity,bit content creativity involved moderate piece terms think unoriginal
+100665,NonFigure_4,effort,adds effort human involved paintbrush see significant strokes think touch
+100665,NonFigure_5,creativity,city creativity film futuristic involved looks moderate see think
+100665,NonFigure_5,effort,ai appears effort generated involved moderate think
+100215,Figure_1,creativity,bubble's creative figure forms gravity humanlike life makes outer provoking purpose question showing space survive think thought unexpected works
+100215,Figure_1,effort,bubble designed dim displayed hope inner life lighting much outer space thoughtfully vibrancy
+100215,Figure_2,creativity,added bigger creative definitely depth displaying mirrors monsters piece room showed
+100215,Figure_2,effort,afraid boy dangerous effort intentions messy monsters much put required stroke together used
+100215,Figure_3,creativity,creative holding hourglass imagine knight sort sword unique usually weapon
+100215,Figure_3,effort,art created design different digital digitally effort especially fi must've patterns process taken textures unfamiliar
+100215,Figure_4,creativity,area creative dancing expect expression happy house joyous light lost movement normally person's piece placement raft raveen sad swamp think woods
+100215,Figure_4,effort,coming considered design dimmer end evoke expression joy light person's placement reflection sunlight surroundings thoughtfully tunnel water's
+100215,Figure_5,creativity,background completely depth eyes original person smoke stand texture thought unique
+100215,Figure_5,effort,depth display effort emits eyes feelings figure looking lot must've person roughness see stand surface taken thought
+100215,NonFigure_1,creativity,art everyday hang installations museums new nice seen sight strings things
+100215,NonFigure_1,effort,animal choice colors create effort intentional must've strokes style taken think
+100215,NonFigure_2,creativity,blue book children's different looks original shapes straight textures trees
+100215,NonFigure_2,effort,amount aspects consider effort great include must've taken textures think unique
+100215,NonFigure_3,creativity,cabin expected normal ordinary setting snowy
+100215,NonFigure_3,effort,aurora background borealis extra life make required thought trees windows
+100215,NonFigure_4,creativity,camels choice color creative desert easily expected oasis orange predicted sand setting slightly tones vibrant
+100215,NonFigure_4,effort,artwork digital effort normally painting required smooth textures think
+100215,NonFigure_5,creativity,city futuristic new seen speak
+100215,NonFigure_5,effort,choice city color effort evoke feeling liveliness lot must've taken windows
+100232,Figure_1,creativity,figure imagery looks lots planets symbolism trying
+100232,Figure_1,effort,come detailed image life
+100232,Figure_2,creativity,draws going image lot symbolism thinking
+100232,Figure_2,effort,black detailed gives imagery lots white
+100232,Figure_3,creativity,hold image symbolism
+100232,Figure_3,effort,art detailed pretty
+100232,Figure_4,creativity,behind deep image looks meaning movie much scene
+100232,Figure_4,effort,ai cool generated looks reflections
+100232,Figure_5,creativity,draws image
+100232,Figure_5,effort,image looks movie scene
+100232,NonFigure_1,creativity,behind image makes message wonder
+100232,NonFigure_1,effort,brings image life look make strokes
+100232,NonFigure_2,creativity,image looks seen
+100232,NonFigure_2,effort,comes detailed image life look
+100232,NonFigure_3,creativity,looks photo stock
+100232,NonFigure_3,effort,ai generated looks
+100232,NonFigure_4,creativity,image looks pretty seen simple
+100232,NonFigure_4,effort,additional detail effort image look make strokes
+100232,NonFigure_5,creativity,feel futuristic game movie seen setting
+100232,NonFigure_5,effort,ai generated image looks
+100569,Figure_1,creativity,actual figure idea image meaning second subtle takes
+100569,Figure_1,effort,artwork background container flowers glass going lot planets plants put show universe woman work
+100569,Figure_2,creativity,artwork books boy common idea mirrors monsters movies next pretty shows
+100569,Figure_2,effort,body draw easy going human lot lots monsters shapes
+100569,Figure_3,creativity,armor changes common fire goes holding hourglass hourglasses idea looking object person sand standard
+100569,Figure_3,effort,armor background detail hourglass lot person shading
+100569,Figure_4,creativity,common environment especially known picture south
+100569,Figure_4,effort,beautiful building construction depiction expression human image nature precise
+100569,Figure_5,creativity,covered eyes face human material real shows
+100569,Figure_5,effort,detail great shading shapes
+100569,NonFigure_1,creativity,exactly going idea interesting makes meant picture portray think
+100569,NonFigure_1,effort,brush color different great looks mixes real types
+100569,NonFigure_2,creativity,candy existing interpreted land makes mushroom mushrooms picture plant shows trees use wonder
+100569,NonFigure_2,effort,going image little part
+100569,NonFigure_3,creativity,common countries experiences lights northern norway picture place present reindeer shows similar snow sweden usually
+100569,NonFigure_3,effort,good image life looking looks put real together
+100569,NonFigure_4,creativity,animals common desert image land river water
+100569,NonFigure_4,effort,beautiful colors depth mixes shading
+100569,NonFigure_5,creativity,comes common flying future huge imagination look metropolis nowadays picture presents vehicles world
+100569,NonFigure_5,effort,buildings colored different lights looks lot precise shading
+100149,Figure_1,creativity,accounts ai changes creativity detailed factors get image lot many previous prompt wanted
+100149,Figure_1,effort,creative effort executing idea image lot must've significant taken think tries work
+100149,Figure_2,creativity,coming creativity idea level mirror moderate multiple original reflections think took
+100149,Figure_2,effort,achieve assume back details different effort exact face get image intricate lot must've present produced prompts reflections staring taken
+100149,Figure_3,creativity,ai final images minimal producing product prompt receiving resulting simple straightforward
+100149,Figure_3,effort,achieve ai effort image long minimal produced prompt reasons simple taken
+100149,Figure_4,creativity,boat coming creativity hard idea image man minimal original previous producing prompt similar straightforward swamp take would've
+100149,Figure_4,effort,ai change different effort image imagine lot makeups many minimal needing prompt take taking times
+100149,Figure_5,creativity,adding ai artist correspond created creativity decreases editing firstly image images knowing making moderate personal produced score specific touch vision
+100149,Figure_5,effort,ai artist decreases editing effort especially exactly firstly image images knowing match original probably process produced prompt score taken time wanted
+100149,NonFigure_1,creativity,artist creativity detailed extensive form image must've ones present previous prompt resulted think took
+100149,NonFigure_1,effort,bears colored different effort example image intricate makeup present rabbits significantly strings' think
+100149,NonFigure_2,creativity,achieve assume changes creativity details high image intricate lot many order prompt result specific think
+100149,NonFigure_2,effort,changes come effort great idea image lot many previous prompt reasoning similar
+100149,NonFigure_3,creativity,coming creativity handful image moderate must've prompt result specific taken tries
+100149,NonFigure_3,effort,achieve effort image large minimal opinion taken tries wanted
+100149,NonFigure_4,creativity,ai alex aspect case creativity decreases edit fact generating guided image images prompts understanding
+100149,NonFigure_4,effort,artist better changing effort fit head imagine prompts see
+100149,NonFigure_5,creativity,buildings coming common creative creativity essentially futuristic idea image minimal original present prompt sort think world
+100149,NonFigure_5,effort,ai asking could've depicted easily effort minimal opinion prompt reason trys
+100451,Figure_1,creativity,bubble clear creative details girl indicates outer space thought
+100451,Figure_1,effort,changes details orbiting planets remade sky
+100451,Figure_2,creativity,artist clear idea require unique vision
+100451,Figure_2,effort,ai artists certain details example generator get getting input looking many mirrors people re right see spirit
+100451,Figure_3,creativity,ai arguably create creativity full idea image initial input instructions least level moderate much order provide
+100451,Figure_3,effort,ai artists blending done draws etc give guidelines hand hard instructions much nearly using work
+100451,Figure_4,creativity,ai details generator image many pretty require seed specific standard
+100451,Figure_4,effort,adjustments ai details generator make need prompt re see several striking
+100451,Figure_5,creativity,ai careful generator image input lot meaning needed specific thought unique
+100451,Figure_5,effort,details effort' get given image needed prompting re require right
+100451,NonFigure_1,creativity,basic bears behind creative hanging image images intention means pretty require seen several teddy thought usually vision way
+100451,NonFigure_1,effort,artist colors effort make much pretty require standard switch thing think wanted
+100451,NonFigure_2,creativity,able ai back clouds complexity creative creativity definitely details example execute generic given house intention level moderate pink random required see sort swirly trees usually vision way
+100451,NonFigure_2,effort,actual artists case clouds details example get hard mirror required right technique texture work
+100451,NonFigure_3,creativity,basic christmas creativity familiar image images make require seen years
+100451,NonFigure_3,effort,going image input literally made much
+100451,NonFigure_4,creativity,camels desert image make much required said standard think thought
+100451,NonFigure_4,effort,easily input made round
+100451,NonFigure_5,creativity,creativity feel generic image make requires spectacular standard
+100451,NonFigure_5,effort,different futuristic image looking many pictures renditions require special
+100661,Figure_1,creativity,creativity deal focusing girl great growth involved looks think world
+100661,Figure_1,effort,detail dream effort looks lot significant think
+100661,Figure_2,creativity,artwork boy clearly creativity deal demons faces frightened great internal involved portrayed possibly problems scary see think
+100661,Figure_2,effort,boys deal effort emotions feel great involved think
+100661,Figure_3,creativity,amount artwork chaos creativity different fire hourglass image inside interpretations looking looks man people portrays running shows significant symbolize think time timer
+100661,Figure_3,effort,character deal detail effort great involved looking lot outfit think timer way
+100661,Figure_4,creativity,alone boat creativity deal great happiness happy internal looks man nature peace symbolize think
+100661,Figure_4,effort,amount beautifully deal detail effort emotions good great green incorporated involved looks man portraying shades
+100661,Figure_5,creativity,artwork creative interesting moderately ordinary think
+100661,Figure_5,effort,detail effort involved moderate much think
+100661,NonFigure_1,creativity,animals creativity deep meaning minimal portrayed ribbons show stuffed think
+100661,NonFigure_1,effort,artwork effort looked minimal repetitive think
+100661,NonFigure_2,creativity,amount artistic creativity look minimal think unique
+100661,NonFigure_2,effort,colors effort looked minimal patterns repetitive think
+100661,NonFigure_3,creativity,amount artwork aurora creativity feel felt festive glowing lights made saw shining significant sky
+100661,NonFigure_3,effort,amount art artwork cabins detail dimmed effort lights lot many parts put reindeers significant snow together
+100661,NonFigure_4,creativity,amount artwork beautifully blended colors creativity image moderate overall portrayed see significant together
+100661,NonFigure_4,effort,artwork aspects camels clearly colors effort mountains painting saw see significant trees used water
+100661,NonFigure_5,creativity,advanced aircrafts architecture artwork bright colors consisted creativity deal elements futuristic great high noticed stood tech
+100661,NonFigure_5,effort,artwork box deal effort elements great imaginative involved outside put think together
+100034,Figure_1,creativity,art artificial corner creativity cross fake give level little looks made moderate name overall personally piece reason right roads signals signature
+100034,Figure_1,effort,ai effort graded looks poorly used
+100034,Figure_2,creativity,art bed black blank child color corridor creatures dark depicts detailing emphasize ghouls good liked line looks monsters nature night plain read simple story thought white you'd
+100034,Figure_2,effort,art created creature details difficult digital draw drawn ensuring imply lines looks use
+100034,Figure_3,creativity,art biased bloodborne bunch charcoal clad dark elden game gothic hourglass iron leaves looks man much overall pencil picture questions ring series similar simple souls video
+100034,Figure_3,effort,artist charcoal detailing effort pencil story strokes telling thought
+100034,Figure_4,creativity,ai art away bad especially eyes feel give human incomplete looks mouth nature takes think using
+100034,Figure_4,effort,ai aside chat effort much opinion plugging prompt put think utilized
+100034,Figure_5,creativity,ai art creative landscape looks much straightforward think utilized
+100034,Figure_5,effort,ai art detail effort elegant face obvious piece pieces refined think use used
+100034,NonFigure_1,creativity,ai brush cloth creativity genuine hanging look looking looks mainly plushes stemming string strokes think used
+100034,NonFigure_1,effort,artist brush detailing imminent long make piece strokes think time took
+100034,NonFigure_2,creativity,art books dr elaborate fantasy graded highly piece poppy reminiscent stylistic suess whimsical world
+100034,NonFigure_2,effort,answer effort lot previous similarly think
+100034,NonFigure_3,creativity,ai airplane art background creation details dichotomy fantasy inconsistent mainly overall piece real show snowy stylistic terrain think using world
+100034,NonFigure_3,effort,ai design looks making similarly story telling thought used
+100034,NonFigure_4,creativity,choice colors creative different look made make painting pop stylistic terrain thought typical utilized
+100034,NonFigure_4,effort,artist's brush color detailing effort indicative individual overall painted showing solid stripe strokes thought water
+100034,NonFigure_5,creativity,ai art believe curated definition different everyone help made people say subjective tool
+100034,NonFigure_5,effort,ai answer art believe creating effort last minimal person's think used
+100229,Figure_1,creativity,amazing flowers going much person planets
+100229,Figure_1,effort,insane words
+100229,Figure_2,creativity,beasts great idea
+100229,Figure_2,effort,individual pencil strokes tons
+100229,Figure_3,creativity,concept glass good hour looks nice
+100229,Figure_3,effort,chains complex insanely lot take time
+100229,Figure_4,creativity,creative dance guy making
+100229,Figure_4,effort,boat effort making requires ripple technical water
+100229,Figure_5,creativity,design original smoke stone
+100229,Figure_5,effort,crazy difficult looks overall technique
+100229,NonFigure_1,creativity,choice color going good lot
+100229,NonFigure_1,effort,individual see strokes
+100229,NonFigure_2,creativity,crazy
+100229,NonFigure_2,effort,hair plants see
+100229,NonFigure_3,creativity,create levels lighting lot mix multiple
+100229,NonFigure_3,effort,complex feels put simply together
+100229,NonFigure_4,creativity,feel picture seen
+100229,NonFigure_4,effort,brush lots stokes visible
+100229,NonFigure_5,creativity,design high light tech ton
+100229,NonFigure_5,effort,fake looks super
+100421,Figure_1,creativity,art aspects beautiful earth environment life piece seen showing shows single universe way work
+100421,Figure_1,effort,alone amount colorful component components creativity effort incorporating lot making mentioned requires standout work
+100421,Figure_2,creativity,analyze appear artist artwork boy boys communicate deeper expression face fact first look looking message mirrors monsters place resembles see seen style surround trying
+100421,Figure_2,effort,able art black boys creating deal detail effort great image include mirror monsters piece precision requires time white
+100421,Figure_3,creativity,armor background blank color flames focus goes hourglass individual intently knight least make making needs passes pictured putting represented sort spotlight stands sure thing time watching work
+100421,Figure_3,effort,amount armor armoring aspects back detail effort exceptional facial features fire get highlight hourglass including knight lot reflecting right shining take time work
+100421,Figure_4,creativity,bayou common depiction see swamp think
+100421,Figure_4,effort,amount branches effort grass house immense jut make reflected replicating required sure tree trunks upside water
+100421,Figure_5,creativity,artists aspect better definitely eyes feel feels hidden lack making original person piece possibly put quote relating shows souls tainted take thought windows word work
+100421,Figure_5,effort,achieve artist detail difficult dimension figure good hard job person realism smoke style tools work
+100421,NonFigure_1,creativity,animals create depicting emotion hanging inducing putting seen similar slightly stuffed think work
+100421,NonFigure_1,effort,abstract amount animals background cases create creative detail easier good liberty make stuffed time
+100421,NonFigure_2,creativity,colorful creating creative familiar new repetitive slightly terms world
+100421,NonFigure_2,effort,art components creating effort implying involved lot ones work
+100421,NonFigure_3,creativity,beautiful creativity interpretated interpretation involve least note replicated seen someone's time work
+100421,NonFigure_3,effort,aurora borealis colors contrast details difficult get houses includes lights lot original reindeer snow trees using vibrant work
+100421,NonFigure_4,creativity,contrast different seen several slightly times
+100421,NonFigure_4,effort,adding color dimension precision reflection shadows take time water
+100421,NonFigure_5,creativity,advances dystopian filled new seen take tech world
+100421,NonFigure_5,effort,colors components create detail effort involved lot many seen takes times work
+100629,Figure_1,creativity,ai consider don generated original work
+100629,Figure_1,effort,ai artist consider desired effort get images lot prompt
+100629,Figure_2,creativity,creative detail image lot original seen
+100629,Figure_2,effort,ai get image lot probably prompting required specifically
+100629,Figure_3,creativity,ai creative easy eyes generate image isnt meaning neccesarilly picture prompt relatively
+100629,Figure_3,effort,ai artists effort inputs minimal put uses
+100629,Figure_4,creativity,ai compared creativity generated ones originality piece showed using
+100629,Figure_4,effort,ai artist doesnt effort much prompted require
+100629,Figure_5,creativity,alien creative intriguing picture resembeles
+100629,Figure_5,effort,ai effort inputs much putting require
+100629,NonFigure_1,creativity,ai creativity doesnt inputs involve much putting reasoning simply
+100629,NonFigure_1,effort,ai artist feedback generate image input
+100629,NonFigure_2,creativity,compared creative image pictures unique
+100629,NonFigure_2,effort,ai computer don effort generated images much prompting require simply think
+100629,NonFigure_3,creativity,christmas creative isnt necessarily new north pole resembles time
+100629,NonFigure_3,effort,ai minimal north pole prompting resembles
+100629,NonFigure_4,creativity,creative creativity picture stood terms
+100629,NonFigure_4,effort,didnt images much probably prompting require
+100629,NonFigure_5,creativity,compared creative pictures
+100629,NonFigure_5,effort,ai doesnt effort image inputs lot much probably prompting putting require required
+100672,Figure_1,creativity,creative idea imaginative scene
+100672,Figure_1,effort,ai design generated less original
+100672,Figure_2,creativity,idea original
+100672,Figure_2,effort,detail lots
+100672,Figure_3,creativity,created image original pretty seen
+100672,Figure_3,effort,artificial created intelligence sees via
+100672,Figure_4,creativity,creative figure mimetic non scene space
+100672,Figure_4,effort,creativity effort making piece
+100672,Figure_5,creativity,idea original
+100672,Figure_5,effort,detail
+100672,NonFigure_1,creativity,cool idea original
+100672,NonFigure_1,effort,ai brush involves less looks strokes use
+100672,NonFigure_2,creativity,color imaginative lots scene
+100672,NonFigure_2,effort,color design interesting lots taken
+100672,NonFigure_3,creativity,generic idea
+100672,NonFigure_3,effort,ai generated
+100672,NonFigure_4,creativity,color coloring creative mimetic non show sky sunset
+100672,NonFigure_4,effort,designed digitally effort high much possibly
+100672,NonFigure_5,creativity,contribution lacks original
+100672,NonFigure_5,effort,details large lots scale
+100157,Figure_1,creativity,bubble flowers girl grass living moss mushrooms outer part planet pouring space water
+100157,Figure_1,effort,ai description detailed easily feel give good outcome put
+100157,Figure_2,creativity,behind boy cohesive faces going lot meaning monster similar
+100157,Figure_2,effort,ai description extremely figures get involved many much outcome specific
+100157,Figure_3,creativity,average creative feel fire instead knight pretty sand timer
+100157,Figure_3,effort,effort lot means put shading thing
+100157,Figure_4,creativity,normal picture world
+100157,Figure_4,effort,boat described needed person think
+100157,Figure_5,creativity,background coming creative face feel intricate lot matched mouth pretty smoke swirls thought went
+100157,Figure_5,effort,background detail explaining face going lot
+100157,NonFigure_1,creativity,animals creativity different feel hung kinds much ribbon stuffed
+100157,NonFigure_1,effort,animals effort feel look pretty realistic ribbon stuffed taken
+100157,NonFigure_2,creativity,candy colors creativity different feel filled got idea know land lot original people reminds sweet vibe
+100157,NonFigure_2,effort,candy cartoon feel get land picture put theme
+100157,NonFigure_3,creativity,creative galaxy part sky theme went winter
+100157,NonFigure_3,effort,ai ask background galaxy old theme winter
+100157,NonFigure_4,creativity,colorful creativity desert difference looked moderderate normal palm river sky trees
+100157,NonFigure_4,effort,camels desert palm river sun trees type
+100157,NonFigure_5,creativity,city creativity future futuristic go look lot planning
+100157,NonFigure_5,effort,description half moon noticed specific split thing
+100596,Figure_1,creativity,imagination life real unique used
+100596,Figure_1,effort,detailed good looks pretty
+100596,Figure_2,creativity,basic special
+100596,Figure_2,effort,believe better detail outgoing theres
+100596,Figure_3,creativity,basic creative simple
+100596,Figure_3,effort,details little lot theres
+100596,Figure_4,creativity,ai basic coming fully good isnt looks original
+100596,Figure_4,effort,detail lot put
+100596,Figure_5,creativity,clean nice simple
+100596,Figure_5,effort,able creative wouldnt
+100596,NonFigure_1,creativity,ai based creativity topic used wasnt
+100596,NonFigure_1,effort,good instead looks making painting skill somone trying used
+100596,NonFigure_2,creativity,creative imagination looks
+100596,NonFigure_2,effort,details lot patience require small theres
+100596,NonFigure_3,creativity,basic creative life real sky somthing
+100596,NonFigure_3,effort,clean color good look pretty
+100596,NonFigure_4,creativity,creative
+100596,NonFigure_4,effort,details doesnt much painting type
+100596,NonFigure_5,creativity,comes cool creativity isnt looks nice real
+100596,NonFigure_5,effort,color coordinated detailed looks nice
+100164,Figure_1,creativity,ideas touched
+100164,Figure_1,effort,detailed looks
+100164,Figure_2,creativity,emotion evoking thought
+100164,Figure_2,effort,components details many
+100164,Figure_3,creativity,reality replicates
+100164,Figure_3,effort,effort human look make realistic takes
+100164,Figure_4,creativity,different emotions evoked thoughts
+100164,Figure_4,effort,details lots shading
+100164,Figure_5,creativity,common image life real unlike
+100164,Figure_5,effort,designs different lots shapes
+100164,NonFigure_1,creativity,animals colors different many position unusual
+100164,NonFigure_1,effort,blending color different strokes
+100164,NonFigure_2,creativity,whimisical
+100164,NonFigure_2,effort,colors components lots
+100164,NonFigure_3,creativity,done many probably times
+100164,NonFigure_3,effort,complex components
+100164,NonFigure_4,creativity,colors ideas image many presented
+100164,NonFigure_4,effort,different shading strokes types
+100164,NonFigure_5,creativity,done similar themes
+100164,NonFigure_5,effort,detailed
+100455,Figure_1,creativity,creative piece seen unique
+100455,Figure_1,effort,detail lot piece thought went
+100455,Figure_2,creativity,creative idea piece seen similar
+100455,Figure_2,effort,believe creating detailed effort leading piece put significant
+100455,Figure_3,creativity,art artwork artworks creative good made nice picture seen strokes technique unique way
+100455,Figure_3,effort,artwork believe detail effort large leads much piece put realism
+100455,Figure_4,creativity,books creative many movies piece read seen straight
+100455,Figure_4,effort,artistic detailed effort obvious piece put
+100455,Figure_5,creativity,creative interesting judge looks piece seen unique
+100455,Figure_5,effort,achieved amount believe detail effort level physically piece precision putting require serious strenuous task
+100455,NonFigure_1,creativity,animals creative page piece sparsed stuffed throughout
+100455,NonFigure_1,effort,bit detail effort good obvious piece put relevant
+100455,NonFigure_2,creativity,creative done idea piece seen
+100455,NonFigure_2,effort,art detailed easier form piece
+100455,NonFigure_3,creativity,artworks believe creative makes new piece seen unique
+100455,NonFigure_3,effort,detail detailed effort impressive lot makes piece precision put terms think
+100455,NonFigure_4,creativity,able artwork complex creative make needed piece properly requires technique think thinking
+100455,NonFigure_4,effort,brush choice color effort lot making piece put strokes takes
+100455,NonFigure_5,creativity,creative futuristic piece requires thinking unique
+100455,NonFigure_5,effort,detailed piece
+100208,Figure_1,creativity,elements fit lot together
+100208,Figure_1,effort,detail image lot
+100208,Figure_2,creativity,clear creative image story told
+100208,Figure_2,effort,black conveyed details small white
+100208,Figure_3,creativity,image simpler
+100208,Figure_3,effort,details image less many subjects
+100208,Figure_4,creativity,environment shown story told
+100208,Figure_4,effort,details smooth
+100208,Figure_5,creativity,combination ideas
+100208,Figure_5,effort,realistic
+100208,NonFigure_1,creativity,idea original
+100208,NonFigure_1,effort,images repeated
+100208,NonFigure_2,creativity,created image whole world
+100208,NonFigure_2,effort,details elements lot small
+100208,NonFigure_3,creativity,based image life real
+100208,NonFigure_3,effort,elements many together working
+100208,NonFigure_4,creativity,creative lighting perspective
+100208,NonFigure_4,effort,little simpler
+100208,NonFigure_5,creativity,created image whole world
+100208,NonFigure_5,effort,details lot small
+100649,Figure_1,creativity,additionally bubble creative due example excludes fact flowers focus following future girl multiple objects planets reasoning see significantly space stars tending theme themes unique
+100649,Figure_1,effort,attempt beforehand believe effort hard input inputs lots moderate reason required revision take thought writing
+100649,Figure_2,creativity,able adds amount believe black child creativity deal due emotion fear features great illustration looking mirror monsters portrayed reason reflection scared see style take use white
+100649,Figure_2,effort,artist clear due editing effort exactly fact image input lot portray preparation pretty probably reason require required significant specific story tells think wanted write
+100649,Figure_3,creativity,creativity due fact hourglass main man minimal parts rating reasoning special staring
+100649,Figure_3,effort,come effort idea input minimal needs painting rating reasoning revise write
+100649,Figure_4,creativity,artist creative due fact implement inputs jungle moderately original picutre reason somewhat talk think
+100649,Figure_4,effort,art buy due effort fact input involved materials minimal needs paint reason revise span think time type write
+100649,Figure_5,creativity,alien armor believe besides coming creativity due fact focusing human jumps minimal mouth object reason required see smoke
+100649,Figure_5,effort,believe characteristics code due edit effort lot many minimal reason required simplicity take think write
+100649,NonFigure_1,creativity,bears believe create creative due fact features hung idea lot many moderately reason ribbon see smiling stand takes teddy thought
+100649,NonFigure_1,effort,believe create due edits effort fact input minimal much reason required took written
+100649,NonFigure_2,creativity,color colorful components creative different due green house many mountains persistent pink plants reasoning say see significantly small
+100649,NonFigure_2,effort,asking components create effort generated house input lot minimal mythical put reason say world
+100649,NonFigure_3,creativity,amount artist aspects bird creating creative different due focused forest input lights lit moderately northern objects piece reason reindeer see sky small snow think town windows
+100649,NonFigure_3,effort,amount aspects attempt create different due effort fact hard input many moderate piece reason revisions taken
+100649,NonFigure_4,creativity,arrived aspects body camels creativity desert different due focus moderate oasis reflects required see sunset travelers trees water
+100649,NonFigure_4,effort,believe different due effort fact inputs involved many minimal much need reason require revised revisions specific
+100649,NonFigure_5,creativity,amount believe blues city creative cyberpunk detail due flying futuristic moderately night planes purples reason see skyscrapers special time
+100649,NonFigure_5,effort,believe city cyberpunk due effort fact idea input long make minimal reason required takes think time typed write
+100545,Figure_1,creativity,attention bubble colors creativity draw flowers girl holding involved magical making portrayed significant space specifically
+100545,Figure_1,effort,adjustments based circular effort example involved lot make motion moving needed placed planets right saturn specific
+100545,Figure_2,creativity,artwork boy creates creative creatures dreaming example image imagining know looking real significantly story
+100545,Figure_2,effort,body characteristics creatures deal detail effort eyes facial great hands instance intricate involved lot mirrors shape shapes textures unique
+100545,Figure_3,creativity,bottom characteristics creativity facial fall give hourglass involved part patiently personality sand show significant waiting warrior
+100545,Figure_3,effort,adjustments amount create darkness deal done dull effort fire great hourglass involved light lighting making probably somewhat spark warrior
+100545,Figure_4,creativity,adds creativity deal great image involved landscape lighting makes man performer posing story theatrical touch warm
+100545,Figure_4,effort,changes creating effort enhance facial features image involved lighting make man perfect performing probably required significant singing warmth
+100545,Figure_5,creativity,background bright color considered creativity dark deal design dull face great greenish image intricate involved left mask pattern reflected right shield side swirls
+100545,Figure_5,effort,colors created creates deal depth effort face fake feels great illusion image involved looks mask perfect person quality realistic shows time touch vibrant
+100545,NonFigure_1,creativity,bears creativity hanging image involved meaning provide rope simply story teddy
+100545,NonFigure_1,effort,adjustments bears capture effort involved lighting lot middle needed probably significant teddy
+100545,NonFigure_2,creativity,based colors creates creativity creature deal example fairies fairytale great house image involved landscapes leprechauns live mushrooms plants size small story vibrant
+100545,NonFigure_2,effort,adjustments amount capture colors deal effort great involved made makes plants portrayed specific surreal village way
+100545,NonFigure_3,creativity,children's christmas creativity image involved kids lot minimal movies portrayed santa taken typical village
+100545,NonFigure_3,effort,adjustments create creativity done effort image involved lot minimal movies needed reason
+100545,NonFigure_4,creativity,bit brush clearly common creative creativity finish images involved landscape lines makes marks matte moderate painting paintings see seen smooth stroke strokes typically visible
+100545,NonFigure_4,effort,area back create creating depth detail dimension effort far get hills illusion image involved landscapes left lot picture reaches sand significant smaller
+100545,NonFigure_5,creativity,allows assume attention based captures colors come creativity fictional image involved message moderate movie objects unique used viewer world
+100545,NonFigure_5,effort,dramatic effort enhance example fact half involved moon past pose rocket rockets show significant speed split zooming
+100536,Figure_1,creativity,beautiful unique
+100536,Figure_1,effort,beautiful detail lots
+100536,Figure_2,creativity,artist emotion lots represent seen
+100536,Figure_2,effort,detail lots
+100536,Figure_3,creativity,depth lot makes think
+100536,Figure_3,effort,intricate pretty
+100536,Figure_4,creativity,original super
+100536,Figure_4,effort,detail lots
+100536,Figure_5,creativity,depth unique
+100536,Figure_5,effort,details lots small
+100536,NonFigure_1,creativity,creative intriguing original
+100536,NonFigure_1,effort,good great
+100536,NonFigure_2,creativity,creative original unique
+100536,NonFigure_2,effort,good looks
+100536,NonFigure_3,creativity,done drawing original seen super
+100536,NonFigure_3,effort,detail lots pretty
+100536,NonFigure_4,creativity,attention beautiful colors detail intricate
+100536,NonFigure_4,effort,attention beautiful colors detail intricate
+100536,NonFigure_5,creativity,cool ideas
+100536,NonFigure_5,effort,detail lots
+100673,Figure_1,creativity,ai generated image interesting much substance typical unique
+100673,Figure_1,effort,ai effort generator human much reflect work
+100673,Figure_2,creativity,artistic based creative detail drawing engaging faces feel image made style
+100673,Figure_2,effort,ai effort generator human much reflect work
+100673,Figure_3,creativity,deeper humanity image meaning symbolic time unlike
+100673,Figure_3,effort,ai effort generator human much reflect work
+100673,Figure_4,creativity,human image interesting person previous setting stance unique unlikely
+100673,Figure_4,effort,ai alex believe generator stated work
+100673,Figure_5,creativity,ai art aside coming feels generated image mouth person's rest seen smoke steam
+100673,Figure_5,effort,ai effort generator human much reflect work
+100673,NonFigure_1,creativity,artistic brushstrokes bunnies design found hanging interesting mimicking strings stuffed subject unique
+100673,NonFigure_1,effort,ai effort generator human much reflect work
+100673,NonFigure_2,creativity,artistic book children's creative feel image made style unique whimsical
+100673,NonFigure_2,effort,ai effort generator human much reflect work
+100673,NonFigure_3,creativity,ai creativity decision details generate help idea image making requires think using
+100673,NonFigure_3,effort,actual ai art creation effort human majority much reflect
+100673,NonFigure_4,creativity,brush image interesting making stroke styles used variety visually
+100673,NonFigure_4,effort,ai effort generator human much reflect work
+100673,NonFigure_5,creativity,cities feel futuristic images seen similar
+100673,NonFigure_5,effort,ai effort generator human much reflect work
+100640,Figure_1,creativity,actually believe brought concept creates creative dreamy human imagination impression life painting theme
+100640,Figure_1,effort,achieved additionally arranged artwork carefully completeness composition felt final high level object person prompted result
+100640,Figure_2,creativity,complemented content conveying dread effectively fear painting pen sense sketching style
+100640,Figure_2,effort,appear appearance contribution creation demon's details effort individually low overall prompted relatively unlikely
+100640,Figure_3,creativity,alex's clearly conveyed creative depiction feel fire genuinely harmony hourglass impressive intention making message water
+100640,Figure_3,effort,actions ai artwork careful clear crafted deliberate depiction didn felt fire generated hourglass human image interconnected list suggests theme thought water way
+100640,Figure_4,creativity,calm clear creative due exact feels intentionality joy lake made message people's piece rippling
+100640,Figure_4,effort,actions detailed dynamic human lake likely met painting prompting suggests tranquil
+100640,Figure_5,creativity,armor cigarette combination created easily elements judged mix original painting person predicted unexpected
+100640,Figure_5,effort,adjusted armor artist color details eyes likely patterns person's prompting
+100640,NonFigure_1,creativity,artwork behind created determine exact felt human imagination meaning ordinary painting touch
+100640,NonFigure_1,effort,achieved blended careful choice dreamy effort high human level light materials painting piece prompting quality resulting
+100640,NonFigure_2,creativity,common creative depicted felt highly imaginative mushroom painting phenomenon village
+100640,NonFigure_2,effort,amount artwork completeness composition creation difficult effort harmony high level overall predict prompts significant suggests used went
+100640,NonFigure_3,creativity,aurora christmas combined felt lacking ordinary originality painting piece reminiscent simply winter
+100640,NonFigure_3,effort,aurora blend colors combination covered created deer felt harmony houses image lacking overall painting simple snow together winter words
+100640,NonFigure_4,creativity,balance composition desert difficult find harmonious ideas impressed light original overall painting river truly
+100640,NonFigure_4,effort,ai artwork colors crafted created effort enhanced felt human making medium oil painting piece sensibility stand used way
+100640,NonFigure_5,creativity,cliche felt predictable theme
+100640,NonFigure_5,effort,actually based basic city image keywords likely night paint picture prompt simplistic space violet wrote
+100056,Figure_1,creativity,beautiful thw work
+100056,Figure_1,effort,ai definitely drawing need put things
+100056,Figure_2,creativity,detailed
+100056,Figure_2,effort,detailed drawing
+100056,Figure_3,creativity,involved meaning much
+100056,Figure_3,effort,details much
+100056,Figure_4,creativity,little pretty weird
+100056,Figure_4,effort,ai drawing
+100056,Figure_5,creativity,created
+100056,Figure_5,effort,drew hands
+100056,NonFigure_1,creativity,interesting
+100056,NonFigure_1,effort,adjust little need
+100056,NonFigure_2,creativity,illustrations little similar
+100056,NonFigure_2,effort,drawing human
+100056,NonFigure_3,creativity,category illustration scene similar
+100056,NonFigure_3,effort,balanced overall
+100056,NonFigure_4,creativity,concept involved much
+100056,NonFigure_4,effort,ai drawing little mixed style together
+100056,NonFigure_5,creativity,scenario similar
+100056,NonFigure_5,effort,ai generated tell
+100187,Figure_1,creativity,concept mindblowing seen think
+100187,Figure_1,effort,ai effect feel get probably prompt several thinking times took
+100187,Figure_2,creativity,cool emotions evokes honest pretty
+100187,Figure_2,effort,angles concept effect face general get go lots prompting sure thorugh
+100187,Figure_3,creativity,concept groundbreaking particularly think
+100187,Figure_3,effort,ai effect feel get lot needed placement probably prompting texture
+100187,Figure_4,creativity,come concept framing lighting nice probably think time took
+100187,Figure_4,effort,come lot probably prompting think took
+100187,Figure_5,creativity,creativity feel much take
+100187,Figure_5,effort,ai concept difficult particularly render
+100187,NonFigure_1,creativity,animals assuming color creating creativity cute level lot probably small use
+100187,NonFigure_1,effort,ai effort feel involved mean much put strongly
+100187,NonFigure_2,creativity,candyland looks original straight
+100187,NonFigure_2,effort,ai art feel looks lot much probably prompting take
+100187,NonFigure_3,creativity,anyone concept creative exists imagined kind least less life particularly real scene think
+100187,NonFigure_3,effort,ai art comparison feel seen unique
+100187,NonFigure_4,creativity,colors concept texture think unique
+100187,NonFigure_4,effort,colors probably texture time took
+100187,NonFigure_5,creativity,feel kind see thing time
+100187,NonFigure_5,effort,ai alex feel needed probably prompt run
+100122,Figure_1,creativity,dreamy fantasy gives vibe
+100122,Figure_1,effort,details lots
+100122,Figure_2,creativity,emotions feelings radiated
+100122,Figure_2,effort,black effort figured less required white
+100122,Figure_3,creativity,art lot seen similar
+100122,Figure_3,effort,deal detailing effort great pencil require
+100122,Figure_4,creativity,generic looks
+100122,Figure_4,effort,ai artwork
+100122,Figure_5,creativity,artsy looks picture real
+100122,Figure_5,effort,idea lot put required thought
+100122,NonFigure_1,creativity,creativity lot says seen
+100122,NonFigure_1,effort,attention detail lot texture
+100122,NonFigure_2,creativity,colors details lot shapes textures
+100122,NonFigure_2,effort,consuming detailed look time
+100122,NonFigure_3,creativity,animals etc going lights lot northern snow
+100122,NonFigure_3,effort,detailed lot put required work
+100122,NonFigure_4,creativity,digital looks oil painting
+100122,NonFigure_4,effort,achieve lot require texture time
+100122,NonFigure_5,creativity,colors futuristic theme
+100122,NonFigure_5,effort,ai generated looks wrong
+100572,Figure_1,creativity,astronaut believe concept creative exploration growing highly imaginative interesting novel offering perspective piece plants space sustainability unique
+100572,Figure_1,effort,added believe careful demonstrated depiction depth details due dynamics effort high including intricate level light objects piece present realism various
+100572,Figure_2,creativity,artwork boy concept creative details due eerie elements figures highly horror imaginative instead intricate make mirrors monstrous piece reflecting reflection striking surreal true unique visually
+100572,Figure_2,effort,careful complex composition depth detailed effort enhances evident expressions figures intensity level linework mirrors multiple rendering scene shading textures
+100572,Figure_3,creativity,add armor artwork classic concept creativity demonstrates elements expression familiar holding interacts knight knight's level light moderate piece pose scene theme unique way
+100572,Figure_3,effort,appears armor attention complexity creation details determine effects effort given level lighting moderate much piece put refinement shows skill
+100572,Figure_4,creativity,adds boat character combining creativity displays dynamic emotion enhances expressive feel high human humorous image imaginative juxtaposition level making moving natural nature passionately performance performing scene setting singing surreal swamp theatrical twist unexpected uniqueness
+100572,Figure_4,effort,adds artistic atmosphere attention balanced combined composition depth detail drawing effort element environment execution intricate lighting moss performer realism reflections showcases significant strong suggest surrounding textures trees water whimsical
+100572,Figure_5,creativity,aesthetic combination creative design due elements facial flowing highly human imaginative intricate makes mask organic otherworldly particularly patterns piece striking structure surreal unique visually
+100572,Figure_5,effort,atmospheric attention background composition detail details effort evident fine high interplay level light mask overall precision rendering shadow showcase skill smoke texture
+100572,NonFigure_1,creativity,add approach aspects composition concept creativity demonstrates elements engagement execution familiar follows incorporating innovation level maintains moderate originality piece recognizable room suggests themes thoughtful unique way
+100572,NonFigure_1,effort,appears approach aspects attention certain clear composition dedicated detail effort enhance evident execution expand impact indicating level moderate opportunities overall refine reflects solid technique understanding work
+100572,NonFigure_2,creativity,artist believe color colors combination creative depiction details due enjoyed fake fictional involved landscape looking plants
+100572,NonFigure_2,effort,attention believed caught details effort expressed lot particularly piece plants put
+100572,NonFigure_3,creativity,creavity generic much piece setting uninteresting
+100572,NonFigure_3,effort,capture effort eye lacked lines much objects observer piece put
+100572,NonFigure_4,creativity,adds adventure brushstrokes camel caravan colors creativity depiction desert dreamlike enhancing give glowing imaginative impact impressionistic landscape level overall piece quality sense showcases storytelling strong sunset use vibrant
+100572,NonFigure_4,effort,artist atmosphere blending brushwork careful composition cool creating dedication depth details effort evident highlight intricate lighting realistic reflections scene skillful textured tones warm water
+100572,NonFigure_5,creativity,art artwork attention capture extended futurist interesting observe piece sit time
+100572,NonFigure_5,effort,approach detailed due effort higher lines lot objects piece ranked rating terms utilized various
+100465,Figure_1,creativity,common idea meaning
+100465,Figure_1,effort,generated instructions simple
+100465,Figure_2,creativity,certain meaning picture
+100465,Figure_2,effort,characters rich unique
+100465,Figure_3,creativity,express inner thoughts want
+100465,Figure_3,effort,elements screen simple
+100465,Figure_4,creativity,characters expressions
+100465,Figure_4,effort,details picture quality sufficient
+100465,Figure_5,creativity,character design novel
+100465,Figure_5,effort,complex delicate designs patterns smoke symmetrical
+100465,NonFigure_1,creativity,common elements
+100465,NonFigure_1,effort,complicated generating instructions picture
+100465,NonFigure_2,creativity,created entirely fairy imagination scene tale
+100465,NonFigure_2,effort,detail different features many plants rich types unique
+100465,NonFigure_3,creativity,photos realistic scenes
+100465,NonFigure_3,effort,according command description enter scene time
+100465,NonFigure_4,creativity,combined scenery unnatural
+100465,NonFigure_4,effort,bright brushstrokes colors fine oil painting
+100465,NonFigure_5,creativity,future sense strong
+100465,NonFigure_5,effort,connect details future reality
+100450,Figure_1,creativity,combine creative flowers planets way work
+100450,Figure_1,effort,definitely details effort lot needed
+100450,Figure_2,creativity,original
+100450,Figure_2,effort,amount details effort image
+100450,Figure_3,creativity,image seen
+100450,Figure_3,effort,ai generated looks
+100450,Figure_4,creativity,concept good trees water
+100450,Figure_4,effort,background better effort emotion looks make man match together work
+100450,Figure_5,creativity,original
+100450,Figure_5,effort,ai generated
+100450,NonFigure_1,creativity,original seen
+100450,NonFigure_1,effort,actual brush color definitely details effort panting put resemble strokes
+100450,NonFigure_2,creativity,change creative definitely image maker perspective recreation see
+100450,NonFigure_2,effort,colors details lot
+100450,NonFigure_3,creativity,christmas movies seen
+100450,NonFigure_3,effort,copied creativity looks
+100450,NonFigure_4,creativity,animal creation original sense
+100450,NonFigure_4,effort,actual add brush definitely depth effort image lot painting resembles strokes
+100450,NonFigure_5,creativity,creative movies seen
+100450,NonFigure_5,effort,ai content depth generated much real
+100162,Figure_1,creativity,appears capturing common paintings planet plants regards scene space unique watering woman
+100162,Figure_1,effort,detail layering lot piece put
+100162,Figure_2,creativity,child common creative horror idea kind movie story
+100162,Figure_2,effort,characters detail lot put
+100162,Figure_3,creativity,artist behind concept make point seeing tell trying work
+100162,Figure_3,effort,armor detail knight's lot
+100162,Figure_4,creativity,considered scene
+100162,Figure_4,effort,addition detail difficult draw drawing human layering lot
+100162,Figure_5,creativity,aspect common pieces recognize theme work
+100162,Figure_5,effort,detailing difference fine lot shading
+100162,NonFigure_1,creativity,animals creative disturbing hung looks scene stuffed
+100162,NonFigure_1,effort,artwork bit compared far layering little looks much pieces sloppy
+100162,NonFigure_2,creativity,appears candy common land scene sort theme work
+100162,NonFigure_2,effort,difficult draw effort layering look regards would've
+100162,NonFigure_3,creativity,artwork come design detail lot put
+100162,NonFigure_3,effort,artwork detail lot put
+100162,NonFigure_4,creativity,anyone appears come desert scene
+100162,NonFigure_4,effort,artwork difficult layering lot obtain
+100162,NonFigure_5,creativity,appears common futuristic setting theme
+100162,NonFigure_5,effort,building details fine layering lot piece small throughout
+100197,Figure_1,creativity,case common creativity deal flowers galaxy girl glass great image picture planet scene watering
+100197,Figure_1,effort,ai effort executed looks lot scene
+100197,Figure_2,creativity,aspects background behind boy creative demonic different faces looking many monster reflection scared scene
+100197,Figure_2,effort,ai due effort illustration image looking quality significant
+100197,Figure_3,creativity,art creative holding hourglass knight orange see substance usually
+100197,Figure_3,effort,effort illustrated image looks significant
+100197,Figure_4,creativity,bayou besides boat considered creative leg man moderately mouth open scene screaming singing small standing work
+100197,Figure_4,effort,additional aspect due effort man moderate scene think thinking
+100197,Figure_5,creativity,additional alien aspect creative figure human part significantly smoking sort work
+100197,Figure_5,effort,creative effort significant
+100197,NonFigure_1,creativity,animals colors creative different due hanging harmony pastel scene sky stuffed thinking
+100197,NonFigure_1,effort,animals bows colors deducted due effort hanged image looking matching painted points ribbon significant stuffed
+100197,NonFigure_2,creativity,aspects colorful creativity deal fantasy great many resembled scene world
+100197,NonFigure_2,effort,book children's deal effort great illustration looked took
+100197,NonFigure_3,creativity,art cabins creative lights minimally northern snow specific unique
+100197,NonFigure_3,effort,art clear common due effort image means moderate overexerted
+100197,NonFigure_4,creativity,artwork background camels considered creative know minimally sand scene sunset
+100197,NonFigure_4,effort,effort involved moderate need painting skills think
+100197,NonFigure_5,creativity,concept creative different flying galaxy looks moderate necessarily rocket ships think world
+100197,NonFigure_5,effort,aspects certain due effort intricacies scene significant
+100239,Figure_1,creativity,ai art blue feel print seen times
+100239,Figure_1,effort,feels prompt put
+100239,Figure_2,creativity,actually ai art design genuine looks personal revise stems went
+100239,Figure_2,effort,actual art looks made person
+100239,Figure_3,creativity,ai drawing face heavily interesting looks
+100239,Figure_3,effort,feel much put revision
+100239,Figure_4,creativity,ai clearly original
+100239,Figure_4,effort,ai clearly details done face improve incorrect looking scary work
+100239,Figure_5,creativity,ai creative interesting prompt revised uses work
+100239,Figure_5,effort,drawing much prompt revisions
+100239,NonFigure_1,creativity,art color different inconsistency thing
+100239,NonFigure_1,effort,ai bear bunny many repeat require times work
+100239,NonFigure_2,creativity,colorful creative feels personality
+100239,NonFigure_2,effort,art feels make personable put work
+100239,NonFigure_3,creativity,ai creative give prompt
+100239,NonFigure_3,effort,ai effort put sentence writing
+100239,NonFigure_4,creativity,box exactly life outside real scene see special thinking
+100239,NonFigure_4,effort,complete details make taken textures time
+100239,NonFigure_5,creativity,accurate ai details generated looks
+100239,NonFigure_5,effort,ai feel improve
+100674,Figure_1,creativity,believe certain creative different emotions expressed image invoke kind looking lot mean original potential said seen somebody things way
+100674,Figure_1,effort,ai details features generated image indications lot mistakes plants put see sky together woman's work
+100674,Figure_2,creativity,amount behind creative done fashion idea interesting involved look moderate originality say see similar somewhat ton work
+100674,Figure_2,effort,choppy considering details feels frames get hand inconsistent make mirror mirrors monsters placement properties right sense sort
+100674,Figure_3,creativity,art bit created creative difficult feel find incredibly moderately original pieces possibly put question say see similar thought
+100674,Figure_3,effort,artwork attention colors detail effort gives impression lighting lot meticulous produced put textures took work
+100674,Figure_4,creativity,creative imagine much put thought
+100674,Figure_4,effort,ai background blurry boat compared correcting details easy effort existent fashion generated growing high house incredibly many mistakes non placement quality reflections spot stump trees water went wheel
+100674,Figure_5,creativity,anywhere conception created creativity deal describe expect great image involved original put see super thought ton
+100674,Figure_5,effort,accomplishing background blurry captured color contrasts detailed details done effort face image lighting looks many overall smoke textures ti ton went
+100674,NonFigure_1,creativity,amount come concept creative demanding describe design feel ideas image moderate original say seen thought went
+100674,NonFigure_1,effort,art believe brush detail details difficult effort hand include lot made making naturalistic piece placed replicate replicated strokes take ton
+100674,NonFigure_2,creativity,art creative creativity definitely depictions dr fact feels first higher inspired involved levels lots makes moderately nature say seen settings similar style suess think time
+100674,NonFigure_2,effort,accomplish bit color combination created deal detailed effort forms gradients great involved likely numerous proper represented taken textures time took
+100674,NonFigure_3,creativity,captured christmas image images inspires lot originality require see seen similar specific themed thought work works
+100674,NonFigure_3,effort,ai blended detailed front generated half house image leg looks missing objects reindeer small table weirdly work
+100674,NonFigure_4,creativity,bit going lot originality reflected reflects similar think thought work
+100674,NonFigure_4,effort,amount bit black brush definitely details done effort gone landscape majority paint replicating significant strokes taken texture think time took
+100674,NonFigure_5,creativity,believe buildings cars common creative done fi flying futuristic lights neon original plenty previously say scene sci tall
+100674,NonFigure_5,effort,ai buildings common cut effort evidence fashioned general generated half image imagine make many meant minimal mistake moon old parts place reason represent right scene top
+100586,Figure_1,creativity,add ai commands cool cooler creativity done dress garden girl given intricate involved looked make minimal mix say saying simple space things work yellow
+100586,Figure_1,effort,ai browser commands don effort happy involved much open think type
+100586,Figure_2,creativity,alex art common copy demons given intricate involved parts pasted reaction significantly specify think
+100586,Figure_2,effort,amount believe creating demon effort expression far fewer moderate parts pieces reused took wanted
+100586,Figure_3,creativity,art creative don input less much piece stand things think took
+100586,Figure_3,effort,accomplish ai commands piece simple
+100586,Figure_4,creativity,creative dancing isn man project specific standout thing think
+100586,Figure_4,effort,boat dance effort force man minimal top
+100586,Figure_5,creativity,art background coming creating creative effort face feel make mask piece placed smoke spiral unique unusual
+100586,Figure_5,effort,art better commands create needed order piece
+100586,NonFigure_1,creativity,ai animals art bad color creativity days easily falling given leaving less process repeated say stuffed things trace
+100586,NonFigure_1,effort,animals color effort fall leave little organizing say stuffed trace
+100586,NonFigure_2,creativity,aesthetic building candy contributes creativeness fluffy lorax world
+100586,NonFigure_2,effort,aesthetic art comes command complete creating effort feel field generate getting right
+100586,NonFigure_3,creativity,added ai alex art cottages creative example isn lights necessarily referencing sky snow trend type using
+100586,NonFigure_3,effort,don effort much prompts think typing
+100586,NonFigure_4,creativity,add ai alex art dessert didn generated idea imposed inspired liked original people piece sunset vision walking
+100586,NonFigure_4,effort,accomplish ai alex commands final forcing imagine many order product wasn
+100586,NonFigure_5,creativity,art book city creation creativity futuristic moderate scifi story vibrant
+100586,NonFigure_5,effort,aircraft effort highway location look moon piece pov specifics splitting taken
+100611,Figure_1,creativity,broad cohesively concept created creative draws earth idea image life original pull requires scene space things think together unique various way
+100611,Figure_1,effort,ai appearance believe create created depicted due ease easily elements fairly generator image individual lend looks lot manipulate picture prompting style
+100611,Figure_2,creativity,believe book books children comic concept coupled image interesting likely many necessarily original piece resemble scene see style think unique
+100611,Figure_2,effort,ai creator's curated discretion easily fairly generator image looks manipulated prompts style terms
+100611,Figure_3,creativity,armor background capsule concept creative deeper details element execution fire highlight image implies interesting intrigue man's meaning representing sand shading think thought time
+100611,Figure_3,effort,ability amount armor artwork better coupled curate decent different difficult digitally effort get lighting man's paper patterns pencil perfect piece portrayed resemble shading sketch takes textures think time took
+100611,Figure_4,creativity,amount art artistic beautiful box creativity digital enjoy great image involve life moderate much opinion picture portrayed real scene seen show simplistic style styling think thinking ton went
+100611,Figure_4,effort,account animation considerations creating deal different digitally effort great hard image intricate involved involving lifelike look make many realistic taken think truly water
+100611,Figure_5,creativity,background behind believe choice color concept created creativity curves different directions feel futuristic image interesting intricacy involved leaving led mask mind mouth purpose scientific seen significant smoke story subject's thought tying unique
+100611,Figure_5,effort,ai aspects background believe could've depth effort example fleshed generated give image involved leaving little moderate mouth separate shadowing smoke subject's
+100611,NonFigure_1,creativity,abstractness approach artistic artwork behind blurred concept creativity deeper effect image involved lends meaning overall paired significant slight think thought underlying
+100611,NonFigure_1,effort,abstract abstractness achieving allowing amount bunny cohesive correct create creativity effort feel hard image lighting maintaining piece pretty shading shadowing shine significant stuffed think took
+100611,NonFigure_2,creativity,art communicating creating creativity deal essentially great mind nobody portraying real seen takes think thinking world
+100611,NonFigure_2,effort,amount background complete conceptualize could've creating decent definitely detail effort execute grassy green hills image include individual kind lends less little lot nicely overall piece rich taken think took
+100611,NonFigure_3,creativity,artworks beautiful combined commonality communicate create creativity due elements image individual instances landscape many novel overall paired scene see think together
+100611,NonFigure_3,effort,ai associated created easily effort elements generator houses image individual lights much northern recreated reindeer scene snow snowcapped think winter
+100611,NonFigure_4,creativity,add added artistic believe coloring compose concept creativity depicted elements execute finished ideate image involved lot majority overall perceived product scene simplistic strokes textural think took type
+100611,NonFigure_4,effort,account addition artwork better created depth digitally elements feel final fine going image life make mountains paint painted perceptual put real resemble shadowed strokes taken textured time tuned way
+100611,NonFigure_5,creativity,concept creative creativity cuts different existing image imagining involves legacy moderate movies opinion overall personal points pre pulling resemblant shows think tron world
+100611,NonFigure_5,effort,add amount aspects believe characters cohesiveness coloring decent depth details different effort image involved japanese little lots maintaining many overall picture probably put show sign small
+100660,Figure_1,creativity,art aspects beautiful concept contains created many piece provoking thought
+100660,Figure_1,effort,ai asking image needed probably refine requirements specific tweaks
+100660,Figure_2,creativity,cool fed freaky idea interesting lots machine original probably required specifics
+100660,Figure_2,effort,actual ai little probably prompt refinement required significant tweaking work
+100660,Figure_3,creativity,ai away concept create creative creativity drawn hand idea looks moderately original prompt relatively requires say takes use vague
+100660,Figure_3,effort,ai basic idea involve much pretty probably refining
+100660,Figure_4,creativity,ai artwork asking create creative using
+100660,Figure_4,effort,ai art ask effort piece produce refine requires using
+100660,Figure_5,creativity,ai art creative make using
+100660,Figure_5,effort,ai asking effort image refine requires using
+100660,NonFigure_1,creativity,common freaky image interesting kind original uninteresting
+100660,NonFigure_1,effort,ai asking probably required times tweak
+100660,NonFigure_2,creativity,ai different drawing less novel setting sort style whimsical
+100660,NonFigure_2,effort,ai basic candy generation land little pretty refinement setting tweaks
+100660,NonFigure_3,creativity,classic cold concepts drawing north novel place pole
+100660,NonFigure_3,effort,ai basic briefly idea little probably prompted refinement
+100660,NonFigure_4,creativity,ai artist fact means much original pretty prompt setting subjects sunset think
+100660,NonFigure_4,effort,basic create details minimal probably prompt
+100660,NonFigure_5,creativity,ai city creative fi pretty sci standard used
+100660,NonFigure_5,effort,city create futuristic much prompt refinement
+100338,Figure_1,creativity,able bubble creative elegant garden imagination look lot make organized planet solar system takes think watering woman
+100338,Figure_1,effort,amount background beautiful bubbles component detail detailed different due effort ethereal extremely flowers found insanely iridescent look nice overall picture realistic significant vibrant woman
+100338,Figure_2,creativity,characteristics children cool creativity deal due great idea lurking monsters novel say scaring unique
+100338,Figure_2,effort,consuming deal effort finely great looked picture placed required sketch small strokes sweeping time used
+100338,Figure_3,creativity,amount containing creative dust glowing hourglass idea knight moderate novel original sand seen
+100338,Figure_3,effort,appearance black capture deal detail draw due dust effort fine great hourglass illuminating knight level line magical piece require required shading think white work
+100338,Figure_4,creativity,boat creativity imagine kooky looks make man moderate new outlandish picture pieces singing swamp unique
+100338,Figure_4,effort,design detail difficult draw due effort especially execute found lot reflection shadows surrealness trees water wispy
+100338,Figure_5,creativity,alien contribution extremely intellectual interesting larger man original piece smoking symbolism unique
+100338,Figure_5,effort,background beautiful body crazy detail etchings forehead holes life looked mans script shading small swirls
+100338,NonFigure_1,creativity,animals artistic cohesive creative extremely found original pattern piece planning required space stuffed
+100338,NonFigure_1,effort,application brush delicate desert difficult knife looked palette picture quick scraping similar small speading style sunset techniques used
+100338,NonFigure_2,creativity,art bright colors contained creative due eccentric elements extremely found landscape nonconventional patterns
+100338,NonFigure_2,effort,amount art attempt complete components detail done draw gathered laborious long many require sessions take time
+100338,NonFigure_3,creativity,amount containing creativity different elements feel found moderate orientations original piece pieces seen similar styles work
+100338,NonFigure_3,effort,achieve balance colors effort especially found hue lights look northern paper require significant sky snow
+100338,NonFigure_4,creativity,colors creative find found fun landscape life moderately palm real resembles trees
+100338,NonFigure_4,effort,deal developed effort great hard image layered looked make pain painting require required scrape skill style swipe think tool used
+100338,NonFigure_5,creativity,creative detailed earth easily elements extremely found new original picture reference tangible unique viewed
+100338,NonFigure_5,effort,bright busy colors depicted detail elements high insane many meticulously overall picture placed precision vibrant
+100486,Figure_1,creativity,ai creative first generated looks
+100486,Figure_1,effort,ai detailed generated looks pretty
+100486,Figure_2,creativity,background body creative creatures details faces mirrors pretty small
+100486,Figure_2,effort,drawn
+100486,Figure_3,creativity,abstract color creative much original think
+100486,Figure_3,effort,detailed greatly hours shaded took
+100486,Figure_4,creativity,ai creative facial looks person structure
+100486,Figure_4,effort,ai effort none
+100486,Figure_5,creativity,creative creature pretty seen smoking
+100486,Figure_5,effort,details effort go hyper lot produce realistic
+100486,NonFigure_1,creativity,art bears creative feel ive seen teddy type
+100486,NonFigure_1,effort,background detailed effort looks minimal
+100486,NonFigure_2,creativity,background detailed factors lot somewhat symmetrical
+100486,NonFigure_2,effort,background creating detailed first front lot piece probably spent time trees
+100486,NonFigure_3,creativity,ai giving
+100486,NonFigure_3,effort,ai asked effort giving image involved make
+100486,NonFigure_4,creativity,creative sunset
+100486,NonFigure_4,effort,camels detailed people reflection scenary shadowing sunset
+100486,NonFigure_5,creativity,architecture city creative futur innovate istic pretty
+100486,NonFigure_5,effort,buildings create detail effort light lot shading
+100592,Figure_1,creativity,action artist barrier based building compared components creativity drawing exact exist flowers girl girl's intrigued involved layout less make making original originality outer planets put reality scene seemingly seen separate space surrounding think together unique used watering world
+100592,Figure_1,effort,accurately barrier blending colors done draw effect effort ethereal flowers intriguing involved look lot make perfect piece planets realistic scratch space take think time used
+100592,Figure_2,creativity,art artwork based character classics cliches create creative creativity creatures design eerie hatching indicate layout lighting make monsters piece required shadowed sharp somewhat style taking teeth texture unique used vampires went werewolves worked
+100592,Figure_2,effort,amount back believe colors effort execution experience gradient hatching images indicate involved large layout lines longer made mirrors much multiple personal planning reflection reverse shading show significant simply subjects takes technique texture think thinking use used went
+100592,Figure_3,creativity,armor character creativity design designs exist existing holding hourglass idea knight much needed original reality referenced somewhat subjects together
+100592,Figure_3,effort,additionally chainmail correct details effort face get getting highlight hourglass illuminating indicated involved knight light lighting links lot make making metal much necessary nice piece planning proportions realistic reddish regarding required shading small source subject take taken technique time touch use wool would've
+100592,Figure_4,creativity,aspect boat character's creative creativity feel feeling going joy layout lighting makes man mood nature original piece pose reality somewhat taken went wonder world
+100592,Figure_4,effort,alone amount building components detailed difficult done drawn effort foreground hand individual involved leads leaves letting light lighting looking lot make man massive opening pose realistic reflection ripples scratch shading sunlight taken think trees unique water work would've
+100592,Figure_5,creativity,building bust character creativity design features indicating involved lot original personality piece showcased smoke texture wish world
+100592,Figure_5,effort,actual amount bends curves depth drawn effect effort face hand human indicated inside involved look looks lot make mask person realistic require requires significant smoke symmetry unique
+100592,NonFigure_1,creativity,animals appearance artwork based believe character choice color creative creativity design hanging layout less life main much needed original piece real saw stuff subjects types used
+100592,NonFigure_1,effort,additionally amount animals aspect aware broad brushstrokes creativity depth detail done effort expressionist focal foreground front indicated involved long made match moderate ones painting paints planning point realism realistic references require required shading straightforward stuffed style take technique understanding used
+100592,NonFigure_2,creativity,art books candy children's completely creativity design esc format fuzzy influenced influences involved land lorax meaning mushrooms original originality piece see significant style trees unique world
+100592,NonFigure_2,effort,art book childish children's choice coloring details effort feel flat grass houses illustration indicating less lines made make meaning much outlining piece plants polish polished regarding requires scene shading small style texture unique used
+100592,NonFigure_3,creativity,aspect bit cabins christmas creativity elements hence involved lacks lights looking make minimal much northern object originality plane reindeer scene seen sky snow stand think unique wood
+100592,NonFigure_3,effort,ai bit bounce cabin colors details drawn effect effort execution feel fewer fine get getting hand houses light lighting made makes much needed nice northern painting perfection piece planning put reference require right sense snow subjects texture touch way weird went windows wood
+100592,NonFigure_4,creativity,camels comes components contrast create creativity exist format involved less light lighting original people piece real reality reflection requires river scene somewhat sunset water
+100592,NonFigure_4,effort,aesthetically allow amount behind broad brown colors contrast desert effort foreground indicate involved less make minimal needed nice note painting people planning pleasing primarily reflection regarding require river shadowed shined strokes sunset technique touch yellow
+100592,NonFigure_5,creativity,artist building choice city cityscape color created creative creativity current design differ fi flying hence ideas influenced involved involving layout making media originality scene scenes sci spaceships stand unique world
+100592,NonFigure_5,effort,accurate art bold building buildings choice city color colors complement details digital drawing drawn effect effort execute execution fill glowing looking looks lot made make minute much neon piece require scene shortcuts technique tool using world
+100591,Figure_1,creativity,going image lot seen
+100591,Figure_1,effort,bunch details image small
+100591,Figure_2,creativity,design image interesting meaning think
+100591,Figure_2,effort,convey details helped image lot think throughout
+100591,Figure_3,creativity,average detail image meaning think
+100591,Figure_3,effort,average image kind much
+100591,Figure_4,creativity,added felt image interesting make
+100591,Figure_4,effort,better done feel image look make
+100591,Figure_5,creativity,definately first image interesting saw scared second seen split
+100591,Figure_5,effort,details image intricate lot
+100591,NonFigure_1,creativity,image interesting seen
+100591,NonFigure_1,effort,basic going kind much
+100591,NonFigure_2,creativity,besides colors happening image much
+100591,NonFigure_2,effort,alive bring colors details lot texture
+100591,NonFigure_3,creativity,average detail feel image lot seen think
+100591,NonFigure_3,effort,amount details effort good see small theres
+100591,NonFigure_4,creativity,average beautiful depicted picture setting think
+100591,NonFigure_4,effort,colors created image kind see texture think thoughtful way
+100591,NonFigure_5,creativity,detail feel image lot seen
+100591,NonFigure_5,effort,aspects bring bunch detail image small together
+100662,Figure_1,creativity,attention beautiful bubble captured flowers garden girl image inside many planets watering world wow
+100662,Figure_1,effort,ai amount detail explain floating gardening girl imagine planets trying world
+100662,Figure_2,creativity,boy demons full idea images mirrors room scared seen similar ve
+100662,Figure_2,effort,demons easily generated image majority prompt taking vast
+100662,Figure_3,creativity,common idea relatively straightforward
+100662,Figure_3,effort,additional get idea prompts require right
+100662,Figure_4,creativity,dancing guy inside see singing swap usual
+100662,Figure_4,effort,background basic details
+100662,Figure_5,creativity,alien analyzed appears blend closely costume creativity creature details ears eyes human moderate require rest see skin smoking wearing
+100662,Figure_5,effort,background color creature details effort examination image ordinary overall pattern require resembled skin terms
+100662,NonFigure_1,creativity,bears bows bunnies hanging haven idea images seen teddy ve
+100662,NonFigure_1,effort,characters colors repeated
+100662,NonFigure_2,creativity,background candy colors creativity known land minimal pastel range reference trees vast wonderland
+100662,NonFigure_2,effort,additional alex asking back beanstalk candy claim despite details edited effort fantasy forth generate generated house image land little product prompt prompts shows vibe world
+100662,NonFigure_3,creativity,basic christmas colorful creativity displayed done enhance image lacks look lot north pole think vibe
+100662,NonFigure_3,effort,generate image prompts require shouldn
+100662,NonFigure_4,creativity,dessert image movies seen typical ve
+100662,NonFigure_4,effort,additional background dessert features image prompts require theme typical
+100662,NonFigure_5,creativity,design futuristic generated image typical
+100662,NonFigure_5,effort,amount cars complexity cut descriptions detail effort etc generate half images lake mood precise requires rockets speeding sunrise
+100222,Figure_1,creativity,artist creative image naturally normally observed specific think
+100222,Figure_1,effort,effort generator needed refined times
+100222,Figure_2,creativity,ai art artwork complex create creative exact order piece type wanted
+100222,Figure_2,effort,actually ai art draw effort moderate piece prompts put refining
+100222,Figure_3,creativity,broad created creativity generated image means needed order specific super think
+100222,Figure_3,effort,artist create effort exactly image likely refine took wanted
+100222,Figure_4,creativity,ai artist artwork create created creativity kept much prompts revising took use used
+100222,Figure_4,effort,actually ai art artist created creating effort piece put
+100222,Figure_5,creativity,achieve creativity detail detailed image likely looks person realistic required
+100222,Figure_5,effort,achieve amount aspect detail effort moderate realism right think
+100222,NonFigure_1,creativity,creativity image moderate required seen strange think unlike
+100222,NonFigure_1,effort,certain due effort exact get image painting portrayed style textures took trying
+100222,NonFigure_2,creativity,alex art creative creativity ensuring exact generator image little needs produced style telling think type wanted
+100222,NonFigure_2,effort,ai effort exact getting image style
+100222,NonFigure_3,creativity,creative entirely image lights make new northern observed photograph place recreating similar snow super went
+100222,NonFigure_3,effort,ai effort generator get harder image incorrect much multiple needed think times
+100222,NonFigure_4,creativity,creativity desert google image images little looks required seen similar sunset think
+100222,NonFigure_4,effort,achieve brushstrokes effort little probably stylistically think trying
+100222,NonFigure_5,creativity,ai art city classic creative detail image lot made nearly pictured piece pieces tends use
+100222,NonFigure_5,effort,ai alex art image likely lot many pieces refine seen similar think
+100155,Figure_1,creativity,astonishing background bubble creativity girl planets plants protected surrounding
+100155,Figure_1,effort,created effort good long looks point taken time
+100155,Figure_2,creativity,behind creativity going good lot meaning
+100155,Figure_2,effort,appeared effort faces put tell thought
+100155,Figure_3,creativity,attention capture colors dull looking work
+100155,Figure_3,effort,effort much overall put see things
+100155,Figure_4,creativity,background creativity forest green mostly put somwhat thought
+100155,Figure_4,effort,animals based effort feel forest put
+100155,Figure_5,creativity,added behind creativity idea think
+100155,Figure_5,effort,background details effort face put small think
+100155,NonFigure_1,creativity,added bears colorful creativity cute
+100155,NonFigure_1,effort,bears effort hanging repetition
+100155,NonFigure_2,creativity,book captivating children's colors creativity looks lot
+100155,NonFigure_2,effort,details effort lot many place put small
+100155,NonFigure_3,creativity,average house lot piece pieces raindeer repeated trees work
+100155,NonFigure_3,effort,adding effort opening people put space
+100155,NonFigure_4,creativity,colors desert plain work
+100155,NonFigure_4,effort,added color creating details effort palette small vibrant
+100155,NonFigure_5,creativity,cars creativity flying futuristic idea lights neon
+100155,NonFigure_5,effort,captivated corner details different effort eye moved put small
+100169,Figure_1,creativity,ai artwork elements galaxies generic involved lot made previous
+100169,Figure_1,effort,ai difficult use
+100169,Figure_2,creativity,concept image interesting purpose understand
+100169,Figure_2,effort,ai dead etc fingers giveaways lot mind person's pieces refined regular swirls
+100169,Figure_3,creativity,art generic prompt style
+100169,Figure_3,effort,lot prompt require steps
+100169,Figure_4,creativity,asks details generic included instruction lot specific terms tiny
+100169,Figure_4,effort,ai effort lot take use
+100169,Figure_5,creativity,cool detail face interesting portrait think
+100169,Figure_5,effort,ai difficult portrait prompt specific use
+100169,NonFigure_1,creativity,concept interesting photo
+100169,NonFigure_1,effort,animals ear effort especially head hung much put rabbit rest stuffed vs
+100169,NonFigure_2,creativity,candy concept familiar interesting themed trees
+100169,NonFigure_2,effort,away details especially made prompt right trees
+100169,NonFigure_3,creativity,appears generic north pole prompt
+100169,NonFigure_3,effort,ai changed christmas easily galaxies generatable likes made much prompt related visible
+100169,NonFigure_4,creativity,art done imagine picture pleasing seen wall
+100169,NonFigure_4,effort,attention detail errors image lot
+100169,NonFigure_5,creativity,city concept cyberpunk internet photo posted
+100169,NonFigure_5,effort,creativity rankling reason reasoning similar
+100488,Figure_1,creativity,area ball components contained created different flowers galaxy girl grass green image life many mixed outer place plant took worlds
+100488,Figure_1,effort,colors create flowers image little looks many objects sorts specs time took
+100488,Figure_2,creativity,behind black boys' different dots expressions eyes fear image little looking mirrors monsters see share similar throughout
+100488,Figure_2,effort,background different dots little marks monsters unique
+100488,Figure_3,creativity,colorful dust filled glass gray image looking man orange time yellow
+100488,Figure_3,effort,captured glass gray image lines little looking mainly man specs things throughout time
+100488,Figure_4,creativity,boat cabin colorful different drifting filled image light looked man pictured poles see singing standing trees water
+100488,Figure_4,effort,boat captured details image little many moving much reflection trees water
+100488,Figure_5,creativity,back colors coming different human image individual know lines mouth smoke
+100488,Figure_5,effort,background color consisted create different effort individual lines looked lot texture took unique
+100488,NonFigure_1,creativity,addition back bears colors different distorted held ribbons see
+100488,NonFigure_1,effort,captured image images mainly texture
+100488,NonFigure_2,creativity,candy colors different gave image land movie present resembled sizes throughout vibes willy wonka
+100488,NonFigure_2,effort,candies different effort great sizes
+100488,NonFigure_3,creativity,cabins capturing creativity deal decorations filled forest front great image lights many northern reindeer snow used walking
+100488,NonFigure_3,effort,cabins different image lights lot northern reindeer snow things
+100488,NonFigure_4,creativity,captured caught colors different eye hills image object sand sky texture trees water
+100488,NonFigure_4,effort,captured colors image many textures
+100488,NonFigure_5,creativity,buildings colors creativity deal different dystopian great image included involved looked many objects sizes
+100488,NonFigure_5,effort,artist create created day deal effort enhance great image involved look looked objects take time took
+100010,Figure_1,creativity,concept easier envision
+100010,Figure_1,effort,detailed
+100010,Figure_2,creativity,characters detailed differences drawing highly individual
+100010,Figure_2,effort,detailed highly
+100010,Figure_3,creativity,simple story
+100010,Figure_3,effort,detail higher required
+100010,Figure_4,creativity,realistic strangish
+100010,Figure_4,effort,detailed highly
+100010,Figure_5,creativity,concept strange
+100010,Figure_5,effort,detail high
+100010,NonFigure_1,creativity,animals special stuffed
+100010,NonFigure_1,effort,detailed super
+100010,NonFigure_2,creativity,artists concept created mind unfamilar
+100010,NonFigure_2,effort,detailed highly
+100010,NonFigure_3,creativity,easy landscape replicate
+100010,NonFigure_3,effort,detailed highly
+100010,NonFigure_4,creativity,envision idea imaginary landscape landscapes real
+100010,NonFigure_4,effort,art creating decisions difficult painting requires strict
+100010,NonFigure_5,creativity,concept created many times
+100010,NonFigure_5,effort,detailed
+100617,Figure_1,creativity,ai art creative find highly produced
+100617,Figure_1,effort,ai produced
+100617,Figure_2,creativity,ai art creative find highly produced
+100617,Figure_2,effort,ai mostly produced
+100617,Figure_3,creativity,ai art created creative find
+100617,Figure_3,effort,ai produced
+100617,Figure_4,creativity,ai art created ideas
+100617,Figure_4,effort,ai art artwork compared created effort less much takes
+100617,Figure_5,creativity,ai art created creative find
+100617,Figure_5,effort,ai art creating effort less much takes
+100617,NonFigure_1,creativity,actual ai air art created directions gave
+100617,NonFigure_1,effort,ai art created directions gave ultimately
+100617,NonFigure_2,creativity,ai artwork created directions gave mostly
+100617,NonFigure_2,effort,ai artwork created mostly
+100617,NonFigure_3,creativity,ai art impressive
+100617,NonFigure_3,effort,ai created
+100617,NonFigure_4,creativity,air create described idea image
+100617,NonFigure_4,effort,actual ai artwork produced
+100617,NonFigure_5,creativity,ai art created creative
+100617,NonFigure_5,effort,ai created
+100648,Figure_1,creativity,creative extremely prompt shown unlike
+100648,Figure_1,effort,ai generated
+100648,Figure_2,creativity,creative inner looks machinations mind
+100648,Figure_2,effort,amount characters create looks shading significant time took work
+100648,Figure_3,creativity,creative fair feel hourglass looking looks man
+100648,Figure_3,effort,create detailed pieces shown time took
+100648,Figure_4,creativity,ai design generated looked looks make piece prompt unique
+100648,Figure_4,effort,ai effort generated looked piece
+100648,Figure_5,creativity,unique
+100648,Figure_5,effort,detailed realistic
+100648,NonFigure_1,creativity,creative looks real
+100648,NonFigure_1,effort,detailed done effort hand looks lot piece took
+100648,NonFigure_2,creativity,unique
+100648,NonFigure_2,effort,detailed great looks lot real time took
+100648,NonFigure_3,creativity,creative looks
+100648,NonFigure_3,effort,ai effort generated look looks prompt
+100648,NonFigure_4,creativity,creative fairly
+100648,NonFigure_4,effort,creativity looks related time took
+100648,NonFigure_5,creativity,basic city creative futuristic looks moderately
+100648,NonFigure_5,effort,creativity opinion related time took
+100438,Figure_1,creativity,amount coherent creativity definitely flow image involved lot mismatching significant things think together whole
+100438,Figure_1,effort,ai answers effort modifications much previous prompting require
+100438,Figure_2,creativity,creative creativity detailed involved lot
+100438,Figure_2,effort,ai effort minimal opinion prompting requires
+100438,Figure_3,creativity,complex depicting image much
+100438,Figure_3,effort,ai effort much opinion prompting require
+100438,Figure_4,creativity,amount cool creative creativity image involved pretty say significant
+100438,Figure_4,effort,ai art creation effort minimal requires
+100438,Figure_5,creativity,camels close color compared content creativity desert last less much painting people person shot think variety
+100438,Figure_5,effort,ai created effort modification much prompting require required
+100438,NonFigure_1,creativity,basic creative images involved previous prompting slightly think
+100438,NonFigure_1,effort,ai effort involved minimal prompting
+100438,NonFigure_2,creativity,colors creative many patterns shapes
+100438,NonFigure_2,effort,ai effort experience much prompting require
+100438,NonFigure_3,creativity,appealing creative lights lodges makes northern painting reindeer snow think variety visually
+100438,NonFigure_3,effort,ai art created effort feel much required
+100438,NonFigure_4,creativity,colors creative ideas painting think used various
+100438,NonFigure_4,effort,adjusting ai created effort image much prompting require requiring solely
+100438,NonFigure_5,creativity,complex creative depicting futuristic image opinion world
+100438,NonFigure_5,effort,art assume effort involved modification prompting requires
+100396,Figure_1,creativity,background combining earth ideas lots original plants space
+100396,Figure_1,effort,completeness detailed lack places subjects
+100396,Figure_2,creativity,beings lot mirrors original shown supernatural thought
+100396,Figure_2,effort,details frames little mirror pen see specific strokes
+100396,Figure_3,creativity,choice colours interesting medium shade unqiue
+100396,Figure_3,effort,detailed efforts lot pen shown strokes
+100396,Figure_4,creativity,beautiful emotion happy landscape much shows stand
+100396,Figure_4,effort,accurate blurry details lot painting parts pretty reflection sharp shown water
+100396,Figure_5,creativity,combinations details interesting shapes
+100396,Figure_5,effort,background body detailed many patterns skin structures
+100396,NonFigure_1,creativity,bears hanging interesting see teddy thought usually
+100396,NonFigure_1,effort,details draw hard highlights illustrated nicely oil paint shadows teddy
+100396,NonFigure_2,creativity,colours dont grass hills interesting see subjects uses usually
+100396,NonFigure_2,effort,colourings detailed grass items precise
+100396,NonFigure_3,creativity,ideas image logical lot original pretty previous shown
+100396,NonFigure_3,effort,details lighting many nice placement shown subject
+100396,NonFigure_4,creativity,illustrated lot original thoughts
+100396,NonFigure_4,effort,colouring complete detailed shading
+100396,NonFigure_5,creativity,artists combination components drawn furtistic houses interesting lot older similar things
+100396,NonFigure_5,effort,add ai art details generated lot parts probably value
+100042,Figure_1,creativity,beautiful earth evokes mother
+100042,Figure_1,effort,articulate deal great probably took
+100042,Figure_2,creativity,boy different perspectives saw study
+100042,Figure_2,effort,emotion evoked much world
+100042,Figure_3,creativity,different life looking timed way
+100042,Figure_3,effort,man showing staring time
+100042,Figure_4,creativity,
+100042,Figure_4,effort,couldnt resonate
+100042,Figure_5,creativity,art
+100042,Figure_5,effort,good looks
+100042,NonFigure_1,creativity,generic idea okay
+100042,NonFigure_1,effort,long make mustve painting taken time
+100042,NonFigure_2,creativity,basic
+100042,NonFigure_2,effort,candyland effort gives low
+100042,NonFigure_3,creativity,long thinking
+100042,NonFigure_3,effort,ads basic christmas see
+100042,NonFigure_4,creativity,camel creative feel personal see
+100042,NonFigure_4,effort,finger intricate painting probably
+100042,NonFigure_5,creativity,abstract creativity involved lot
+100042,NonFigure_5,effort,futuristic
+100002,Figure_1,creativity,creative
+100002,Figure_1,effort,
+100002,Figure_2,creativity,good storyline
+100002,Figure_2,effort,lot
+100002,Figure_3,creativity,good story
+100002,Figure_3,effort,nice textures
+100002,Figure_4,creativity,crazy guy lake
+100002,Figure_4,effort,colors vibrant
+100002,Figure_5,creativity,different textures
+100002,Figure_5,effort,drawn nicely
+100002,NonFigure_1,creativity,different textures
+100002,NonFigure_1,effort,pretty
+100002,NonFigure_2,creativity,pretty
+100002,NonFigure_2,effort,colors lot
+100002,NonFigure_3,creativity,extravagant
+100002,NonFigure_3,effort,colors vibrant
+100002,NonFigure_4,creativity,basic desert
+100002,NonFigure_4,effort,colors mix
+100002,NonFigure_5,creativity,buildings detail lot
+100002,NonFigure_5,effort,colors detail lot

@@ -1,0 +1,4 @@
+question,role,chosen_K,heldout_likelihood_chosen,runner_up_K,heldout_likelihood_runner_up,rule,analysis_status
+creativity,primary,8,-5.5295177471675165,6,-5.5352598305003475,highest held-out likelihood over K = 4 to 12; an exact tie goes to the smaller K,"exploratory; specified on 9 October 2026, after every registered result was known; no registration names it; changes no registered verdict"
+transformativeness,secondary,10,-5.475097754205093,5,-5.478787420496767,highest held-out likelihood over K = 4 to 12; an exact tie goes to the smaller K,"exploratory; specified on 9 October 2026, after every registered result was known; no registration names it; changes no registered verdict"
+essence_change,secondary,11,-5.424708041879709,7,-5.431993820254573,highest held-out likelihood over K = 4 to 12; an exact tie goes to the smaller K,"exploratory; specified on 9 October 2026, after every registered result was known; no registration names it; changes no registered verdict"

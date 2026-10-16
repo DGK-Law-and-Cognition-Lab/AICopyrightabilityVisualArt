@@ -1,0 +1,1199 @@
+---
+title: "Study 4: The AI Label and Source Time Carried to a Second Work (Ratings)"
+subtitle: "Beyond the Original Sin | How Humans Evaluate Creative Contribution in AI-Assisted Artworks"
+author: "David G. Kamper, Alice Lin, Keith J. Holyoak"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+knit: (function(input, ...) rmarkdown::render(input, output_dir = if (isTRUE(as.logical(Sys.getenv("UNBLIND_STUDY4", "FALSE")))) dirname(input) else file.path(dirname(input), "blind_run"), envir = globalenv()))
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    theme: flatly
+    highlight: tango
+---
+
+```{r blind-switch}
+UNBLIND <- as.logical(Sys.getenv("UNBLIND_STUDY4", "FALSE"))
+# The blind switch. UNBLIND is FALSE unless the environment variable
+# UNBLIND_STUDY4 (a named setting the operating system passes to R) is set to
+# TRUE. While it is FALSE, the labels are shuffled right after the data are
+# built (section 3), and every output goes to a blind_run/ subfolder of the
+# folder its real counterpart goes to. A value that is neither TRUE nor FALSE
+# stops the run.
+if (is.na(UNBLIND)) stop("UNBLIND_STUDY4 must be TRUE or FALSE.")
+
+# A blind report belongs in blind_run/, and an unblinded report beside this
+# file. The knit: line in the header reads the same environment variable and
+# sends the report to the right folder when the file is knitted with
+# RStudio's Knit button. A call to rmarkdown::render() must pass
+# output_dir = "blind_run" in a blind run and leave it out in an unblinded
+# run. A run whose report would land in the wrong folder stops here, before
+# anything is written. The folder is read from the settings render() is
+# running with; a knit that does not go through render() is not checked.
+render_output_dir <- function() {
+  frame <- Find(function(e) exists("output_dir", envir = e, inherits = FALSE) &&
+                  exists("knit_input", envir = e, inherits = FALSE),
+                sys.frames())
+  if (is.null(frame)) return(NULL)
+  d <- get("output_dir", envir = frame)
+  normalizePath(if (is.null(d)) "." else d, mustWork = FALSE)
+}
+report_dir <- render_output_dir()
+if (!UNBLIND && !is.null(report_dir) && basename(report_dir) != "blind_run") {
+  stop("A blind report must be written to blind_run/. Knit with the Knit ",
+       "button, or run rmarkdown::render(\"Study4_01_Quant.Rmd\", ",
+       "output_dir = \"blind_run\").")
+}
+if (UNBLIND && !is.null(report_dir) && basename(report_dir) == "blind_run") {
+  stop("An unblinded report must not be written to blind_run/. Set the ",
+       "environment variable UNBLIND_STUDY4 to TRUE before knitting, or run ",
+       "rmarkdown::render(\"Study4_01_Quant.Rmd\") without output_dir.")
+}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = TRUE,
+                      comment = "#>", fig.align = "center")
+```
+
+```{r banner, echo=FALSE, results='asis'}
+if (!UNBLIND) {
+  cat("**Blind run. The Human and AI labels are shuffled across participants,",
+      "the source times across each participant's six sources, and the",
+      "modification levels across the three second works made from each",
+      "source, so nothing in this report is a result.** The shuffles use seed",
+      "20260421 and come before any summary or model. The report shows only",
+      "that the code runs, that the fits converge and that the tables have the",
+      "right shape. Every output goes to a `blind_run/` folder.\n")
+} else {
+  cat("**Unblinded run on the real labels, source times and modification",
+      "levels.**\n")
+}
+```
+
+# 0. What this file does
+
+Study 4 asks whether what people are told about a first artwork, the source,
+carries over to how they judge a second work that Alex makes from it. Two
+things about the source vary. The label says that Alex made the source with
+graphic design and sketching tools (Human) or by prompting an AI system that
+generates the artworks (AI). The source time is the time Alex is said to have
+spent on the source: less than 1 hour, 10 hours or 100 hours. Copyright in the
+second work covers only what it adds to the source, so a rater who judges only
+that addition should show neither the label nor the source time in their
+ratings. Carry-over predicts both, largest when the second work is the source
+unchanged.
+
+The registration, `Docs/Preregistration/AsPredicted/Study4_AsPredicted.md`, is
+the specification for everything below. Nothing this file computes beyond it
+is presented as confirmatory.
+
+**Design.** The label varies between participants: each sees one. The rest
+varies within participants. Each participant sees 6 of the 10 sources, three
+with a human or humanoid figure, two at each source time. Three second works
+follow each source: None (the source unchanged), Slight (colour and contrast
+adjustments) and Dramatic (substantial hand changes). Each second work is
+rated on transformativeness, essence change and creativity, and each rating
+is followed by a written justification, so each participant gives 54 ratings
+and 54 justifications.
+
+This file:
+
+1. reads the two Qualtrics exports and the survey file, applies the registered
+   exclusions in order, and checks every count the registration states
+   (section 2);
+2. scores each rating by its position on the answer scale and attaches the
+   source time of each source (section 2);
+3. shuffles the labels in a blind run and writes the long data file, one row
+   per participant, second work and measure (section 3);
+4. fits the registered model on each measure and runs the fifteen
+   confirmatory tests with Holm's correction, which keeps the chance of any
+   false positive among the fifteen at .05, and reads H1, H2 and H3 from
+   them (sections 5 and 6);
+5. checks each verdict with a cumulative-link model, a model that treats the
+   answers as ordered categories (section 7);
+6. runs the secondary analyses the registration names (section 8);
+7. records the status of every fit and the run (sections 9 and 10).
+
+The secondary refit that leaves out Human-arm participants who write that a
+machine made the work needs the text measures, so it runs in
+`Study4_03_Integration.Rmd`.
+
+# 1. Setup
+
+## 1.1 Packages
+
+```{r packages}
+# dplyr, tidyr, tibble and readr build and write the tables. lme4 fits the
+# linear mixed models, regressions with an estimated adjustment for each
+# participant and each source, and lmerTest adds F tests with Satterthwaite
+# degrees of freedom, an approximation to the degrees of freedom a test in a
+# mixed model has. emmeans gives estimated marginal means, the model's
+# predicted mean for each level of a factor averaged over the other factors,
+# and contrasts between them. ordinal fits the cumulative-link mixed models
+# of section 7.
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(tidyr)
+  library(tibble)
+  library(readr)
+  library(lme4)
+  library(lmerTest)
+  library(emmeans)
+  library(ordinal)
+})
+```
+
+## 1.2 Paths and registered constants
+
+```{r paths}
+# Every path is found from this file's own folder, which is the working
+# directory when the file is knitted. Three environment variables override
+# the defaults:
+#   STUDY4_DIR           the Study 4 folder, where the outputs go
+#   STUDY_SHARED_R       the folder of the shared R helpers
+#   STUDY4_PROJECT_ROOT  the project root, the folder that holds Data and
+#                        Analysis
+# Printed paths are relative to the Study 4 folder or the project root, so no
+# printed line names a folder particular to one machine.
+STUDY_DIR <- normalizePath(Sys.getenv("STUDY4_DIR", getwd()), mustWork = TRUE)
+SHARED_R  <- Sys.getenv("STUDY_SHARED_R",
+                        file.path(STUDY_DIR, "..", "shared", "R"))
+source(file.path(SHARED_R, "fit_status.R"))
+source(file.path(SHARED_R, "qualtrics_import.R"))
+
+PROJECT_ROOT <- find_project_root(start = STUDY_DIR,
+                                  env_var = "STUDY4_PROJECT_ROOT")
+EXPORTS <- study_export_paths(PROJECT_ROOT, 4)
+
+# A blind run writes each file to a blind_run/ subfolder of the folder its
+# real counterpart goes to.
+mode_dir <- function(dir) if (UNBLIND) dir else file.path(dir, "blind_run")
+OUT_STUDY  <- mode_dir(STUDY_DIR)
+OUT_TABLES <- mode_dir(file.path(STUDY_DIR, "tables"))
+for (p in c(OUT_STUDY, OUT_TABLES)) {
+  dir.create(p, recursive = TRUE, showWarnings = FALSE)
+}
+
+cat("Mode:          ", if (UNBLIND) "unblinded" else "blind", "\n")
+cat("Values export: ", relative_path(EXPORTS$values, PROJECT_ROOT), "\n")
+cat("Labels export: ", relative_path(EXPORTS$labels, PROJECT_ROOT), "\n")
+cat("Survey file:   ", relative_path(EXPORTS$qsf, PROJECT_ROOT), "\n")
+cat("Long data to:  ", relative_path(OUT_STUDY, STUDY_DIR), "\n")
+cat("Tables to:     ", relative_path(OUT_TABLES, STUDY_DIR), "\n")
+
+# The registered constants.
+SEED         <- 20260421L  # the registered seed for R, used for every shuffle
+EQ_BOUND     <- 0.224      # half the 0.448-point creativity penalty of Study 1
+ALPHA        <- 0.05
+N_FAMILY     <- 15L        # five confirmatory tests on each of three measures
+MEASURES     <- c("transformativeness", "essence_change", "creativity")
+LABEL_LEVELS <- c("Human", "AI")
+TIME_LEVELS  <- c("less than 1 hour", "10 hours", "100 hours")
+MOD_LEVELS   <- c("None", "Slight", "Dramatic")
+SIX_POINT_ITEMS <- c("1NonFigureMinTrans", "1NonFigureNoneTrans")
+TASK_ANSWER  <- "Viewing images for a set amount of time and answering questions"
+# The two records registration question 6 names as failing the validity rule.
+INVALID_RECORDS <- c("R_3SPOPWqijqK09xf", "R_6mZWuqtRNco0jiF")
+```
+
+## 1.3 Run record
+
+```{r run-record}
+# The run record ties every output to this run. It stores the SHA-256
+# checksum of each input (a 64-character fingerprint of the file's exact
+# bytes), deletes the previous run's manifest now, deletes each output's
+# previous copy before the chunk that writes it, and writes the manifest last.
+# A manifest on disk therefore means the run reached its end.
+run <- start_run_record(
+  c(values_export = EXPORTS$values,
+    labels_export = EXPORTS$labels,
+    survey_file   = EXPORTS$qsf),
+  file.path(OUT_TABLES, "study4_quant_run_manifest.csv"),
+  STUDY_DIR)
+write_run_inputs(run, file.path(OUT_TABLES, "study4_quant_run_inputs.csv"))
+cat("Run identifier:", run$run_id, "\n")
+print(as.data.frame(run$inputs[, c("input", "file", "bytes", "sha256")]))
+
+if (!UNBLIND) {
+  # A short note in each blind folder says what the folder holds.
+  blind_notes <- file.path(c(OUT_STUDY, OUT_TABLES), "BLIND_RUN.txt")
+  run_clear_outputs(run, blind_notes)
+  for (f in blind_notes) {
+    writeLines(c(
+      "Outputs of a blind run of the Study 4 pipeline.",
+      "The Human and AI labels were shuffled across participants, the source",
+      "times across each participant's six sources, and the modification levels",
+      "across the three second works made from each source, before any summary",
+      "or model. Study4_03_Integration.Rmd also shuffles the ratings across the",
+      "responses to each question before it relates any word to a rating. No",
+      "number in this folder describes the real conditions or the real link",
+      "between the words and the ratings. A run with UNBLIND_STUDY4 set to TRUE",
+      "writes the real outputs one folder up."), f)
+  }
+}
+```
+
+# 2. Import and exclusions
+
+## 2.1 The exclusion flow
+
+```{r exclusions}
+# Qualtrics, the survey platform, exports the study twice: the Values export
+# holds raw choice codes and the Labels export holds the text each
+# participant saw. read_qualtrics_pair() reads both and checks that they hold
+# the same records in the same order.
+run_clear_outputs(run,
+                  file.path(OUT_TABLES, "study4_exclusion_flow.csv"),
+                  file.path(OUT_TABLES, "study4_validity_check.csv"))
+
+ex <- read_qualtrics_pair(EXPORTS$values, EXPORTS$labels)
+stopifnot(all(trim_answer(ex$labels$Status) %in% c("IP Address", "Survey Preview")))
+
+# The 90 rating items and the source each belongs to. A source is one of the
+# ten first artworks, named by its number and kind, such as 3NonFigure (the
+# third source without a figure).
+ITEMS <- rating_items(names(ex$values), "derivative")
+ITEM_SOURCE <- sub("^(\\d(Figure|NonFigure)).*$", "\\1", ITEMS)
+stopifnot(length(ITEMS) == 90, n_distinct(ITEM_SOURCE) == 10)
+
+# The sources a record rated: those with an answer to at least one of their
+# nine rating items.
+rated_sources <- function(v) {
+  answered <- vapply(ITEMS, function(item) trim_answer(v[[item]]) != "",
+                     logical(nrow(v)))
+  answered <- matrix(answered, nrow = nrow(v))
+  lapply(seq_len(nrow(v)), function(i) sort(unique(ITEM_SOURCE[answered[i, ]])))
+}
+
+# The source named in each of the six image slots, Image1 to Image6, and the
+# source time stated for it, Image1_Time to Image6_Time. A slot such as
+# Image3_Nonfigure names the source 3NonFigure. A slot that names no source
+# gives NA.
+slot_table <- function(l) {
+  bind_rows(lapply(1:6, function(k) {
+    image <- trim_answer(l[[paste0("Image", k)]])
+    parts <- regmatches(image, regexec("^Image([1-5])_(Figure|Nonfigure)$", image))
+    tibble(row  = seq_len(nrow(l)),
+           id   = l$ResponseId,
+           slot = k,
+           source = vapply(parts, function(p) {
+             if (length(p) != 3) NA_character_
+             else paste0(p[2], if (p[3] == "Figure") "Figure" else "NonFigure")
+           }, character(1)),
+           source_time = trim_answer(l[[paste0("Image", k, "_Time")]]))
+  }))
+}
+
+# The validity rule of registration question 6. A valid completion rates
+# exactly six sources, each named once in the six image slots, two per source
+# time. One row per record, with the parts of the rule.
+validity_table <- function(v, l) {
+  slots <- slot_table(l)
+  rated <- rated_sources(v)
+  per_record <- slots %>%
+    group_by(row) %>%
+    summarise(
+      n_slot_sources   = n_distinct(source[!is.na(source)]),
+      any_slot_blank   = any(is.na(source)),
+      sources_repeated = paste(sort(unique(source[duplicated(source) & !is.na(source)])),
+                               collapse = " "),
+      n_under_1  = sum(source_time == TIME_LEVELS[1]),
+      n_10       = sum(source_time == TIME_LEVELS[2]),
+      n_100      = sum(source_time == TIME_LEVELS[3]),
+      slot_set   = list(sort(unique(source[!is.na(source)]))),
+      .groups = "drop") %>%
+    arrange(row)
+  per_record %>%
+    mutate(id = l$ResponseId,
+           n_rated_sources = lengths(rated),
+           rated_equals_slots = mapply(setequal, rated, slot_set),
+           time_split = paste0(n_under_1, " at less than 1 hour, ", n_10,
+                               " at 10 hours, ", n_100, " at 100 hours"),
+           valid = n_rated_sources == 6 & n_slot_sources == 6 & !any_slot_blank &
+             rated_equals_slots & n_under_1 == 2 & n_10 == 2 & n_100 == 2) %>%
+    select(id, n_rated_sources, n_slot_sources, sources_repeated,
+           rated_equals_slots, time_split, valid)
+}
+
+# The registered steps, in the order of registration question 6. Each step
+# returns TRUE for the records it keeps. Survey Preview records are the
+# survey's test runs. A blank seriousness answer counts as an answer other
+# than "Yes, I did". A blank arithmetic answer passes.
+steps <- list(
+  "preview records, which are test runs (Status is Survey Preview)" =
+    function(v, l) trim_answer(l$Status) == "IP Address",
+  "unfinished records" =
+    function(v, l) trim_answer(l$Finished) == "True",
+  "any seriousness answer but Yes, I did, a blank included" =
+    function(v, l) trim_answer(l$Seriousness) == "Yes, I did",
+  "wrong answers to What does 8+7 equal? (a blank passes)" =
+    function(v, l) {
+      a <- trim_answer(l$AttentionCheck2)
+      a == "" | a == "15"
+    },
+  "records that are not a valid completion" =
+    function(v, l) validity_table(v, l)$valid
+)
+flow <- exclusion_flow(ex$values, ex$labels, steps)
+
+# One line per step, so the flow can be read off the report.
+ff <- flow$flow
+cat("Records in the export:", ff$n[1], "\n")
+for (i in 2:nrow(ff)) {
+  cat(sprintf("Step %d, %s: %d -> %d (%d removed)\n",
+              i - 1, ff$step[i], ff$n[i - 1], ff$n[i], ff$removed[i]))
+}
+
+# The counts the registration states. The run stops if the exports give
+# anything else.
+REGISTERED_FLOW <- c(140L, 133L, 125L, 119L, 119L, 117L)
+ff$registered_n <- REGISTERED_FLOW
+ff$match <- ff$n == ff$registered_n
+if (!identical(as.integer(ff$n), REGISTERED_FLOW)) {
+  stop("The exclusion flow does not match the registration: ",
+       paste(ff$n, collapse = " -> "), " against ",
+       paste(REGISTERED_FLOW, collapse = " -> "), ".")
+}
+write_csv(ff, file.path(OUT_TABLES, "study4_exclusion_flow.csv"))
+
+# The 119 records left after the arithmetic step. The registration states
+# that none answered the arithmetic question wrongly, that all have a
+# recorded condition and that all answered the task question correctly.
+after4 <- exclusion_flow(ex$values, ex$labels, steps[1:4])
+arith  <- trim_answer(after4$labels$AttentionCheck2)
+cat("Blank arithmetic answers that passed:", sum(arith == ""), "\n")
+stopifnot(nrow(after4$labels) == 119,
+          all(trim_answer(after4$labels$Type) %in% LABEL_LEVELS),
+          all(trim_answer(after4$labels$AttentionCheck) == TASK_ANSWER))
+cat("Of the 119, with a condition:",
+    sum(trim_answer(after4$labels$Type) %in% LABEL_LEVELS),
+    "| with the correct task answer:",
+    sum(trim_answer(after4$labels$AttentionCheck) == TASK_ANSWER), "\n")
+
+# The validity rule removes exactly the two records the registration names.
+validity <- validity_table(after4$values, after4$labels)
+failing  <- validity %>% filter(!valid) %>%
+  mutate(reason = case_when(
+    n_rated_sources != 6 ~ paste0("rated ", n_rated_sources, " sources"),
+    sources_repeated != "" ~ paste0("names ", sources_repeated,
+                                    " in two slots; source times ", time_split),
+    TRUE ~ "other")) %>%
+  arrange(id)
+print(as.data.frame(failing))
+stopifnot(setequal(failing$id, INVALID_RECORDS), !any(failing$reason == "other"))
+write_csv(failing, file.path(OUT_TABLES, "study4_validity_check.csv"))
+
+# The arms of the 117 participants the registration analyses.
+arms <- table(factor(trim_answer(flow$labels$Type), levels = LABEL_LEVELS))
+print(arms)
+stopifnot(arms[["AI"]] == 62, arms[["Human"]] == 55)
+```
+
+## 2.2 Scoring by position
+
+```{r scoring}
+# Each rating is scored 1 to k by the position of its label among the item's
+# answer options, read from the survey file in the order they were shown,
+# because the numeric export stores raw choice codes, not scale positions.
+# An answer whose label is not among the item's options would be scored NA
+# and listed; none is.
+run_clear_outputs(run, file.path(OUT_TABLES, "study4_item_scales.csv"))
+
+scales <- read_item_scales(EXPORTS$qsf, ITEM_FAMILIES$derivative$pattern)
+cat("Rating items:", nrow(scales), "| five-point:", sum(scales$k == 5),
+    "| six-point:", sum(scales$k == 6), "\n")
+stopifnot(nrow(scales) == 90, sum(scales$k == 5) == 88,
+          setequal(scales$item[scales$k == 6], SIX_POINT_ITEMS))
+write_csv(select(scales, item, question_id, k, anchors, stem),
+          file.path(OUT_TABLES, "study4_item_scales.csv"))
+
+# Registration question 8 names wording slips in three essence items' answer
+# options and one reworded creativity stem. Each item is scored against its
+# own options, so a slip changes no score. The option sets and stems, with
+# the number of items carrying each:
+scale_parts <- parse_item_names(scales$item, "derivative") %>%
+  select(item, dimension) %>%
+  left_join(select(scales, item, anchors, stem), by = "item")
+print(as.data.frame(count(scale_parts, dimension, anchors)))
+print(as.data.frame(count(scale_parts, dimension, stem) %>%
+                      mutate(stem = substr(stem, 1, 70))))
+
+built <- reshape_ratings_long(flow$values, flow$labels, scales, "derivative",
+                              carry_labels = "Type")
+cat("Answers that could not be scored:", nrow(built$unscored), "\n")
+stopifnot(nrow(built$unscored) == 0)
+```
+
+## 2.3 The source time of each source
+
+```{r source-times}
+# The survey records the source shown in each of the six slots and the
+# source time stated for it. These slot fields are the only record of which
+# source carried which time; the export's single ArtistHr field holds one
+# time per record, not one per source, and is not used.
+image_slots <- slot_table(flow$labels) %>% select(id, slot, source, source_time)
+if (anyNA(image_slots$source)) stop("Some image slot names no source.")
+if (!all(image_slots$source_time %in% TIME_LEVELS)) {
+  stop("Some source time is not one of the three registered times.")
+}
+stopifnot(!anyDuplicated(image_slots[, c("id", "source")]))
+
+# Each participant saw six different sources, three with a figure, two at
+# each source time.
+per_person_slots <- image_slots %>%
+  group_by(id) %>%
+  summarise(n_sources = n_distinct(source),
+            n_figure  = sum(grepl("[0-9]Figure$", source)),
+            n_under_1 = sum(source_time == TIME_LEVELS[1]),
+            n_10      = sum(source_time == TIME_LEVELS[2]),
+            n_100     = sum(source_time == TIME_LEVELS[3]), .groups = "drop")
+stopifnot(nrow(per_person_slots) == 117, all(per_person_slots$n_sources == 6),
+          all(per_person_slots$n_figure == 3), all(per_person_slots$n_under_1 == 2),
+          all(per_person_slots$n_10 == 2), all(per_person_slots$n_100 == 2))
+cat("Every participant saw 6 sources, 3 with a figure, 2 at each source time.\n")
+```
+
+## 2.4 The long data and the registered counts
+
+```{r long-data}
+run_clear_outputs(run, file.path(OUT_TABLES, "study4_sample_checks.csv"))
+
+# One row per participant, second work and measure. A second work is one
+# source at one modification level, named by work_id, such as 3NonFigure_Slight.
+# The source time comes from the source's slot, and every rated source must
+# be one of the six the slots name.
+long <- built$long %>%
+  left_join(rename(select(image_slots, id, source, source_time),
+                   stimulus_id = source),
+            by = c("id", "stimulus_id"), relationship = "many-to-one")
+if (anyNA(long$source_time)) stop("Some rated source is not among the six listed.")
+
+long <- long %>%
+  transmute(id,
+            label       = Type,
+            source      = stimulus_id,
+            image_kind  = stimulus_type,
+            source_time,
+            modification,
+            work_id     = paste0(stimulus_id, "_", modification),
+            dimension, item, k_points, rating, rating_label,
+            response_text = justification)
+
+# The design within each participant: 6 sources, each at the three
+# modification levels, 18 second works, 54 ratings and 54 justifications.
+per_person <- long %>%
+  group_by(id) %>%
+  summarise(n_rows      = n(),
+            n_works     = n_distinct(work_id),
+            n_ratings   = sum(!is.na(rating)),
+            n_justified = sum(response_text != ""), .groups = "drop")
+stopifnot(all(per_person$n_rows == 54), all(per_person$n_works == 18),
+          all(per_person$n_ratings == 54), all(per_person$n_justified == 54))
+works_per_source <- long %>% distinct(id, source, modification) %>% count(id, source)
+stopifnot(all(works_per_source$n == 3))
+
+# The counts the registration states, beside the counts the data give.
+participants <- distinct(long, id, label)
+sample_checks <- tribble(
+  ~quantity,                                          ~registered, ~observed,
+  "participants analysed",                            117L, nrow(participants),
+  "participants in the AI arm",                       62L,  sum(participants$label == "AI"),
+  "participants in the Human arm",                    55L,  sum(participants$label == "Human"),
+  "justifications",                                   6318L, sum(long$response_text != ""),
+  "ratings on the two six-point items, left out",     140L, sum(long$k_points == 6 & !is.na(long$rating)),
+  "analysed ratings",                                 6178L, sum(long$k_points == 5 & !is.na(long$rating))
+) %>% mutate(match = registered == observed)
+print(as.data.frame(sample_checks))
+write_csv(sample_checks, file.path(OUT_TABLES, "study4_sample_checks.csv"))
+if (!all(sample_checks$match)) stop("The sample does not match the registration.")
+stopifnot(nrow(long) == 117 * 54)
+```
+
+# 3. The blind shuffle and the long data file
+
+```{r blind-shuffle}
+# In a blind run the labels are shuffled here, after the data are built and
+# before any summary or model. Three labels are shuffled.
+#
+# The Human and AI label is between participants. blind_shuffle() deals each
+# participant another participant's label, so each arm keeps its 62 or 55
+# participants.
+#
+# Source time varies within each participant across sources. The
+# participant's six source times are dealt again among the same six sources,
+# each source keeping one time for all its ratings, so every participant keeps
+# two sources at each time.
+#
+# Modification varies within each source across its three second works. The
+# three levels are dealt again among the three second works of each
+# participant and source, each work keeping one level for its three ratings.
+# The work_id column still names the second work the participant saw and
+# wrote about, because it keys the text tables; the modification column is
+# the one the models read.
+#
+# Every shuffle uses the registered seed, takes participants and units in
+# byte order of their identifiers so that the result is the same on every
+# machine, and puts the random-number state back afterwards.
+shuffle_within <- function(df, group_cols, unit_col, label_col, seed) {
+  units <- distinct(df[, c(group_cols, unit_col, label_col)])
+  if (anyDuplicated(units[, c(group_cols, unit_col)]) > 0) {
+    stop("Some ", unit_col, " carries more than one ", label_col, ".")
+  }
+  group_key <- do.call(paste, c(units[group_cols], sep = "\r"))
+  units <- units[order(group_key, units[[unit_col]], method = "radix"), ]
+  group_key <- do.call(paste, c(units[group_cols], sep = "\r"))
+  had_seed <- exists(".Random.seed", envir = globalenv(), inherits = FALSE)
+  if (had_seed) old_seed <- get(".Random.seed", envir = globalenv())
+  on.exit({
+    if (had_seed) assign(".Random.seed", old_seed, envir = globalenv())
+    else rm(".Random.seed", envir = globalenv())
+  }, add = TRUE)
+  set.seed(seed)
+  rows_by_group <- split(seq_len(nrow(units)),
+                         factor(group_key, levels = unique(group_key)))
+  dealt <- character(nrow(units))
+  for (rows in rows_by_group) {
+    dealt[rows] <- units[[label_col]][rows][sample.int(length(rows))]
+  }
+  out <- df
+  key_df    <- do.call(paste, c(df[c(group_cols, unit_col)], sep = "\r"))
+  key_units <- do.call(paste, c(units[c(group_cols, unit_col)], sep = "\r"))
+  out[[label_col]] <- dealt[match(key_df, key_units)]
+  out
+}
+
+design_counts <- function(d) {
+  list(arms  = table(distinct(d, id, label)$label),
+       times = table(distinct(d, id, source, source_time)[, c("id", "source_time")]),
+       mods  = table(distinct(d, id, source, work_id, modification)[, c("id", "source", "modification")]))
+}
+
+if (!UNBLIND) {
+  before <- design_counts(long)
+  long <- blind_shuffle(long, "id", "label", seed = SEED)
+  long <- shuffle_within(long, "id", "source", "source_time", seed = SEED)
+  long <- shuffle_within(long, c("id", "source"), "work_id", "modification", seed = SEED)
+  after <- design_counts(long)
+  # The design survives the shuffles: 62 and 55 participants, two sources at
+  # each time for every participant, one second work at each level for every
+  # source.
+  stopifnot(identical(before$arms, after$arms),
+            all(after$times == 2),
+            all(after$mods[after$mods > 0] == 1),
+            sum(after$mods) == 117 * 18)
+  cat("Blind run: labels shuffled across participants, source times within",
+      "each participant, modification levels within each source; seed", SEED, "\n")
+}
+long$label_mode <- if (UNBLIND) "real" else "shuffled"
+
+long <- long %>%
+  mutate(label        = factor(label, levels = LABEL_LEVELS),
+         source_time  = factor(source_time, levels = TIME_LEVELS),
+         modification = factor(modification, levels = MOD_LEVELS),
+         dimension    = factor(dimension, levels = MEASURES)) %>%
+  arrange(id, work_id, dimension)
+stopifnot(!anyNA(long$label), !anyNA(long$source_time),
+          !anyNA(long$modification), !anyNA(long$dimension))
+```
+
+```{r write-long}
+# The long data file is the input of Study4_02_Text.ipynb, which reads only
+# its identifier, source, work, measure and text columns, and of
+# Study4_03_Integration.Rmd. It carries the labels and the rating, so in a
+# blind run it is written to blind_run/ with the shuffled labels, and
+# label_mode says "shuffled" on every row.
+LONG_PATH <- file.path(OUT_STUDY, "study4_long_with_text.csv")
+run_clear_outputs(run, LONG_PATH)
+write_csv(long %>% mutate(across(where(is.factor), as.character)), LONG_PATH, na = "")
+cat("Wrote", relative_path(LONG_PATH, STUDY_DIR), "with", nrow(long), "rows.\n")
+```
+
+# 4. Cell counts
+
+```{r cell-counts}
+# Counts only: participants, responses and analysed ratings by label, source
+# time, modification and measure.
+run_clear_outputs(run, file.path(OUT_TABLES, "study4_cell_counts.csv"))
+cell_counts <- long %>%
+  group_by(dimension, label, source_time, modification) %>%
+  summarise(participants = n_distinct(id), responses = n(),
+            analysed_ratings = sum(k_points == 5 & !is.na(rating)),
+            .groups = "drop") %>%
+  rename(measure = dimension)
+stopifnot(sum(cell_counts$analysed_ratings) == 6178,
+          sum(cell_counts$responses) == 6318)
+print(as.data.frame(cell_counts))
+write_csv(cell_counts, file.path(OUT_TABLES, "study4_cell_counts.csv"))
+```
+
+# 5. The registered models
+
+```{r fit-models}
+# Each measure gets a linear mixed model, a regression with an estimated
+# adjustment for each participant and each source:
+#
+#   rating ~ label x source time x modification + (1 | participant) + (1 | source)
+#
+# with no term for whether the source shows a figure. The six-point
+# transformativeness items are left out, so every analysed rating is on five
+# points. Every factor uses sum-to-zero contrasts, a coding in which a
+# factor's effects add to zero across its levels, so that each main effect is
+# averaged over the other factors. The fit is by restricted maximum
+# likelihood (REML, the usual estimator of the variances in a mixed model)
+# with the bobyqa optimizer, the routine that searches for the best-fitting
+# values, as in Study 1. fit_with_status() keeps every
+# warning and records whether the fit converged and whether it is singular
+# (a variance estimated at zero).
+SUM_CONTRASTS <- list(label = "contr.sum", source_time = "contr.sum",
+                      modification = "contr.sum")
+FIXED_RHS <- ~ label * source_time * modification
+FORMULA   <- rating ~ label * source_time * modification + (1 | id) + (1 | source)
+FORMULA_TEXT <- "rating ~ label * source_time * modification + (1 | id) + (1 | source)"
+
+model_data <- function(m) {
+  long %>%
+    filter(dimension == m, k_points == 5, !is.na(rating)) %>%
+    mutate(id = factor(id), source = factor(source))
+}
+fit_registered <- function(d) {
+  res <- fit_with_status(lmerTest::lmer(
+    FORMULA, data = d, REML = TRUE, contrasts = SUM_CONTRASTS,
+    control = lme4::lmerControl(optimizer = "bobyqa")))
+  res$data <- d
+  res
+}
+
+data_by_measure <- setNames(lapply(MEASURES, model_data), MEASURES)
+stopifnot(sum(vapply(data_by_measure, nrow, integer(1))) == 6178)
+primary <- lapply(data_by_measure, fit_registered)
+for (m in MEASURES) {
+  st <- primary[[m]]$status
+  cat(sprintf("%-18s rows %4d | fit error %s | converged %s | singular %s\n",
+              m, nrow(data_by_measure[[m]]), st$fit_error, st$converged, st$singular))
+}
+```
+
+# 6. The fifteen confirmatory tests
+
+## 6.1 The tests and the Holm family
+
+```{r confirmatory}
+# Five tests on each measure, fifteen in all:
+#
+#   1. Slight minus None, averaged over label and source time;
+#   2. Dramatic minus Slight, averaged the same way;
+#   3. Human minus AI, averaged over source time and modification, by an
+#      equivalence test against plus or minus 0.224 rating points;
+#   4. source time, an F test averaged over the other factors;
+#   5. source time by modification, an F test.
+#
+# Tests 1 and 2 are contrasts between estimated marginal means, each with a
+# two-sided t test. Test 3 is two one-sided tests: one asks whether the
+# difference lies above -0.224, the other whether it lies below +0.224, and
+# both pass exactly when the 90 percent confidence interval lies inside the
+# bound. The larger of the two one-sided p-values is the test's p-value.
+# Tests 4 and 5 come from the type III table, in which each term is tested
+# with every other term in the model. Degrees of freedom are Satterthwaite's
+# throughout.
+#
+# Holm's method corrects the fifteen together: the p-values are ordered, the
+# smallest is compared with .05 divided by fifteen, the next with .05 divided
+# by fourteen, and so on, stopping at the first that fails. This holds the
+# chance of any false positive among the fifteen at .05. The correction is
+# told the family has fifteen members whatever happens, so a missing p-value
+# never makes it lighter for the others.
+run_clear_outputs(run,
+                  file.path(OUT_TABLES, "study4_lmm_anova.csv"),
+                  file.path(OUT_TABLES, "study4_confirmatory_family.csv"),
+                  file.path(OUT_TABLES, "study4_hypotheses.csv"))
+
+# emmeans switches off Satterthwaite degrees of freedom above 3,000
+# observations unless told otherwise. The registration names them, so the
+# limit is raised above the size of any model here.
+emm_of <- function(res, spec) {
+  emmeans::emmeans(res$fit, specs = spec, data = res$data,
+                   lmer.df = "satterthwaite", lmerTest.limit = 20000)
+}
+
+# Two one-sided tests of an estimate against plus or minus a bound.
+tost <- function(est, se, df, bound, alpha = ALPHA) {
+  p_lower <- pt((est + bound) / se, df, lower.tail = FALSE)
+  p_upper <- pt((est - bound) / se, df, lower.tail = TRUE)
+  crit <- qt(1 - alpha, df)
+  tibble(ci90_low = est - crit * se, ci90_high = est + crit * se,
+         p_lower = p_lower, p_upper = p_upper, tost_p = pmax(p_lower, p_upper))
+}
+
+MOD_CONTRASTS <- list("Slight minus None"     = c(-1, 1, 0),
+                      "Dramatic minus Slight" = c(0, -1, 1))
+TEST_NAMES <- c("Slight minus None",
+                "Dramatic minus Slight",
+                "Human minus AI, equivalence within plus or minus 0.224",
+                "source time",
+                "source time by modification")
+
+anova_rows <- function(res, m) {
+  if (isTRUE(res$status$fit_error)) {
+    return(tibble(measure = m, term = NA_character_, note = fit_note(res$status)))
+  }
+  a <- as.data.frame(anova(res$fit, type = "III", ddf = "Satterthwaite"))
+  tibble(measure = m, term = rownames(a), num_df = a$NumDF, den_df = a$DenDF,
+         F = a[["F value"]], p = na_unless_usable(a[["Pr(>F)"]], res$status),
+         converged = res$status$converged, singular = res$status$singular,
+         note = fit_note(res$status))
+}
+
+family_rows <- function(res, m) {
+  base <- tibble(measure = m, test_number = 1:5, test = TEST_NAMES,
+                 hypothesis = c("H1", "H1", "H2", "H3", "H3"),
+                 kind = c("contrast, two-sided t test", "contrast, two-sided t test",
+                          "equivalence, two one-sided t tests", "F test", "F test"),
+                 converged = res$status$converged, singular = res$status$singular,
+                 note = fit_note(res$status))
+  if (isTRUE(res$status$fit_error)) return(base)
+  mc <- as_tibble(summary(emmeans::contrast(emm_of(res, ~ modification),
+                                            MOD_CONTRASTS, adjust = "none"),
+                          infer = c(FALSE, TRUE)))
+  lc <- as_tibble(summary(emmeans::contrast(emm_of(res, ~ label),
+                                            list("Human minus AI" = c(1, -1)),
+                                            adjust = "none"),
+                          infer = c(FALSE, TRUE)))
+  eq <- tost(lc$estimate, lc$SE, lc$df, EQ_BOUND)
+  # emmeans gives the same equivalence p-value through its own test.
+  eq_emm <- as_tibble(summary(emmeans::test(
+    emmeans::contrast(emm_of(res, ~ label), list("Human minus AI" = c(1, -1))),
+    delta = EQ_BOUND, side = "equivalence")))$p.value
+  stopifnot(abs(eq_emm - eq$tost_p) < 1e-8)
+  a <- as.data.frame(anova(res$fit, type = "III", ddf = "Satterthwaite"))
+  f_terms <- c("source_time", "source_time:modification")
+  base %>% mutate(
+    term      = c("modification", "modification", "label", f_terms),
+    estimate  = c(mc$estimate, lc$estimate, NA, NA),
+    std_error = c(mc$SE, lc$SE, NA, NA),
+    statistic = c(mc$t.ratio, lc$t.ratio, a[f_terms, "F value"]),
+    num_df    = c(NA, NA, NA, a[f_terms, "NumDF"]),
+    den_df    = c(mc$df, lc$df, a[f_terms, "DenDF"]),
+    ci90_low  = c(NA, NA, eq$ci90_low, NA, NA),
+    ci90_high = c(NA, NA, eq$ci90_high, NA, NA),
+    p_lower   = c(NA, NA, eq$p_lower, NA, NA),
+    p_upper   = c(NA, NA, eq$p_upper, NA, NA),
+    p_raw     = na_unless_usable(c(mc$p.value, eq$tost_p, a[f_terms, "Pr(>F)"]),
+                                 res$status),
+    ci90_inside_bound = na_unless_usable(
+      c(NA, NA, eq$ci90_low > -EQ_BOUND & eq$ci90_high < EQ_BOUND, NA, NA),
+      res$status))
+}
+
+lmm_anova <- bind_rows(lapply(MEASURES, function(m) anova_rows(primary[[m]], m)))
+write_csv(lmm_anova, file.path(OUT_TABLES, "study4_lmm_anova.csv"))
+
+confirmatory <- bind_rows(lapply(MEASURES, function(m) family_rows(primary[[m]], m))) %>%
+  mutate(p_holm = p.adjust(p_raw, method = "holm", n = N_FAMILY),
+         holm_significant = p_holm < ALPHA,
+         bound = ifelse(test_number == 3, EQ_BOUND, NA_real_),
+         family = "fifteen registered tests, five per measure, Holm, family-wise alpha .05",
+         model = paste0(FORMULA_TEXT, ", sum-to-zero contrasts, REML, bobyqa; ",
+                        "Satterthwaite degrees of freedom")) %>%
+  relocate(p_holm, holm_significant, .after = p_raw) %>%
+  relocate(converged, singular, note, .after = bound)
+stopifnot(nrow(confirmatory) == N_FAMILY,
+          all((confirmatory$p_raw[confirmatory$test_number == 3] < ALPHA) ==
+                confirmatory$ci90_inside_bound[confirmatory$test_number == 3],
+              na.rm = TRUE))
+write_csv(confirmatory, file.path(OUT_TABLES, "study4_confirmatory_family.csv"))
+print(as.data.frame(confirmatory %>%
+                      select(measure, test, estimate, statistic, den_df, p_raw,
+                             p_holm, holm_significant) %>%
+                      mutate(across(where(is.numeric), ~ signif(.x, 4)))))
+```
+
+## 6.2 The registered reading of each hypothesis
+
+```{r hypotheses}
+# H1 holds on a measure when Slight minus None and Dramatic minus Slight are
+# both positive and both survive the Holm correction. H2 holds on a measure
+# when the equivalence test of Human minus AI survives the Holm correction,
+# so that the label's average effect lies inside plus or minus 0.224. H3 has
+# no predicted direction, and its two F tests are read as surviving the
+# correction or not. A measure whose fit is not usable gets no verdict. The
+# table has one row per measure and hypothesis reading, and two more for H1
+# and H2 over all three measures.
+hypotheses <- bind_rows(lapply(MEASURES, function(m) {
+  f <- confirmatory %>% filter(measure == m)
+  usable <- fit_usable(primary[[m]]$status)
+  t1 <- f[f$test_number == 1, ]; t2 <- f[f$test_number == 2, ]
+  t3 <- f[f$test_number == 3, ]; t4 <- f[f$test_number == 4, ]
+  t5 <- f[f$test_number == 5, ]
+  h1_met <- t1$estimate > 0 & t1$holm_significant & t2$estimate > 0 & t2$holm_significant
+  tibble(
+    measure = m,
+    hypothesis = c("H1", "H2", "H3", "H3"),
+    test = c("Slight minus None and Dramatic minus Slight", TEST_NAMES[3],
+             TEST_NAMES[4], TEST_NAMES[5]),
+    requirement = c(
+      "both contrasts positive and significant after Holm",
+      "equivalence p-value below .05 after Holm",
+      "no predicted direction; significant after Holm or not",
+      "no predicted direction; significant after Holm or not"),
+    verdict = if (!usable) NA_character_ else c(
+      if (h1_met) "supported" else "not supported",
+      if (t3$holm_significant) "inside the bound" else "not shown inside the bound",
+      if (t4$holm_significant) "significant after Holm" else "not significant after Holm",
+      if (t5$holm_significant) "significant after Holm" else "not significant after Holm"),
+    note = fit_note(primary[[m]]$status, what = "verdict"))
+}))
+
+# The registration states H1 and H2 for every measure, so each also gets one
+# reading over the three measures. It holds when it holds on all three, it
+# fails when it fails on any one, and it has no reading while some measure
+# has no verdict.
+across_measures <- function(h, test, met, holds, fails) {
+  v <- hypotheses$verdict[hypotheses$hypothesis == h]
+  stopifnot(length(v) == length(MEASURES))
+  tibble(measure = "all three measures", hypothesis = h, test = test,
+         requirement = paste0(met, " on each of the three measures"),
+         verdict = if (anyNA(v)) NA_character_ else if (all(v == met)) holds else fails,
+         note = if (anyNA(v)) "some measure has no verdict, so this reading is NA" else "")
+}
+hypotheses <- bind_rows(
+  hypotheses,
+  across_measures("H1", "Slight minus None and Dramatic minus Slight", "supported",
+                  "supported", "not supported"),
+  across_measures("H2", TEST_NAMES[3], "inside the bound",
+                  "inside the bound", "not shown inside the bound"))
+stopifnot(nrow(hypotheses) == 4 * length(MEASURES) + 2)
+write_csv(hypotheses, file.path(OUT_TABLES, "study4_hypotheses.csv"))
+print(as.data.frame(select(hypotheses, measure, hypothesis, test, verdict)))
+```
+
+## 6.3 Estimated marginal means
+
+```{r emmeans}
+# From each fit: the predicted mean of every cell of label, source time and
+# modification, and the predicted mean of each level of each factor averaged
+# over the other two, with 95 percent confidence intervals.
+run_clear_outputs(run,
+                  file.path(OUT_TABLES, "study4_emmeans_cells.csv"),
+                  file.path(OUT_TABLES, "study4_emmeans_marginal.csv"))
+
+emm_frame <- function(res, m, spec) {
+  if (!fit_usable(res$status)) {
+    return(tibble(measure = m, note = fit_note(res$status, "mean")))
+  }
+  as_tibble(summary(emm_of(res, spec))) %>%
+    mutate(across(where(is.factor), as.character)) %>%
+    rename(std_error = SE, ci95_low = lower.CL, ci95_high = upper.CL) %>%
+    mutate(measure = m, .before = 1) %>%
+    mutate(note = "")
+}
+emm_cells <- bind_rows(lapply(MEASURES, function(m) {
+  emm_frame(primary[[m]], m, ~ label * source_time * modification)
+}))
+emm_marginal <- bind_rows(lapply(MEASURES, function(m) {
+  bind_rows(lapply(c("label", "source_time", "modification"), function(f) {
+    emm_frame(primary[[m]], m, as.formula(paste("~", f))) %>%
+      rename(level = all_of(f)) %>%
+      mutate(factor = f, .after = measure)
+  }))
+}))
+stopifnot(nrow(emm_cells) == 3 * 18, nrow(emm_marginal) == 3 * 8)
+write_csv(emm_cells, file.path(OUT_TABLES, "study4_emmeans_cells.csv"))
+write_csv(emm_marginal, file.path(OUT_TABLES, "study4_emmeans_marginal.csv"))
+print(as.data.frame(emm_marginal %>% select(measure, factor, level, emmean, ci95_low,
+                                            ci95_high) %>%
+                      mutate(across(where(is.numeric), ~ signif(.x, 4)))))
+```
+
+# 7. The cumulative-link check of each verdict
+
+```{r clmm}
+# A cumulative-link mixed model treats the five answers as ordered
+# categories: it estimates where the cut points between neighbouring answers
+# fall on an underlying scale instead of treating the answers as evenly
+# spaced numbers. Each measure's registered model is refitted in that form,
+# with the logit link (a logistic curve for the chance of answering above
+# each cut point), the same fixed and random terms and the same sum-to-zero
+# contrasts, by the Laplace approximation (the ordinal package's default way
+# of averaging over the participant and source adjustments):
+#
+#   ordered rating ~ label x source time x modification + (1 | participant) + (1 | source)
+#
+# Tests 1 and 2 become Wald z tests of the same contrasts on the underlying
+# scale (the contrast divided by its standard error, compared with a normal
+# distribution). Tests 4 and 5 become Wald chi-square tests of the same
+# terms (the squared estimates weighed against their covariance, compared
+# with a chi-square distribution). Test 3 has no counterpart: its bound is in
+# rating points, and the underlying scale has no rating points, so it is not
+# checked. The twelve p-values are corrected by Holm as members of the
+# registered family of fifteen, so the correction is no lighter than the
+# linear model's, and each verdict is set beside the linear model's.
+#
+# A fit counts as converged when the optimizer returns code 0 and raises no
+# warning about convergence or the Hessian (the matrix of second derivatives
+# the standard errors come from), as in Study 1. It counts as singular when a
+# random-effect standard deviation lies below 1e-4.
+run_clear_outputs(run, file.path(OUT_TABLES, "study4_clmm_check.csv"))
+
+fit_clmm <- function(d) {
+  d$rating_ord <- factor(d$rating, levels = 1:5, ordered = TRUE)
+  warns <- character(0)
+  fit <- withCallingHandlers(
+    tryCatch(ordinal::clmm(rating_ord ~ label * source_time * modification +
+                             (1 | id) + (1 | source),
+                           data = d, link = "logit", Hess = TRUE,
+                           contrasts = SUM_CONTRASTS),
+             error = function(e) e),
+    warning = function(w) {
+      warns <<- c(warns, conditionMessage(w))
+      invokeRestart("muffleWarning")
+    })
+  failed <- inherits(fit, "error")
+  status <- tibble(
+    fit_error = failed,
+    converged = !failed && isTRUE(fit$optRes$convergence == 0) &&
+      !any(grepl("converge|Hessian", warns, ignore.case = TRUE)),
+    singular  = if (failed) NA else
+      any(vapply(ordinal::VarCorr(fit), function(m) any(attr(m, "stddev") < 1e-4),
+                 logical(1))),
+    lme4_messages = paste(unique(c(if (failed) conditionMessage(fit), warns)),
+                          collapse = " | "))
+  list(fit = fit, data = d, status = status,
+       max_abs_gradient = if (failed) NA_real_ else max(abs(fit$gradient)))
+}
+
+# The contrasts of tests 1 and 2 as weights on the fixed effects. Each level's
+# mean is the average of the model's rows for the 18 cells at that level,
+# which with sum-to-zero contrasts averages over label and source time with
+# equal weights, as emmeans does.
+grid <- expand.grid(label = factor(LABEL_LEVELS, LABEL_LEVELS),
+                    source_time = factor(TIME_LEVELS, TIME_LEVELS),
+                    modification = factor(MOD_LEVELS, MOD_LEVELS))
+X_grid <- model.matrix(FIXED_RHS, grid, contrasts.arg = SUM_CONTRASTS)
+level_row <- function(level) colMeans(X_grid[grid$modification == level, , drop = FALSE])
+L_CONTRASTS <- list(
+  "Slight minus None"     = (level_row("Slight") - level_row("None"))[-1],
+  "Dramatic minus Slight" = (level_row("Dramatic") - level_row("Slight"))[-1])
+TERM_ASSIGN <- attr(X_grid, "assign")[-1]
+TERM_LABELS <- attr(terms(FIXED_RHS), "term.labels")
+
+# The same weights applied to each linear model's fixed effects reproduce the
+# emmeans contrasts of section 6, which shows the weights are right.
+for (m in MEASURES) {
+  res <- primary[[m]]
+  if (isTRUE(res$status$fit_error)) next
+  b <- lme4::fixef(res$fit)[-1]
+  stopifnot(identical(names(b), names(L_CONTRASTS[[1]])))
+  est <- vapply(L_CONTRASTS, function(L) sum(L * b), numeric(1))
+  ref <- confirmatory %>% filter(measure == m, test_number %in% 1:2)
+  stopifnot(max(abs(est - ref$estimate)) < 1e-8)
+}
+
+clmm_wald <- function(cl) {
+  beta <- cl$fit$beta
+  stopifnot(identical(names(beta), names(L_CONTRASTS[[1]])))
+  V <- as.matrix(vcov(cl$fit))[names(beta), names(beta)]
+  contrast_rows <- bind_rows(lapply(names(L_CONTRASTS), function(nm) {
+    L <- L_CONTRASTS[[nm]]
+    est <- sum(L * beta)
+    se  <- sqrt(as.numeric(t(L) %*% V %*% L))
+    tibble(test = nm, clmm_estimate = est, clmm_statistic = est / se, clmm_df = 1L,
+           clmm_p_raw = 2 * pnorm(-abs(est / se)))
+  }))
+  term_rows <- bind_rows(lapply(c("source_time", "source_time:modification"), function(term) {
+    idx <- which(TERM_ASSIGN == match(term, TERM_LABELS))
+    b <- beta[idx]
+    w <- as.numeric(t(b) %*% solve(V[idx, idx, drop = FALSE], b))
+    tibble(test = TEST_NAMES[match(term, c("source_time", "source_time:modification")) + 3],
+           clmm_estimate = NA_real_, clmm_statistic = w, clmm_df = length(idx),
+           clmm_p_raw = pchisq(w, length(idx), lower.tail = FALSE))
+  }))
+  bind_rows(contrast_rows, term_rows)
+}
+
+clmm_fits <- lapply(data_by_measure, fit_clmm)
+clmm_check <- bind_rows(lapply(MEASURES, function(m) {
+  cl <- clmm_fits[[m]]
+  usable <- fit_usable(cl$status)
+  w <- if (isTRUE(cl$status$fit_error)) {
+    tibble(test = TEST_NAMES[c(1, 2, 4, 5)], clmm_estimate = NA_real_,
+           clmm_statistic = NA_real_, clmm_df = NA_integer_, clmm_p_raw = NA_real_)
+  } else clmm_wald(cl)
+  w %>% mutate(measure = m, .before = 1) %>%
+    mutate(clmm_p_raw = if (usable) clmm_p_raw else NA_real_,
+           clmm_converged = cl$status$converged,
+           clmm_singular  = cl$status$singular,
+           max_abs_gradient = cl$max_abs_gradient,
+           note = fit_note(cl$status))
+})) %>%
+  mutate(clmm_p_holm = p.adjust(clmm_p_raw, method = "holm", n = N_FAMILY),
+         clmm_holm_significant = clmm_p_holm < ALPHA) %>%
+  left_join(confirmatory %>% select(measure, test, test_number, lmm_estimate = estimate,
+                                    lmm_p_holm = p_holm,
+                                    lmm_holm_significant = holm_significant),
+            by = c("measure", "test")) %>%
+  mutate(same_direction = ifelse(test_number %in% 1:2,
+                                 sign(clmm_estimate) == sign(lmm_estimate), NA),
+         verdicts_agree = clmm_holm_significant == lmm_holm_significant &
+           (is.na(same_direction) | same_direction),
+         model = "ordered rating ~ label * source_time * modification + (1 | id) + (1 | source), logit link, Laplace approximation, sum-to-zero contrasts; Wald tests") %>%
+  relocate(test_number, .after = measure) %>%
+  arrange(measure, test_number)
+stopifnot(nrow(clmm_check) == 12)
+write_csv(clmm_check, file.path(OUT_TABLES, "study4_clmm_check.csv"))
+for (m in MEASURES) {
+  cl <- clmm_fits[[m]]
+  cat(sprintf("%-18s cumulative-link fit: fit error %s | converged %s | singular %s | largest absolute gradient %s\n",
+              m, cl$status$fit_error, cl$status$converged, cl$status$singular,
+              signif(cl$max_abs_gradient, 3)))
+}
+print(as.data.frame(clmm_check %>%
+                      select(measure, test, clmm_p_holm, clmm_holm_significant,
+                             lmm_holm_significant, verdicts_agree) %>%
+                      mutate(across(where(is.numeric), ~ signif(.x, 4)))))
+```
+
+# 8. Secondary analyses
+
+```{r secondary}
+# Registration question 8 names three secondary analyses. None enters the
+# Holm family, and no p-value here is corrected.
+#
+#   (a) The label effect at each modification level: Human minus AI at None,
+#       Slight and Dramatic, averaged over source time, with its 95 percent
+#       interval and two-sided test, and its equivalence test against the
+#       same bound of plus or minus 0.224.
+#   (b) Whether source time changes the label effect: the label by source
+#       time F test from the type III table, and Human minus AI at each
+#       source time, averaged over modification.
+#   (c) Whether 100 hours and less than 1 hour are equivalent: the contrast
+#       averaged over label and modification, with its equivalence test
+#       against the same bound.
+#
+# The fourth secondary analysis, the refit without Human-arm participants who
+# write that a machine made the work, runs in Study4_03_Integration.Rmd.
+run_clear_outputs(run,
+                  file.path(OUT_TABLES, "study4_secondary_label_by_modification.csv"),
+                  file.path(OUT_TABLES, "study4_secondary_label_by_source_time.csv"),
+                  file.path(OUT_TABLES, "study4_secondary_time_equivalence.csv"))
+
+contrast_table <- function(res, m, spec, weights) {
+  ct <- emmeans::contrast(emm_of(res, spec), weights, adjust = "none")
+  as_tibble(summary(ct, infer = c(TRUE, TRUE), level = 0.95)) %>%
+    mutate(across(where(is.factor), as.character)) %>%
+    rename(std_error = SE, ci95_low = lower.CL, ci95_high = upper.CL,
+           t = t.ratio, p_two_sided = p.value) %>%
+    mutate(measure = m, .before = 1) %>%
+    mutate(across(c(ci95_low, ci95_high, p_two_sided),
+                  ~ na_unless_usable(.x, res$status)))
+}
+with_tost <- function(tab, res) {
+  eq <- tost(tab$estimate, tab$std_error, tab$df, EQ_BOUND)
+  tab %>% mutate(bound = EQ_BOUND,
+                 ci90_low = na_unless_usable(eq$ci90_low, res$status),
+                 ci90_high = na_unless_usable(eq$ci90_high, res$status),
+                 tost_p = na_unless_usable(eq$tost_p, res$status),
+                 inside_bound = tost_p < ALPHA)
+}
+
+label_by_mod <- bind_rows(lapply(MEASURES, function(m) {
+  res <- primary[[m]]
+  if (!fit_usable(res$status)) return(tibble(measure = m, note = fit_note(res$status)))
+  contrast_table(res, m, ~ label | modification, list("Human minus AI" = c(1, -1))) %>%
+    with_tost(res) %>%
+    mutate(averaged_over = "source time, equal weights", correction = "none", note = "")
+}))
+
+label_by_time <- bind_rows(lapply(MEASURES, function(m) {
+  res <- primary[[m]]
+  if (!fit_usable(res$status)) return(tibble(measure = m, note = fit_note(res$status)))
+  f <- lmm_anova %>% filter(measure == m, term == "label:source_time")
+  contrast_table(res, m, ~ label | source_time, list("Human minus AI" = c(1, -1))) %>%
+    mutate(averaged_over = "modification, equal weights",
+           interaction_F = f$F, interaction_num_df = f$num_df,
+           interaction_den_df = f$den_df, interaction_p = f$p,
+           correction = "none", note = "")
+}))
+
+time_equivalence <- bind_rows(lapply(MEASURES, function(m) {
+  res <- primary[[m]]
+  if (!fit_usable(res$status)) return(tibble(measure = m, note = fit_note(res$status)))
+  contrast_table(res, m, ~ source_time,
+                 list("100 hours minus less than 1 hour" = c(-1, 0, 1))) %>%
+    with_tost(res) %>%
+    mutate(averaged_over = "label and modification, equal weights",
+           correction = "none", note = "")
+}))
+
+stopifnot(nrow(label_by_mod) == 9, nrow(label_by_time) == 9, nrow(time_equivalence) == 3)
+write_csv(label_by_mod, file.path(OUT_TABLES, "study4_secondary_label_by_modification.csv"))
+write_csv(label_by_time, file.path(OUT_TABLES, "study4_secondary_label_by_source_time.csv"))
+write_csv(time_equivalence, file.path(OUT_TABLES, "study4_secondary_time_equivalence.csv"))
+print(as.data.frame(label_by_mod %>% select(measure, modification, estimate, ci95_low,
+                                            ci95_high, tost_p, inside_bound) %>%
+                      mutate(across(where(is.numeric), ~ signif(.x, 4)))))
+print(as.data.frame(label_by_time %>% select(measure, source_time, estimate, ci95_low,
+                                             ci95_high, interaction_p) %>%
+                      mutate(across(where(is.numeric), ~ signif(.x, 4)))))
+print(as.data.frame(time_equivalence %>% select(measure, estimate, ci90_low, ci90_high,
+                                                tost_p, inside_bound) %>%
+                      mutate(across(where(is.numeric), ~ signif(.x, 4)))))
+```
+
+# 9. Fit status
+
+```{r fit-status}
+# One row per fit in this file: the registered model and the cumulative-link
+# model, on each measure. A fit is usable when it did not stop with an error
+# and converged; a singular fit that converged keeps its numbers.
+run_clear_outputs(run, file.path(OUT_TABLES, "study4_fit_status.csv"))
+status_row <- function(status, m, role, formula, d) {
+  status %>%
+    select(fit_error, converged, singular, lme4_messages) %>%
+    mutate(measure = m, role = role, model = formula, n_obs = nrow(d),
+           n_participants = n_distinct(d$id), n_sources = n_distinct(d$source),
+           usable = fit_usable(status), .before = 1)
+}
+fit_status <- bind_rows(lapply(MEASURES, function(m) {
+  bind_rows(
+    status_row(primary[[m]]$status, m, "registered model", FORMULA_TEXT,
+               data_by_measure[[m]]),
+    status_row(clmm_fits[[m]]$status, m, "cumulative-link check",
+               "ordered rating ~ label * source_time * modification + (1 | id) + (1 | source)",
+               data_by_measure[[m]]))
+}))
+print(as.data.frame(select(fit_status, measure, role, n_obs, usable, fit_error,
+                           converged, singular)))
+write_csv(fit_status, file.path(OUT_TABLES, "study4_fit_status.csv"))
+cat("Linear mixed models converged:",
+    sum(fit_status$converged[fit_status$role == "registered model"]), "of 3 | singular:",
+    sum(fit_status$singular[fit_status$role == "registered model"] %in% TRUE), "\n")
+cat("Cumulative-link models converged:",
+    sum(fit_status$converged[fit_status$role == "cumulative-link check"]), "of 3 | singular:",
+    sum(fit_status$singular[fit_status$role == "cumulative-link check"] %in% TRUE), "\n")
+```
+
+# 10. Session information and the run manifest
+
+```{r session-info}
+SESSION_PATH  <- file.path(OUT_TABLES, "study4_quant_sessionInfo.txt")
+VERSIONS_PATH <- file.path(OUT_TABLES, "study4_quant_package_versions.csv")
+run_clear_outputs(run, SESSION_PATH, VERSIONS_PATH)
+writeLines(capture.output(sessionInfo()), SESSION_PATH)
+pkgs <- c("readr", "dplyr", "tidyr", "tibble", "jsonlite", "Matrix", "lme4",
+          "lmerTest", "emmeans", "ordinal", "rmarkdown", "knitr")
+write_csv(tibble(package = pkgs,
+                 version = vapply(pkgs, function(p) as.character(packageVersion(p)),
+                                  character(1))),
+          VERSIONS_PATH)
+sessionInfo()
+```
+
+```{r manifest}
+# The manifest lists every output this run registered, whether this run
+# wrote it, and its SHA-256 checksum. It is written last.
+manifest <- write_run_manifest(run)
+stopifnot(all(manifest$written_this_run))
+if (!UNBLIND) {
+  cat("\nBlind run: the labels were shuffled, and nothing in this report is a result.\n")
+}
+```

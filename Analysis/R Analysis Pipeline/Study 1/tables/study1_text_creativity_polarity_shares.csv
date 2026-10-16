@@ -1,0 +1,9 @@
+arm,dimension,topic,n_flagged,n_asserted,n_negated,quantity,estimate,ci_lo,ci_hi,B,n_valid,resampled,n_responses,n_participants
+Human,creativity,detail,68,60,8,share_asserted,0.8823529411764706,0.7974591818015043,0.9523995535714285,2000,2000,"participants, with replacement",560,56
+Human,creativity,detail,68,60,8,share_negated,0.11764705882352941,0.047600446428571426,0.20254081819849562,2000,2000,"participants, with replacement",560,56
+Human,creativity,time,8,7,1,share_asserted,0.875,0.5431818181818183,1,2000,1999,"participants, with replacement",560,56
+Human,creativity,time,8,7,1,share_negated,0.125,0,0.45681818181817974,2000,1999,"participants, with replacement",560,56
+Human,creativity,skill,5,5,0,share_asserted,1,1,1,2000,1963,"participants, with replacement",560,56
+Human,creativity,skill,5,5,0,share_negated,0,0,0,2000,1963,"participants, with replacement",560,56
+Human,creativity,concept,150,135,15,share_asserted,0.9,0.8456375838926175,0.9483870967741935,2000,2000,"participants, with replacement",560,56
+Human,creativity,concept,150,135,15,share_negated,0.1,0.05161290322580645,0.15436241610738255,2000,2000,"participants, with replacement",560,56

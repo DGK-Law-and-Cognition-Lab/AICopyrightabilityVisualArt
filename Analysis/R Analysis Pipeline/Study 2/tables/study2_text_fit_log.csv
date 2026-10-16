@@ -1,0 +1,42 @@
+step,dimension,kind,usable,n_obs,fit_error,converged,singular,lme4_messages
+"4.2 valence ~ source x rating, transformativeness",transformativeness,linear mixed model,TRUE,5998,FALSE,TRUE,FALSE,
+"4.2 arousal ~ source x rating, transformativeness",transformativeness,linear mixed model,TRUE,5998,FALSE,TRUE,FALSE,
+"4.2 dominance ~ source x rating, transformativeness",transformativeness,linear mixed model,TRUE,5998,FALSE,TRUE,FALSE,
+"4.2 concreteness ~ source x rating, transformativeness",transformativeness,linear mixed model,TRUE,6133,FALSE,TRUE,FALSE,
+"4.2 valence ~ source x rating, essence_change",essence_change,linear mixed model,TRUE,6457,FALSE,TRUE,FALSE,
+"4.2 arousal ~ source x rating, essence_change",essence_change,linear mixed model,TRUE,6457,FALSE,TRUE,FALSE,
+"4.2 dominance ~ source x rating, essence_change",essence_change,linear mixed model,TRUE,6457,FALSE,TRUE,FALSE,
+"4.2 concreteness ~ source x rating, essence_change",essence_change,linear mixed model,TRUE,6552,FALSE,TRUE,FALSE,
+"4.2 valence ~ source x rating, creativity",creativity,linear mixed model,TRUE,6271,FALSE,TRUE,FALSE,
+"4.2 arousal ~ source x rating, creativity",creativity,linear mixed model,TRUE,6271,FALSE,TRUE,FALSE,
+"4.2 dominance ~ source x rating, creativity",creativity,linear mixed model,TRUE,6271,FALSE,TRUE,FALSE,
+"4.2 concreteness ~ source x rating, creativity",creativity,linear mixed model,TRUE,6425,FALSE,TRUE,FALSE,
+"4.3 topic 1 weight ~ source + rating, transformativeness",transformativeness,linear mixed model,TRUE,6252,FALSE,TRUE,FALSE,
+"4.3 topic 2 weight ~ source + rating, transformativeness",transformativeness,linear mixed model,TRUE,6252,FALSE,TRUE,FALSE,
+"4.3 topic 3 weight ~ source + rating, transformativeness",transformativeness,linear mixed model,TRUE,6252,FALSE,TRUE,FALSE,
+"4.3 topic 4 weight ~ source + rating, transformativeness",transformativeness,linear mixed model,TRUE,6252,FALSE,TRUE,FALSE,
+"4.3 topic 5 weight ~ source + rating, transformativeness",transformativeness,linear mixed model,TRUE,6252,FALSE,TRUE,FALSE,
+"4.3 topic 6 weight ~ source + rating, transformativeness",transformativeness,linear mixed model,TRUE,6252,FALSE,TRUE,FALSE,
+"4.3 topic 7 weight ~ source + rating, transformativeness",transformativeness,linear mixed model,TRUE,6252,FALSE,TRUE,FALSE,
+"4.3 topic 8 weight ~ source + rating, transformativeness",transformativeness,linear mixed model,TRUE,6252,FALSE,TRUE,FALSE,
+"4.3 topic 1 weight ~ source + rating, essence_change",essence_change,linear mixed model,TRUE,6657,FALSE,TRUE,FALSE,
+"4.3 topic 2 weight ~ source + rating, essence_change",essence_change,linear mixed model,TRUE,6657,FALSE,TRUE,TRUE,boundary (singular) fit: see help('isSingular')
+"4.3 topic 3 weight ~ source + rating, essence_change",essence_change,linear mixed model,TRUE,6657,FALSE,TRUE,FALSE,
+"4.3 topic 1 weight ~ source + rating, creativity",creativity,linear mixed model,TRUE,6547,FALSE,TRUE,FALSE,
+"4.3 topic 2 weight ~ source + rating, creativity",creativity,linear mixed model,TRUE,6547,FALSE,TRUE,FALSE,
+"4.3 topic 3 weight ~ source + rating, creativity",creativity,linear mixed model,TRUE,6547,FALSE,TRUE,FALSE,
+"4.3 topic 4 weight ~ source + rating, creativity",creativity,linear mixed model,TRUE,6547,FALSE,TRUE,FALSE,
+"4.3 topic 5 weight ~ source + rating, creativity",creativity,linear mixed model,TRUE,6547,FALSE,TRUE,FALSE,
+"4.3 topic 6 weight ~ source + rating, creativity",creativity,linear mixed model,TRUE,6547,FALSE,TRUE,FALSE,
+"4.3 topic 7 weight ~ source + rating, creativity",creativity,linear mixed model,TRUE,6547,FALSE,TRUE,FALSE,
+"4.3 topic 8 weight ~ source + rating, creativity",creativity,linear mixed model,TRUE,6547,FALSE,TRUE,FALSE,
+"3.1 recoverability, registered",creativity,ridge regressions,TRUE,NA,FALSE,TRUE,NA,status ok; no warning from any observed fit
+"3.2 within-person overlap, registered",creativity,ordinary least squares,TRUE,NA,FALSE,TRUE,NA,status ok; ordinary least squares
+"4.1 recoverability, exploratory",transformativeness,ridge regressions,TRUE,NA,FALSE,TRUE,NA,status ok; no warning from any observed fit
+"4.1 recoverability, exploratory",essence_change,ridge regressions,TRUE,NA,FALSE,TRUE,NA,status ok; no warning from any observed fit
+"4.4 lasso word weights, rating model",transformativeness,lasso regression,TRUE,NA,FALSE,TRUE,NA,status ok; no warning from any fit
+"4.4 lasso word weights, arm model",transformativeness,lasso regression,TRUE,NA,FALSE,TRUE,NA,status ok; no warning from any fit
+"4.4 lasso word weights, rating model",essence_change,lasso regression,TRUE,NA,FALSE,TRUE,NA,status ok; no warning from any fit
+"4.4 lasso word weights, arm model",essence_change,lasso regression,TRUE,NA,FALSE,TRUE,NA,status ok; no warning from any fit
+"4.4 lasso word weights, rating model",creativity,lasso regression,TRUE,NA,FALSE,TRUE,NA,status ok; no warning from any fit
+"4.4 lasso word weights, arm model",creativity,lasso regression,TRUE,NA,FALSE,TRUE,NA,status ok; no warning from any fit

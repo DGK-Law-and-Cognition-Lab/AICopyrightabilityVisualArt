@@ -1,0 +1,55 @@
+measure,label,source_time,modification,participants,responses,analysed_ratings
+transformativeness,Human,less than 1 hour,None,55,110,96
+transformativeness,Human,less than 1 hour,Slight,55,110,96
+transformativeness,Human,less than 1 hour,Dramatic,55,110,110
+transformativeness,Human,10 hours,None,55,110,103
+transformativeness,Human,10 hours,Slight,55,110,103
+transformativeness,Human,10 hours,Dramatic,55,110,110
+transformativeness,Human,100 hours,None,55,110,98
+transformativeness,Human,100 hours,Slight,55,110,98
+transformativeness,Human,100 hours,Dramatic,55,110,110
+transformativeness,AI,less than 1 hour,None,62,124,110
+transformativeness,AI,less than 1 hour,Slight,62,124,110
+transformativeness,AI,less than 1 hour,Dramatic,62,124,124
+transformativeness,AI,10 hours,None,62,124,109
+transformativeness,AI,10 hours,Slight,62,124,109
+transformativeness,AI,10 hours,Dramatic,62,124,124
+transformativeness,AI,100 hours,None,62,124,116
+transformativeness,AI,100 hours,Slight,62,124,116
+transformativeness,AI,100 hours,Dramatic,62,124,124
+essence_change,Human,less than 1 hour,None,55,110,110
+essence_change,Human,less than 1 hour,Slight,55,110,110
+essence_change,Human,less than 1 hour,Dramatic,55,110,110
+essence_change,Human,10 hours,None,55,110,110
+essence_change,Human,10 hours,Slight,55,110,110
+essence_change,Human,10 hours,Dramatic,55,110,110
+essence_change,Human,100 hours,None,55,110,110
+essence_change,Human,100 hours,Slight,55,110,110
+essence_change,Human,100 hours,Dramatic,55,110,110
+essence_change,AI,less than 1 hour,None,62,124,124
+essence_change,AI,less than 1 hour,Slight,62,124,124
+essence_change,AI,less than 1 hour,Dramatic,62,124,124
+essence_change,AI,10 hours,None,62,124,124
+essence_change,AI,10 hours,Slight,62,124,124
+essence_change,AI,10 hours,Dramatic,62,124,124
+essence_change,AI,100 hours,None,62,124,124
+essence_change,AI,100 hours,Slight,62,124,124
+essence_change,AI,100 hours,Dramatic,62,124,124
+creativity,Human,less than 1 hour,None,55,110,110
+creativity,Human,less than 1 hour,Slight,55,110,110
+creativity,Human,less than 1 hour,Dramatic,55,110,110
+creativity,Human,10 hours,None,55,110,110
+creativity,Human,10 hours,Slight,55,110,110
+creativity,Human,10 hours,Dramatic,55,110,110
+creativity,Human,100 hours,None,55,110,110
+creativity,Human,100 hours,Slight,55,110,110
+creativity,Human,100 hours,Dramatic,55,110,110
+creativity,AI,less than 1 hour,None,62,124,124
+creativity,AI,less than 1 hour,Slight,62,124,124
+creativity,AI,less than 1 hour,Dramatic,62,124,124
+creativity,AI,10 hours,None,62,124,124
+creativity,AI,10 hours,Slight,62,124,124
+creativity,AI,10 hours,Dramatic,62,124,124
+creativity,AI,100 hours,None,62,124,124
+creativity,AI,100 hours,Slight,62,124,124
+creativity,AI,100 hours,Dramatic,62,124,124

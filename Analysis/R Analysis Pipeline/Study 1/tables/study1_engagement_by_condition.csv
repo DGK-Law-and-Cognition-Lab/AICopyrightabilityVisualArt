@@ -1,0 +1,10 @@
+quantity,value
+Human mean % any-text,100
+AI mean % any-text,99.818
+Human mean % contentful,96.429
+AI mean % contentful,98
+Welch t (contentful %),-0.904
+df,105.78
+p,0.368
+Cohen's d,-0.172
+N excluded at median<3 words,1
