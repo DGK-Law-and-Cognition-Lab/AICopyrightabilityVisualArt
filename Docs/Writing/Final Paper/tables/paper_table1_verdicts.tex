@@ -1,0 +1,60 @@
+% Table 1: every registered test of the five studies, with its status, its registered verdict
+% and what had been seen before registration. Numbers come only from generated/numbers.tex;
+% verdicts follow notes/results_ledger.md. A landscape page made with \rotatebox (graphicx);
+% needs booktabs and caption, both loaded in main.tex.
+\begin{table}[p]
+\centering
+\rotatebox{90}{%
+\begin{minipage}{\textheight}
+\captionsetup{font=scriptsize}
+\caption{\textbf{Registered tests and their verdicts.} One row per registered test; measures that reached the same verdict share a row. Verdicts are worded by each registration's decision rule.}
+\label{tab:verdicts}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.90}
+\begin{tabular}{@{}p{0.85cm}p{5.0cm}p{3.2cm}p{1.85cm}p{9.05cm}p{3.65cm}@{}}
+\toprule
+Study & Hypothesis or test & Measure & Status & Registered verdict & Known before registration\tabularnewline
+\midrule
+\multicolumn{6}{@{}l@{}}{\textbf{Originals: the same AI-made images, rated for creativity and effort}}\tabularnewline
+\raggedright 1 & \raggedright H1: the AI label lowers ratings & \raggedright Creativity; effort & \raggedright Confirmatory & \raggedright Supported: AI lower on both; both survive Holm's correction & \raggedright Both drops: \emph{t}-tests, talk\tabularnewline
+ & \raggedright H2: the drop is larger on effort & \raggedright Effort minus creativity & \raggedright Confirmatory & \raggedright Supported: survives Holm's correction; the ordinal model agrees & \raggedright Larger effort drop: talk\tabularnewline
+ & \raggedright H3: the same penalty, figure or not & \raggedright Creativity & \raggedright Own rule & \raggedright Inconclusive: cannot separate no effect from a small one & \raggedright Rule set after analysis\tabularnewline
+ &  & \raggedright Effort & \raggedright Own rule & \raggedright Supported: not significant, and equivalent within $\pm$\SOneHThreeBound & \raggedright As above\tabularnewline
+ & \raggedright H4: spread between vs within people & \raggedright Creativity; effort & \raggedright Confirmatory & \raggedright Not supported as registered: met on effort, not on creativity & \raggedright Quantity set after analysis\tabularnewline
+\raggedright 3 & \raggedright Label ($F$ test) & \raggedright Creativity; effort & \raggedright Confirmatory & \raggedright Supported: significant after Holm's correction, AI lower & \raggedright Reported in the talk\tabularnewline
+ & \raggedright Stated time ($F$ test) & \raggedright Creativity; effort & \raggedright Confirmatory & \raggedright Supported after Holm's correction; 100 hours above under 1 hour & \raggedright Reported in the talk\tabularnewline
+ & \raggedright Label by time ($F$ test) & \raggedright Creativity; effort & \raggedright Confirmatory & \raggedright Does not survive Holm's correction & \raggedright Talk: on effort only\tabularnewline
+ & \raggedright 100-hour gap: equivalence, decision & \raggedright Creativity; effort & \raggedright Confirmatory & \raggedright Not equivalent. Decision: the gap persists & \raggedright Written knowing the talk\tabularnewline
+ & \raggedright 100 hours minus under 1 hour & \raggedright Creativity; effort & \raggedright Secondary & \raggedright Positive on both ratings (95\% intervals above zero) & \raggedright --\tabularnewline
+\midrule
+\multicolumn{6}{@{}l@{}}{\textbf{Second works: hand edits of a labeled original, rated for transformativeness, essence change and creativity}}\tabularnewline
+\raggedright 2 & \raggedright H1: ratings rise with the level & \raggedright All three & \raggedright Confirmatory & \raggedright Holds on every measure: both steps positive and significant & \raggedright Seen: large effects\tabularnewline
+ & \raggedright H2: averaged label effect, $\pm$\SourceBound & \raggedright Transformativeness & \raggedright Confirmatory & \raggedright Small or absent: inside $\pm$\SourceBound & \raggedright Bound set after Study 1\tabularnewline
+ &  & \raggedright Essence change & \raggedright Confirmatory & \raggedright Small or absent: inside $\pm$\SourceBound & \raggedright As above\tabularnewline
+ &  & \raggedright Creativity & \raggedright Confirmatory & \raggedright Not shown to be small (interval inside; Holm $p$~\STwoCreatPenaltyPHolm) & \raggedright Seen: a creativity effect\tabularnewline
+ & \raggedright H3: label effect, None minus Dramatic & \raggedright All three & \raggedright Confirmatory & \raggedright Not significant & \raggedright Seen: none significant\tabularnewline
+\raggedright 4 & \raggedright H1: ratings rise with the level & \raggedright All three & \raggedright Confirmatory & \raggedright Supported on every measure & \raggedright Seen: large effects\tabularnewline
+ & \raggedright H2: averaged label effect, $\pm$\SourceBound & \raggedright Transformativeness & \raggedright Confirmatory & \raggedright Not shown inside the bound (interval inside; Holm $p$~\SFourTransPenaltyPHolm) & \raggedright Seen: label not significant\tabularnewline
+ &  & \raggedright Essence change & \raggedright Confirmatory & \raggedright Inside the bound (Holm $p$~\SFourEssPenaltyPHolm); not shown in the refit & \raggedright As above\tabularnewline
+ &  & \raggedright Creativity & \raggedright Confirmatory & \raggedright Not shown inside the bound (the estimate runs the other way) & \raggedright As above\tabularnewline
+ & \raggedright H3: hours on the original ($F$ test) & \raggedright All three & \raggedright Confirmatory & \raggedright Not significant after Holm's correction & \raggedright Seen: a creativity effect\tabularnewline
+ & \raggedright H3: those hours by level ($F$ test) & \raggedright All three & \raggedright Confirmatory & \raggedright Not significant after Holm's correction & \raggedright --\tabularnewline
+ & \raggedright Label by those hours ($F$ test) & \raggedright All three & \raggedright Secondary & \raggedright Not significant (no correction applies) & \raggedright --\tabularnewline
+ & \raggedright Those hours: 100 minus under 1 & \raggedright All three & \raggedright Secondary & \raggedright Inside the bound on all three measures & \raggedright --\tabularnewline
+ & \raggedright Label effect at each level (Table~\ref{tab:labeleffects}) & \raggedright All three & \raggedright Secondary & \raggedright Inside the bound or not shown inside it, by measure and level & \raggedright Seen: on essence, by level\tabularnewline
+ & \raggedright Refit without flagged participants & \raggedright All three & \raggedright Secondary & \raggedright \SFourNRefitVerdictsChanged{} of \SFourNRefitVerdicts{} verdicts changes: essence change (Holm $p$~\SFourEssPenaltyPHolmRefitPrecise) & \raggedright --\tabularnewline
+\raggedright 5 & \raggedright Editing hours ($F$ test) & \raggedright All three & \raggedright Confirmatory & \raggedright Not significant after Holm's correction & \raggedright --\tabularnewline
+ & \raggedright Editing hours: 100 minus under 1 & \raggedright All three & \raggedright Secondary & \raggedright Absent or small: inside the bound & \raggedright --\tabularnewline
+ & \raggedright Label by editing hours ($F$ test) & \raggedright Transformativeness & \raggedright Confirmatory & \raggedright Not significant after Holm's correction; not shown to be absent & \raggedright --\tabularnewline
+ &  & \raggedright Essence change & \raggedright Confirmatory & \raggedright Not significant after Holm's correction; not shown to be absent & \raggedright --\tabularnewline
+ &  & \raggedright Creativity & \raggedright Confirmatory & \raggedright Significant after Holm's correction (Holm $p$~\SFiveCreatSourceByEditTimePHolm); \SFiveNConfirmatoryHolmSignificant{} of \SFiveNConfirmatory{} passed & \raggedright --\tabularnewline
+ & \raggedright Label effect at each level (Table~\ref{tab:labeleffects}) & \raggedright All three & \raggedright Secondary & \raggedright None: absent or small (all three). Slight: significant, not inside the bound (all three). Dramatic: transformativeness as at Slight; essence change absent or small; creativity inconclusive & \raggedright --\tabularnewline
+\midrule
+\raggedright 1--5 & \raggedright Text checks on the explanations & \raggedright Explanations & \raggedright Secondary & \raggedright Verdicts in the note below & \raggedright Study 1: partly known\tabularnewline
+\bottomrule
+\end{tabular}
+\par\smallskip
+{\raggedright\tiny \textbf{Studies} (analyzed participants; collection): 1 (\SOneN; 25 February to 3 March 2025); 2 (\STwoN; 23 November to 5 December 2024); 3 (\SThreeN; 4 to 9 March 2025); 4 (\SFourN; 27 January to 2 February 2025); 5 (\SFiveN; 21 October to 2 November 2025). \textbf{Registered} means written into a registration, not fixed before collection. All five were filed on OSF on 8 October 2026, after collection: Study~1's after its analyses had been run, the others before the analyses reported here. \textbf{Seen before registration}: April 2025 \emph{t}-tests (Study~1); analyses of variance run by February 2025 and reported at CogSci 2025 (Studies 2 and 4) or run in April 2025 (Study~3); a September 2025 talk on Studies 1, 3 and 4 (`talk'). For Study~5 no rating had been summarized by condition, and both bounds were fixed before any Study~5 model was fitted. \textbf{Status}. \emph{Confirmatory}: decided by the registration's rule, usually after Holm's correction, which raises each $p$-value in a set of tests so that the chance of any false positive in the set stays at .05. \emph{Secondary}: outside that set, and uncorrected unless stated. \emph{Own rule}: Study~1's H3, a significance test read with an equivalence test; its power on creativity was \SOneHThreeCreatPower, so that failed equivalence test is uninformative. An \textbf{equivalence test} asks whether an effect is shown to lie inside a bound. It passes when the 90\% confidence interval lies wholly inside, which means small, not zero. An $F$ test asks whether a factor changes the mean rating. Bounds in points on 1-to-5 scales: $\pm$\SOneHThreeBound{} (Study~1's H3); $\pm$\SourceBound, half of Study~1's creativity penalty of \SOneHOneCreatDiffPrecise{} (label effects and Study~3's gap); $\pm$\SFiveEditTimeBound, the size of Study~3's creativity time effect (editing hours). \textbf{Checks}. Ordinal refits, which treat the answers as ordered categories, agreed with every verdict they re-tested in Studies 2 to 5, except Study~2's creativity refit, which did not converge (not completed). Study~5's analysis with items rescaled from 0 to 1 gave the same verdicts. Study~3's required refit with effects varying by person and image was singular (a variance at the edge of its range), so that requirement was waived. Study~1's H4 needs both ratings; its between-person test survives in the Holm set, which does not mean H4 passed. Flagged: Study~4's \SFourMachineMadeN{} Human-label participants who wrote that a machine made the work. \textbf{Text checks} on the explanations, each written after its rating. Word counts recover the rating in every study: they predict it for people left out of the fit better than a shuffled baseline. They recover the label in Study~1, for Study~3's effort and, barely, in Study~5, and are not shown to elsewhere. They add to the rating in telling the labels apart in Studies 1 and 2 and are inconclusive in Studies 3 to 5. Greater own-word reuse under the AI label is supported for Study~1's effort only.\par}
+\end{minipage}}
+\end{table}

@@ -1,0 +1,34 @@
+% Table 1: the five studies at a glance. One row per study: what it asked, the answer its
+% registered tests gave, and when it was run relative to its registration. Written by
+% tools/make_tables.py; do not edit by hand. Numbers come only from generated/numbers.tex;
+% verdicts follow notes/results_ledger.md and are checked against the pipeline tables.
+% Needs booktabs and caption, both loaded in main.tex.
+\begin{table}[tbp]
+\centering
+\caption{\textbf{The five studies at a glance.} Supplementary Table~1 lists every registered test and its verdict; Supplementary Table~2 gives the label's effect on second works, with intervals.}
+\label{tab:summary}
+\normalsize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{40pt}p{128pt}p{\dimexpr\textwidth-250pt-6\tabcolsep\relax}p{82pt}@{}}
+\toprule
+Study & What it asked & Registered answer & Order run; registered\tabularnewline
+\midrule
+\multicolumn{4}{@{}p{\textwidth}@{}}{\raggedright\textbf{Originals: the same AI-made images, rated for creativity and effort}}\\*
+\addlinespace[2pt]
+\raggedright Study~1\newline $N$~=~\SOneN & \raggedright Does the AI label lower both ratings (H1), effort more (H2), alike with or without a human figure (H3), and spread them more between people (H4)? & \raggedright H1 and H2: supported. H3: supported on effort, inconclusive on creativity. H4: not supported as registered. & \raggedright Ran third; registered after its analyses\tabularnewline
+\addlinespace[3pt]
+\raggedright Study~3\newline $N$~=~\SThreeN & \raggedright With under 1, 10 or 100 hours stated, does the gap (the penalty) close by 100 hours? & \raggedright Decision on both ratings: the gap persists. The AI label lowered ratings and stated time raised them (both supported); a change in the gap with time was not significant. & \raggedright Ran fourth; registered after an Apr. 2025 analysis and a Sept. 2025 talk\tabularnewline
+\addlinespace[3pt]
+\midrule
+\multicolumn{4}{@{}p{\textwidth}@{}}{\raggedright\textbf{Second works: Alex's edits of each labeled original, at three levels}}\\*
+\addlinespace[2pt]
+\raggedright Study~2\newline $N$~=~\STwoN & \raggedright Do ratings of a second work rise with the level of edit (H1)? Is the label's effect small (H2), and does it shrink from None to Dramatic (H3)? & \raggedright H1 holds on every measure. H2, over the three measures: not shown to be small (small or absent on transformativeness and essence change; not shown to be small on creativity). H3: not significant. & \raggedright Ran first; registered after a Feb. 2025 analysis\cite{kamper2025originalsin} and a Sept. 2025 talk\tabularnewline
+\addlinespace[3pt]
+\raggedright Study~4\newline $N$~=~\SFourN & \raggedright Study~2's H1 and H2 again, and do hours stated for the original change ratings of the second work (H3)? & \raggedright H1 supported. H2, over the three measures: not shown inside the bound (inside it on essence change only, a pass lost in the registered refit\textsuperscript{a}). H3: not significant. & \raggedright Ran second; registered after a Feb. 2025 analysis\cite{kamper2025originalsin} and a Sept. 2025 talk\tabularnewline
+\addlinespace[3pt]
+\raggedright Study~5\newline $N$~=~\SFiveN & \raggedright Do hours stated for the edit change ratings of the second work, or the label's effect on them? & \raggedright Editing hours: absent or small, inside $\pm$\SFiveEditTimeBound. A change in the label's effect with editing hours: significant on creativity only. The label's effect (secondary): significant, not inside the bound, at Slight on every measure and at Dramatic on transformativeness. & \raggedright Ran last; registered before any rating was averaged or compared by label\tabularnewline
+\bottomrule
+\end{tabular}
+\par\smallskip
+{\small\raggedright Every original was AI-made (OpenAI's DALL\textperiodcentered{}E, used through ChatGPT). Human label: Alex used design and sketching tools; AI label: he prompted an AI system. \emph{Penalty}: Human-label minus AI-label mean rating on 1-to-5 scales (the gap, in Study~3's registration). \emph{None, Slight, Dramatic}: the original shown again unchanged, a light edit, a heavy edit; the measures: transformativeness, essence change, creativity. \emph{Supported}, \emph{holds}: passed by the registration's rule. \emph{Significant}: $p$ below .05, after Holm's correction for confirmatory tests (which holds the chance of any false positive in a study's confirmatory set at .05) and uncorrected for \emph{secondary} tests outside that set. \emph{Small or absent}, \emph{inside the bound}: an equivalence test placed the effect inside $\pm$\SourceBound{} points, half of Study~1's creativity penalty ($\pm$\SFiveEditTimeBound, Study~3's creativity time effect, for editing hours); small, not zero. \emph{Not shown to be small}, \emph{not shown inside}: that test failed, which does not show an effect. \emph{Inconclusive}: no effect and a small one could not be told apart. \textsuperscript{a}Without the \SFourMachineMadeN{} Human-label participants who wrote that a machine made the work. All five registrations were filed on 8 October 2026, after data collection.\par}
+\end{table}

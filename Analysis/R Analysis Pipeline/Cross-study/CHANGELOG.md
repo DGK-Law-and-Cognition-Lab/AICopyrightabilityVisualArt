@@ -36,3 +36,7 @@ The file was checked line by line against the registrations, the studies' deposi
 - Added: each study fitted on its own with the pooled model's terms, which splits each difference between the pooled and the registered within-study penalty into the part the terms make (at most 0.004 points) and the part the shared variances make (at most 0.002). This adds nine fits, so the run now fits 44 models, of which 43 converge.
 - Added: the analysis status to the run record (`crossstudy_run_inputs.csv`, `crossstudy_package_versions.csv`, `crossstudy_run_manifest.csv` and the first line of `crossstudy_sessionInfo.txt`) and a line at the foot of each figure, so that every output says it is exploratory.
 - Reworded: the memorandum's proposal is now described as it is written, nested models scored by leave-one-out cross-validation; the AIC glosses say which bands are filled in beyond Burnham and Anderson's; and terms first used without a definition (uncorrected, bobyqa, image kind, F test, Holm's correction, the Hessian, the blind switch) are defined where they first appear.
+
+## 2026-10-20
+
+Added the folder `sample_description/`, a descriptive step specified on 19 October 2026 with its own README and CHANGELOG: the age and gender of each study's analyzed sample, and the number of different people across the five analyzed samples and of those analyzed in more than one study. Added its row to the table of files in this folder's `README.md`. `CrossStudy_Penalty_Curve.Rmd` and its outputs did not change.

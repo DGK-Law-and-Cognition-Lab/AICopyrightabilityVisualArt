@@ -1,0 +1,31 @@
+% Study 1: reuse of one's own words, by label.
+% Written by tools/make_tables.py from the pipeline table(s) below (paths relative to
+% Analysis/R Analysis Pipeline, each with the SHA-256 it was read with); do not edit by hand.
+%   Study 1/tables/study1_text_selfsimilarity_by_arm.csv  1503b1471e4774488e277de4b26e8415543040f5c3d3897169696890288e0672
+\begin{table}[htbp]
+\centering
+\small
+\caption[Study 1: reuse of one's own words, by label]{\textbf{Study~1: how much each person reused their own words, by label.} The second of the two checks run in every study (registered secondary). It predicted that participants shown the AI label would reuse their own words more. By the registered reading the prediction is supported on effort and inconclusive on creativity, which is not evidence that the two groups reuse their words equally.}\label{tab:supp_text_selfsimilarity}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{7.6cm}ll@{}}
+\toprule
+Measure & Human label (95\% CI) & AI label (95\% CI)\\
+\midrule
+\multicolumn{3}{@{}l}{\textit{Creativity explanations}}\\
+Overlap among a person's own explanations & 0.069 (0.055 to 0.083) & 0.094 (0.070 to 0.124)\\
+Overlap with others' explanations of the same image & 0.027 (0.024 to 0.031) & 0.029 (0.026 to 0.033)\\
+Own overlap minus others' overlap & 0.041 (0.029 to 0.054) & 0.065 (0.041 to 0.094)\\
+Content words per explanation & 8.03 (6.80 to 9.40) & 9.17 (7.88 to 10.55)\\
+\multicolumn{3}{@{}p{\textwidth}@{}}{\raggedright Registered comparison (AI minus Human in own minus others' overlap, at equal length): 0.025 (95\% CI \ensuremath{-}0.003 to 0.059); $p$~\ensuremath{=}~.092; Holm $p$~\ensuremath{=}~.092; inconclusive.}\\
+\addlinespace[3pt]
+\multicolumn{3}{@{}l}{\textit{Effort explanations}}\\
+Overlap among a person's own explanations & 0.099 (0.082 to 0.118) & 0.157 (0.121 to 0.201)\\
+Overlap with others' explanations of the same image & 0.036 (0.032 to 0.041) & 0.036 (0.030 to 0.042)\\
+Own overlap minus others' overlap & 0.063 (0.046 to 0.081) & 0.121 (0.088 to 0.163)\\
+Content words per explanation & 7.99 (6.63 to 9.53) & 7.89 (6.76 to 9.16)\\
+\multicolumn{3}{@{}p{\textwidth}@{}}{\raggedright Registered comparison (AI minus Human in own minus others' overlap, at equal length): 0.057 (95\% CI 0.021 to 0.104); $p$~\ensuremath{<}~.001; Holm $p$~\ensuremath{=}~.002; supported.}\\
+\bottomrule
+\end{tabular}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize\raggedright Overlap is the share of content words that two explanations have in common: the words in both divided by the words in either (0, none in common; 1, the same words). A person's own overlap is averaged over all pairs of that person's explanations of one rating; others' overlap pairs each of those explanations with other participants' explanations of the same image and rating. The registered comparison is a regression of own minus others' overlap on the label, holding the mean number of content words constant, because overlap falls as texts get longer. CI, confidence interval, from 2{,}000 resamples of participants within each label group, with others' overlap rebuilt each time. Holm's correction runs over the two ratings. Supported means that the corrected test rejected no difference, in the predicted direction; inconclusive, that it did not.\par\end{minipage}
+\end{table}

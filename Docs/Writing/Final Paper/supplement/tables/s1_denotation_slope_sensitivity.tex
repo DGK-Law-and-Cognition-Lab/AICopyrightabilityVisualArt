@@ -1,0 +1,23 @@
+% Study 1: the word-meaning tests with a random slope.
+% Written by tools/make_tables.py from the pipeline table(s) below (paths relative to
+% Analysis/R Analysis Pipeline, each with the SHA-256 it was read with); do not edit by hand.
+%   Study 1/tables/study1_text_denotation_slope_sensitivity.csv  7b92f279a83a0c66990ce6bf3c8a500da9ce97b00e1cab45c8c7fb412802875a
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption[Study 1: the word-meaning tests with a random slope]{\textbf{Study~1: the five word-meaning tests with each person's difference free to vary.} The registered model gives each participant a baseline of their own but one difference between the two lists that all participants share; the refit lets that difference vary from person to person. The registration names this refit as a sensitivity check that cannot change a reading (exploratory; its $p$-values are uncorrected). Every estimate kept its sign.}\label{tab:supp_denotation_slope_sensitivity}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{5.0cm}llrl@{}}
+\toprule
+Explanations & Comparison & Registered & Refit & $z$ & $p$\\
+\midrule
+Effort, Human label & Visible detail against time & 3.08 (0.19) & 3.57 (0.37) & 9.60 & $p$~\ensuremath{<}~.001\\
+Effort, Human label & Visible detail against skill & 3.87 (0.24) & 5.66 (0.95) & 5.98 & $p$~\ensuremath{<}~.001\\
+Creativity, Human label & Concept against visible detail (execution) & 1.03 (0.16) & 1.03 (0.22) & 4.63 & $p$~\ensuremath{<}~.001\\
+Creativity, Human label & Concept against prior exposure (novelty) & 0.13 (0.14) & 0.28 (0.21) & 1.30 & $p$~\ensuremath{=}~.195\\
+AI label, effort against creativity & Prompting or machines & 1.78 (0.18) & 2.11 (0.46) & 4.58 & $p$~\ensuremath{<}~.001\\
+\bottomrule
+\end{tabular}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize\raggedright Each cell gives an estimate with its standard error (SE) in parentheses, from the registered model and from the refit. Estimates are differences in log-odds, the logarithm of the odds that the first list flags an explanation rather than the second; a positive value is the predicted direction. $z$ and $p$ test the refit's estimate against zero. Every refit converged and none was singular (a variance or correlation estimated at the edge of its range). Supplementary Table~\ref{tab:suppA-denotation} gives the registered tests with their corrected $p$-values.\par\end{minipage}
+\end{table}

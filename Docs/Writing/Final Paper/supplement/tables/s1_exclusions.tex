@@ -1,0 +1,23 @@
+% Study 1: exclusions.
+% Written by tools/make_tables.py from the pipeline table(s) below (paths relative to
+% Analysis/R Analysis Pipeline, each with the SHA-256 it was read with); do not edit by hand.
+%   Study 1/tables/study1_exclusion_flow.csv  5a76f3fe7f18f46d3c304d1e538b31f3ae1a17975029d55dcb384cf18eab7d10
+\begin{table}[htbp]
+\centering
+\small
+\caption[Study 1: exclusions]{\textbf{Study~1: exclusions.} The registered exclusion steps in the order they were applied, with the records each step removed and the records left after it. A record is one session in the survey export.}\label{tab:supp_exclusions}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{11.4cm}rr@{}}
+\toprule
+Step & Removed & Records left\\
+\midrule
+Records in the survey export, test runs included & -- & 119\\
+Survey previews (test runs by the researchers) removed & 2 & 117\\
+Unfinished records removed & 3 & 114\\
+Any answer but `Yes, I did' to the seriousness question, a blank included, removed & 3 & 111\\
+Wrong answer to the task check removed & 0 & 111\\
+\bottomrule
+\end{tabular}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize\raggedright The task check asked `What is your task in this experiment?'. A wrong answer brought the instructions back once and then let the participant continue, so this step removed no one. The seriousness question asked `Did you complete this experiment seriously throughout (without responding randomly)?'.\par\end{minipage}
+\end{table}

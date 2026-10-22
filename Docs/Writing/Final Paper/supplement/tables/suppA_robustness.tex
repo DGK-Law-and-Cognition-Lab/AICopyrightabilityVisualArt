@@ -1,0 +1,27 @@
+% Copy of supplement/tables/sup_table_1_robustness.tex, written by Analysis/R Analysis Pipeline/Study 1/
+% Study1_Supplements.Rmd (run of 7 October 2026). Numbers unchanged; the changes, to layout
+% or wording only, are listed in supplement/tables/README_suppA.md.
+\begin{table}[!h]
+\centering
+\captionsetup{font=small}
+\caption{\label{tab:supp_table_1}Robustness checks for the Study 1 attribution effect. Every entry is computed from the pipeline output tables (the confirmatory family, the specification curve, the brms fixed-effect summaries, the lmerTest coefficients, and the equivalence sensitivity table); no cell is typed by hand. The two H1 rows are the registered quantity the main text cites: the Human-minus-machine difference in mean rating, estimated from each dimension's primary mixed model and averaged with equal weight over the two image kinds, with its p-value before and after the Holm correction across the confirmatory family. Every other row reports a related but different quantity, which its label names. The multiverse rows summarize the specification curve, one row per quantity the specification curve names in its estimand column, on each model family's own scale (rating points, or log-odds for the ordinal family). Estimated counts the specifications with an estimate; converged is the specification curve's own record, not a diagnostic computed for this table. The TypeAI rows of the Bayesian replication report the machine-minus-human difference at the non-figurative image kind, the reference level of the image-kind factor: a simple effect, meaning the effect of attribution within one level of the other factor. It is the same quantity as the lmerTest TypeAI row of the full fixed-effects table and is compared with it; it coincides with the H1 contrast only when the attribution-by-image-kind interaction is zero, and its sign runs the other way, a negative value meaning lower ratings under machine attribution. CrI is the credible interval, the range holding 95\% of the posterior. The equivalence rows concern the attribution-by-image-kind interaction, the quantity of H3 rather than of H1, at the wider bounds of 0.30 and 0.50 rating points, and carry no verdict on H3.}
+\centering
+\fontsize{8}{10}\selectfont
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{10.8cm}}
+\toprule
+Check & Result\\
+\midrule
+Registered H1 contrast (Creativity) & Human minus machine, estimated marginal contrast averaged over the two image kinds: estimate = 0.45 rating points, SE = 0.13, t(109.0) = 3.49, p < 0.001; Holm-adjusted p = 0.001\\
+Registered H1 contrast (Effort) & Human minus machine, estimated marginal contrast averaged over the two image kinds: estimate = 0.92 rating points, SE = 0.15, t(109.0) = 6.08, p < 0.001; Holm-adjusted p < 0.001\\
+Multiverse (Creativity) & H1 contrast: Human - AI, averaged over image kind, on each family's own scale: 18/18 specifications estimated, 18 recorded as converged in the specification curve's converged column; 0 negative and 18 positive; 18/18 at p < .05; median p = 5.3e-04\\
+Multiverse (Effort) & H1 contrast: Human - AI, averaged over image kind, on each family's own scale: 18/18 specifications estimated, 18 recorded as converged in the specification curve's converged column; 0 negative and 18 positive; 18/18 at p < .05; median p = 2.2e-08\\
+Bayesian replication, Gaussian, TypeAI simple effect (Creativity) & TypeAI, the non-figurative simple effect (comparable to the lmerTest TypeAI row, not the marginal contrast in the main text): posterior mean = -0.40, 95\% CrI [-0.66, -0.13]; |posterior mean - lmerTest TypeAI estimate| = 0.012\\
+\addlinespace
+Bayesian replication, Gaussian, TypeAI simple effect (Effort) & TypeAI, the non-figurative simple effect (comparable to the lmerTest TypeAI row, not the marginal contrast in the main text): posterior mean = -0.90, 95\% CrI [-1.21, -0.59]; |posterior mean - lmerTest TypeAI estimate| = 0.013\\
+Bayesian replication, Cumulative-ordinal, TypeAI simple effect (Creativity) & TypeAI, the non-figurative simple effect: posterior mean (logit) = -0.93, 95\% CrI [-1.57, -0.29]\\
+Bayesian replication, Cumulative-ordinal, TypeAI simple effect (Effort) & TypeAI, the non-figurative simple effect: posterior mean (logit) = -1.92, 95\% CrI [-2.66, -1.15]\\
+Equivalence sensitivity, attribution-by-image-kind interaction (Creativity) & Interaction estimate = -0.08 rating points, 90\% CI [-0.24, 0.08]. bound +/- 0.30: the 90\% interval lies inside this bound (larger one-sided p = 0.010); bound +/- 0.50: the 90\% interval lies inside this bound (larger one-sided p < 0.001). Descriptive sensitivity only; the registered test of H3 at +/- 0.20 rating points, under both random-effects structures, is in Study1\_01\_Quant.Rmd section 7.10.\\
+Equivalence sensitivity, attribution-by-image-kind interaction (Effort) & Interaction estimate = -0.02 rating points, 90\% CI [-0.18, 0.14]. bound +/- 0.30: the 90\% interval lies inside this bound (larger one-sided p = 0.002); bound +/- 0.50: the 90\% interval lies inside this bound (larger one-sided p < 0.001). Descriptive sensitivity only; the registered test of H3 at +/- 0.20 rating points, under both random-effects structures, is in Study1\_01\_Quant.Rmd section 7.10.\\
+\bottomrule
+\end{tabular}
+\end{table}

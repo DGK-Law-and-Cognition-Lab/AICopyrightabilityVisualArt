@@ -1,0 +1,86 @@
+% Study 4: the registered tests of H1 and H3 with the ordinal check, the registered secondary
+% tests of the hours stated for the original, and the predicted means.
+% Every number is a macro from generated/numbers.tex; supplement/tables/README_suppB.md lists
+% the pipeline tables behind them.
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{\textbf{Study~4: the registered tests of modification (H1) and of the hours stated for the original (H3), and the predicted means.} Ratings are on 1-to-5 scales. \textbf{a},~H1, registered confirmatory: the difference between predicted means at adjacent levels, averaged over label and stated hours. \textbf{b},~H3, registered confirmatory: $F$~tests of whether the hours stated for the original, alone or by level, change the mean rating. Panels a and b are corrected together with H2 by Holm's method across fifteen tests. \textbf{c},~Registered secondary tests, each uncorrected: whether the stated hours change the label's effect, and 100 hours minus under 1 hour, read with an equivalence test against $\pm$\SourceBound{} points. \textbf{d},~Predicted means (descriptive).}\label{tab:suppB-s4}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lcccccc@{}}
+\multicolumn{7}{@{}l}{\textbf{a}\enspace H1: ratings rise with the level}\\
+\toprule
+ & & & & & \multicolumn{2}{c}{Ordinal check}\\
+\cmidrule(l){6-7}
+Step & Estimate & SE & $t$ ($df$) & After Holm & Log-odds & After Holm\\
+\midrule
+\multicolumn{7}{@{}l}{\textit{Transformativeness}}\\
+Slight minus None & \SFourTransSlightMinusNoneEst & \SFourTransSlightMinusNoneSE & \SFourTransSlightMinusNoneT{} (\SFourTransSlightMinusNoneDf) & $p$~\SFourTransSlightMinusNonePHolm & \SFourTransSlightMinusNoneOrdEst & $p$~\SFourTransSlightMinusNoneOrdPHolm\\
+Dramatic minus Slight & \SFourTransDramaticMinusSlightEst & \SFourTransDramaticMinusSlightSE & \SFourTransDramaticMinusSlightT{} (\SFourTransDramaticMinusSlightDf) & $p$~\SFourTransDramaticMinusSlightPHolm & \SFourTransDramaticMinusSlightOrdEst & $p$~\SFourTransDramaticMinusSlightOrdPHolm\\
+\addlinespace[3pt]
+\multicolumn{7}{@{}l}{\textit{Essence change}}\\
+Slight minus None & \SFourEssSlightMinusNoneEst & \SFourEssSlightMinusNoneSE & \SFourEssSlightMinusNoneT{} (\SFourEssSlightMinusNoneDf) & $p$~\SFourEssSlightMinusNonePHolm & \SFourEssSlightMinusNoneOrdEst & $p$~\SFourEssSlightMinusNoneOrdPHolm\\
+Dramatic minus Slight & \SFourEssDramaticMinusSlightEst & \SFourEssDramaticMinusSlightSE & \SFourEssDramaticMinusSlightT{} (\SFourEssDramaticMinusSlightDf) & $p$~\SFourEssDramaticMinusSlightPHolm & \SFourEssDramaticMinusSlightOrdEst & $p$~\SFourEssDramaticMinusSlightOrdPHolm\\
+\addlinespace[3pt]
+\multicolumn{7}{@{}l}{\textit{Creativity}}\\
+Slight minus None & \SFourCreatSlightMinusNoneEst & \SFourCreatSlightMinusNoneSE & \SFourCreatSlightMinusNoneT{} (\SFourCreatSlightMinusNoneDf) & $p$~\SFourCreatSlightMinusNonePHolm & \SFourCreatSlightMinusNoneOrdEst & $p$~\SFourCreatSlightMinusNoneOrdPHolm\\
+Dramatic minus Slight & \SFourCreatDramaticMinusSlightEst & \SFourCreatDramaticMinusSlightSE & \SFourCreatDramaticMinusSlightT{} (\SFourCreatDramaticMinusSlightDf) & $p$~\SFourCreatDramaticMinusSlightPHolm & \SFourCreatDramaticMinusSlightOrdEst & $p$~\SFourCreatDramaticMinusSlightOrdPHolm\\
+\bottomrule
+\end{tabular}
+
+\medskip
+\begin{tabular}{@{}lccccc@{}}
+\multicolumn{6}{@{}l}{\textbf{b}\enspace H3: the hours stated for the original}\\
+\toprule
+ & & & & \multicolumn{2}{c}{Ordinal check}\\
+\cmidrule(l){5-6}
+Term & $F$ ($df$) & Uncorrected & After Holm & $\chi^2$ ($df$) & After Holm\\
+\midrule
+\multicolumn{6}{@{}l}{\textit{Transformativeness}}\\
+Stated hours & \SFourTransSourceTimeF{} (\SFourTransSourceTimeDfNum, \SFourTransSourceTimeDfDen) & $p$~\SFourTransSourceTimeP & $p$~\SFourTransSourceTimePHolm & \SFourTransSourceTimeOrdChisq{} (\SFourTransSourceTimeOrdDf) & $p$~\SFourTransSourceTimeOrdPHolm\\
+Stated hours by level & \SFourTransSourceTimeByModF{} (\SFourTransSourceTimeByModDfNum, \SFourTransSourceTimeByModDfDen) & $p$~\SFourTransSourceTimeByModP & $p$~\SFourTransSourceTimeByModPHolm & \SFourTransSourceTimeByModOrdChisq{} (\SFourTransSourceTimeByModOrdDf) & $p$~\SFourTransSourceTimeByModOrdPHolm\\
+\addlinespace[3pt]
+\multicolumn{6}{@{}l}{\textit{Essence change}}\\
+Stated hours & \SFourEssSourceTimeF{} (\SFourEssSourceTimeDfNum, \SFourEssSourceTimeDfDen) & $p$~\SFourEssSourceTimeP & $p$~\SFourEssSourceTimePHolm & \SFourEssSourceTimeOrdChisq{} (\SFourEssSourceTimeOrdDf) & $p$~\SFourEssSourceTimeOrdPHolm\\
+Stated hours by level & \SFourEssSourceTimeByModF{} (\SFourEssSourceTimeByModDfNum, \SFourEssSourceTimeByModDfDen) & $p$~\SFourEssSourceTimeByModP & $p$~\SFourEssSourceTimeByModPHolm & \SFourEssSourceTimeByModOrdChisq{} (\SFourEssSourceTimeByModOrdDf) & $p$~\SFourEssSourceTimeByModOrdPHolm\\
+\addlinespace[3pt]
+\multicolumn{6}{@{}l}{\textit{Creativity}}\\
+Stated hours & \SFourCreatSourceTimeF{} (\SFourCreatSourceTimeDfNum, \SFourCreatSourceTimeDfDen) & $p$~\SFourCreatSourceTimeP & $p$~\SFourCreatSourceTimePHolm & \SFourCreatSourceTimeOrdChisq{} (\SFourCreatSourceTimeOrdDf) & $p$~\SFourCreatSourceTimeOrdPHolm\\
+Stated hours by level & \SFourCreatSourceTimeByModF{} (\SFourCreatSourceTimeByModDfNum, \SFourCreatSourceTimeByModDfDen) & $p$~\SFourCreatSourceTimeByModP & $p$~\SFourCreatSourceTimeByModPHolm & \SFourCreatSourceTimeByModOrdChisq{} (\SFourCreatSourceTimeByModOrdDf) & $p$~\SFourCreatSourceTimeByModOrdPHolm\\
+\bottomrule
+\end{tabular}
+
+\medskip
+\begin{tabular}{@{}lccccc@{}}
+\multicolumn{6}{@{}l}{\textbf{c}\enspace Registered secondary tests of the hours stated for the original}\\
+\toprule
+ & \multicolumn{2}{c}{Label by stated hours} & \multicolumn{3}{c}{100 hours minus under 1 hour}\\
+\cmidrule(lr){2-3}\cmidrule(l){4-6}
+Measure & $F$ & Test & Estimate & 90\% CI & Equivalence test\\
+\midrule
+Transformativeness & \SFourTransLabelBySourceTimeF & $p$~\SFourTransLabelBySourceTimeP & \SFourTransTimeContrastEst & \SFourTransTimeContrastLoNinety{} to \SFourTransTimeContrastHiNinety & $p$~\SFourTransTimeContrastPTost\\
+Essence change & \SFourEssLabelBySourceTimeF & $p$~\SFourEssLabelBySourceTimeP & \SFourEssTimeContrastEst & \SFourEssTimeContrastLoNinety{} to \SFourEssTimeContrastHiNinety & $p$~\SFourEssTimeContrastPTost\\
+Creativity & \SFourCreatLabelBySourceTimeF & $p$~\SFourCreatLabelBySourceTimeP & \SFourCreatTimeContrastEst & \SFourCreatTimeContrastLoNinety{} to \SFourCreatTimeContrastHiNinety & $p$~\SFourCreatTimeContrastPTost\\
+\bottomrule
+\end{tabular}
+
+\medskip
+\begin{tabular}{@{}lccccc@{}}
+\multicolumn{6}{@{}l}{\textbf{d}\enspace Predicted means}\\
+\toprule
+ & \multicolumn{3}{c}{By level} & \multicolumn{2}{c}{By label}\\
+\cmidrule(lr){2-4}\cmidrule(l){5-6}
+Measure & None & Slight & Dramatic & Human label & AI label\\
+\midrule
+Transformativeness & \SFourTransMeanNone & \SFourTransMeanSlight & \SFourTransMeanDramatic & \SFourTransMeanHuman & \SFourTransMeanAI\\
+Essence change & \SFourEssMeanNone & \SFourEssMeanSlight & \SFourEssMeanDramatic & \SFourEssMeanHuman & \SFourEssMeanAI\\
+Creativity & \SFourCreatMeanNone & \SFourCreatMeanSlight & \SFourCreatMeanDramatic & \SFourCreatMeanHuman & \SFourCreatMeanAI\\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\begin{minipage}{\textwidth}
+\footnotesize\raggedright
+Estimates come from the registered linear mixed model, which gives each participant and each original its own baseline. SE: standard error. $df$: degrees of freedom by Satterthwaite's approximation. The ordinal check is a cumulative-link mixed model, which treats the five answers as ordered categories; it repeats the H1 and H3 tests as Wald tests and, having no rating-point scale, does not repeat the equivalence tests. Its H1 estimates are differences in the log-odds of a higher answer. The label-by-hours $F$~tests have two numerator degrees of freedom. Panel~d averages each level over label and stated hours, and each label over level and stated hours. Supplementary Table~\ref{tab:supp-labeleffects} gives the label's effect averaged over levels and at each level.
+\end{minipage}
+\end{table}

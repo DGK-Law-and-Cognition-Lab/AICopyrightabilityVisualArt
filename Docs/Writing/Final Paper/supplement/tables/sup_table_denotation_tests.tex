@@ -1,0 +1,18 @@
+\begin{table}[!h]
+\centering
+\caption{\label{tab:supp_denotation_tests}The five registered tests on the written explanations: an exploratory family, corrected by the Benjamini-Hochberg procedure and kept separate from the confirmatory family and its Holm correction. Each of the first four is one mixed logistic regression, a model for a true-or-false outcome (here, whether a fixed search pattern fired in an explanation) with random intercepts for participant and for image so that one person's twenty explanations are not counted as twenty independent observations, of the stacked flag on which measure it is, fitted within the human-attribution arm and the named dimension: visible detail against time and against skill in the effort explanations; the idea behind the work (concept) against visible detail (execution) and against familiarity talk either way (novelty) in the creativity explanations. The fifth is the same model of prompting-and-generating talk on rating dimension, fitted within the machine-attribution arm. The estimate is the log-odds difference, the change in the logarithm of the odds that the pattern fires, with its standard error (se) and z statistic; p\_raw is the uncorrected p-value and p\_bh the same after the Benjamini-Hochberg correction across the five, which controls the expected share of false positives among the tests called positive, at .05. The predicted direction is recorded beside the observed one, and the note column carries any convergence or singularity warning from the fit. No result here is offered in support of a prediction in the confirmatory set.}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{9}{11}\selectfont
+\begin{tabular}[t]{lllrrrrrlllll}
+\toprule
+comparison & arm & dimension & n\_responses & n\_participants & estimate\_log\_odds & se & z & p\_raw & p\_bh & predicted\_direction & observed\_direction & note\\
+\midrule
+detail vs time & Human & effort & 560 & 56 & 3.076 & 0.191 & 16.142 & < 0.001 & < 0.001 & detail > time & detail > time & status ok; converged; not singular\\
+detail vs skill & Human & effort & 560 & 56 & 3.870 & 0.244 & 15.831 & < 0.001 & < 0.001 & detail > skill & detail > skill & status ok; first bobyqa pass stopped short (Model failed to converge with max|grad| = 0.0217008 (tol = 0.002, component 1)); refitted with bobyqa from that end point with maxfun = 200000; restart converged; not singular\\
+concept vs execution & Human & creativity & 560 & 56 & 1.030 & 0.164 & 6.273 & < 0.001 & < 0.001 & concept > execution & concept > execution & status ok; converged; not singular\\
+concept vs novelty & Human & creativity & 560 & 56 & 0.133 & 0.142 & 0.935 & 0.350 & 0.350 & concept > novelty & concept > novelty & status ok; converged; not singular\\
+prompt talk, effort vs creativity & AI & both & 1100 & 55 & 1.775 & 0.179 & 9.934 & < 0.001 & < 0.001 & effort > creativity & effort > creativity & status singular; converged; singular fit: the random-intercept variance for stimulus\_id was estimated at exactly zero\\
+\bottomrule
+\end{tabular}}
+\end{table}

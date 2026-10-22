@@ -1,0 +1,89 @@
+% main.tex: the manuscript, in Nature Communications article order.
+% Build from this folder: python3 tools/make_numbers.py, then latexmk -pdf main.tex.
+% Every number in the text comes from a macro in generated/numbers.tex;
+% generated/numbers_check.csv names the table, row and column behind each one.
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[labelfont=bf]{caption}
+\usepackage[numbers,super,sort&compress]{natbib}
+\usepackage{setspace}
+\usepackage{lineno}
+\usepackage[hidelinks]{hyperref}
+% Long URLs in the reference list may break at any character.
+\usepackage{xurl}
+% The middle dot in the name DALL\textperiodcentered E: Latin Modern gives it wide side bearings, so
+% close them up to print the name as one word. The paper uses the middle dot nowhere else. This
+% waits for the start of the document because hyperref redefines the command when it loads.
+\AtBeginDocument{%
+  \let\origtextperiodcentered\textperiodcentered
+  \renewcommand{\textperiodcentered}{\kern-0.08em\origtextperiodcentered\kern-0.08em}}
+
+\graphicspath{{figures/}}
+\onehalfspacing
+\linenumbers
+
+% The numbers the paper prints, one macro per number.
+\input{generated/numbers}
+
+\title{Beyond the Original Sin: Lay Evaluations of Creative Contribution in AI-Assisted Artworks}
+\author{David G. Kamper\textsuperscript{1,2,*}, Alice Lin\textsuperscript{1} and Keith J. Holyoak\textsuperscript{1}\\[1ex]
+  \small\textsuperscript{1}Department of Psychology, University of California, Los Angeles, Los Angeles, CA, USA\\
+  \small\textsuperscript{2}University of Chicago Law School, Chicago, IL, USA\\
+  \small\textsuperscript{*}Corresponding author: davidgkamper@ucla.edu}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\section*{Introduction}
+\input{sections/introduction}
+
+\section*{Results}
+\input{sections/results}
+
+\section*{Discussion}
+\input{sections/discussion}
+
+\section*{Methods}
+\input{sections/methods}
+
+\section*{Data availability}
+\input{sections/data_availability}
+
+\section*{Code availability}
+\input{sections/code_availability}
+
+\bibliographystyle{naturemag}
+\bibliography{references}
+
+\section*{Acknowledgements}
+\input{sections/acknowledgements}
+
+\section*{Funding}
+\input{sections/funding}
+
+\section*{Author contributions}
+\input{sections/author_contributions}
+
+\section*{Competing interests}
+\input{sections/competing_interests}
+
+% Figure legends: in this draft each legend is the caption printed with its figure, so this
+% section is left out rather than printed empty. For submission, move the
+% two captions into sections/figure_legends.tex and restore the next two lines.
+% \section*{Figure legends}
+% \input{sections/figure_legends}
+
+\end{document}

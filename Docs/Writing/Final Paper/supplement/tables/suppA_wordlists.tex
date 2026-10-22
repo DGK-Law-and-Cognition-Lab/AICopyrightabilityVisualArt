@@ -1,0 +1,30 @@
+% The eight fixed word lists applied to the written explanations in all five studies. Summarized
+% from the rules file each study's text notebook writes (tables/text_rules.txt); no numbers.
+% See supplement/tables/README_suppA.md.
+\begin{table}[tbp]
+\centering
+\small
+\caption{\textbf{The eight word lists.} Each list is a fixed search pattern that a script applies in the same way to every explanation, after lowering its case, without seeing the label or the rating. The examples are a selection; each study's rules file gives every pattern in full, with the phrases each list sets aside because they mean something else in these explanations. A list records a topic, whatever the writer said about it: `barely any detail' is detail talk.}
+\label{tab:suppA-wordlists}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{\dimexpr\textwidth-9.4cm-6\tabcolsep\relax}>{\raggedright\arraybackslash}p{3.4cm}@{}}
+\toprule
+List (name in the code) & What it flags & Examples of what it matches & Further reading of a match\\
+\midrule
+Visible detail (\nolinkurl{says_detail}) & Detail and how much is in the picture & detail, intricate, complex, texture, shading, brushwork, layers, `so many different elements' & Asserted or denied\\
+\addlinespace
+Time (\nolinkurl{says_time}) & Time spent, duration or speed & time, hours, minutes, days, tedious, painstaking, spent, `took hours', quick, instant & Asserted or denied\\
+\addlinespace
+Skill (\nolinkurl{says_skill}) & Skill, craft and training & skill, craft, technique, talent, trained, mastery, expertise, professional, execution, `by hand' & Asserted or denied\\
+\addlinespace
+Concept (\nolinkurl{says_concept}) & The idea, meaning or thought behind the work & idea, concept, meaning, message, symbol, theme, story, represents, conveys, intention, `thought behind' & Asserted or denied\\
+\addlinespace
+Prompting or machines (\nolinkurl{says_prompt}) & Prompting, typing or generating, or a machine named in any role & prompt, typed, generated, input, AI, artificial intelligence, computer, algorithm, software, an image generator named by kind or brand & None\\
+\addlinespace
+Prior exposure (\nolinkurl{prior_exposure}) & Says the work looks familiar, already seen, generic or derivative & `seen before', familiar, `reminds me of', generic, cliché, typical, unoriginal, derivative, `nothing new' & Three values: familiarity asserted, familiarity denied, or neither\\
+\addlinespace
+Scale echo (\nolinkurl{anchor_echo}) & Repeats the rating scale's own wording & `moderate creativity', `a great deal of effort', `effort involved' & None\\
+\addlinespace
+Machine as maker (\nolinkurl{says_machine_made}) & Names a machine, program or image generator as making the work & `AI-generated', `machine-made', `created by a computer'; a person using a tool (`Alex used an AI') is set aside & Asserted, or not asserted (denied or only supposed)\\
+\bottomrule
+\end{tabular}
+\end{table}

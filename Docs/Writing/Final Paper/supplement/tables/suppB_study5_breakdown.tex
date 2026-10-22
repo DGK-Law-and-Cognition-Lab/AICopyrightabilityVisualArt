@@ -1,0 +1,38 @@
+% Study 5, exploratory: the label's penalty at each stated editing time and level, on all three
+% measures, from the cross-study refit of Study 5's registered model.
+% Every number is a macro from generated/numbers.tex; supplement/tables/README_suppB.md lists
+% the pipeline tables behind them.
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{\textbf{Exploratory: Study~5's label penalty at each stated editing time and level.} Each entry is the predicted mean rating under the Human label minus the predicted mean under the AI label, in points on the 1-to-5 scale, with its two-sided $p$-value, not corrected for the 27 comparisons. A positive value means that the AI label lowered the rating. Editing time varied between participants, so each column compares two separate groups of \SFiveNCellMin{} to \SFiveNCellMax{} people. The breakdown was specified on 9 October 2026, after the registered results were known, and it changes no registered verdict. Among the registered tests behind it, only the creativity interaction was significant (Supplementary Table~\ref{tab:suppB-s5}a).}\label{tab:suppB-s5breakdown}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ & \multicolumn{3}{c}{Stated editing time}\\
+\cmidrule(l){2-4}
+Level & Under 1 hour & 10 hours & 100 hours\\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Transformativeness}}\\
+None & \XSTimeCheckSFiveTransPenaltyUnderOneHourNoneEst{} ($p$~\XSTimeCheckSFiveTransPenaltyUnderOneHourNoneP) & \XSTimeCheckSFiveTransPenaltyTenHoursNoneEst{} ($p$~\XSTimeCheckSFiveTransPenaltyTenHoursNoneP) & \XSTimeCheckSFiveTransPenaltyHundredHoursNoneEst{} ($p$~\XSTimeCheckSFiveTransPenaltyHundredHoursNoneP)\\
+Slight & \XSTimeCheckSFiveTransPenaltyUnderOneHourSlightEst{} ($p$~\XSTimeCheckSFiveTransPenaltyUnderOneHourSlightP) & \XSTimeCheckSFiveTransPenaltyTenHoursSlightEst{} ($p$~\XSTimeCheckSFiveTransPenaltyTenHoursSlightP) & \XSTimeCheckSFiveTransPenaltyHundredHoursSlightEst{} ($p$~\XSTimeCheckSFiveTransPenaltyHundredHoursSlightP)\\
+Dramatic & \XSTimeCheckSFiveTransPenaltyUnderOneHourDramaticEst{} ($p$~\XSTimeCheckSFiveTransPenaltyUnderOneHourDramaticP) & \XSTimeCheckSFiveTransPenaltyTenHoursDramaticEst{} ($p$~\XSTimeCheckSFiveTransPenaltyTenHoursDramaticP) & \XSTimeCheckSFiveTransPenaltyHundredHoursDramaticEst{} ($p$~\XSTimeCheckSFiveTransPenaltyHundredHoursDramaticP)\\
+\addlinespace[3pt]
+\multicolumn{4}{@{}l}{\textit{Essence change}}\\
+None & \XSTimeCheckSFiveEssPenaltyUnderOneHourNoneEst{} ($p$~\XSTimeCheckSFiveEssPenaltyUnderOneHourNoneP) & \XSTimeCheckSFiveEssPenaltyTenHoursNoneEst{} ($p$~\XSTimeCheckSFiveEssPenaltyTenHoursNoneP) & \XSTimeCheckSFiveEssPenaltyHundredHoursNoneEst{} ($p$~\XSTimeCheckSFiveEssPenaltyHundredHoursNoneP)\\
+Slight & \XSTimeCheckSFiveEssPenaltyUnderOneHourSlightEst{} ($p$~\XSTimeCheckSFiveEssPenaltyUnderOneHourSlightP) & \XSTimeCheckSFiveEssPenaltyTenHoursSlightEst{} ($p$~\XSTimeCheckSFiveEssPenaltyTenHoursSlightP) & \XSTimeCheckSFiveEssPenaltyHundredHoursSlightEst{} ($p$~\XSTimeCheckSFiveEssPenaltyHundredHoursSlightP)\\
+Dramatic & \XSTimeCheckSFiveEssPenaltyUnderOneHourDramaticEst{} ($p$~\XSTimeCheckSFiveEssPenaltyUnderOneHourDramaticP) & \XSTimeCheckSFiveEssPenaltyTenHoursDramaticEst{} ($p$~\XSTimeCheckSFiveEssPenaltyTenHoursDramaticP) & \XSTimeCheckSFiveEssPenaltyHundredHoursDramaticEst{} ($p$~\XSTimeCheckSFiveEssPenaltyHundredHoursDramaticP)\\
+\addlinespace[3pt]
+\multicolumn{4}{@{}l}{\textit{Creativity}}\\
+None & \XSTimeCheckSFiveCreatPenaltyUnderOneHourNoneEst{} ($p$~\XSTimeCheckSFiveCreatPenaltyUnderOneHourNoneP) & \XSTimeCheckSFiveCreatPenaltyTenHoursNoneEst{} ($p$~\XSTimeCheckSFiveCreatPenaltyTenHoursNoneP) & \XSTimeCheckSFiveCreatPenaltyHundredHoursNoneEst{} ($p$~\XSTimeCheckSFiveCreatPenaltyHundredHoursNoneP)\\
+Slight & \XSTimeCheckSFiveCreatPenaltyUnderOneHourSlightEst{} ($p$~\XSTimeCheckSFiveCreatPenaltyUnderOneHourSlightP) & \XSTimeCheckSFiveCreatPenaltyTenHoursSlightEst{} ($p$~\XSTimeCheckSFiveCreatPenaltyTenHoursSlightP) & \XSTimeCheckSFiveCreatPenaltyHundredHoursSlightEst{} ($p$~\XSTimeCheckSFiveCreatPenaltyHundredHoursSlightP)\\
+Dramatic & \XSTimeCheckSFiveCreatPenaltyUnderOneHourDramaticEst{} ($p$~\XSTimeCheckSFiveCreatPenaltyUnderOneHourDramaticP) & \XSTimeCheckSFiveCreatPenaltyTenHoursDramaticEst{} ($p$~\XSTimeCheckSFiveCreatPenaltyTenHoursDramaticP) & \XSTimeCheckSFiveCreatPenaltyHundredHoursDramaticEst{} ($p$~\XSTimeCheckSFiveCreatPenaltyHundredHoursDramaticP)\\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\begin{minipage}{\textwidth}
+\footnotesize\raggedright
+The estimates come from a refit of Study~5's registered model in the cross-study analysis, which checks that, averaged over editing time with equal weights, the refit reproduces Study~5's registered penalty at each level. None is the original shown again unchanged, where ratings sit near the floor of the scale. Supplementary Figure~\ref{figS:editingtime} plots the creativity rows.
+\end{minipage}
+\end{table}

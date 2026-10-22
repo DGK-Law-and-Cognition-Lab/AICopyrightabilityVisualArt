@@ -1,0 +1,32 @@
+% Study 1: robustness checks on the penalty.
+% Written by tools/make_tables.py from the pipeline table(s) below (paths relative to
+% Analysis/R Analysis Pipeline, each with the SHA-256 it was read with); do not edit by hand.
+%   Study 1/tables/study1_confirmatory_family.csv  d502d85829e95b88558fc42e57ea4256f2c2506ef932396cfb090241b2d06fbc
+%   Study 1/tables/study1_specification_curve.csv  bf372ede20c3a9887df35cbeacdeda5983fe44a4d0c7f9e7dc06a8325ecf4c09
+%   Study 1/tables/study1_brms_primary_fixed.csv  60514547f37adf2c52b47d6e914a82ef2db0380e86e9f7caf49028948101ef5b
+%   Study 1/tables/study1_brms_cumulative_fixed.csv  865874e9bead54ac27d9f389a0b49f6c01badcfd61c5c84b962a465b267cc34c
+%   Study 1/tables/study1_lmm_fixed_effects.csv  e050698a9459c7df8aede2cdd6c34fd54ce2c5d2203b53be11a3ec5e25eeb942
+%   Study 1/tables/study1_equivalence_sensitivity.csv  be48d50f8987f8042a6e995e697c338c383eb78fa584ea70b1ae1727dbd1f634
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption[Study 1: robustness checks on the penalty]{\textbf{Study~1: robustness checks on the label's penalty.} Each row refits or re-tests the H1 contrast, or the related quantity the row names, under another analysis that the registration lists. The status of each row is in parentheses; none of these checks carries a verdict of its own.}\label{tab:supp_table_1}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.4cm}>{\raggedright\arraybackslash}p{5.15cm}>{\raggedright\arraybackslash}p{5.15cm}@{}}
+\toprule
+Check (status) & Creativity & Effort\\
+\midrule
+The H1 contrast, primary model \newline \textit{(registered confirmatory)} & 0.45 (SE 0.13); $t$(109)~=~3.49, $p$~\ensuremath{<}~.001; Holm $p$~\ensuremath{=}~.001 & 0.92 (SE 0.15); $t$(109)~=~6.08, $p$~\ensuremath{<}~.001; Holm $p$~\ensuremath{<}~.001\\
+\addlinespace[4pt]
+Specification curve: the H1 contrast refitted under every combination of the registered analysis choices \newline \textit{(registered secondary; the registration calls it descriptive)} & 18 of 18 specifications estimated, 18 recorded as converged; 18 positive and 0 negative; 18 with $p$ below .05; median $p$~\ensuremath{<}~.001 & 18 of 18 specifications estimated, 18 recorded as converged; 18 positive and 0 negative; 18 with $p$ below .05; median $p$~\ensuremath{<}~.001\\
+\addlinespace[4pt]
+Bayesian refit, linear: the AI-label effect for images without a figure (AI minus Human) \newline \textit{(registered secondary)} & Posterior mean \ensuremath{-}0.40 (95\% credible interval \ensuremath{-}0.66 to \ensuremath{-}0.13); 0.01 points from the primary model's estimate & Posterior mean \ensuremath{-}0.90 (95\% credible interval \ensuremath{-}1.21 to \ensuremath{-}0.59); 0.01 points from the primary model's estimate\\
+\addlinespace[4pt]
+Bayesian refit, ordinal: the same effect, in log-odds \newline \textit{(registered secondary)} & Posterior mean \ensuremath{-}0.93 (95\% credible interval \ensuremath{-}1.57 to \ensuremath{-}0.29) & Posterior mean \ensuremath{-}1.92 (95\% credible interval \ensuremath{-}2.66 to \ensuremath{-}1.15)\\
+\addlinespace[4pt]
+Equivalence at wider bounds: the label-by-kind-of-image interaction, the H3 quantity \newline \textit{(descriptive; no verdict on H3)} & \ensuremath{-}0.08 (90\% CI \ensuremath{-}0.24 to 0.08); inside $\pm$0.30 ($p$~\ensuremath{=}~.010) and inside $\pm$0.50 ($p$~\ensuremath{<}~.001) & \ensuremath{-}0.02 (90\% CI \ensuremath{-}0.18 to 0.14); inside $\pm$0.30 ($p$~\ensuremath{=}~.002) and inside $\pm$0.50 ($p$~\ensuremath{<}~.001)\\
+\bottomrule
+\end{tabular}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize\raggedright The H1 contrast is the Human-label mean rating minus the AI-label mean rating, averaged with equal weight over images with and without a human figure, in points on the 1-to-5 scale. SE, standard error; CI, confidence interval; $\pm$, plus or minus, in rating points. The specification curve crosses the registered choices of random effects, model family, covariates and level of aggregation; its estimates are on each family's own scale, so only their signs are counted. A Bayesian refit estimates the model by combining the data with prior assumptions and summarizes each quantity as a distribution; the credible interval holds the middle 95\% of it. The two Bayesian rows report the AI-label coefficient of Supplementary Table~\ref{tab:supp_lmm}, not the H1 contrast; the text gives the H1 contrast from the same refits. An ordinal model treats the five answers as ordered categories, and log-odds are the logarithm of the odds of a higher answer. An equivalence test asks whether an effect is shown to lie inside a bound; its $p$ is the larger of two one-sided tests. The last row applies such tests to the H3 quantity at wider bounds than the registered one, as description, and carries no verdict on H3; the registered test of H3, at $\pm$0.20, is in Supplementary Note~1.\par\end{minipage}
+\end{table}

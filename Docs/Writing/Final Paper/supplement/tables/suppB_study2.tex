@@ -1,0 +1,62 @@
+% Study 2: predicted means by label and level, the label difference at each level, and the
+% registered tests of H1 with the ordinal check.
+% Every number is a macro from generated/numbers.tex; supplement/tables/README_suppB.md lists
+% the pipeline tables behind them.
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{\textbf{Study~2: predicted mean ratings, and the registered tests of modification (H1).} Ratings are on 1-to-5 scales. \textbf{a},~The linear mixed model's predicted mean for each label at each level (descriptive), and the Human-label mean minus the AI-label mean with its 95\% confidence interval (CI) and two-sided test. Study~2 registered no test at each level, so these differences are exploratory and uncorrected. \textbf{b},~The registered confirmatory tests of H1, corrected together with H2 and H3 by Holm's method across twelve tests, beside the registered ordinal check. Supplementary Note~6 gives the test of H3 and Supplementary Table~\ref{tab:supp-labeleffects} the test of H2.}\label{tab:suppB-s2}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccccc@{}}
+\multicolumn{6}{@{}l}{\textbf{a}\enspace Predicted means and the label difference}\\
+\toprule
+Level & Human label & AI label & Human minus AI & 95\% CI & Two-sided test\\
+\midrule
+\multicolumn{6}{@{}l}{\textit{Transformativeness}}\\
+None & \STwoTransMeanHumanNone & \STwoTransMeanAINone & \STwoTransPenaltyNoneEst & \STwoTransPenaltyNoneLo{} to \STwoTransPenaltyNoneHi & $p$~\STwoTransPenaltyNoneP\\
+Slight & \STwoTransMeanHumanSlight & \STwoTransMeanAISlight & \STwoTransPenaltySlightEst & \STwoTransPenaltySlightLo{} to \STwoTransPenaltySlightHi & $p$~\STwoTransPenaltySlightP\\
+Dramatic & \STwoTransMeanHumanDramatic & \STwoTransMeanAIDramatic & \STwoTransPenaltyDramaticEst & \STwoTransPenaltyDramaticLo{} to \STwoTransPenaltyDramaticHi & $p$~\STwoTransPenaltyDramaticP\\
+Averaged over levels\textsuperscript{a} & \STwoTransMeanHuman & \STwoTransMeanAI & \STwoTransPenaltyEst & \STwoTransPenaltyLo{} to \STwoTransPenaltyHi & $p$~\STwoTransPenaltyP\\
+\addlinespace[3pt]
+\multicolumn{6}{@{}l}{\textit{Essence change}}\\
+None & \STwoEssMeanHumanNone & \STwoEssMeanAINone & \STwoEssPenaltyNoneEst & \STwoEssPenaltyNoneLo{} to \STwoEssPenaltyNoneHi & $p$~\STwoEssPenaltyNoneP\\
+Slight & \STwoEssMeanHumanSlight & \STwoEssMeanAISlight & \STwoEssPenaltySlightEst & \STwoEssPenaltySlightLo{} to \STwoEssPenaltySlightHi & $p$~\STwoEssPenaltySlightP\\
+Dramatic & \STwoEssMeanHumanDramatic & \STwoEssMeanAIDramatic & \STwoEssPenaltyDramaticEst & \STwoEssPenaltyDramaticLo{} to \STwoEssPenaltyDramaticHi & $p$~\STwoEssPenaltyDramaticP\\
+Averaged over levels\textsuperscript{a} & \STwoEssMeanHuman & \STwoEssMeanAI & \STwoEssPenaltyEst & \STwoEssPenaltyLo{} to \STwoEssPenaltyHi & $p$~\STwoEssPenaltyP\\
+\addlinespace[3pt]
+\multicolumn{6}{@{}l}{\textit{Creativity}}\\
+None & \STwoCreatMeanHumanNone & \STwoCreatMeanAINone & \STwoCreatPenaltyNoneEst & \STwoCreatPenaltyNoneLo{} to \STwoCreatPenaltyNoneHi & $p$~\STwoCreatPenaltyNoneP\\
+Slight & \STwoCreatMeanHumanSlight & \STwoCreatMeanAISlight & \STwoCreatPenaltySlightEst & \STwoCreatPenaltySlightLo{} to \STwoCreatPenaltySlightHi & $p$~\STwoCreatPenaltySlightP\\
+Dramatic & \STwoCreatMeanHumanDramatic & \STwoCreatMeanAIDramatic & \STwoCreatPenaltyDramaticEst & \STwoCreatPenaltyDramaticLo{} to \STwoCreatPenaltyDramaticHi & $p$~\STwoCreatPenaltyDramaticP\\
+Averaged over levels\textsuperscript{a} & \STwoCreatMeanHuman & \STwoCreatMeanAI & \STwoCreatPenaltyEst & \STwoCreatPenaltyLo{} to \STwoCreatPenaltyHi & $p$~\STwoCreatPenaltyP\\
+\bottomrule
+\end{tabular}
+
+\medskip
+\begin{tabular}{@{}lcccccc@{}}
+\multicolumn{7}{@{}l}{\textbf{b}\enspace Registered confirmatory tests of H1, with the ordinal check}\\
+\toprule
+ & & & & & \multicolumn{2}{c}{Ordinal check}\\
+\cmidrule(l){6-7}
+Step & Estimate & 95\% CI & $t$ ($df$) & After Holm & Log-odds & After Holm\\
+\midrule
+\multicolumn{7}{@{}l}{\textit{Transformativeness}}\\
+Slight minus None & \STwoTransSlightMinusNoneEst & \STwoTransSlightMinusNoneLo{} to \STwoTransSlightMinusNoneHi & \STwoTransSlightMinusNoneT{} (\STwoTransSlightMinusNoneDf) & $p$~\STwoTransSlightMinusNonePHolm & \STwoTransSlightMinusNoneOrdEst & $p$~\STwoTransSlightMinusNoneOrdPHolm\\
+Dramatic minus Slight & \STwoTransDramaticMinusSlightEst & \STwoTransDramaticMinusSlightLo{} to \STwoTransDramaticMinusSlightHi & \STwoTransDramaticMinusSlightT{} (\STwoTransDramaticMinusSlightDf) & $p$~\STwoTransDramaticMinusSlightPHolm & \STwoTransDramaticMinusSlightOrdEst & $p$~\STwoTransDramaticMinusSlightOrdPHolm\\
+\addlinespace[3pt]
+\multicolumn{7}{@{}l}{\textit{Essence change}}\\
+Slight minus None & \STwoEssSlightMinusNoneEst & \STwoEssSlightMinusNoneLo{} to \STwoEssSlightMinusNoneHi & \STwoEssSlightMinusNoneT{} (\STwoEssSlightMinusNoneDf) & $p$~\STwoEssSlightMinusNonePHolm & \STwoEssSlightMinusNoneOrdEst & $p$~\STwoEssSlightMinusNoneOrdPHolm\\
+Dramatic minus Slight & \STwoEssDramaticMinusSlightEst & \STwoEssDramaticMinusSlightLo{} to \STwoEssDramaticMinusSlightHi & \STwoEssDramaticMinusSlightT{} (\STwoEssDramaticMinusSlightDf) & $p$~\STwoEssDramaticMinusSlightPHolm & \STwoEssDramaticMinusSlightOrdEst & $p$~\STwoEssDramaticMinusSlightOrdPHolm\\
+\addlinespace[3pt]
+\multicolumn{7}{@{}l}{\textit{Creativity}}\\
+Slight minus None & \STwoCreatSlightMinusNoneEst & \STwoCreatSlightMinusNoneLo{} to \STwoCreatSlightMinusNoneHi & \STwoCreatSlightMinusNoneT{} (\STwoCreatSlightMinusNoneDf) & $p$~\STwoCreatSlightMinusNonePHolm & \multicolumn{2}{c}{not completed\textsuperscript{b}}\\
+Dramatic minus Slight & \STwoCreatDramaticMinusSlightEst & \STwoCreatDramaticMinusSlightLo{} to \STwoCreatDramaticMinusSlightHi & \STwoCreatDramaticMinusSlightT{} (\STwoCreatDramaticMinusSlightDf) & $p$~\STwoCreatDramaticMinusSlightPHolm & \multicolumn{2}{c}{}\\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\begin{minipage}{\textwidth}
+\footnotesize\raggedright
+Predicted means and differences come from the registered model, averaged equally over image kind (originals with and without a human figure). A difference is computed before rounding, so it can differ in its last digit from the difference of the rounded means. $df$: degrees of freedom by Satterthwaite's approximation. The ordinal check is a cumulative-link mixed model, which treats the five answers as ordered categories. Its estimates are differences in the log-odds of a higher answer, and its Holm family is the nine ordinal $p$-values with the three equivalence $p$-values. \textsuperscript{a}The ordinary two-sided test of the averaged difference is description only; the registered H2 verdict rests on the equivalence test in Supplementary Table~\ref{tab:supp-labeleffects}. \textsuperscript{b}The ordinal model of creativity did not converge, so under the registered rule it has no $p$-value and no verdict.
+\end{minipage}
+\end{table}

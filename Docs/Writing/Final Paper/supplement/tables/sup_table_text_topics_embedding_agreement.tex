@@ -1,0 +1,15 @@
+\begin{table}[!h]
+\centering
+\caption{\label{tab:supp_text_topics_embedding_agreement}A check that the topics are not an artefact of counting words. Each explanation is turned into a vector of numbers by a pretrained sentence-embedding model (all-mpnet-base-v2, run from a local copy), a network trained on large amounts of text so that sentences of similar meaning get nearby vectors; the vectors are grouped into k clusters by k-means, which splits them into k groups so that each vector sits closer to the centre of its own group than to any other, k being the number of topics chosen for that dimension; and ari is the adjusted Rand index between those clusters and each explanation's heaviest topic: the agreement between the two groupings beyond what chance would produce, 0 for chance and 1 for identical groupings. No measure or test in the paper rests on the embedding model. An NA ari means the model could not be loaded from its local copy, and the note column says so.}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{9}{11}\selectfont
+\begin{tabular}[t]{lrr}
+\toprule
+dimension & k & ari\\
+\midrule
+creativity & 6 & 0.092\\
+effort & 6 & 0.136\\
+\bottomrule
+\end{tabular}}
+\end{table}

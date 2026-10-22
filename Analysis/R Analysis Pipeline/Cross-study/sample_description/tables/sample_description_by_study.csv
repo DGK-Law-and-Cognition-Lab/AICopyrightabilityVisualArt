@@ -1,0 +1,6 @@
+study,n,age_n,age_mean,age_sd,age_min,age_max,age_answers_not_a_bare_number,n_women,n_men,n_gender_other,analysis_status
+Study 1,111,111,20.08108108108108,1.6902669780252042,18,29,1,93,17,1,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
+Study 2,235,235,19.961702127659574,1.8218232146459217,18,34,1,192,38,5,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
+Study 3,85,85,20.16470588235294,1.478795027680833,18,26,0,60,23,2,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
+Study 4,117,117,20.521367521367523,3.069871081754287,18,42,0,96,20,1,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
+Study 5,223,223,20.22421524663677,2.47217783194079,18,45,0,179,37,7,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026

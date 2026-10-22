@@ -1,0 +1,34 @@
+\begin{table}[!h]
+\centering
+\caption{\label{tab:supp_text_selfsimilarity}Within-person word overlap by arm, the text version of H4: a registered check, run in every study where the rating exists, with a predicted direction; its two dimensions are corrected together by the Holm procedure, in which the tests are ordered from the smallest p-value upward and each is compared against a threshold that starts strictest and relaxes as earlier tests pass, and are kept apart from the confirmatory family. For each participant and dimension, self\_overlap is the mean Jaccard overlap across that participant's ten explanations, over all 45 pairs of them, where the Jaccard overlap of two explanations is the number of content words they share divided by the number of content words in either, so 0 means no word in common and 1 the same set of words. The stranger baseline, stranger\_overlap, is the same overlap between each of that participant's explanations and the explanations other participants wrote for the same image and dimension, averaged over the ten images: how much two people writing about the same picture share by default. self\_minus\_stranger, the excess of a participant's own reuse over that baseline, is the quantity compared; the notebook that writes each explanation's content words never sees the condition or the rating. The arm difference is from a linear model of self\_minus\_stranger on arm with the mean number of content words per explanation as a covariate, a variable held constant in the model because the overlap statistic falls as texts get longer, with a 95\% interval from 2,000 resamples of participants in which the stranger baseline is rebuilt from the resampled participants each time, so the interval carries the uncertainty of the reference group as well as that of the participants compared. The prediction is that participants told a machine made the work reuse their own words more. p\_holm is the p-value of the arm difference after the Holm correction across the two dimensions, and reading states the result: supported when the corrected test rejects in the predicted direction, opposite direction when it rejects in the other direction, and inconclusive otherwise. An inconclusive reading, which includes any interval that contains zero, is not evidence that the arms reuse their words equally. The raw self\_overlap by arm is reported beside it as description.}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{9}{11}\selectfont
+\begin{tabular}[t]{lllrrrllrl}
+\toprule
+dimension & role & quantity & estimate & ci\_lo & ci\_hi & p\_raw & p\_holm & n\_valid & reading\\
+\midrule
+creativity & registered comparison & arm\_difference\_AI\_minus\_Human & 0.025 & -0.003 & 0.059 & 0.092 & 0.092 & 2000 & inconclusive\\
+creativity & description, raw level by arm & self\_overlap\_Human & 0.069 & 0.055 & 0.083 & NA & NA & 2000 & NA\\
+creativity & description, raw level by arm & stranger\_overlap\_Human & 0.027 & 0.024 & 0.031 & NA & NA & 2000 & NA\\
+creativity & description, raw level by arm & self\_minus\_stranger\_Human & 0.041 & 0.029 & 0.054 & NA & NA & 2000 & NA\\
+creativity & description, raw level by arm & mean\_words\_Human & 8.031 & 6.799 & 9.398 & NA & NA & 2000 & NA\\
+\addlinespace
+creativity & description, raw level by arm & self\_overlap\_AI & 0.094 & 0.070 & 0.124 & NA & NA & 2000 & NA\\
+creativity & description, raw level by arm & stranger\_overlap\_AI & 0.029 & 0.026 & 0.033 & NA & NA & 2000 & NA\\
+creativity & description, raw level by arm & self\_minus\_stranger\_AI & 0.065 & 0.041 & 0.094 & NA & NA & 2000 & NA\\
+creativity & description, raw level by arm & mean\_words\_AI & 9.175 & 7.882 & 10.549 & NA & NA & 2000 & NA\\
+effort & registered comparison & arm\_difference\_AI\_minus\_Human & 0.057 & 0.021 & 0.104 & < 0.001 & 0.002 & 2000 & supported\\
+\addlinespace
+effort & description, raw level by arm & self\_overlap\_Human & 0.099 & 0.082 & 0.118 & NA & NA & 2000 & NA\\
+effort & description, raw level by arm & stranger\_overlap\_Human & 0.036 & 0.032 & 0.041 & NA & NA & 2000 & NA\\
+effort & description, raw level by arm & self\_minus\_stranger\_Human & 0.063 & 0.046 & 0.081 & NA & NA & 2000 & NA\\
+effort & description, raw level by arm & mean\_words\_Human & 7.986 & 6.627 & 9.535 & NA & NA & 2000 & NA\\
+effort & description, raw level by arm & self\_overlap\_AI & 0.157 & 0.121 & 0.201 & NA & NA & 2000 & NA\\
+\addlinespace
+effort & description, raw level by arm & stranger\_overlap\_AI & 0.036 & 0.030 & 0.042 & NA & NA & 2000 & NA\\
+effort & description, raw level by arm & self\_minus\_stranger\_AI & 0.121 & 0.088 & 0.163 & NA & NA & 2000 & NA\\
+effort & description, raw level by arm & mean\_words\_AI & 7.894 & 6.758 & 9.157 & NA & NA & 2000 & NA\\
+\bottomrule
+\end{tabular}}
+\end{table}

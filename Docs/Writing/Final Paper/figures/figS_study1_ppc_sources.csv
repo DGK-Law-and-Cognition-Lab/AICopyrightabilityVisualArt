@@ -1,0 +1,3 @@
+"rating","file","sha256","n_observed","ndraws","seed","family"
+"creativity","Study 1/models/study1_brms_primary_creativity.rds","cff988daffc8569999ed44aa7496ae86ccc53b809f38f702fd6ba21c958b6d04",1110,100,20260421,"gaussian"
+"effort","Study 1/models/study1_brms_primary_effort.rds","eb1f08eade790cc09093b1acf4a11f007b02a7a18f175ee1a4866f7574083689",1110,100,20260421,"gaussian"

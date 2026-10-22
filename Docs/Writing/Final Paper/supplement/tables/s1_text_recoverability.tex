@@ -1,0 +1,31 @@
+% Study 1: the rating and the label recovered from the words.
+% Written by tools/make_tables.py from the pipeline table(s) below (paths relative to
+% Analysis/R Analysis Pipeline, each with the SHA-256 it was read with); do not edit by hand.
+%   Study 1/tables/study1_text_recoverability.csv  23af11956d87fa145255dddef8f9a3ded2c67aedc1e6c04a61a6879708e0babe
+\begin{table}[htbp]
+\centering
+\small
+\caption[Study 1: the rating and the label recovered from the words]{\textbf{Study~1: can the rating and the label be recovered from the words?} The first of the two checks run in every study (registered secondary). Each model was fitted to some participants' explanations and scored on the explanations of participants left out of the fit. By the registered reading, both the rating and the label are recovered on both ratings, and the words add to the rating in telling the two label groups apart.}\label{tab:supp_text_recoverability}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.4cm}llll@{}}
+\toprule
+What is predicted & Statistic & Estimate & 95\% CI & Shuffled baseline\\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Creativity explanations}}\\
+The rating, from the words & $r$ & 0.49 & 0.44 to 0.55 & 0.16\\
+The label, from the words & AUC & 0.59 & 0.53 to 0.64 & 0.51\\
+The label, from the rating & AUC & 0.60 & 0.53 to 0.66 & 0.51\\
+The label, from the rating and the words & AUC & 0.63 & 0.57 to 0.69 & --\\
+What the words add: rating and words, minus rating alone & AUC difference & 0.036 & 0.003 to 0.067 & --\\
+\addlinespace[3pt]
+\multicolumn{5}{@{}l}{\textit{Effort explanations}}\\
+The rating, from the words & $r$ & 0.63 & 0.57 to 0.68 & 0.39\\
+The label, from the words & AUC & 0.72 & 0.66 to 0.78 & 0.50\\
+The label, from the rating & AUC & 0.70 & 0.63 to 0.77 & 0.53\\
+The label, from the rating and the words & AUC & 0.75 & 0.68 to 0.81 & --\\
+What the words add: rating and words, minus rating alone & AUC difference & 0.051 & 0.020 to 0.083 & --\\
+\bottomrule
+\end{tabular}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize\raggedright $r$, the correlation between predicted and observed ratings (0, no relation; 1, a perfect one). AUC, the chance that a randomly chosen AI-label explanation is scored as more AI-like than a randomly chosen Human-label one (0.5 is chance; 1, perfect separation). The models are ridge regressions, which shrink their many word weights toward zero, on counts of each explanation's content words. Participants were split into 10 groups, and each group in turn was left out of the fit and scored, so that no participant's explanations were both fitted and scored. CI, confidence interval, from 2{,}000 resamples of participants. The shuffled baseline is the 95th percentile of the statistic over 200 reruns with the outcome shuffled: the rating among each participant's own explanations, the label across participants. An estimate above it is read as signal. Every explanation was written after its rating, so recovering the rating is not evidence that the words produced it.\par\end{minipage}
+\end{table}

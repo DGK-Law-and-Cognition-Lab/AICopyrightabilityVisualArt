@@ -1,0 +1,24 @@
+\begin{table}[!h]
+\centering
+\caption{\label{tab:supp_fully_maximal}Fixed effects from the fully maximal random-effects specification (by-participant intercepts and stimulus-type slopes; by-stimulus intercepts and Type slopes) beside the primary intercepts-only estimates, with the by-stimulus Type-slope SD, singularity flag, and optimizer of each fit. A fit is singular when an estimated variance sits at zero or a correlation at plus or minus one; a singular fit can still carry slope variances above zero, as the slope SD column shows. TypeAI is the machine-minus-human difference at the non-figurative image kind, not the H1 contrast averaged over image kinds.}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{9}{11}\selectfont
+\begin{tabular}[t]{llrrrlrllllll}
+\toprule
+dimension & term & est\_primary & est\_maximal & se\_maximal & p\_maximal & by\_stim\_type\_slope\_sd & singular & optimizer & converged & fit\_error & lme4\_messages & fit\_note\\
+\midrule
+creativity & (Intercept) & 3.371 & 3.371 & 0.240 & < 0.001 & 0.076 & TRUE & bobyqa & TRUE & FALSE & boundary (singular) fit: see help('isSingular') & NA\\
+creativity & TypeAI & -0.408 & -0.408 & 0.142 & 0.005 & 0.076 & TRUE & bobyqa & TRUE & FALSE & boundary (singular) fit: see help('isSingular') & NA\\
+creativity & stimulus\_typeFigure & 0.350 & 0.350 & 0.319 & 0.304 & 0.076 & TRUE & bobyqa & TRUE & FALSE & boundary (singular) fit: see help('isSingular') & NA\\
+creativity & TypeAI:stimulus\_typeFigure & -0.081 & -0.081 & 0.110 & 0.468 & 0.076 & TRUE & bobyqa & TRUE & FALSE & boundary (singular) fit: see help('isSingular') & NA\\
+creativity & H1 marginal contrast: Human - AI, averaged over image kind & 0.448 & 0.448 & 0.131 & < 0.001 & 0.076 & TRUE & bobyqa & TRUE & FALSE & boundary (singular) fit: see help('isSingular') & NA\\
+\addlinespace
+effort & (Intercept) & 3.718 & 3.718 & 0.183 & < 0.001 & 0.016 & TRUE & bobyqa & TRUE & FALSE & boundary (singular) fit: see help('isSingular') & NA\\
+effort & TypeAI & -0.911 & -0.911 & 0.155 & < 0.001 & 0.016 & TRUE & bobyqa & TRUE & FALSE & boundary (singular) fit: see help('isSingular') & NA\\
+effort & stimulus\_typeFigure & 0.089 & 0.089 & 0.218 & 0.692 & 0.016 & TRUE & bobyqa & TRUE & FALSE & boundary (singular) fit: see help('isSingular') & NA\\
+effort & TypeAI:stimulus\_typeFigure & -0.020 & -0.020 & 0.096 & 0.834 & 0.016 & TRUE & bobyqa & TRUE & FALSE & boundary (singular) fit: see help('isSingular') & NA\\
+effort & H1 marginal contrast: Human - AI, averaged over image kind & 0.921 & 0.921 & 0.152 & < 0.001 & 0.016 & TRUE & bobyqa & TRUE & FALSE & boundary (singular) fit: see help('isSingular') & NA\\
+\bottomrule
+\end{tabular}}
+\end{table}

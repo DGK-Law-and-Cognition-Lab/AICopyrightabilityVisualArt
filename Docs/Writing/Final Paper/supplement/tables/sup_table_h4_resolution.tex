@@ -1,0 +1,27 @@
+\begin{table}[!h]
+\centering
+\caption{\label{tab:supp_h4_resolution}What the design can resolve for H4: the sampling spread of the estimated ratio of machine-arm to human-arm between-participant variance at this study's arm sizes, 56 and 55 participants, by simulation. Data sets of this design are generated from the estimated variance components, the two models of the registered H4 test are fitted to each, and the ratio is estimated on every one; ratio\_q025 and ratio\_q975 are the 2.5th and 97.5th percentiles of those estimates across simulations and ratio\_spread\_95 the distance between them, the spread of the ratio estimate from one sample of this size to the next. It is not the width or the coverage of the bootstrap interval the registered test reports: no interval is computed inside each simulated data set, and for a skewed quantity such as a variance ratio the two can differ. Rows are one per dimension and setting: null\_pooled gives both arms one common between-participant variance, so its spread is the spread of the estimate when the null is true and its rejection share (lrt\_reject\_rate, with the Monte Carlo standard error that comes from a finite number of simulations) is the false-positive rate of the likelihood ratio test; observed puts every component at its estimated value, so its spread is the spread at the ratio actually estimated and its rejection share is the power against a ratio of that size; grid sets the true ratio to each listed value, and smallest\_grid\_ratio\_at\_80pct is the smallest that the design detects with 80\% power, NA where the grid does not reach it. median\_ratio is the median estimate, whose gap from the true ratio is the estimator's small-sample bias; n\_singular and n\_failed count the simulated data sets set aside because one arm's variance was driven to zero or the fit errored. Where the spread is wide relative to the ratios at issue, a null on H4 is reported as uninformative rather than as evidence that the two arms' variances are equal.}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{9}{11}\selectfont
+\begin{tabular}[t]{llrrrrrrrrrrr}
+\toprule
+dimension & setting & true\_ratio\_between & median\_ratio & sd\_log\_ratio & ratio\_q025 & ratio\_q975 & ratio\_spread\_95 & lrt\_reject\_rate & lrt\_reject\_mc\_se & n\_singular & n\_failed & smallest\_grid\_ratio\_at\_80pct\\
+\midrule
+creativity & null\_pooled & 1.000 & 0.950 & 0.321 & 0.498 & 1.756 & 1.258 & 0.057 & 0.007 & 0 & 0 & 3\\
+effort & null\_pooled & 1.000 & 0.916 & 0.308 & 0.503 & 1.710 & 1.207 & 0.059 & 0.007 & 0 & 0 & 3\\
+creativity & observed & 2.098 & 2.061 & 0.328 & 1.124 & 3.991 & 2.867 & 0.599 & 0.015 & 0 & 0 & 3\\
+effort & observed & 4.230 & 3.924 & 0.318 & 2.084 & 7.418 & 5.334 & 0.993 & 0.003 & 0 & 0 & 3\\
+creativity & grid & 1.250 & 1.219 & 0.339 & 0.616 & 2.497 & 1.881 & 0.099 & 0.009 & 0 & 0 & 3\\
+\addlinespace
+creativity & grid & 1.500 & 1.441 & 0.338 & 0.741 & 2.807 & 2.066 & 0.206 & 0.013 & 0 & 0 & 3\\
+creativity & grid & 2.000 & 1.966 & 0.329 & 1.075 & 3.701 & 2.626 & 0.559 & 0.016 & 0 & 0 & 3\\
+creativity & grid & 3.000 & 2.874 & 0.329 & 1.571 & 5.417 & 3.846 & 0.916 & 0.009 & 0 & 0 & 3\\
+effort & grid & 1.250 & 1.111 & 0.351 & 0.553 & 2.220 & 1.667 & 0.057 & 0.007 & 0 & 0 & 3\\
+effort & grid & 1.500 & 1.329 & 0.335 & 0.728 & 2.652 & 1.924 & 0.140 & 0.011 & 0 & 0 & 3\\
+\addlinespace
+effort & grid & 2.000 & 1.789 & 0.337 & 0.931 & 3.430 & 2.499 & 0.422 & 0.016 & 0 & 0 & 3\\
+effort & grid & 3.000 & 2.736 & 0.331 & 1.409 & 5.307 & 3.898 & 0.876 & 0.010 & 0 & 0 & 3\\
+\bottomrule
+\end{tabular}}
+\end{table}

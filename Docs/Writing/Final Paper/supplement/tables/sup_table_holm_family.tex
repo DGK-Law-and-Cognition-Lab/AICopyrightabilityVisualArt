@@ -1,0 +1,17 @@
+\begin{table}[!h]
+\centering
+\caption{\label{tab:supp_holm_family}The confirmatory family and its Holm correction: the attribution contrast on creativity, the attribution contrast on effort, the attribution-by-dimension contrast, and the H4 variance-ratio test, with raw and Holm-adjusted p-values at a family-wise alpha of .05 (the Holm procedure orders the tests from the smallest p-value upward and compares each against a threshold that starts strictest and relaxes as earlier tests pass). The two attribution contrasts are the Human-minus-machine difference averaged with equal weight over the two image kinds. The H4 row is the between-participant half of H4 only, the likelihood ratio test of letting the between-participant variance differ by arm, at the weaker of the two dimensions. A surviving H4 row does not establish H4, which also requires lower residual variance under machine attribution, with each ratio's interval on the predicted side of 1, on both dimensions: the h4\_supported column of the H4 variance table. In the H4 variance table the full criterion holds on effort and does not hold on creativity, so H4 as registered, which requires both dimensions, is not supported. H3 is not part of this family: it is a null prediction, decided by the equivalence procedure. Any false-discovery-rate column elsewhere in these tables is descriptive and is not this correction. Each row shows the estimate with its standard error (se), the test statistic with its type (statistic\_type), the raw and the Holm-adjusted p-values (p\_raw, p\_holm), and whether the test survives the correction (survives\_holm\_at\_05). The deposited table carries no interval for the family. The estimate of the H4 row is the machine-to-human ratio of between-participant variance, which has no standard error here; its bootstrap interval is in the H4 variance table. The full table, with the degrees of freedom, the family size, the wording of the correction, the H4 likelihood ratio p-value on each dimension, whether the fits converged and a note on each row, is deposited as tables/study1\_confirmatory\_family.csv.}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{9}{11}\selectfont
+\begin{tabular}[t]{l>{\raggedright\arraybackslash}p{5cm}rrlrlll}
+\toprule
+hypothesis & test & estimate & se & statistic\_type & statistic & p\_raw & p\_holm & survives\_holm\_at\_05\\
+\midrule
+H1 & Attribution contrast (Human - AI), creativity, estimated marginal, averaged over image kind & 0.448 & 0.128 & t & 3.493 & < 0.001 & 0.001 & TRUE\\
+H1 & Attribution contrast (Human - AI), effort, estimated marginal, averaged over image kind & 0.921 & 0.152 & t & 6.077 & < 0.001 & < 0.001 & TRUE\\
+H2 & Attribution x dimension, joint model (type-III Satterthwaite) & 0.472 & 0.098 & F & 23.015 & < 0.001 & < 0.001 & TRUE\\
+H4 & Between-participant variance free by arm vs common, likelihood ratio (weaker of the two dimensions: creativity) & 2.038 & NA & chi-square & 4.981 & 0.026 & 0.026 & TRUE\\
+\bottomrule
+\end{tabular}}
+\end{table}

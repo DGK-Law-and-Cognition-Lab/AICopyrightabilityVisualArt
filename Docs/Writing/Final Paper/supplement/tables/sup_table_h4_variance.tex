@@ -1,0 +1,15 @@
+\begin{table}[!h]
+\centering
+\caption{\label{tab:supp_h4_variance}H4, the registered variance test by attribution arm: the ratio of machine-arm to human-arm between-participant variance and the ratio of machine-arm to human-arm residual variance, both on the absolute variance scale; with the likelihood ratio test of each against a model holding that variance common to the two arms (lrt\_between\_chisq and lrt\_between\_p for the between-participant variance, lrt\_residual\_chisq and lrt\_residual\_p for the residual variance). The two ratios come from two fits with different residual structures. The between-participant ratio is from a crossed mixed model with participant and image intercepts, the participant variance free by arm and one residual variance shared by the arms. The residual ratio is from a second model in which the participant and the residual variances both differ by arm but which has no image intercept, so its residual also holds the differences between images that image kind does not explain. Each test sets two positive variances equal, an interior point of the parameter space, so it is referred to an ordinary chi-square on one degree of freedom rather than to a boundary-corrected mixture; the deposited file records this in its own reference columns. Each ratio carries a 95\% interval from a participant-level percentile bootstrap, in which participants are resampled with replacement within each arm, duplicated participants are relabelled as distinct so the random-effects fit stays valid, both models are refit on every resample, and the interval is read from the 2.5th and 97.5th percentiles of the resampled ratios. H4 is supported on a dimension only if the participant ratio's interval lies wholly above 1 and the residual ratio's wholly below 1, a conjunction the h4\_supported column states, and H4 as registered requires it on both dimensions. This table shows the ratios, their intervals, the two tests and that verdict; the full table, with the arm-specific variances, the reference distribution of each test, the resample count, and the number of resamples whose refit failed or was singular, is deposited as tables/study1\_h4\_variance\_test.csv.}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{9}{11}\selectfont
+\begin{tabular}[t]{lrrrrrrrlrll}
+\toprule
+dimension & ratio\_between\_AI\_over\_Human & ci\_low\_between & ci\_high\_between & ratio\_residual\_AI\_over\_Human & ci\_low\_residual & ci\_high\_residual & lrt\_between\_chisq & lrt\_between\_p & lrt\_residual\_chisq & lrt\_residual\_p & h4\_supported\\
+\midrule
+creativity & 2.038 & 1.181 & 3.566 & 0.818 & 0.657 & 1.024 & 4.981 & 0.026 & 5.031 & 0.025 & FALSE\\
+effort & 3.878 & 2.211 & 6.730 & 0.634 & 0.478 & 0.836 & 18.155 & < 0.001 & 25.654 & < 0.001 & TRUE\\
+\bottomrule
+\end{tabular}}
+\end{table}

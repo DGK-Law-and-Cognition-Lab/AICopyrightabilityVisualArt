@@ -1,0 +1,62 @@
+% Study 5: the six registered confirmatory tests with the rescaled analysis, the registered
+% secondary editing-time contrasts, and the predicted means.
+% Every number is a macro from generated/numbers.tex; supplement/tables/README_suppB.md lists
+% the pipeline tables behind them.
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{\textbf{Study~5: the registered tests of stated editing time, and the predicted means.} Ratings are on 1-to-5 scales. \textbf{a},~The six registered confirmatory $F$~tests, corrected together by Holm's method, beside the registered second analysis with every item rescaled from 0 to 1. \textbf{b},~The registered secondary equivalence tests of editing time, each uncorrected: 100 hours minus under 1 hour, averaged over label and level, against a bound of $\pm$\SFiveEditTimeBound{} points, the size of Study~3's creativity time effect. \textbf{c},~Predicted means (descriptive), each averaged over the factors not named.}\label{tab:suppB-s5}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccccc@{}}
+\multicolumn{6}{@{}l}{\textbf{a}\enspace Registered confirmatory tests}\\
+\toprule
+ & & & & \multicolumn{2}{c}{Rescaled analysis}\\
+\cmidrule(l){5-6}
+Term & $F$ ($df$) & Uncorrected & After Holm & $F$ & After Holm\\
+\midrule
+\multicolumn{6}{@{}l}{\textit{Transformativeness}}\\
+Editing time & \SFiveTransEditTimeF{} (\SFiveTransEditTimeDfNum, \SFiveTransEditTimeDfDen) & $p$~\SFiveTransEditTimeP & $p$~\SFiveTransEditTimePHolm & \SFiveTransEditTimeRescaledF & $p$~\SFiveTransEditTimeRescaledPHolm\\
+Label by editing time & \SFiveTransSourceByEditTimeF{} (\SFiveTransSourceByEditTimeDfNum, \SFiveTransSourceByEditTimeDfDen) & $p$~\SFiveTransSourceByEditTimeP & $p$~\SFiveTransSourceByEditTimePHolm & \SFiveTransSourceByEditTimeRescaledF & $p$~\SFiveTransSourceByEditTimeRescaledPHolm\\
+\addlinespace[3pt]
+\multicolumn{6}{@{}l}{\textit{Essence change}}\\
+Editing time & \SFiveEssEditTimeF{} (\SFiveEssEditTimeDfNum, \SFiveEssEditTimeDfDen) & $p$~\SFiveEssEditTimeP & $p$~\SFiveEssEditTimePHolm & \SFiveEssEditTimeRescaledF & $p$~\SFiveEssEditTimeRescaledPHolm\\
+Label by editing time & \SFiveEssSourceByEditTimeF{} (\SFiveEssSourceByEditTimeDfNum, \SFiveEssSourceByEditTimeDfDen) & $p$~\SFiveEssSourceByEditTimeP & $p$~\SFiveEssSourceByEditTimePHolm & \SFiveEssSourceByEditTimeRescaledF & $p$~\SFiveEssSourceByEditTimeRescaledPHolm\\
+\addlinespace[3pt]
+\multicolumn{6}{@{}l}{\textit{Creativity}}\\
+Editing time & \SFiveCreatEditTimeF{} (\SFiveCreatEditTimeDfNum, \SFiveCreatEditTimeDfDen) & $p$~\SFiveCreatEditTimeP & $p$~\SFiveCreatEditTimePHolm & \SFiveCreatEditTimeRescaledF & $p$~\SFiveCreatEditTimeRescaledPHolm\\
+Label by editing time & \SFiveCreatSourceByEditTimeF{} (\SFiveCreatSourceByEditTimeDfNum, \SFiveCreatSourceByEditTimeDfDen) & $p$~\SFiveCreatSourceByEditTimeP & $p$~\SFiveCreatSourceByEditTimePHolm & \SFiveCreatSourceByEditTimeRescaledF & $p$~\SFiveCreatSourceByEditTimeRescaledPHolm\\
+\bottomrule
+\end{tabular}
+
+\medskip
+\begin{tabular}{@{}lcccc@{}}
+\multicolumn{5}{@{}l}{\textbf{b}\enspace Registered secondary tests: 100 hours minus under 1 hour of stated editing time}\\
+\toprule
+Measure & Estimate & 90\% CI & Two-sided test & Equivalence test\\
+\midrule
+Transformativeness & \SFiveTransEditTimeContrastEst & \SFiveTransEditTimeContrastLoNinety{} to \SFiveTransEditTimeContrastHiNinety & $p$~\SFiveTransEditTimeContrastP & $p$~\SFiveTransEditTimeContrastPTost\\
+Essence change & \SFiveEssEditTimeContrastEst & \SFiveEssEditTimeContrastLoNinety{} to \SFiveEssEditTimeContrastHiNinety & $p$~\SFiveEssEditTimeContrastP & $p$~\SFiveEssEditTimeContrastPTost\\
+Creativity & \SFiveCreatEditTimeContrastEst & \SFiveCreatEditTimeContrastLoNinety{} to \SFiveCreatEditTimeContrastHiNinety & $p$~\SFiveCreatEditTimeContrastP & $p$~\SFiveCreatEditTimeContrastPTost\\
+\bottomrule
+\end{tabular}
+
+\medskip
+\begin{tabular}{@{}lccccccccc@{}}
+\multicolumn{10}{@{}l}{\textbf{c}\enspace Predicted means}\\
+\toprule
+ & \multicolumn{2}{c}{None} & \multicolumn{2}{c}{Slight} & \multicolumn{2}{c}{Dramatic} & \multicolumn{3}{c}{Stated editing time}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(l){8-10}
+Measure & Human & AI & Human & AI & Human & AI & Under 1 hour & 10 hours & 100 hours\\
+\midrule
+Transformativeness & \SFiveTransMeanHumanNone & \SFiveTransMeanAINone & \SFiveTransMeanHumanSlight & \SFiveTransMeanAISlight & \SFiveTransMeanHumanDramatic & \SFiveTransMeanAIDramatic & \SFiveTransMeanUnderOneHour & \SFiveTransMeanTenHours & \SFiveTransMeanHundredHours\\
+Essence change & \SFiveEssMeanHumanNone & \SFiveEssMeanAINone & \SFiveEssMeanHumanSlight & \SFiveEssMeanAISlight & \SFiveEssMeanHumanDramatic & \SFiveEssMeanAIDramatic & \SFiveEssMeanUnderOneHour & \SFiveEssMeanTenHours & \SFiveEssMeanHundredHours\\
+Creativity & \SFiveCreatMeanHumanNone & \SFiveCreatMeanAINone & \SFiveCreatMeanHumanSlight & \SFiveCreatMeanAISlight & \SFiveCreatMeanHumanDramatic & \SFiveCreatMeanAIDramatic & \SFiveCreatMeanUnderOneHour & \SFiveCreatMeanTenHours & \SFiveCreatMeanHundredHours\\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\begin{minipage}{\textwidth}
+\footnotesize\raggedright
+Estimates come from the registered linear mixed model, which gives each participant and each original its own baseline. $df$: degrees of freedom by Satterthwaite's approximation; the rescaled tests have the same numerator degrees of freedom. The rescaled analysis includes the two six-point transformativeness items, which the primary models leave out; essence change and creativity have no six-point items, so their rescaled tests repeat the primary ones on a 0-to-1 scale. An equivalence test passes when the 90\% confidence interval (CI) lies wholly inside the bound, which means small, not zero. Human, AI: the label of the original. Supplementary Table~\ref{tab:supp-labeleffects} gives the label's effect at each level with its registered verdict.
+\end{minipage}
+\end{table}

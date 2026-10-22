@@ -11,6 +11,13 @@
 # Study 1's saved model files. The runs write them again, and the saved
 # Bayesian fits record the full path of the folder they were saved in
 Analysis/R Analysis Pipeline/Study 1/models/*.rds
-# Copies that the runs write for the manuscript, which is not part of this
-# repository
-Docs/Writing/
+# LaTeX's build files for the manuscript and its Supplementary Information
+Docs/Writing/Final Paper/*.aux
+Docs/Writing/Final Paper/*.log
+Docs/Writing/Final Paper/*.fdb_latexmk
+Docs/Writing/Final Paper/*.fls
+Docs/Writing/Final Paper/*.out
+Docs/Writing/Final Paper/*.bbl
+Docs/Writing/Final Paper/*.blg
+Docs/Writing/Final Paper/*.toc
+Docs/Writing/Final Paper/*.synctex.gz

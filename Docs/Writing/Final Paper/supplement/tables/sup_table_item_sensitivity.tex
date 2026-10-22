@@ -1,0 +1,18 @@
+\begin{table}[!h]
+\centering
+\caption{\label{tab:supp_item_sensitivity}The registered contrasts with the first figurative effort item set aside. That item's top two scale labels differ from those of the other nine effort items (4 = A lot of effort involved and 5 = Significant effort involved, where the others read 4 = Significant effort involved and 5 = A great deal of effort involved); its ratings are scored 1 to 5 as recorded. Each row names the hypothesis and the sample the contrast is computed on, as the writer records them, with the estimate in rating points, its standard error (se) and its 95\% confidence interval (ci\_low, ci\_high). The contrast of each hypothesis, as the writer names it: H1, Attribution contrast on effort (Human - AI), averaged over image kind; H2, (Human - AI | effort) - (Human - AI | creativity), averaged over image kind. A sensitivity analysis, not a registered test: the registered scoring and sample are unchanged. The full table, with the number of ratings, the degrees of freedom, the p-value, the difference from the full sample, the random-effects structure and the fit status of each row, is deposited as tables/study1\_item\_sensitivity.csv.}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{9}{11}\selectfont
+\begin{tabular}[t]{l>{\raggedright\arraybackslash}p{5cm}rrrr}
+\toprule
+hypothesis & sample & estimate & se & ci\_low & ci\_high\\
+\midrule
+H1 & full sample & 0.921 & 0.152 & 0.620 & 1.221\\
+H1 & 1FigureEff removed (effort rating of Figure\_1) & 0.928 & 0.149 & 0.633 & 1.222\\
+H2 & full sample & 0.472 & 0.098 & 0.277 & 0.668\\
+H2 & 1FigureEff removed (effort rating of Figure\_1) & 0.480 & 0.097 & 0.288 & 0.671\\
+H2 & Figure\_1 removed from both dimensions & 0.466 & 0.098 & 0.271 & 0.661\\
+\bottomrule
+\end{tabular}}
+\end{table}

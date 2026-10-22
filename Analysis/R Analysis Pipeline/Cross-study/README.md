@@ -16,6 +16,7 @@ In Study 1, telling participants that the artist Alex made an artwork by prompti
 | `explanation_shift/` | A separate exploratory analysis of the written justifications, with its own README. |
 | `structural_topics/` | A separate exploratory structural topic model of the written justifications of Studies 2, 4 and 5, with its own README. |
 | `image_check/` | A separate check of the 30 stimulus images, specified on 10 October 2026: three measures of the distance between images, three checks of what the design assumes about the pictures, and the distances beside the ratings as description only, with its own README. |
+| `sample_description/` | A separate descriptive step, specified on 19 October 2026: the age and gender of each study's analyzed sample, and how many different people the five analyzed samples hold and how many of them were analyzed in more than one study, with its own README. |
 
 An R Markdown file (`.Rmd`) mixes R code with text and is knitted, that is, run from top to bottom into an HTML report, here `CrossStudy_Penalty_Curve.html` beside the `.Rmd` file.
 

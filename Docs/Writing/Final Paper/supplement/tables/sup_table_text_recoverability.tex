@@ -1,0 +1,24 @@
+\begin{table}[!h]
+\centering
+\caption{\label{tab:supp_text_recoverability}How far the rating and the arm can be recovered from the words: a registered check, run in every study where the rating exists, descriptive and in no correction family. Each explanation is reduced to counts of its content words, lower-cased runs of letters and apostrophes with a fixed list of function words such as the, and and of removed; inside each training fold the words that appear in at least five of the training explanations are kept, so the held-out participants have no say in which words enter the model. The notebook that counts them is computed before the condition or the rating is joined to the text. Rating from words is a ridge regression of the rating on those counts, a linear model that shrinks its many word coefficients toward zero by an amount chosen by inner cross-validation so that it does not simply memorise the explanations it was fitted to, fitted per dimension with ten outer folds grouped by participant, so that no participant's explanations sit in both the fitting and the scoring part of any fold. Its statistic r is the correlation between predicted and observed rating over the held-out explanations only, where 0 is no relation and 1 a perfect one (an out-of-fold r can fall below 0 when the held-out predictions run against the observed ratings), with a 95\% interval from 2,000 resamples of participants. Arm from words is the same with a ridge logistic regression of the arm on the counts, and its statistic is the AUC, the area under the receiver operating characteristic (ROC) curve: the probability that a randomly chosen machine-arm explanation is scored as more machine-like than a randomly chosen human-arm one, 0.5 for chance and 1 for perfect separation. Arm from rating is a logistic regression of the arm on the rating alone with the same folds. Arm from rating plus words adds the word counts to the rating, and the incremental row is its AUC minus the AUC of arm from rating, the two scored on the same held-out participants, with an interval from resampling participants: it is the quantity that says whether the words carry information about the arm beyond the rating. The stand-alone AUCs are descriptive references, and the difference between them is not that quantity. null\_95th is the permutation null: the outcome is shuffled so that the words have nothing real to predict, the whole procedure is rerun, and the 95th percentile of the statistics over n\_perm shuffles is the value the observed statistic must exceed to be read as signal rather than chance. Each shuffle is restricted so that it keeps the structure of the data rather than scattering single responses: the arm label moves between whole participants, and the rating null keeps each participant's ratings together across the ten images. The shuffle behind each null, as the integration file describes it: for the rating, rating shuffled among each participant's own explanations in this dimension; keeps each person's level, so an r above it means the words carry which images a person rated higher; for the arm, arm shuffled across participants; for the arm, none. n\_folds is the number of outer folds, n\_features the number of word columns the integration file records, and seed the random seed of the run.}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{9}{11}\selectfont
+\begin{tabular}[t]{lllrrrrrrrr}
+\toprule
+dimension & target & predictors & estimate & ci\_low & ci\_high & null\_95th & n\_perm & n\_folds & n\_features & seed\\
+\midrule
+creativity & rating & words & 0.492 & 0.439 & 0.545 & 0.162 & 200 & 10 & 384.0 & 20260421\\
+creativity & arm & words & 0.587 & 0.534 & 0.637 & 0.506 & 200 & 10 & 384.0 & 20260421\\
+creativity & arm & rating & 0.595 & 0.533 & 0.657 & 0.514 & 200 & 10 & 1.0 & 20260421\\
+creativity & arm & rating plus words & 0.631 & 0.573 & 0.688 & NA & NA & 10 & 385.0 & 20260421\\
+creativity & arm & incremental AUC (rating plus words minus rating) & 0.036 & 0.003 & 0.067 & NA & NA & 10 & NA & 20260421\\
+\addlinespace
+effort & rating & words & 0.626 & 0.575 & 0.677 & 0.395 & 200 & 10 & 302.5 & 20260421\\
+effort & arm & words & 0.720 & 0.656 & 0.776 & 0.500 & 200 & 10 & 302.5 & 20260421\\
+effort & arm & rating & 0.700 & 0.626 & 0.769 & 0.533 & 200 & 10 & 1.0 & 20260421\\
+effort & arm & rating plus words & 0.751 & 0.685 & 0.810 & NA & NA & 10 & 303.5 & 20260421\\
+effort & arm & incremental AUC (rating plus words minus rating) & 0.051 & 0.020 & 0.083 & NA & NA & 10 & NA & 20260421\\
+\bottomrule
+\end{tabular}}
+\end{table}
