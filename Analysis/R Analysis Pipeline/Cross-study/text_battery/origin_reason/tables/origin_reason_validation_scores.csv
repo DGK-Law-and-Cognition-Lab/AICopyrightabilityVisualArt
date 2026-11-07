@@ -1,0 +1,2 @@
+analysis_status,sample,items,reference_yes,agreement,recall_yes,recall_no,precision_yes,annotator_kappa,unanimous_share,direction_agreement_on_shared_yes,passes,agreement_openai,agreement_gemini,agreement_claude
+"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict",validation,400,186,0.8625,0.9247311827956989,0.8084112149532711,0.8075117370892019,0.9062500000000003,0.93,0.622093023255814,True,0.995,0.9725,0.9625

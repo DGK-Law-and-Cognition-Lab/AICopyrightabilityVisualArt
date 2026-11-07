@@ -87,14 +87,16 @@ for (s in STUDIES) cat(s, "folder:", relative_path(STUDY_DIRS[[s]], PROJECT_ROOT
 cat("Tables to:", relative_path(OUT_TABLES, PROJECT_ROOT), "\n")
 
 # The exclusion-flow table each study's real run wrote, whose last row gives
-# the size of its analyzed sample. Study 5's registered flow is the one its
-# first R Markdown file writes; study5_exclusion_flow.csv comes from the data
-# build.
+# the size of its analyzed sample. Study 5's is the analyzed flow its first R
+# Markdown file writes: the five registered steps and a sixth, added on
+# 1 November 2026, that removes the participants who had completed an earlier
+# study (study5_exclusion_flow_analyzed.csv); study5_exclusion_flow.csv comes
+# from the data build.
 FLOW_TABLE <- c("Study 1" = "study1_exclusion_flow.csv",
                 "Study 2" = "study2_exclusion_flow.csv",
                 "Study 3" = "study3_exclusion_flow.csv",
                 "Study 4" = "study4_exclusion_flow.csv",
-                "Study 5" = "study5_exclusion_flow_registered.csv")
+                "Study 5" = "study5_exclusion_flow_analyzed.csv")
 
 # The column of the Labels export that the long data file's `id` matches. In
 # Study 1 the long file's `id` is the subject-pool participant code itself;

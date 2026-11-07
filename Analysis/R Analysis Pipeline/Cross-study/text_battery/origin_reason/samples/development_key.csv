@@ -1,0 +1,251 @@
+uid,study,row,label,dimension,part,says_prompt
+d001,2,4327,AI,creativity,secondary works,True
+d002,4,2777,AI,creativity,secondary works,True
+d003,1,778,AI,creativity,originals,True
+d004,2,10332,Human,creativity,secondary works,True
+d005,3,279,Human,effort,originals,True
+d006,1,411,AI,effort,originals,True
+d007,3,1085,Human,effort,originals,False
+d008,5,2943,AI,creativity,secondary works,True
+d009,2,12554,AI,transformativeness,secondary works,True
+d010,3,686,AI,creativity,originals,False
+d011,5,3042,Human,creativity,secondary works,True
+d012,3,1143,Human,effort,originals,True
+d013,1,1847,AI,effort,originals,False
+d014,5,4887,AI,creativity,secondary works,True
+d015,3,12,AI,creativity,originals,True
+d016,1,1896,AI,creativity,originals,True
+d017,2,14449,Human,essence_change,secondary works,False
+d018,4,5256,Human,transformativeness,secondary works,True
+d019,1,48,AI,creativity,originals,True
+d020,5,7359,AI,creativity,secondary works,True
+d021,1,1288,AI,creativity,originals,True
+d022,5,3856,Human,essence_change,secondary works,False
+d023,4,3457,AI,essence_change,secondary works,True
+d024,5,2621,Human,transformativeness,secondary works,False
+d025,1,488,AI,creativity,originals,True
+d026,2,5608,Human,transformativeness,secondary works,True
+d027,5,5005,AI,essence_change,secondary works,True
+d028,1,259,Human,effort,originals,False
+d029,1,1982,AI,creativity,originals,False
+d030,3,303,AI,effort,originals,False
+d031,3,703,AI,effort,originals,False
+d032,4,5411,AI,creativity,secondary works,False
+d033,2,1811,AI,creativity,secondary works,False
+d034,1,1955,Human,effort,originals,True
+d035,2,8147,AI,creativity,secondary works,True
+d036,3,182,Human,creativity,originals,False
+d037,5,2111,AI,transformativeness,secondary works,True
+d038,3,469,Human,effort,originals,True
+d039,1,1105,AI,effort,originals,False
+d040,2,17137,Human,essence_change,secondary works,False
+d041,4,4358,Human,creativity,secondary works,True
+d042,1,1825,Human,effort,originals,False
+d043,1,2120,Human,creativity,originals,True
+d044,5,1167,AI,creativity,secondary works,False
+d045,5,5356,AI,essence_change,secondary works,False
+d046,1,1133,AI,effort,originals,False
+d047,3,1509,Human,effort,originals,True
+d048,4,1272,AI,transformativeness,secondary works,True
+d049,1,1961,Human,effort,originals,False
+d050,5,3870,Human,creativity,secondary works,True
+d051,2,12565,AI,creativity,secondary works,True
+d052,1,463,AI,effort,originals,False
+d053,3,266,AI,creativity,originals,True
+d054,1,921,AI,effort,originals,True
+d055,1,1835,Human,effort,originals,True
+d056,2,11737,AI,creativity,secondary works,True
+d057,2,18457,Human,essence_change,secondary works,False
+d058,2,16981,AI,transformativeness,secondary works,True
+d059,1,2143,AI,effort,originals,True
+d060,5,6547,AI,essence_change,secondary works,False
+d061,4,3993,AI,transformativeness,secondary works,False
+d062,1,1285,AI,effort,originals,True
+d063,5,3060,Human,creativity,secondary works,True
+d064,2,16325,AI,creativity,secondary works,False
+d065,2,3214,AI,transformativeness,secondary works,True
+d066,1,2153,AI,effort,originals,True
+d067,2,14193,Human,transformativeness,secondary works,False
+d068,1,720,AI,creativity,originals,True
+d069,2,10430,AI,transformativeness,secondary works,False
+d070,3,37,AI,effort,originals,True
+d071,2,10520,AI,creativity,secondary works,False
+d072,1,2034,Human,creativity,originals,False
+d073,5,6795,AI,creativity,secondary works,True
+d074,3,1217,Human,effort,originals,False
+d075,2,10592,Human,essence_change,secondary works,True
+d076,3,562,AI,creativity,originals,True
+d077,1,1841,AI,effort,originals,True
+d078,2,14838,Human,creativity,secondary works,False
+d079,2,1444,AI,creativity,secondary works,False
+d080,1,2135,Human,effort,originals,True
+d081,2,9010,Human,transformativeness,secondary works,False
+d082,2,1984,Human,creativity,secondary works,True
+d083,1,157,Human,effort,originals,False
+d084,5,435,AI,creativity,secondary works,True
+d085,5,6759,AI,creativity,secondary works,True
+d086,2,15214,Human,creativity,secondary works,True
+d087,2,10117,Human,transformativeness,secondary works,True
+d088,1,968,AI,creativity,originals,False
+d089,2,18656,AI,creativity,secondary works,True
+d090,1,656,Human,creativity,originals,False
+d091,5,3133,Human,essence_change,secondary works,True
+d092,3,785,AI,effort,originals,True
+d093,3,1044,AI,creativity,originals,False
+d094,1,1895,AI,effort,originals,True
+d095,4,5524,AI,essence_change,secondary works,True
+d096,2,1103,Human,essence_change,secondary works,False
+d097,4,2231,AI,creativity,secondary works,True
+d098,1,1358,Human,creativity,originals,True
+d099,1,159,Human,effort,originals,True
+d100,5,7966,AI,essence_change,secondary works,False
+d101,2,5352,Human,creativity,secondary works,False
+d102,3,1513,Human,effort,originals,False
+d103,2,20161,AI,creativity,secondary works,False
+d104,1,175,AI,effort,originals,False
+d105,1,729,AI,effort,originals,True
+d106,2,5190,Human,essence_change,secondary works,False
+d107,4,1577,Human,creativity,secondary works,True
+d108,2,3442,AI,transformativeness,secondary works,False
+d109,3,982,AI,creativity,originals,True
+d110,2,10418,AI,transformativeness,secondary works,False
+d111,2,1681,AI,creativity,secondary works,True
+d112,2,2436,Human,creativity,secondary works,False
+d113,2,15300,AI,transformativeness,secondary works,False
+d114,5,10104,Human,creativity,secondary works,False
+d115,1,2117,AI,effort,originals,True
+d116,1,321,AI,effort,originals,True
+d117,5,1395,Human,creativity,secondary works,True
+d118,4,5541,AI,transformativeness,secondary works,True
+d119,2,16295,AI,creativity,secondary works,True
+d120,1,413,AI,effort,originals,True
+d121,4,4347,Human,transformativeness,secondary works,True
+d122,3,1007,Human,effort,originals,False
+d123,1,1721,AI,effort,originals,True
+d124,1,676,AI,creativity,originals,False
+d125,5,6768,AI,creativity,secondary works,True
+d126,3,1371,Human,effort,originals,False
+d127,5,4098,AI,creativity,secondary works,True
+d128,5,8874,Human,creativity,secondary works,True
+d129,2,12569,AI,transformativeness,secondary works,True
+d130,3,91,Human,effort,originals,False
+d131,2,13486,Human,transformativeness,secondary works,True
+d132,5,8425,AI,essence_change,secondary works,True
+d133,1,1260,Human,creativity,originals,False
+d134,5,4652,AI,transformativeness,secondary works,False
+d135,1,1915,AI,effort,originals,False
+d136,5,5104,Human,essence_change,secondary works,True
+d137,5,5306,Human,transformativeness,secondary works,False
+d138,3,407,AI,effort,originals,True
+d139,2,13469,Human,essence_change,secondary works,True
+d140,1,1699,Human,effort,originals,True
+d141,1,939,AI,effort,originals,True
+d142,2,338,Human,essence_change,secondary works,False
+d143,1,2112,AI,creativity,originals,True
+d144,1,1887,AI,effort,originals,True
+d145,1,1850,AI,creativity,originals,True
+d146,1,140,Human,creativity,originals,True
+d147,3,1036,AI,creativity,originals,True
+d148,1,1341,Human,effort,originals,True
+d149,1,783,AI,effort,originals,True
+d150,3,779,AI,effort,originals,False
+d151,3,1025,Human,effort,originals,True
+d152,5,8481,AI,creativity,secondary works,True
+d153,3,859,Human,effort,originals,False
+d154,3,631,AI,effort,originals,True
+d155,1,1693,Human,effort,originals,False
+d156,2,15266,Human,creativity,secondary works,True
+d157,3,1348,AI,creativity,originals,False
+d158,1,1992,AI,creativity,originals,False
+d159,2,1939,Human,transformativeness,secondary works,True
+d160,3,947,AI,effort,originals,True
+d161,2,16143,Human,creativity,secondary works,False
+d162,1,1434,Human,creativity,originals,False
+d163,1,1427,Human,effort,originals,False
+d164,2,14577,AI,creativity,secondary works,False
+d165,2,2119,AI,creativity,secondary works,True
+d166,1,1749,Human,effort,originals,True
+d167,1,1659,Human,effort,originals,True
+d168,2,11750,AI,transformativeness,secondary works,True
+d169,3,1387,Human,effort,originals,True
+d170,3,483,Human,effort,originals,True
+d171,4,4587,AI,transformativeness,secondary works,False
+d172,2,6423,AI,creativity,secondary works,False
+d173,2,10882,AI,transformativeness,secondary works,True
+d174,5,7751,AI,transformativeness,secondary works,True
+d175,4,3967,AI,essence_change,secondary works,True
+d176,2,16638,AI,creativity,secondary works,False
+d177,3,1027,AI,effort,originals,True
+d178,1,887,Human,effort,originals,True
+d179,3,943,AI,effort,originals,True
+d180,3,40,AI,creativity,originals,True
+d181,3,1233,Human,effort,originals,False
+d182,1,2127,Human,effort,originals,True
+d183,2,19185,Human,transformativeness,secondary works,False
+d184,2,9095,AI,transformativeness,secondary works,True
+d185,5,819,Human,creativity,secondary works,False
+d186,5,3843,Human,creativity,secondary works,True
+d187,2,10901,Human,essence_change,secondary works,False
+d188,1,661,AI,effort,originals,True
+d189,2,12192,AI,creativity,secondary works,True
+d190,2,3066,Human,essence_change,secondary works,False
+d191,2,5230,Human,essence_change,secondary works,True
+d192,3,1434,Human,creativity,originals,False
+d193,1,514,Human,creativity,originals,False
+d194,2,2468,AI,essence_change,secondary works,True
+d195,2,8882,AI,transformativeness,secondary works,False
+d196,3,1507,Human,effort,originals,True
+d197,1,374,Human,creativity,originals,True
+d198,2,5845,Human,transformativeness,secondary works,True
+d199,2,19260,AI,transformativeness,secondary works,False
+d200,2,15269,Human,creativity,secondary works,False
+d201,3,546,AI,creativity,originals,False
+d202,1,220,AI,creativity,originals,True
+d203,5,10556,Human,transformativeness,secondary works,True
+d204,1,697,AI,effort,originals,False
+d205,1,2217,AI,effort,originals,False
+d206,3,1336,AI,creativity,originals,False
+d207,5,7560,Human,creativity,secondary works,True
+d208,4,107,AI,creativity,secondary works,False
+d209,1,148,Human,creativity,originals,True
+d210,3,1,AI,effort,originals,True
+d211,1,1718,AI,creativity,originals,False
+d212,1,319,Human,effort,originals,True
+d213,2,10885,AI,transformativeness,secondary works,False
+d214,2,1925,Human,essence_change,secondary works,False
+d215,1,1857,AI,effort,originals,True
+d216,1,1466,AI,creativity,originals,True
+d217,2,9157,Human,essence_change,secondary works,False
+d218,1,1723,AI,effort,originals,False
+d219,1,1863,Human,effort,originals,True
+d220,2,12549,AI,essence_change,secondary works,True
+d221,2,11332,Human,essence_change,secondary works,False
+d222,1,541,Human,effort,originals,True
+d223,5,2490,AI,creativity,secondary works,True
+d224,3,827,Human,effort,originals,False
+d225,5,8551,AI,essence_change,secondary works,True
+d226,1,1347,Human,effort,originals,True
+d227,3,404,AI,creativity,originals,True
+d228,2,14375,Human,transformativeness,secondary works,True
+d229,2,685,Human,creativity,secondary works,True
+d230,2,12566,AI,transformativeness,secondary works,True
+d231,2,19477,Human,essence_change,secondary works,False
+d232,3,475,Human,effort,originals,True
+d233,1,491,AI,effort,originals,True
+d234,5,9144,AI,creativity,secondary works,True
+d235,3,422,AI,creativity,originals,False
+d236,3,225,AI,effort,originals,True
+d237,1,2156,AI,creativity,originals,False
+d238,1,1777,Human,effort,originals,False
+d239,2,16135,Human,transformativeness,secondary works,True
+d240,1,1935,Human,effort,originals,True
+d241,1,1714,AI,creativity,originals,False
+d242,5,8083,AI,essence_change,secondary works,True
+d243,2,10302,Human,creativity,secondary works,True
+d244,2,8189,AI,essence_change,secondary works,False
+d245,1,726,AI,creativity,originals,True
+d246,1,208,Human,creativity,originals,False
+d247,2,12492,AI,creativity,secondary works,True
+d248,3,1375,Human,effort,originals,False
+d249,2,11743,AI,creativity,secondary works,True
+d250,3,1376,Human,creativity,originals,True

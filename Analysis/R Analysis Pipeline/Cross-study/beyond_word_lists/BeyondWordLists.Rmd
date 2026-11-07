@@ -1,0 +1,114 @@
+---
+title: "The written explanations, beyond the word lists: R steps"
+output:
+  html_document:
+    toc: true
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+suppressPackageStartupMessages({ library(readr); library(dplyr); library(knitr) })
+CROSS <- normalizePath("..", mustWork = TRUE)  # the Cross-study folder
+stopifnot(basename(getwd()) == "beyond_word_lists")
+run <- function(folder, script) {             # run one R step from its own folder, quietly
+  invisible(capture.output(local(source(file.path(CROSS, folder, script), chdir = TRUE, local = TRUE))))
+}
+tab <- function(folder, name) read_csv(file.path(CROSS, folder, "tables", name), show_col_types = FALSE)
+```
+
+Run `BeyondWordLists.ipynb` first. This file runs the R steps, which join the labels and ratings to what the Python steps measured, and shows the results. All of it is **exploratory**: specified after every registered result was known, and it changes no registered verdict. Study numbers below are the paper's.
+
+## 1. The text battery
+
+What share of explanations mention prompting or a machine, under each label? This table comes from a fixed word list.
+
+```{r text-battery}
+run("text_battery", "TextBattery_02_Analysis.R")
+tab("text_battery", "text_battery_prevalence.csv") %>%
+  filter(flag == "says_prompt", level == "all levels", label %in% c("AI", "Human")) %>%
+  transmute(study = study_paper, question = measure, label, share = round(100 * estimate, 1),
+            ci = sprintf("%.1f to %.1f", 100 * ci_lo, 100 * ci_hi)) %>%
+  arrange(study, question, label) %>% kable(caption = "Explanations mentioning prompting or a machine (%)")
+```
+
+## 2. Image grounding
+
+CLIP can say which picture an explanation describes. If its own picture comes first among the ten artworks more often than 1 time in 10, the measure works.
+
+```{r image-grounding}
+run("image_grounding", "ImageGrounding_02_Analysis.R")
+tab("image_grounding", "image_grounding_validity.csv") %>%
+  transmute(study = study_paper, level, hit_rate = round(hit_rate, 3), ci = sprintf("%.3f to %.3f", ci_lo, ci_hi)) %>%
+  kable(caption = "How often the explanation's own picture is CLIP's closest of ten (chance 0.10)")
+```
+
+Do AI-label explanations describe the picture less? The estimate is AI minus Human, in standard deviations of grounding. "Rating added" holds the rating constant.
+
+```{r image-grounding-effects}
+tab("image_grounding", "image_grounding_label_effects.csv") %>%
+  filter(level %in% c("original", "Slight and Dramatic, averaged")) %>%
+  transmute(study = study_paper, question = measure, version, estimate = round(estimate_sd, 2),
+            ci = sprintf("%.2f to %.2f", ci95_low, ci95_high), p = signif(p, 2), p_holm = signif(p_holm, 2)) %>%
+  kable()
+```
+
+## 3. The label from meaning
+
+How well does each participant's label follow from what they meant? AUC is 0.5 at chance and 1 for a perfect prediction. The main model is all-mpnet-base-v2 on all explanations.
+
+```{r label-from-meaning}
+lfm <- tab("label_from_meaning", "label_from_meaning.csv")
+lfm %>% filter(model == "all-mpnet-base-v2", explanations == "all", quantity == "AUC") %>%
+  transmute(study = study_paper, question = measure, predictors, auc = round(estimate, 3),
+            ci = sprintf("%.3f to %.3f", ci95_low, ci95_high)) %>%
+  kable(caption = "AUC by predictors (main model, all explanations)")
+```
+
+Does meaning add to the rating and length? The gain counts as shown when it beats the 95th percentile of the null, which keeps what meaning shares with the rating and shuffles the rest. The same test is shown without the explanations that mention prompting or a machine, and with two other embedding models.
+
+```{r label-from-meaning-gain}
+lfm %>% filter(quantity != "AUC") %>%
+  transmute(model, explanations, study = study_paper, question = measure, gain = round(estimate, 3),
+            null_95th = round(null_95th, 3), shown = estimate > null_95th) %>%
+  kable(caption = "Gain in AUC from adding meaning to rating and length")
+```
+
+## 4. Origin as reason
+
+Did the frozen rule pass its one test against the three model annotators? The marks were set beforehand: agreement of at least 0.85, and recall of at least 0.75 for both yes and no.
+
+```{r origin-validation}
+tab(file.path("text_battery", "origin_reason"), "origin_reason_validation_scores.csv") %>%
+  select(items, reference_yes, agreement, recall_yes, recall_no, precision_yes, annotator_kappa, passes) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 3))) %>% kable()
+```
+
+The same codes, scored in each Part. For secondary works the rule misses the marks, calling too many mentions reasons, so it is used for originals only. "Mentions" are the items where the prompting word list fires; the last two columns give the share of them judged to be reasons.
+
+```{r origin-by-part}
+run(file.path("text_battery", "origin_reason"), "OriginReason_Analysis.R")
+tab(file.path("text_battery", "origin_reason"), "origin_reason_validation_by_part.csv") %>%
+  select(part, items, agreement, recall_yes, recall_no, precision_yes, mentions_reason_reference, mentions_reason_rule) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 3))) %>% kable()
+```
+
+In the Part where it met the marks (originals), how often did explanations give how the work was made as a reason?
+
+```{r origin-shares}
+s <- tab(file.path("text_battery", "origin_reason"), "origin_reason_shares.csv")
+if ("share" %in% names(s)) {
+  s %>% mutate(k = ifelse(label == "AI over Human", 1, 100)) %>%
+    transmute(study = study_paper, question = dimension, label, value = round(k * share, 2),
+              ci = sprintf("%.2f to %.2f", k * ci95_low, k * ci95_high)) %>%
+    kable(caption = "Explanations giving origin as a reason: % under each label, the difference in points, and the ratio")
+} else kable(s)
+```
+
+## 5. Typical explanations
+
+The explanation closest to each group's average meaning, chosen by a fixed rule (`../typical_explanations/`). The paper quotes these.
+
+```{r typical-explanations}
+tab("typical_explanations", "typical_explanations.csv") %>%
+  select(part, question, label, rank, study = study_paper, rating, text) %>% kable()
+```

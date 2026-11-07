@@ -50,7 +50,7 @@ The run stops unless every check passes:
 - each long data file has the SHA-256 checksum (a 64-character fingerprint of a file's exact bytes) that its study's real quantitative run manifest lists, and `label_mode` says `real` on every row; a blind run, one on shuffled labels, writes its records elsewhere, so a match can only come from a real run;
 - each item-scale table matches the record of the real quantitative run (for Study 5, the run's input record, since its build script writes the table);
 - each word-count file matches the study's text run manifest;
-- the counts are those registered: Study 2, 235 participants and 20,659 analysed ratings; Study 4, 117 and 6,178, with 140 six-point ratings left out; Study 5, 223 and 11,768, with 274 six-point ratings left out;
+- the counts are those registered: Study 2, 235 participants and 20,659 analysed ratings; Study 4, 117 and 6,178, with 140 six-point ratings left out; Study 5, 197 (the 223 of its registration less the 26 who had completed an earlier study) and 10,394, with 244 six-point ratings left out;
 - every response in the word counts is a response in the long data file, and no function word appears in them;
 - the word pattern and function words read from the shared module, applied in R to every justification, reproduce each study's deposited word counts exactly, which shows that the item wording is split into words by the same rule.
 
@@ -104,7 +104,7 @@ Where the specification leaves a choice open, the code takes these readings.
 
 - Every justification was written after its rating.
 - The responses are short, a few kept words each, so each response's topic shares rest on little evidence.
-- The model reads only the responses that kept a word. At None the AI arm, the participants told that the first work was made by prompting an AI system, lost a larger share of its responses than the Human arm (31.1 against 25.9 percent for creativity, 30.7 against 27.5 for transformativeness, 33.3 against 28.1 for essence change), so a label effect at None compares responses selected differently in the two arms, and part of it may come from which responses kept a word rather than from what the kept ones say.
+- The model reads only the responses that kept a word. At None the AI arm, the participants told that the first work was made by prompting an AI system, lost a larger share of its responses than the Human arm (30.7 against 25.2 percent for creativity, 30.3 against 26.5 for transformativeness, 32.8 against 27.3 for essence change, in the run of 1 November 2026), so a label effect at None compares responses selected differently in the two arms, and part of it may come from which responses kept a word rather than from what the kept ones say.
 - The intervals carry the uncertainty of each response's topic shares but not that of the topics' word probabilities, which are held at their estimates. The stability check speaks to the second, and a label effect on a topic that the LDA refits do not recover may not survive another start.
 - Each participant wrote many responses, and the model treats them as independent. stm has no term for the participant, so the intervals do not widen for responses that share a writer and are likely too narrow.
 - The effects rest on 25 simulated sets of topic shares, stm's default, so every standard error carries simulation noise, and another seed would move each interval somewhat. The CHANGELOG entry of 10 October gives its size for one topic.

@@ -2,7 +2,7 @@
 STUDY 5 TEXT MEASURES: THE RULES IN FULL
 ====================================================================================================
 
-Every measure below is applied by computer to all 12,042 responses, identically,
+Every measure below is applied by computer to all 10,638 responses, identically,
 with the response text lower-cased first. No response is judged individually.
 Patterns are written in verbose mode: spaces and line breaks inside a pattern are
 ignored by the matcher, so a literal space is written as \  or \s.

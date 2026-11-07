@@ -1,0 +1,19 @@
+item,value
+analysis_status,"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict"
+python,3.12.3
+components,20
+folds,10
+repeats,5
+bootstrap,2000
+null runs,100
+null,Freedman-Lane: residuals of meaning on rating and length shuffled across participants
+seed,20260421
+model all-mpnet-base-v2,sentence-transformers/all-mpnet-base-v2 at e8c3b32edf5434bc2275fc9bab85f82640a19130 (primary)
+model bge-large-en-v1.5,BAAI/bge-large-en-v1.5 at d4aa6901d3a41ba39fb536a557fa166f842b0e09 (robustness)
+model mxbai-embed-large-v1,mixedbread-ai/mxbai-embed-large-v1 at b33106f585b9ce46904ad7443a3b52b7a63e231c (robustness)
+sentence-transformers,3.3.1
+transformers,4.46.2
+torch,2.5.1
+scikit-learn,1.5.2
+numpy,1.26.4
+pandas,2.2.2

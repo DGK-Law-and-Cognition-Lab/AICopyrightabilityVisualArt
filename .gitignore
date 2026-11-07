@@ -21,3 +21,6 @@ Docs/Writing/Final Paper/*.bbl
 Docs/Writing/Final Paper/*.blg
 Docs/Writing/Final Paper/*.toc
 Docs/Writing/Final Paper/*.synctex.gz
+# The manuscript, held back until the authors release it. Analysis runs still
+# write copies of their tables and figures into it
+Docs/Writing/

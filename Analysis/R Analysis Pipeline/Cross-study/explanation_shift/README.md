@@ -46,7 +46,7 @@ HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 jupyter nbconvert --to notebook --execut
   --ExecutePreprocessor.kernel_name=python312 ExplanationShift_01_Measure.ipynb
 ```
 
-or open it in Jupyter and run every cell on that kernel. The embedding model is read from the local Hugging Face cache, the folder where these Python libraries keep downloaded models, and nothing is downloaded. `Study 1/README.md` gives the one command that fetches the model if it is missing. On a twelve-core Mac the notebook took about three minutes, two and a half of them to embed 29,296 distinct texts.
+or open it in Jupyter and run every cell on that kernel. The embedding model is read from the local Hugging Face cache, the folder where these Python libraries keep downloaded models, and nothing is downloaded. `Study 1/README.md` gives the one command that fetches the model if it is missing. On a twelve-core Mac the notebook took three to ten minutes, most of it to embed 28,386 distinct texts; it takes longer when other work shares the machine.
 
 Then knit the R file. In RStudio, open `R Analysis Pipeline.Rproj`, open `ExplanationShift_02_Analysis.Rmd` and press Knit, or from the R console with this folder as the working folder:
 
@@ -70,7 +70,7 @@ Paths are relative to this folder.
 
 `ExplanationShift_01_Measure.ipynb`:
 
-- `nlp/explanation_shift_pairs.csv`: one row per participant, source image, question and pair of levels (38,121 rows), with the columns `analysis` (the status of the analysis), `study`, `id`, `image`, `dimension`, `pair` (`None-Slight`, `Slight-Dramatic` or `None-Dramatic`), `emb_distance`, `emb_stranger`, `word_distance`, `word_stranger`, `words_a` and `words_b` (the number of distinct content words at the first and the second level). It carries no label and no rating. A word distance is empty where an explanation has no content word.
+- `nlp/explanation_shift_pairs.csv`: one row per participant, source image, question and pair of levels (36,762 rows), with the columns `analysis` (the status of the analysis), `study`, `id`, `image`, `dimension`, `pair` (`None-Slight`, `Slight-Dramatic` or `None-Dramatic`), `emb_distance`, `emb_stranger`, `word_distance`, `word_stranger`, `words_a` and `words_b` (the number of distinct content words at the first and the second level). It carries no label and no rating. A word distance is empty where an explanation has no content word.
 - `tables/explanation_shift_measure_environment.csv`: the software, the model, the device and the seed.
 - `tables/explanation_shift_measure_run_manifest.csv`, written last: every input and output with its size and its SHA-256 checksum, a 64-character fingerprint of the file's exact bytes.
 
@@ -93,9 +93,9 @@ The tables name the unchanged level `None`. pandas reads the text `None` as a mi
 
 Where the specification leaves a choice open, the code takes these readings.
 
-- **The six-point items.** Each study leaves its two six-point transformativeness items, `1NonFigure` at None and at Slight, out of its main models. Study 2's long data file does not hold them, and those of Studies 4 and 5 hold 140 and 274 rows of them. They are dropped in all three studies, so transformativeness of `1NonFigure` has no complete set of three.
+- **The six-point items.** Each study leaves its two six-point transformativeness items, `1NonFigure` at None and at Slight, out of its main models. Study 2's long data file does not hold them, and those of Studies 4 and 5 hold 140 and 244 rows of them. They are dropped in all three studies, so transformativeness of `1NonFigure` has no complete set of three.
 - **Levels.** The column `modification` names the levels None, Slight and Dramatic. The item names, such as `1FigureMaxCreat`, call them `None`, `Min` and `Max`. On every row the notebook checks that the item name agrees with the row's image, level and question, with `Min` read as Slight and `Max` as Dramatic, so each pair joins one participant's explanations of one image and one question.
-- **Complete sets.** Only a participant, image and question with an explanation at all three levels is measured: 6,794 sets in Study 2, 2,036 in Study 4 and 3,877 in Study 5, 12,707 in all. Seven Study 2 participants lack the trial at Slight for `1Figure`.
+- **Complete sets.** Only a participant, image and question with an explanation at all three levels is measured: 6,794 sets in Study 2, 2,036 in Study 4 and 3,424 in Study 5 (its 197 analyzed participants), 12,254 in all. Seven Study 2 participants lack the trial at Slight for `1Figure`.
 - **The stranger baseline.** For the pair of levels A and B, the mean distance from the participant's explanation at A to every other participant's explanation at B of the same image and question in the same study, whether or not that other participant has a complete set. It is the baseline of the registered word-overlap check in `shared/R/text_checks.R`, built here for each pair of levels.
 - **Explanations with no content word.** An explanation such as *same* has no content word. As in the registered overlap check, it has no word distance and is no one's stranger on words. It keeps its embedding distance.
 - **Content words.** The shared `tokenize()` with `FUNCTION_WORDS` removed. The task words, such as *creativity* and *artwork*, stay in, as in the overlap check.

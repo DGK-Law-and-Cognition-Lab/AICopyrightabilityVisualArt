@@ -1,0 +1,13 @@
+item,value
+analysis_status,"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict"
+python,3.12.3
+platform,macOS-27.2-arm64-arm-64bit
+model,openai/clip-vit-base-patch32
+model_revision,3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268
+image_input,"whole image, 224 x 224, no crop"
+text_truncation,77 CLIP tokens
+torch,2.5.1
+transformers,4.46.2
+numpy,1.26.4
+pandas,2.2.2
+pillow,10.3.0

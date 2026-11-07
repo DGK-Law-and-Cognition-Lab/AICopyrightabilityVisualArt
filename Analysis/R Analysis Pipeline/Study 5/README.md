@@ -1,6 +1,8 @@
 # Study 5 analysis pipeline
 
-Study 5 asks whether the time Alex is said to have spent making a second work from a first artwork changes how people judge that second work. The registration calls that time editing time: less than 1 hour, 10 hours or 100 hours. It also asks whether editing time changes the source penalty, the lower rating a second work gets when its first artwork is attributed to AI. Two hundred and twenty-three participants each rated 18 second works on transformativeness, essence change and creativity, and wrote a justification after every rating.
+Study 5 asks whether the time Alex is said to have spent making a second work from a first artwork changes how people judge that second work. The registration calls that time editing time: less than 1 hour, 10 hours or 100 hours. It also asks whether editing time changes the source penalty, the lower rating a second work gets when its first artwork is attributed to AI. One hundred and ninety-seven participants each rated 18 second works on transformativeness, essence change and creativity, and wrote a justification after every rating.
+
+**A deviation from the registration.** The registration's five exclusion steps leave 223 participants. A sixth step, added on 1 November 2026, after every registered result was known, at a co-author's request, removes the 26 who had completed one of Studies 1 to 4 before taking Study 5. Studies 1 to 4 shared one subject-pool listing, so a student could take only one of them; Study 5 had its own listing, with no restriction against the earlier one, and those 26 had already done the same kind of task and read the same debriefing. The subject pool's participant code, the same for a student in every study, links the records. Every analysis in this folder uses the 197 who remain. The registered analysis on all 223 is kept: `Study5_01_Quant.Rmd` writes their long data to `study5_long_registered_sample.csv`, and `../Cross-study/repeat_participants/` refits the registered models on them, checks that the refit reproduces the registered run of 13 October 2026, and sets every result beside the one on the 197.
 
 The specification is the registration, `Docs/Preregistration/AsPredicted/Study5_AsPredicted.md`. It keeps the questions of the AsPredicted form, and it was registered on the Open Science Framework (OSF) on 8 October 2026, with the registrations of the other four studies, as one Open-Ended Registration in project https://osf.io/u3d69. The code implements what it names and nothing else.
 
@@ -8,9 +10,9 @@ Everything needed to run the analysis is in this folder, apart from three things
 
 ## The files
 
-- `study5_build.py` builds the data from the two Qualtrics exports and the survey file, and writes `study5_long.csv` (one row per participant, second work and rating, 12,042 rows), `study5_wide.csv` and three tables in `tables/`.
-- `Study5_01_Quant.Rmd` rebuilds the same data with the shared R helpers and checks it equals `study5_long.csv`, applies the five registered exclusion steps, fits the registered rating models and runs the registered tests.
-- `Study5_02_Text.ipynb` measures the 12,042 justifications with Study 1's eight word lists, unchanged, without ever reading the condition or the rating.
+- `study5_build.py` builds the data from the two Qualtrics exports and the survey file, and writes `study5_long.csv` (one row per participant, second work and rating, 10,638 rows, after the five registered exclusion steps and the sixth), `study5_wide.csv` and three tables in `tables/`.
+- `Study5_01_Quant.Rmd` rebuilds the same data with the shared R helpers and checks it equals `study5_long.csv`, applies the five registered exclusion steps and the sixth, fits the registered rating models and runs the registered tests.
+- `Study5_02_Text.ipynb` measures the 10,638 justifications with Study 1's eight word lists, unchanged, without ever reading the condition or the rating.
 - `Study5_03_Integration.Rmd` joins the text measures to the ratings and the source condition, and runs the two registered text checks and the four exploratory text descriptions.
 - `Final_-_AI_Copyright_-_Study_5.qsf` is the survey file exported from Qualtrics; the build and `Study5_01_Quant.Rmd` read each rating item's answer options from it.
 
@@ -51,7 +53,9 @@ In an unblinded run the tables go to `tables/` and `study5_long_with_text.csv` t
 `Study5_01_Quant.Rmd`:
 
 - `study5_long_with_text.csv`: the long data with the justifications, the condition and the rating, for the integration file. A blind run writes the shuffled labels, and its `label_mode` column says `shuffled`.
-- `study5_exclusion_flow_registered.csv` and `study5_cell_counts_registered.csv`: the five registered exclusion steps (259, 259, 242, 226, 225, 223) and the six cells (Human 37, 37, 38; AI 35, 38, 38).
+- `study5_exclusion_flow_registered.csv` and `study5_cell_counts_registered.csv`: the five registered exclusion steps (259, 259, 242, 226, 225, 223) and the six cells of the registered sample (Human 37, 37, 38; AI 35, 38, 38).
+- `study5_exclusion_flow_analyzed.csv` and `study5_cell_counts_analyzed.csv`: the same five steps and the sixth (223 to 197), and the six cells analyzed (Human 32, 35, 31; AI 30, 33, 36, at less than 1, 10 and 100 hours).
+- `study5_long_registered_sample.csv`, written by an unblinded run only: the long data of the registered sample of 223, with the same columns as `study5_long_with_text.csv`, for the refit in `../Cross-study/repeat_participants/`.
 - `study5_lmm_fit_status.csv` and `study5_lmm_anova.csv`: the status of every linear mixed model (error, convergence, singularity) and every F test.
 - `study5_confirmatory_family.csv`: the six confirmatory tests with Holm's correction.
 - `study5_emmeans_editing_time.csv` and `study5_emmeans_source_by_modification.csv`: the estimated marginal means.

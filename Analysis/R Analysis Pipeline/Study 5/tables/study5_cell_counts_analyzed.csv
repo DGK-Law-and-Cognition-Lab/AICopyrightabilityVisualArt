@@ -1,0 +1,7 @@
+source,editing_time,n
+Human,less than 1 hour,32
+Human,10 hours,35
+Human,100 hours,31
+AI,less than 1 hour,30
+AI,10 hours,33
+AI,100 hours,36

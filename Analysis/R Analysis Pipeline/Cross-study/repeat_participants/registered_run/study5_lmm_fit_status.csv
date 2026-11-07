@@ -1,0 +1,7 @@
+analysis,rating,model,n_obs,n_participants,n_images,fit_error,converged,singular,lme4_messages
+"primary, five-point items",transformativeness,rating ~ source * editing_time * modification + image_kind + (1 | id) + (1 | image),3740,223,10,FALSE,TRUE,FALSE,
+"primary, five-point items",essence_change,rating ~ source * editing_time * modification + image_kind + (1 | id) + (1 | image),4014,223,10,FALSE,TRUE,FALSE,
+"primary, five-point items",creativity,rating ~ source * editing_time * modification + image_kind + (1 | id) + (1 | image),4014,223,10,FALSE,TRUE,FALSE,
+"second, all items rescaled 0 to 1",transformativeness,rating_01 ~ source * editing_time * modification + image_kind + (1 | id) + (1 | image),4014,223,10,FALSE,TRUE,FALSE,
+"second, all items rescaled 0 to 1",essence_change,rating_01 ~ source * editing_time * modification + image_kind + (1 | id) + (1 | image),4014,223,10,FALSE,TRUE,FALSE,
+"second, all items rescaled 0 to 1",creativity,rating_01 ~ source * editing_time * modification + image_kind + (1 | id) + (1 | image),4014,223,10,FALSE,TRUE,FALSE,

@@ -29,9 +29,9 @@ Study 4,subject-pool participant codes that repeat within the analyzed sample,0,
 Study 4,gender answers that are not among the answers the survey offered,0,0,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
 Study 5,long data file equals the one listed in the study's real run manifest,TRUE,TRUE,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
 Study 5,exclusion-flow table equals the one listed in the same manifest,TRUE,TRUE,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
-Study 5,participants in the long data file equal the last count of the exclusion flow,223,223,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
-Study 5,analyzed participants matching exactly one record of the Labels export (by ResponseId in the export),223,223,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
-Study 5,analyzed participants with a subject-pool participant code in the export,223,223,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
+Study 5,participants in the long data file equal the last count of the exclusion flow,197,197,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
+Study 5,analyzed participants matching exactly one record of the Labels export (by ResponseId in the export),197,197,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
+Study 5,analyzed participants with a subject-pool participant code in the export,197,197,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
 Study 5,subject-pool participant codes that repeat within the analyzed sample,0,0,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
 Study 5,gender answers that are not among the answers the survey offered,0,0,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
 Study 1,study1_demo_age.csv equals the one listed in Study 1's real run manifest,TRUE,TRUE,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
@@ -46,4 +46,4 @@ Study 1,women equal the Female row of study1_demo_gender.csv (\SOneNFemale),93,9
 Study 1,men equal the Male row of study1_demo_gender.csv (\SOneNMale),17,17,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
 Study 1,other answers equal every other row of study1_demo_gender.csv,1,1,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
 Study 1,"study1_demo_gender.csv has no answer but Female, Male and Other, so its Other row (\SOneNGenderOther) is the whole other group",TRUE,TRUE,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
-Studies 1 to 5,participations equal the five exclusion flows' last counts added together,771,771,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026
+Studies 1 to 5,participations equal the five exclusion flows' last counts added together,745,745,TRUE,descriptive; describes the analyzed samples and tests no hypothesis; specified on 19 October 2026

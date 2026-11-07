@@ -34,6 +34,8 @@ The notebook never downloads the model. It loads it from the Hugging Face cache,
 
     python3.12 -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-mpnet-base-v2')"
 
+Every run reported here used revision `e8c3b32edf5434bc2275fc9bab85f82640a19130` of the model. The command fetches the current revision, which can differ. To see which revision the cache holds, run `cat ~/.cache/huggingface/hub/models--sentence-transformers--all-mpnet-base-v2/refs/main`; it should print `e8c3b32edf5434bc2275fc9bab85f82640a19130`.
+
 Jupyter runs a notebook through a kernel, a named entry that tells it which Python to start. The notebook's metadata names the generic kernel `python3`, which can point to a different Python on each machine, so the command below names a Python 3.12 kernel, `python312`, explicitly. If no kernel of that name exists, register one once with `python3.12 -m ipykernel install --user --name python312`. Then, from this folder:
 
     jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.kernel_name=python312 Study1_02_Text.ipynb

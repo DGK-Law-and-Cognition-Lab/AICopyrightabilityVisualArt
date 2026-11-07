@@ -1,0 +1,15 @@
+analysis,item,value
+"exploratory: specified on 31 October 2026, after every registered result was known; no registration names it",run_id,20261106T232718Z-3d65cdf9
+"exploratory: specified on 31 October 2026, after every registered result was known; no registration names it",python,3.12.3
+"exploratory: specified on 31 October 2026, after every registered result was known; no registration names it",platform,macOS-27.2-arm64-arm-64bit
+"exploratory: specified on 31 October 2026, after every registered result was known; no registration names it",pandas,2.2.2
+"exploratory: specified on 31 October 2026, after every registered result was known; no registration names it",numpy,1.26.4
+"exploratory: specified on 31 October 2026, after every registered result was known; no registration names it",scipy,1.13.0
+"exploratory: specified on 31 October 2026, after every registered result was known; no registration names it",scikit-learn,1.5.2
+"exploratory: specified on 31 October 2026, after every registered result was known; no registration names it",threadpoolctl,3.5.0
+"exploratory: specified on 31 October 2026, after every registered result was known; no registration names it",study_text.py sha256,cce7588c57800dd56035ae235895549cb96d46bb5beec36f707b2767e84cb8b9
+"exploratory: specified on 31 October 2026, after every registered result was known; no registration names it",tokenizer,study_text.tokenize(): lower-cased runs of [a-z][a-z']+ with study_text.FUNCTION_WORDS removed
+"exploratory: specified on 31 October 2026, after every registered result was known; no registration names it",function words,229
+"exploratory: specified on 31 October 2026, after every registered result was known; no registration names it",spacy,3.7.4
+"exploratory: specified on 31 October 2026, after every registered result was known; no registration names it",spaCy model,en_core_web_sm 3.7.1
+"exploratory: specified on 31 October 2026, after every registered result was known; no registration names it",agency_rule.py sha256,416b86d87e650c8c508d137ec62389f356dd45c1c7715839470324bdbab76cdc

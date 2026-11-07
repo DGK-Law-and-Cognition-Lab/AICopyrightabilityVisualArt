@@ -45,7 +45,7 @@ Warriner, A. B., Kuperman, V., & Brysbaert, M. (2013). Norms of valence, arousal
 
 ## Provenance record: files obtained and verified on 2026-09-02
 
-Both files are present. Each was downloaded from two independent sources and the two copies were compared. Across every word they share, the largest absolute difference between their ratings is 0.000000, and the row counts match the published figures: 39,954 concreteness entries and 13,915 valence, arousal and dominance entries. Spot checks: concreteness *dog* 4.85 and *justice* 1.45; valence *happy* 8.47 and *murder* 1.48.
+Both files were present when the analyses ran. They are not redistributed, so a copy of the repository does not hold them and must fetch them as described above. Each was downloaded from two independent sources and the two copies were compared. Across every word they share, the largest absolute difference between their ratings is 0.000000, and the row counts match the published figures: 39,954 concreteness entries and 13,915 valence, arousal and dominance entries. Spot checks: concreteness *dog* 4.85 and *justice* 1.45; valence *happy* 8.47 and *murder* 1.48.
 
 | file | copy used | compared against | rows |
 |---|---|---|---|

@@ -1,0 +1,7 @@
+check,expected,observed,pass,analysis_status
+"closed-form equivalence power equals Study 1's analytic value, creativity",0.3574,0.3574,TRUE,"descriptive; specified on 1 November 2026, after every registered result was known; tests no hypothesis and changes no verdict"
+"closed-form equivalence power equals Study 1's analytic value, effort",0.3443,0.3443,TRUE,"descriptive; specified on 1 November 2026, after every registered result was known; tests no hypothesis and changes no verdict"
+"closed-form equivalence power within 0.03 of Study 1's simulation, creativity",0.352,0.3574,TRUE,"descriptive; specified on 1 November 2026, after every registered result was known; tests no hypothesis and changes no verdict"
+"closed-form equivalence power within 0.03 of Study 1's simulation, effort",0.356,0.3443,TRUE,"descriptive; specified on 1 November 2026, after every registered result was known; tests no hypothesis and changes no verdict"
+"closed-form smallest detectable penalty within 0.05 points of Study 1's simulated 80 percent crossing, creativity",0.365,0.363,TRUE,"descriptive; specified on 1 November 2026, after every registered result was known; tests no hypothesis and changes no verdict"
+"closed-form smallest detectable penalty within 0.05 points of Study 1's simulated 80 percent crossing, effort",0.456,0.428,TRUE,"descriptive; specified on 1 November 2026, after every registered result was known; tests no hypothesis and changes no verdict"

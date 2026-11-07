@@ -16,6 +16,16 @@ manipulation was seen; only the trial-level mapping is lost. The assignment
 script enforced two trials per level, so source time is balanced 2/2/2 within
 each participant by construction and enters no model here.
 
+Step 7 of the participant flow is not in the registration. It was added on
+1 November 2026, after every registered result was known, at a co-author's
+request: a participant who had completed one of Studies 1 to 4, all run
+before Study 5 under a different subject-pool listing, had already done the
+same kind of task and read the same debriefing, so their Study 5 session is
+removed. The subject pool's participant code, the same for a student in
+every study, links the records; a completed record is one whose Finished
+field is True in that study's Labels export. Steps 1 to 6 leave the 223
+participants of the registered sample, and step 7 leaves the 197 analyzed.
+
 Outputs, all under Analysis/R Analysis Pipeline/Study 5/:
   tables/study5_exclusion_flow.csv   participant flow, one row per step
   tables/study5_cell_counts.csv      Type x ArtistHr_Derivative counts
@@ -44,6 +54,7 @@ if not (os.path.isdir(os.path.join(ROOT, "Data"))
 QSF  = os.path.join(ROOT, "Analysis/R Analysis Pipeline/Study 5/Final_-_AI_Copyright_-_Study_5.qsf")
 VALS = os.path.join(ROOT, "Data/Study 5/Study5_Values.csv")
 LABS = os.path.join(ROOT, "Data/Study 5/Study5_Labels.csv")
+EARLIER = [os.path.join(ROOT, "Data/Study %d/Study%d_Labels.csv" % (n, n)) for n in range(1, 5)]
 OUT  = os.path.join(ROOT, "Analysis/R Analysis Pipeline/Study 5")
 
 RATE_RE = re.compile(r'^(\d)(Figure|NonFigure)(None|Min|Max)(Trans|Ess|Creat)$')
@@ -138,6 +149,19 @@ def main():
     kept_full = [(a, b) for a, b in kept if nrat(a) == 54]
     flow.append(("6. complete trial data (54 ratings)", len(kept_full)))
 
+    # Step 7, added on 1 November 2026 and not registered (see the top of
+    # this file): the participant codes of every completed record of Studies
+    # 1 to 4.
+    earlier = set()
+    for path in EARLIER:
+        _, rows = load(path)
+        earlier.update((r.get('id') or '').strip() for r in rows
+                       if r.get('Finished') == 'True' and (r.get('id') or '').strip())
+    analytic = [(a, b) for a, b in kept_full if (b.get('id') or '').strip() not in earlier]
+    flow.append(("7. completed an earlier study in this program (added 1 November 2026; "
+                 "not registered)", len(analytic)))
+    assert len(kept_full) == 223 and len(analytic) == 197, (len(kept_full), len(analytic))
+
     with open(os.path.join(OUT, "tables/study5_exclusion_flow.csv"), "w", newline="") as f:
         w = csv.writer(f); w.writerow(["step", "n"]); w.writerows(flow)
     for s, n in flow: print(f"  {s:<50s} {n}")
@@ -147,8 +171,6 @@ def main():
         print("\n  participants retained at step 5 with other than 54 ratings:")
         for a, b in partial:
             print(f"    {a['ResponseId']}  n_ratings={nrat(a)}  Type={a['Type']}  deriv={a['ArtistHr_Derivative']}")
-
-    analytic = kept_full
 
     # ------------------------------------------------------------ cell counts
     cells = collections.Counter((a['Type'], a['ArtistHr_Derivative']) for a, b in analytic)

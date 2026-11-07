@@ -1,0 +1,15 @@
+# The Python packages of make_paper_figures.py, at the versions that made the run
+# (Python 3.12.3, macOS). Install into a fresh Python 3.12 environment with:
+#   python -m pip install -r requirements.txt
+matplotlib==3.8.4
+numpy==1.26.4
+pillow==10.3.0
+# Packages matplotlib depends on.
+contourpy==1.2.1
+cycler==0.12.1
+fonttools==4.51.0
+kiwisolver==1.4.5
+packaging==26.2
+pyparsing==3.1.2
+python-dateutil==2.9.0.post0
+six==1.16.0

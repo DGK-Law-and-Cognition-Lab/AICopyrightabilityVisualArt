@@ -153,6 +153,10 @@ LONG_DIR <- if (UNBLIND) OUTPUT_DIR else file.path(OUTPUT_DIR, "blind_run")
 dir.create(TAB_DIR, recursive = TRUE, showWarnings = FALSE)
 dir.create(LONG_DIR, recursive = TRUE, showWarnings = FALSE)
 LONG_TEXT_PATH <- file.path(LONG_DIR, "study5_long_with_text.csv")
+# The registered sample's long data (section 3, step 6), written in an
+# unblinded run only, for the refit of the registered analysis on all 223
+# participants in Cross-study/repeat_participants.
+LONG_REGISTERED_PATH <- file.path(LONG_DIR, "study5_long_registered_sample.csv")
 
 # The exports come from Data/Study 5 under the project root. The survey file
 # is the .qsf in the Study 5 folder.
@@ -250,6 +254,10 @@ run <- start_run_record(
              survey_file   = paths$qsf,
              build_long    = BUILD_LONG,
              build_scales  = BUILD_SCALES,
+             # the Labels exports of Studies 1 to 4, which exclusion step 6 reads
+             setNames(file.path(PROJECT_ROOT, "Data", paste("Study", 1:4),
+                                paste0("Study", 1:4, "_Labels.csv")),
+                      paste0("study", 1:4, "_labels_export")),
              if (s3$ok) c(study3_contrast = STUDY3_CONTRAST)),
   manifest_path = file.path(TAB_DIR, "study5_quant_run_manifest.csv"),
   base_dir      = OUTPUT_DIR)
@@ -311,7 +319,9 @@ cat("Item scales equal those of tables/study5_item_scales.csv: TRUE\n")
 ```{r exclusions}
 run_clear_outputs(run,
                   file.path(TAB_DIR, "study5_exclusion_flow_registered.csv"),
-                  file.path(TAB_DIR, "study5_cell_counts_registered.csv"))
+                  file.path(TAB_DIR, "study5_cell_counts_registered.csv"),
+                  file.path(TAB_DIR, "study5_exclusion_flow_analyzed.csv"),
+                  file.path(TAB_DIR, "study5_cell_counts_analyzed.csv"))
 
 # The five steps of the registration, in its order and in its words. Each
 # step returns TRUE for the records to keep. In the Values export, Status 0
@@ -334,7 +344,27 @@ steps <- list(
     function(v, l) trim_answer(v$Type) != "" &
                    trim_answer(v$ArtistHr_Derivative) != ""
 )
-flow <- exclusion_flow(ex$values, ex$labels, steps)
+flow_registered <- exclusion_flow(ex$values, ex$labels, steps)
+
+# Step 6 is not in the registration. It was added on 1 November 2026, after
+# every registered result was known, at a co-author's request. Studies 1 to 4
+# were run, before Study 5, under a different subject-pool listing, so a
+# student could take one of them and then Study 5. A participant who had
+# completed one of Studies 1 to 4 had already done the same kind of task and
+# read the same debriefing, so their Study 5 session is removed. The subject
+# pool's participant code, the same for a student in every study, links the
+# records; a completed record is one whose Finished field is True in that
+# study's Labels export. Steps 1 to 5 leave the 223 participants of the
+# registered sample, and step 6 leaves the 197 analyzed here.
+earlier_codes <- unique(unlist(lapply(1:4, function(n) {
+  l <- read_qualtrics_export(file.path(PROJECT_ROOT, "Data", paste("Study", n),
+                                       paste0("Study", n, "_Labels.csv")))
+  trim_answer(l$id)[trim_answer(l$Finished) == "True" & trim_answer(l$id) != ""]
+})))
+steps_analyzed <- c(steps, list(
+  "6. Completed an earlier study in this program (added 1 November 2026; not registered)" =
+    function(v, l) !(trim_answer(l$id) %in% earlier_codes)))
+flow <- exclusion_flow(ex$values, ex$labels, steps_analyzed)
 
 # The flow, one line per step.
 for (i in seq_len(nrow(flow$flow))) {
@@ -343,9 +373,11 @@ for (i in seq_len(nrow(flow$flow))) {
   else cat(r$step, ": removes", r$removed, "and leaves", r$n, "\n")
 }
 
-# The counts the registration states.
-stopifnot(identical(flow$flow$n, c(259L, 259L, 242L, 226L, 225L, 223L)),
-          identical(flow$flow$removed[-1], c(0L, 17L, 16L, 1L, 2L)))
+# The counts the registration states, and the sixth step.
+stopifnot(identical(flow_registered$flow$n, c(259L, 259L, 242L, 226L, 225L, 223L)),
+          identical(flow_registered$flow$removed[-1], c(0L, 17L, 16L, 1L, 2L)),
+          identical(flow$flow$n, c(259L, 259L, 242L, 226L, 225L, 223L, 197L)),
+          identical(flow$flow$removed[-1], c(0L, 17L, 16L, 1L, 2L, 26L)))
 
 # Step 4 lets a blank answer pass, and the registration says none occurs.
 after3 <- exclusion_flow(ex$values, ex$labels, steps[1:3])
@@ -360,27 +392,34 @@ cat("Ratings held by the records with no condition:",
     sum(n_ratings(after4$values[no_cond, ])), "\n")
 stopifnot(sum(no_cond) == 2, sum(n_ratings(after4$values[no_cond, ])) == 0)
 
-# The task attention check removes no one: all 223 answered it correctly.
-stopifnot(all(trim_answer(flow$labels$AttentionCheck) == TASK_ANSWER))
+# The task attention check removes no one: all 223 of the registered sample
+# answered it correctly.
+stopifnot(all(trim_answer(flow_registered$labels$AttentionCheck) == TASK_ANSWER))
 cat("Correct answers to the task attention check:",
     sum(trim_answer(flow$labels$AttentionCheck) == TASK_ANSWER), "of",
     nrow(flow$labels), "\n")
 
-write_csv(flow$flow, file.path(TAB_DIR, "study5_exclusion_flow_registered.csv"))
+write_csv(flow_registered$flow, file.path(TAB_DIR, "study5_exclusion_flow_registered.csv"))
+write_csv(flow$flow, file.path(TAB_DIR, "study5_exclusion_flow_analyzed.csv"))
 
 # Cell counts. The registration states them, and counts by cell are not a
 # summary of any rating, so they are taken from the real labels in both
 # modes.
-cell_counts <- tibble(source = flow$values$Type,
-                      editing_time = flow$values$ArtistHr_Derivative) %>%
-  count(source, editing_time, name = "n") %>%
-  mutate(source = factor(source, levels = c("Human", "AI")),
-         editing_time = factor(editing_time,
-                               levels = c("less than 1 hour", "10 hours", "100 hours"))) %>%
-  arrange(source, editing_time)
+cells_of <- function(f) {
+  tibble(source = f$values$Type, editing_time = f$values$ArtistHr_Derivative) %>%
+    count(source, editing_time, name = "n") %>%
+    mutate(source = factor(source, levels = c("Human", "AI")),
+           editing_time = factor(editing_time,
+                                 levels = c("less than 1 hour", "10 hours", "100 hours"))) %>%
+    arrange(source, editing_time)
+}
+cell_counts_registered <- cells_of(flow_registered)
+cell_counts <- cells_of(flow)
 print(as.data.frame(cell_counts))
-stopifnot(identical(cell_counts$n, c(37L, 37L, 38L, 35L, 38L, 38L)))
-write_csv(cell_counts, file.path(TAB_DIR, "study5_cell_counts_registered.csv"))
+stopifnot(identical(cell_counts_registered$n, c(37L, 37L, 38L, 35L, 38L, 38L)),
+          identical(cell_counts$n, c(32L, 35L, 31L, 30L, 33L, 36L)))
+write_csv(cell_counts_registered, file.path(TAB_DIR, "study5_cell_counts_registered.csv"))
+write_csv(cell_counts, file.path(TAB_DIR, "study5_cell_counts_analyzed.csv"))
 ```
 
 # 4. The long data
@@ -415,7 +454,7 @@ per_person <- built$long %>%
   group_by(id) %>%
   summarise(n_rated = sum(!is.na(rating)),
             n_justified = sum(justification != ""), .groups = "drop")
-stopifnot(nrow(per_person) == 223, all(per_person$n_rated == 54),
+stopifnot(nrow(per_person) == 197, all(per_person$n_rated == 54),
           all(per_person$n_justified == 54))
 cat("Participants:", nrow(per_person), "| ratings:", sum(per_person$n_rated),
     "| justifications:", sum(per_person$n_justified), "\n")
@@ -446,26 +485,40 @@ cat("Image1_Time to Image6_Time blank in all", nrow(flow$values), "records: TRUE
 # says whether it shows a human or humanoid figure, and work_id names the
 # second work, one source image at one modification level. rating_01 is
 # the rating rescaled from 0 to 1 for the second analysis of section 11.
-long <- built$long %>%
-  transmute(
-    id,
-    source       = Type,
-    editing_time = ArtistHr_Derivative,
-    image        = stimulus_id,
-    image_kind   = stimulus_type,
-    modification,
-    work_id      = paste0(stimulus_id, "_", modification),
-    dimension,
-    item,
-    k_points,
-    rating,
-    rating_01    = (rating - 1) / (k_points - 1),
-    rating_label,
-    response_text = justification
-  )
-stopifnot(nrow(long) == 12042, sum(long$k_points == 6) == 274,
+analysis_columns <- function(b) {
+  b %>%
+    transmute(
+      id,
+      source       = Type,
+      editing_time = ArtistHr_Derivative,
+      image        = stimulus_id,
+      image_kind   = stimulus_type,
+      modification,
+      work_id      = paste0(stimulus_id, "_", modification),
+      dimension,
+      item,
+      k_points,
+      rating,
+      rating_01    = (rating - 1) / (k_points - 1),
+      rating_label,
+      response_text = justification
+    )
+}
+long <- analysis_columns(built$long)
+stopifnot(nrow(long) == 10638, sum(long$k_points == 6) == 244,
           n_distinct(long$work_id) == 30, n_distinct(long$image) == 10)
 cat("Ratings on the two six-point items:", sum(long$k_points == 6), "\n")
+
+# The registered sample of 223 (steps 1 to 5), with the same columns, for the
+# refit of the registered analysis on it (Cross-study/repeat_participants).
+# Its 26 extra participants are exactly those step 6 removes.
+long_registered <- analysis_columns(
+  reshape_ratings_long(flow_registered$values, flow_registered$labels, scales, "derivative",
+                       carry_values = c("Type", "ArtistHr_Derivative"))$long)
+stopifnot(nrow(long_registered) == 12042, sum(long_registered$k_points == 6) == 274,
+          n_distinct(long_registered$id) == 223,
+          identical(as.data.frame(long),
+                    as.data.frame(long_registered[long_registered$id %in% long$id, ])))
 ```
 
 # 5. The blind switch
@@ -516,6 +569,14 @@ run_clear_outputs(run, LONG_TEXT_PATH)
 write_csv(long %>% mutate(across(where(is.factor), as.character)), LONG_TEXT_PATH)
 cat("Written:", relative_path(LONG_TEXT_PATH, PROJECT_ROOT), "|", nrow(long),
     "rows | label_mode", unique(long$label_mode), "\n")
+# The registered sample's long data, real labels only, so an unblinded run
+# alone writes it.
+if (UNBLIND) {
+  run_clear_outputs(run, LONG_REGISTERED_PATH)
+  write_csv(long_registered %>% mutate(label_mode = "real"), LONG_REGISTERED_PATH)
+  cat("Written:", relative_path(LONG_REGISTERED_PATH, PROJECT_ROOT), "|",
+      nrow(long_registered), "rows, the registered sample of 223\n")
+}
 ```
 
 # 6. The registered models
@@ -881,7 +942,7 @@ run_clear_outputs(run, file.path(TAB_DIR, "study5_rescaled_family.csv"))
 
 # The registration's second analysis rescales every item from 0 to 1, as
 # (rating - 1) / (k - 1) for an item with k points, and so can include the
-# two six-point transformativeness items and their 274 ratings. The models,
+# two six-point transformativeness items and their 244 ratings. The models,
 # the six tests and the Holm correction are those of sections 6 and 7. The
 # equivalence bounds are stated in rating points on a five-point scale, so
 # no equivalence test is run on this scale.
@@ -897,7 +958,7 @@ rescaled_anova <- bind_rows(lapply(RATINGS, function(r) {
 rescaled_family <- family_rows(rescaled_anova, rescaled_status,
                                "second, all items rescaled 0 to 1")
 stopifnot(nrow(rescaled_family) == 6,
-          sum(rescaled_status$n_obs) == 12042)
+          sum(rescaled_status$n_obs) == 10638)
 print(as.data.frame(rescaled_status %>% select(-lme4_messages)))
 print(as.data.frame(rescaled_family %>% select(rating, test, F, p_raw, p_holm,
                                                holm_significant, converged, singular) %>%

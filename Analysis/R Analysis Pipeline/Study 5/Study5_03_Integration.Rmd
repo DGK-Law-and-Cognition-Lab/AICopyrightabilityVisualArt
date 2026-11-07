@@ -49,7 +49,7 @@ if (!UNBLIND) {
 
 # 0. What this file does
 
-`Study5_02_Text.ipynb` measured the 12,042 justifications without seeing the
+`Study5_02_Text.ipynb` measured the 10,638 justifications without seeing the
 condition or the rating. This file joins those measures to the ratings and to
 the source condition, and runs what the registration
 (`Docs/Preregistration/AsPredicted/Study5_AsPredicted.md`, question 8) names
@@ -212,7 +212,7 @@ if (!all(long$label_mode == expected_mode)) {
        ", and this run needs ", expected_mode, ". Knit Study5_01_Quant.Rmd in the ",
        "same mode first.")
 }
-stopifnot(nrow(long) == 12042, n_distinct(long$id) == 223)
+stopifnot(nrow(long) == 10638, n_distinct(long$id) == 197)
 
 # One row per response. stimulus_id names the second work, the source image
 # at one modification level, as in the text tables.
@@ -254,7 +254,7 @@ join_check <- tibble(rows_ratings = nrow(ratings), rows_measures = nrow(measures
                      measures_unmatched = nrow(anti_join(measures, ratings,
                                                          by = c("id", "stimulus_id", "dimension"))))
 print(as.data.frame(join_check))
-stopifnot(join_check$rows_joined == 12042, join_check$ratings_unmatched == 0,
+stopifnot(join_check$rows_joined == 10638, join_check$ratings_unmatched == 0,
           join_check$measures_unmatched == 0)
 write_csv(join_check, file.path(TAB_DIR, "study5_text_join_check.csv"))
 ```

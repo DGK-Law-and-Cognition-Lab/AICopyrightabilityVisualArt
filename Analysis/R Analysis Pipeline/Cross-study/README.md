@@ -17,6 +17,10 @@ In Study 1, telling participants that the artist Alex made an artwork by prompti
 | `structural_topics/` | A separate exploratory structural topic model of the written justifications of Studies 2, 4 and 5, with its own README. |
 | `image_check/` | A separate check of the 30 stimulus images, specified on 10 October 2026: three measures of the distance between images, three checks of what the design assumes about the pictures, and the distances beside the ratings as description only, with its own README. |
 | `sample_description/` | A separate descriptive step, specified on 19 October 2026: the age and gender of each study's analyzed sample, and how many different people the five analyzed samples hold and how many of them were analyzed in more than one study, with its own README. |
+| `paper_figures/` | The paper's main-text figures, one per claim, drawn from the five studies' long data files as violins of participants' mean ratings with group means and 95 percent intervals, added on 27 October 2026, with its own README. Descriptive; it changes no result. |
+| `repeat_participants/` | A sensitivity analysis for a deviation adopted on 1 November 2026 at a co-author's request: Study 5's analysis removes the 26 participants who had completed an earlier study, and this folder sets the registered analysis on all 223 beside the analysis on the 197, with its own README. |
+| `sensitivity/` | A descriptive step, specified on 1 November 2026: for every registered test, the smallest effect it could detect with 80 percent power and, for each equivalence test, its chance of showing an absent effect to be small, computed from the standard errors the studies' runs wrote, with its own README. It tests no hypothesis. |
+| `text_battery/` | A separate exploratory analysis of the written explanations, specified on 31 October 2026: the same three analyses in all five studies, namely what the explanations named under each label, the words that set the label groups apart, and the link between each word-list flag and the rating within a label, with its own README. It changes no registered verdict. |
 
 An R Markdown file (`.Rmd`) mixes R code with text and is knitted, that is, run from top to bottom into an HTML report, here `CrossStudy_Penalty_Curve.html` beside the `.Rmd` file.
 
@@ -48,7 +52,7 @@ The run stops unless every input agrees with its study's registered analysed sam
 
 - each long data file has the SHA-256 checksum (a 64-character fingerprint of a file's exact bytes) listed in the run manifest in its study's `tables/` folder, which only a real run writes, and Study 1's confirmatory table matches its manifest too;
 - in Studies 2, 4 and 5 the column `label_mode` says `real` on every row;
-- the counts are those registered: Study 1, 111 participants; Study 2, 235 participants and 20,659 analysed ratings; Study 3, 85 participants; Study 4, 117 participants and 6,178 analysed ratings, with 140 six-point ratings left out; Study 5, 223 participants and 12,042 ratings, of which 274 are on the six-point items and 11,768 are analysed;
+- the counts are those registered: Study 1, 111 participants; Study 2, 235 participants and 20,659 analysed ratings; Study 3, 85 participants; Study 4, 117 participants and 6,178 analysed ratings, with 140 six-point ratings left out; Study 5, 197 participants (the 223 of its registration less the 26 who had completed an earlier study; `repeat_participants/`) and 10,638 ratings, of which 244 are on the six-point items and 10,394 are analysed;
 - the same questions display the same image files in the three surveys of Studies 2, 4 and 5, and the ten source images carry the same names in their three long data files, so the pooled model can give each image one baseline across studies.
 
 ## The analysis

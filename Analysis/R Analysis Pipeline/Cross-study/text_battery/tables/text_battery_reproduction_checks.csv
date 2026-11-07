@@ -1,0 +1,12 @@
+analysis_status,check,rows_deposited,rows_reproduced,rows_matched,max_abs_difference,pass
+"exploratory; specified on 31 October 2026, after every registered result was known; changes no registered verdict","distinctive words, effort (high against low ratings, Human label)",152,152,152,1.199040866595169e-14,TRUE
+"exploratory; specified on 31 October 2026, after every registered result was known; changes no registered verdict","distinctive words, creativity (high against low ratings, Human label)",143,143,143,8.659739592076221e-15,TRUE
+"exploratory; specified on 31 October 2026, after every registered result was known; changes no registered verdict","Human-label model, effort: rating ~ detail talk",1,1,1,0,TRUE
+"exploratory; specified on 31 October 2026, after every registered result was known; changes no registered verdict","Human-label model, effort: rating ~ detail talk + word count",1,1,1,0,TRUE
+"exploratory; specified on 31 October 2026, after every registered result was known; changes no registered verdict","Human-label model, effort: rating ~ says_time",1,1,1,5.551115123125783e-17,TRUE
+"exploratory; specified on 31 October 2026, after every registered result was known; changes no registered verdict","Human-label model, effort: rating ~ says_skill",1,1,1,0,TRUE
+"exploratory; specified on 31 October 2026, after every registered result was known; changes no registered verdict","Human-label model, creativity: rating ~ concept talk",1,1,1,0,TRUE
+"exploratory; specified on 31 October 2026, after every registered result was known; changes no registered verdict","Human-label model, creativity: rating ~ concept talk + word count",1,1,1,0,TRUE
+"exploratory; specified on 31 October 2026, after every registered result was known; changes no registered verdict","Human-label model, creativity: rating ~ execution talk (visible detail)",1,1,1,1.3877787807814457e-17,TRUE
+"exploratory; specified on 31 October 2026, after every registered result was known; changes no registered verdict","shares of effort explanations naming detail, time and skill (Human label)",3,3,3,0,TRUE
+"exploratory; specified on 31 October 2026, after every registered result was known; changes no registered verdict","shares of effort explanations naming prompting or a machine, by label",2,2,2,0,TRUE

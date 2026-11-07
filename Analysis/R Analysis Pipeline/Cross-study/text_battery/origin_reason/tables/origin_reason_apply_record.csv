@@ -1,0 +1,11 @@
+item,value
+analysis_status,"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict"
+run (UTC),2026-11-07T00:13:21+00:00
+explanations,40934
+origin as reason,1829
+flags sha256,27f5880fb8f319053eb7540dec32f78615ed5344e82b29395e2968b60061c814
+rule sha256,4b412dd28703c134f80185372077bc6218b6618afddc382ff05380c2388249f5
+codebook sha256,09dff3108f59d579635489d3d45760bf7c9dd847f9e12b797c7e0b5b4ca8b357
+study_text sha256,0ec501216b65911986500e31ae9799dae2cbc7bed9b11be43b5737e806a2883b
+spacy,3.7.4
+en_core_web_sm,3.7.1

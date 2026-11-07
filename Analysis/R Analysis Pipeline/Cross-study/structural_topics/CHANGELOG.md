@@ -52,3 +52,15 @@ The file was checked against its specification and knitted again in place. It re
 - Recorded here: a check begun on 9 October added the table of responses dropped by label and level (`structural_topics_dropped_by_label_and_level.csv`, Table 4.2, the shares in section 11 and the limit they support) and the count of drawn documents that gave up words to the searchK table, and corrected section 5's account of the held-out documents. Its knit stopped before the end, so those edits reach the outputs in this run.
 
 Run in place on 10 October 2026 with `rmarkdown::render("StructuralTopics.Rmd")` from this folder. It ran to its end in about 71 minutes, longer than before because other work on the machine slowed the transformativeness searchK to 38 minutes. All 42 input checks passed, and every number in every table equals that of the 9 October run to the last digit, searchK included. The run manifest lists 21 outputs, all written by the run.
+
+## 2026-11-01
+
+Rerun on Study 5's analyzed sample of 197, after the 26 participants who had completed an earlier study were removed (`../repeat_participants/`); the file's expected Study 5 counts were updated (197 participants, 10,394 analysed ratings). Nothing else in the code changed.
+
+- The chosen number of topics changed with the data: 4 for creativity (runner-up 7), 11 for transformativeness (runner-up 8) and 6 for essence change (runner-up 8). Topic numbers are assigned afresh by each fit, so no topic of this run is the same object as a topic of 10 October.
+- Creativity: the one topic with `ai` among its leading words is now topic 3 (`color`, `lighting`, `ai`, `added`). Its share is larger under the AI label at every level, by 0.059 at None, 0.044 at Slight and 0.047 at Dramatic, and the change from None to Dramatic, -0.012 (95 percent interval -0.024 to 0.000), is not clear of zero. Its mean best-match correlation over the five refits is 0.60. On 10 October the topic with `ai` (then topic 7) was larger under the AI label at None and Slight but not at Dramatic.
+- Transformativeness: at None the AI label gives more share to topic 4 (`less`, `feels`, `realistic`, with `ai` fifth), a difference gone by Dramatic (change -0.016, -0.027 to -0.005); its mean best-match correlation is 0.45.
+- The essence-change model from the spectral start again stopped at its limit of 500 iterations without converging; its label effects remain description only.
+- At None the AI arm again lost a larger share of its responses to the vocabulary rule than the Human arm (the README gives the new shares).
+- `Docs/Writing/Final Paper/tools/make_numbers.py` now finds the creativity topic by its leading words rather than its number, and the Supplement's paragraph was rewritten from these tables.
+

@@ -1,0 +1,3 @@
+meets_marks,used,analysis_status,part,items,reference_yes,agreement,recall_yes,recall_no,precision_yes,mentions,mentions_reason_reference,mentions_reason_rule
+TRUE,TRUE,"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict",originals,200,113,0.905,0.9026548672566371,0.9080459770114943,0.9272727272727272,120,0.9333333333333333,0.9083333333333333
+FALSE,FALSE,"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict",secondary works,200,73,0.82,0.958904109589041,0.7401574803149606,0.6796116504854369,120,0.6083333333333333,0.85

@@ -1,0 +1,12 @@
+analysis_status,chance,study_paper,level,hit_rate,ci_lo,ci_hi,explanations,edit_pull_mean
+"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict",0.1,1,original,0.41936936936936936,0.38377252252252253,0.455867117117117,2220,NA
+"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict",0.1,2,original,0.38229508196721296,0.3355068001632899,0.4301687059735895,1525,NA
+"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict",0.1,3,Dramatic,0.23458368854788275,0.22070921985815603,0.24907644217107133,7038,-0.00121475683164892
+"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict",0.1,3,None,0.11091523431761492,0.10374112154841252,0.11898808648330637,6807,NA
+"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict",0.1,3,Slight,0.19098143236074197,0.17830722466840893,0.20416013621832269,6786,2.744329562897117e-4
+"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict",0.1,4,Dramatic,0.24264007597340947,0.21889838556505223,0.26733143399810066,2106,-6.726755572517357e-4
+"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict",0.1,4,None,0.09872298624754407,0.08133238425003061,0.11687105211330526,2036,NA
+"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict",0.1,4,Slight,0.19576979832759395,0.17380548116854444,0.21792534119138238,2033,1.1996172225055372e-4
+"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict",0.1,5,Dramatic,0.23237450648618183,0.212633953750705,0.2526861252115059,3546,-9.697150162338123e-4
+"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict",0.1,5,None,0.11182669789227187,0.0996183739384424,0.12353303524417533,3416,NA
+"exploratory; specified on 6 November 2026, after every registered result was known; changes no registered verdict",0.1,5,Slight,0.1932183572054956,0.1751447471498959,0.2112357729680151,3421,-1.661909167891184e-4

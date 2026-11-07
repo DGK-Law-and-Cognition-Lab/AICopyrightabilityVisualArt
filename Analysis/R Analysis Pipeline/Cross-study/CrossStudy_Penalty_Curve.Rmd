@@ -43,7 +43,7 @@ only what Alex added, there is no penalty at any level (severance). If raters
 credit Alex less when more of the second work still comes from the first, the
 penalty is largest at None and shrinks as modification grows (discounting).
 The program memorandum of 4 September 2026 proposed this comparison as an
-exploratory "propagation curve" (`Docs/Study 2/AI_Art_Copyright_Program_Memorandum.md`,
+exploratory "propagation curve" (`Docs/Paper Two/Background/AI_Art_Copyright_Program_Memorandum.md`,
 Part IV.D), and said that the None level discriminates among the accounts.
 
 **Status.** The analysis is exploratory. None of the five registrations in
@@ -62,8 +62,9 @@ one of them, AIC, approximates the leave-one-out score in large samples.
 This file:
 
 1. reads each study's deposited long data file and checks that it carries the
-   real labels and reproduces the study's registered analysed sample
-   (section 2);
+   real labels and reproduces the study's analysed sample: the registered
+   sample in Studies 1 to 4, and in Study 5 the registered sample less the 26
+   participants who had completed an earlier study (section 2);
 2. stacks the three derivative studies, keeping each study's own exclusions
    and scoring and dropping the six-point transformativeness items as each
    study's primary analysis does (section 3);
@@ -322,11 +323,11 @@ input_checks <- bind_rows(
   check("Study 5", "long file equals the one listed in the real run manifest", TRUE,
         manifest_row(IN[["study5_manifest"]], "study5_long_with_text.csv", IN[["study5_long"]])),
   check("Study 5", "label_mode says real on every row", TRUE, all_real(long[["Study 5"]])),
-  check("Study 5", "participants", 223, n_people(long[["Study 5"]])),
-  check("Study 5", "ratings in the file", 12042, sum(!is.na(long[["Study 5"]]$rating))),
-  check("Study 5", "six-point ratings, left out of the primary analysis", 274,
+  check("Study 5", "participants (analyzed sample: the 223 of the registration less the 26 who had completed an earlier study)", 197, n_people(long[["Study 5"]])),
+  check("Study 5", "ratings in the file", 10638, sum(!is.na(long[["Study 5"]]$rating))),
+  check("Study 5", "six-point ratings, left out of the primary analysis", 244,
         n_six(long[["Study 5"]])),
-  check("Study 5", "analysed ratings in the primary analysis", 11768,
+  check("Study 5", "analysed ratings in the primary analysis", 10394,
         n_five(long[["Study 5"]])))
 ```
 
@@ -414,7 +415,7 @@ stopifnot(!anyNA(pooled$study), !anyNA(pooled$source),
 
 # The rows analysed in each study equal its registered analysed ratings.
 rows_by_study <- count(pooled, study)
-stopifnot(identical(rows_by_study$n, c(20659L, 6178L, 11768L)))
+stopifnot(identical(rows_by_study$n, c(20659L, 6178L, 10394L)))
 
 # Numeric codes for the model comparison of section 7. src is +1 for Human
 # and -1 for AI, as sum-to-zero contrasts code the source. st1 and st2 are the

@@ -223,9 +223,9 @@ QUESTION_LABELS <- c(creativity = "Creativity", transformativeness = "Transforma
                      essence_change = "Essence change")
 SOURCE_LEVELS <- c("Human", "AI")
 MOD_LEVELS    <- c("None", "Slight", "Dramatic")
-REGISTERED <- tibble(study = STUDIES, participants = c(235L, 117L, 223L),
-                     analysed_ratings = c(20659L, 6178L, 11768L),
-                     six_point_ratings = c(0L, 140L, 274L))
+REGISTERED <- tibble(study = STUDIES, participants = c(235L, 117L, 197L),
+                     analysed_ratings = c(20659L, 6178L, 10394L),
+                     six_point_ratings = c(0L, 140L, 244L))
 ANALYSIS_STATUS <- paste("exploratory; specified on 9 October 2026, after every registered",
                          "result was known; no registration names it; changes no",
                          "registered verdict")
