@@ -5,7 +5,7 @@ The edit history of the source file in this folder. The source file carries none
 ## 2026-11-06 (night), quotes and two Supplementary figures
 
 - New `typical_explanations/`: for quoting participants' explanations without the authors choosing them. For each Part, question and label, it picks the explanation closest to the group's average meaning (each participant counted once), among those at least as long as the group's median, two per group from different participants. The rule was fixed before any explanation was read. Descriptive; it tests nothing.
-- `paper_figures/make_paper_figures.py`: two Supplementary figures, `figS_label_from_meaning` and `figS_image_grounding`, single-panel bar charts in the style of Figures 4 and 7. The seven main-text figures are byte-identical to before. The README now lists all nine figures by their current names.
+- `paper_figures/make_paper_figures.py`: three Supplementary figures, single-panel bar charts in the style of Figures 4 and 7, split by Part at the lead author's request: `figS_grounding_originals`, `figS_meaning_originals` and `figS_meaning_secondary`. They replace the two combined figures (`figS_label_from_meaning`, `figS_image_grounding`) drawn earlier the same day. The grounding of secondary works gets no figure, since no label difference survived Holm's correction. The seven main-text figures are byte-identical to before. The README now lists all ten figures by their current names.
 - `beyond_word_lists/`: the notebook and the R Markdown file gain a step for the typical explanations.
 
 ## 2026-11-06 (evening), fixes from an independent review of the explanation measures
