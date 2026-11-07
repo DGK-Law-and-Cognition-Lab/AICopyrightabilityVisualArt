@@ -79,6 +79,7 @@ For each study and question: grounding (in standard deviations of that study and
 In `tables/`:
 
 - `image_grounding_validity.csv`: hit rate and mean edit pull by study and level, with participant-resampled 95% intervals.
+- `image_grounding_hits_by_label.csv`: the hit rate under each label, by study and question (secondary works pooled over Slight and Dramatic), with participant-resampled 95% intervals. Descriptive: it is what Supplementary Figure 3 shows; the label tests use grounding.
 - `image_grounding_label_effects.csv`: the AI minus Human difference in grounding, by study, question and level, in the main version, with the rating added, and without mentions.
 - `image_grounding_samples.csv`: explanations by study and label.
 - The run records `image_grounding_measure_environment.csv`, `image_grounding_measure_run_manifest.csv` and `image_grounding_analysis_sessionInfo.txt`.

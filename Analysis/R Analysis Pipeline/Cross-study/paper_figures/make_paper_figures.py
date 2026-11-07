@@ -31,15 +31,14 @@ Three Supplementary figures show the measures of the explanations that use no
 word list, split by Part. They read the tables of
 ``Cross-study/label_from_meaning/`` and ``Cross-study/image_grounding/``:
 
-* ``figS_meaning_originals``: Studies 1 and 2, for each rating, how well each
-  participant's label is predicted (AUC; 0.5 is chance) from rating and
-  length, from meaning alone, and from meaning alone without the explanations
-  that mention prompting or a machine. The bars start at chance.
-* ``figS_grounding_originals``: Studies 1 and 2, how much less closely
-  explanations described their own picture under the AI label than under the
-  Human label (AI minus Human, in standard deviations, from CLIP), with all
-  explanations and without those that mention prompting or a machine. The
-  bars start at zero.
+* ``figS_meaning_originals``: Studies 1 and 2, for each rating, how often a
+  model tells apart a pair of participants, one from each label, from their
+  ratings, from what they wrote, and from what they wrote leaving out any
+  mention of prompting or a machine (the AUC as a percentage; 50 is guessing).
+  The bars start at 50.
+* ``figS_picture_match_originals``: Studies 1 and 2, how often CLIP picked out
+  the picture an explanation was written about, from the ten originals, under
+  each label (chance is 1 in 10).
 * ``figS_meaning_secondary``: as ``figS_meaning_originals``, for the three
   ratings of the secondary works in Studies 3 to 5.
 
@@ -510,66 +509,63 @@ def fig_meaning(name, cells, width_frac):
             stop(f"label_from_meaning: {len(hit)} rows for Study {st} {m} {predictors} {explanations}")
         r = hit[0]
         return float(r["estimate"]), float(r["ci95_low"]), float(r["ci95_high"]), int(r["participants"])
-    series = [("Rating and length", "rating and length", "all", "#9a9a9a", None),
-              ("Meaning alone", "meaning only", "all", "white", None),
-              ("Meaning alone, without mentions of prompting or a machine", "meaning only",
+    series = [("From their ratings", "rating and length", "all", "#9a9a9a", None),
+              ("From what they wrote", "meaning only", "all", "white", None),
+              ("From what they wrote, leaving out any mention of prompting or a machine", "meaning only",
                "without mentions of prompting or a machine", "white", "////")]
     fig, ax = plt.subplots(figsize=(WIDTH * width_frac, 72 * MM))
     for i, (st, m) in enumerate(cells):
         for (label, pred, expl, face, hatch), dx in zip(series, (-0.26, 0, 0.26)):
             est, lo, hi, n = get(st, m, pred, expl)
-            ax.bar(i + dx, est - 0.5, bottom=0.5, width=0.24, color=face, hatch=hatch, edgecolor="#4d4d4d",
+            est, lo, hi = 100 * est, 100 * lo, 100 * hi
+            ax.bar(i + dx, est - 50, bottom=50, width=0.24, color=face, hatch=hatch, edgecolor="#4d4d4d",
                    linewidth=0.7, zorder=3)
             ax.plot([i + dx, i + dx], [lo, hi], color="black", lw=0.8, zorder=4)
-            crowded = len(cells) > 4  # many bars: print the values upright so neighbors do not overlap
-            ax.text(i + dx, (hi + 0.008) if est >= 0.5 else (lo - 0.008), f"{est:.2f}",
-                    ha="center", va="bottom" if est >= 0.5 else "top", fontsize=6.3, color="#333333",
-                    rotation=90 if crowded else 0)
+            ax.text(i + dx, (hi + 0.8) if est >= 50 else (lo - 0.8), f"{est:.0f}",
+                    ha="center", va="bottom" if est >= 50 else "top", fontsize=6.8, color="#333333")
             VALUES.append({"figure": name, "panel": "", "study_paper": st, "rating": m, "label": label,
                            "n_participants": n, "mean": round(est, 4), "sd": "", "ci95_low": round(lo, 4),
                            "ci95_high": round(hi, 4)})
-    ax.axhline(0.5, color="black", lw=0.8, zorder=5)
-    ax.set_ylim(0.3, 1.0)
-    ax.set_yticks([0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
-    ax.set_yticklabels(["0.3", "0.4", "chance 0.5", "0.6", "0.7", "0.8", "0.9", "1.0"])
-    _cell_axis(ax, cells, "Label predicted from\nthe explanations (AUC)")
+    ax.axhline(50, color="black", lw=0.8, zorder=5)
+    ax.set_ylim(30, 100)
+    ax.set_yticks([30, 40, 50, 60, 70, 80, 90, 100])
+    ax.set_yticklabels(["30", "40", "guessing 50", "60", "70", "80", "90", "100"])
+    _cell_axis(ax, cells, "Pairs told apart (%)")
     _legend(fig, series, 3 if width_frac == 1 else 1)
-    fig.subplots_adjust(left=0.145 / width_frac, right=0.99, top=0.82 if width_frac == 1 else 0.70, bottom=0.17)
+    fig.subplots_adjust(left=0.13 / width_frac, right=0.99, top=0.82 if width_frac == 1 else 0.70, bottom=0.17)
     save(fig, name)
 
 
-def fig_grounding_originals():
-    """AI minus Human grounding (SD) for originals, with all explanations and without mentions."""
-    name = "figS_grounding_originals"
-    cells = ORIGINAL_CELLS
-    rows = _rows("Cross-study/image_grounding/tables/image_grounding_label_effects.csv")
-    def get(st, m, version):
-        hit = [r for r in rows if int(r["study_paper"]) == st and r["measure"] == m and r["version"] == version
-               and r["level"] == "original"]
-        if len(hit) != 1:
-            stop(f"image_grounding: {len(hit)} rows for Study {st} {m} {version}")
-        r = hit[0]
-        return float(r["estimate_sd"]), float(r["ci95_low"]), float(r["ci95_high"])
-    series = [("All explanations", "main", None, "#9a9a9a", None),
-              ("Without mentions of prompting or a machine", "without mentions", None, "white", "////")]
-    fig, ax = plt.subplots(figsize=(WIDTH * 0.72, 72 * MM))
-    for i, (st, m) in enumerate(cells):
-        for (label, version, _, face, hatch), dx in zip(series, (-0.19, 0.19)):
-            est, lo, hi = get(st, m, version)
-            ax.bar(i + dx, est, width=0.36, color=face, hatch=hatch, edgecolor="#4d4d4d", linewidth=0.7, zorder=3)
+def fig_picture_match_originals():
+    """How often CLIP found the picture an explanation was written about, among the ten originals,
+    under each label (Human gray, AI white, as in Figures 4 and 7)."""
+    name = "figS_picture_match_originals"
+    rows = _rows("Cross-study/image_grounding/tables/image_grounding_hits_by_label.csv")
+    fig, ax = plt.subplots(figsize=(WIDTH * 0.72, 66 * MM))
+    for i, (st, m) in enumerate(ORIGINAL_CELLS):
+        for lab, dx in ((HUMAN, -0.19), (AI, 0.19)):
+            hit = [r for r in rows if int(r["study_paper"]) == st and r["dimension"] == m and r["label"] == lab
+                   and r["level"] == "original"]
+            if len(hit) != 1:
+                stop(f"image_grounding hits: {len(hit)} rows for Study {st} {m} {lab}")
+            r = hit[0]
+            est, lo, hi = 100 * float(r["hit_rate"]), 100 * float(r["ci_lo"]), 100 * float(r["ci_hi"])
+            ax.bar(i + dx, est, width=0.36, color=BAR_FACE[lab], edgecolor="#4d4d4d", linewidth=0.7, zorder=3)
             ax.plot([i + dx, i + dx], [lo, hi], color="black", lw=0.8, zorder=4)
-            ax.text(i + dx, (hi + 0.012) if est >= 0 else (lo - 0.012), f"{est:.2f}".replace("-", "\u2212"),
-                    ha="center", va="bottom" if est >= 0 else "top", fontsize=6.8, color="#333333")
-            VALUES.append({"figure": name, "panel": "", "study_paper": st, "rating": m, "label": label,
-                           "n_participants": "", "mean": round(est, 4), "sd": "", "ci95_low": round(lo, 4),
-                           "ci95_high": round(hi, 4)})
-    ax.axhline(0, color="black", lw=0.8, zorder=5)
-    ax.set_ylim(-0.6, 0.3)
-    ax.set_yticks([-0.6, -0.4, -0.2, 0, 0.2])
-    ax.set_yticklabels(["\u22120.6", "\u22120.4", "\u22120.2", "0", "0.2"])
-    _cell_axis(ax, cells, "AI minus Human: how closely\nexplanations describe the picture (SD)")
-    _legend(fig, series, 1)
-    fig.subplots_adjust(left=0.20, right=0.99, top=0.76, bottom=0.17)
+            ax.text(i + dx, hi + 1.2, f"{est:.0f}", ha="center", va="bottom", fontsize=7, color="#333333")
+            VALUES.append({"figure": name, "panel": "", "study_paper": st, "rating": m, "label": lab,
+                           "n_participants": int(r["participants"]), "mean": round(est, 4), "sd": "",
+                           "ci95_low": round(lo, 4), "ci95_high": round(hi, 4)})
+    ax.axhline(10, color="black", lw=0.8, ls=(0, (3, 2)), zorder=5)
+    ax.set_ylim(0, 70)
+    ax.set_yticks([0, 10, 20, 30, 40, 50, 60, 70])
+    ax.set_yticklabels(["0", "chance 10", "20", "30", "40", "50", "60", "70"])
+    _cell_axis(ax, ORIGINAL_CELLS, "Picture identified from\nthe explanation (%)")
+    handles = [matplotlib.patches.Patch(facecolor=BAR_FACE[l], edgecolor="#4d4d4d", linewidth=0.7, label=LABEL_TEXT[l])
+               for l in (HUMAN, AI)]
+    fig.legend(handles=handles, loc="upper center", ncol=2, frameon=False, bbox_to_anchor=(0.5, 1.0),
+               handlelength=1.4, columnspacing=1.6)
+    fig.subplots_adjust(left=0.215, right=0.99, top=0.80, bottom=0.17)
     save(fig, name)
 
 
@@ -625,7 +621,7 @@ def main():
     fig_hours_secondary(data[4], data[5])
     fig_explanations_secondary()
     fig_meaning("figS_meaning_originals", ORIGINAL_CELLS, 0.72)
-    fig_grounding_originals()
+    fig_picture_match_originals()
     fig_meaning("figS_meaning_secondary", SECONDARY_CELLS, 1.0)
     write_values()
     print(f"wrote 7 main-text and 3 Supplementary figures and figure_values.csv to {OUT}")

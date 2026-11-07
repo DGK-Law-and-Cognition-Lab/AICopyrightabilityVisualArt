@@ -103,6 +103,18 @@ validity <- d %>% group_by(study_paper, level) %>%
   ungroup() %>% mutate(analysis_status = STATUS, chance = 0.1, .before = 1)
 write_csv(validity, file.path(TAB, "image_grounding_validity.csv"))
 
+# 1b. The same hit rate under each label: how often CLIP found an explanation's own picture among
+# the ten, for Human-label and AI-label explanations separately, with an interval from 2,000
+# resamples of participants. Descriptive; the label tests below use grounding. Secondary works
+# pool the Slight and Dramatic edits.
+hits_by_label <- d %>% filter(level != "None") %>%
+  mutate(level = ifelse(level == "original", "original", "Slight and Dramatic")) %>%
+  group_by(study_paper, dimension, level, label) %>%
+  group_modify(~ { ci <- boot_share(.x$hit, .x$id); tibble(hit_rate = mean(.x$hit), ci_lo = ci[1], ci_hi = ci[2],
+                    explanations = nrow(.x), participants = n_distinct(.x$id)) }) %>%
+  ungroup() %>% mutate(label = as.character(label), analysis_status = STATUS, chance = 0.1, .before = 1)
+write_csv(hits_by_label, file.path(TAB, "image_grounding_hits_by_label.csv"))
+
 # 2-3. Label effects ---------------------------------------------------------------------------
 fit_one <- function(dd, study, dim, with_rating) {
   dd <- dd %>% mutate(g = as.numeric(scale(grounding)), lw = as.numeric(scale(log(n_tokens_kept))),

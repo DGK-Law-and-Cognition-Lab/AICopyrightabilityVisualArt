@@ -2,6 +2,15 @@
 
 The edit history of the source file in this folder. The source file carries none itself.
 
+## 2026-11-06 (late), the explanation figures made readable
+
+The lead author found the Supplementary figures hard to read. They showed a difference score in standard deviations (CLIP) and an AUC comparison of three prediction models (meaning).
+
+- `image_grounding/ImageGrounding_02_Analysis.R` writes `image_grounding_hits_by_label.csv`: how often CLIP picked the right picture under each label, with participant-resampled intervals. The other tables are unchanged.
+- `paper_figures/make_paper_figures.py`:
+  - `figS_picture_match_originals` replaces `figS_grounding_originals`. It shows the hit rate under each label in the paper's Human gray / AI white bars, with chance at 10%. In Study 1's effort explanations it is 37.7% Human against 26.0% AI.
+  - The meaning figures show the AUC as the percentage of pairs told apart (50 is guessing), and their legends name the three sources in plain words: their ratings, what they wrote, and what they wrote leaving out mentions of prompting or a machine.
+
 ## 2026-11-06 (night), quotes and two Supplementary figures
 
 - New `typical_explanations/`: for quoting participants' explanations without the authors choosing them. For each Part, question and label, it picks the explanation closest to the group's average meaning (each participant counted once), among those at least as long as the group's median, two per group from different participants. The rule was fixed before any explanation was read. Descriptive; it tests nothing.
