@@ -23,110 +23,110 @@ fig4_explanations_originals,B,2,creativity,Human,,,,43,6.4599,,3.3592,9.8191,
 fig4_explanations_originals,B,2,creativity,AI,,,,42,18.7831,,10.582,27.5132,
 fig4_explanations_originals,B,2,effort,Human,,,,43,14.3229,,7.8329,21.9329,
 fig4_explanations_originals,B,2,effort,AI,,,,42,33.7766,,24.4681,42.8191,
-fig5_secondary,A,3,creativity,Human,,,None,122,1.1566,0.5047,1.0661,1.247,1.1566
-fig5_secondary,A,3,creativity,AI,,,None,113,1.0867,0.3504,1.0214,1.152,1.0867
-fig5_secondary,A,3,creativity,Human,,,Slight,122,1.8782,0.5751,1.7751,1.9813,1.8778
-fig5_secondary,A,3,creativity,AI,,,Slight,113,1.7572,0.4832,1.6672,1.8473,1.7567
-fig5_secondary,A,3,creativity,Human,,,Dramatic,122,3.5631,0.7089,3.4361,3.6902,3.5631
-fig5_secondary,A,3,creativity,AI,,,Dramatic,113,3.4097,0.6285,3.2926,3.5269,3.4097
-fig5_secondary,A,4,creativity,Human,,,None,55,1.1576,0.4212,1.0437,1.2714,1.1548
-fig5_secondary,A,4,creativity,AI,,,None,62,1.2876,0.6346,1.1265,1.4488,1.2874
-fig5_secondary,A,4,creativity,Human,,,Slight,55,1.9152,0.6169,1.7484,2.0819,1.9124
-fig5_secondary,A,4,creativity,AI,,,Slight,62,1.9435,0.6822,1.7703,2.1168,1.9433
-fig5_secondary,A,4,creativity,Human,,,Dramatic,55,3.2576,0.7157,3.0641,3.451,3.2548
-fig5_secondary,A,4,creativity,AI,,,Dramatic,62,3.4274,0.6958,3.2507,3.6041,3.4272
-fig5_secondary,A,5,creativity,Human,,,None,98,1.2245,0.5244,1.1194,1.3296,1.2189
-fig5_secondary,A,5,creativity,AI,,,None,99,1.1128,0.2403,1.0649,1.1607,1.1147
-fig5_secondary,A,5,creativity,Human,,,Slight,98,1.9677,0.5996,1.8475,2.0879,1.962
-fig5_secondary,A,5,creativity,AI,,,Slight,99,1.7054,0.5985,1.586,1.8248,1.705
-fig5_secondary,A,5,creativity,Human,,,Dramatic,98,3.3231,0.7776,3.1672,3.479,3.3166
-fig5_secondary,A,5,creativity,AI,,,Dramatic,99,3.2273,0.7451,3.0787,3.3759,3.2175
-fig5_secondary,B,3,transformativeness,Human,,,None,122,1.0556,0.2219,1.0158,1.0953,1.0219
-fig5_secondary,B,3,transformativeness,AI,,,None,113,1.0374,0.1657,1.0065,1.0683,1.0047
-fig5_secondary,B,3,transformativeness,Human,,,Slight,122,2.0138,0.5214,1.9203,2.1072,1.964
-fig5_secondary,B,3,transformativeness,AI,,,Slight,113,1.9325,0.5082,1.8378,2.0272,1.8837
-fig5_secondary,B,3,transformativeness,Human,,,Dramatic,122,3.6959,0.7313,3.5648,3.827,3.6959
-fig5_secondary,B,3,transformativeness,AI,,,Dramatic,113,3.6204,0.7274,3.4848,3.7559,3.6204
-fig5_secondary,B,4,transformativeness,Human,,,None,55,1.0618,0.2012,1.0074,1.1162,1.039
-fig5_secondary,B,4,transformativeness,AI,,,None,62,1.0473,0.1529,1.0085,1.0861,1.0258
-fig5_secondary,B,4,transformativeness,Human,,,Slight,55,2.1388,0.5958,1.9777,2.2999,2.1208
-fig5_secondary,B,4,transformativeness,AI,,,Slight,62,1.9339,0.5566,1.7925,2.0752,1.9196
-fig5_secondary,B,4,transformativeness,Human,,,Dramatic,55,3.4121,0.6967,3.2238,3.6005,3.4097
-fig5_secondary,B,4,transformativeness,AI,,,Dramatic,62,3.4919,0.7345,3.3054,3.6785,3.4917
-fig5_secondary,B,5,transformativeness,Human,,,None,98,1.0548,0.1359,1.0275,1.082,1.0325
-fig5_secondary,B,5,transformativeness,AI,,,None,99,1.0899,0.4238,1.0054,1.1744,1.0733
-fig5_secondary,B,5,transformativeness,Human,,,Slight,98,2.0003,0.572,1.8857,2.115,1.9695
-fig5_secondary,B,5,transformativeness,AI,,,Slight,99,1.8387,0.6146,1.7161,1.9613,1.8156
-fig5_secondary,B,5,transformativeness,Human,,,Dramatic,98,3.5391,0.7817,3.3824,3.6958,3.5337
-fig5_secondary,B,5,transformativeness,AI,,,Dramatic,99,3.4293,0.769,3.2759,3.5827,3.4246
-fig5_secondary,C,3,essence_change,Human,,,None,122,1.0574,0.2147,1.0189,1.0959,1.0574
-fig5_secondary,C,3,essence_change,AI,,,None,113,1.0381,0.1549,1.0092,1.0669,1.0381
-fig5_secondary,C,3,essence_change,Human,,,Slight,122,2.047,0.5222,1.9534,2.1406,2.0474
-fig5_secondary,C,3,essence_change,AI,,,Slight,113,1.9128,0.5787,1.8049,2.0207,1.9122
-fig5_secondary,C,3,essence_change,Human,,,Dramatic,122,3.6943,0.7503,3.5598,3.8288,3.6943
-fig5_secondary,C,3,essence_change,AI,,,Dramatic,113,3.6327,0.7122,3.5,3.7655,3.6327
-fig5_secondary,C,4,essence_change,Human,,,None,55,1.0424,0.1611,0.9989,1.086,1.0401
-fig5_secondary,C,4,essence_change,AI,,,None,62,1.086,0.2678,1.018,1.154,1.0859
-fig5_secondary,C,4,essence_change,Human,,,Slight,55,2.1455,0.6261,1.9762,2.3147,2.1431
-fig5_secondary,C,4,essence_change,AI,,,Slight,62,1.9543,0.593,1.8037,2.1049,1.9542
-fig5_secondary,C,4,essence_change,Human,,,Dramatic,55,3.5667,0.6816,3.3824,3.7509,3.5643
-fig5_secondary,C,4,essence_change,AI,,,Dramatic,62,3.6478,0.6134,3.4921,3.8036,3.6477
-fig5_secondary,C,5,essence_change,Human,,,None,98,1.0918,0.2579,1.0401,1.1435,1.088
-fig5_secondary,C,5,essence_change,AI,,,None,99,1.0673,0.2061,1.0262,1.1084,1.0669
-fig5_secondary,C,5,essence_change,Human,,,Slight,98,2.0731,0.6007,1.9527,2.1936,2.069
-fig5_secondary,C,5,essence_change,AI,,,Slight,99,1.8855,0.6221,1.7614,2.0096,1.8847
-fig5_secondary,C,5,essence_change,Human,,,Dramatic,98,3.6241,0.7409,3.4756,3.7727,3.6191
-fig5_secondary,C,5,essence_change,AI,,,Dramatic,99,3.5539,0.7303,3.4082,3.6995,3.5467
-fig6_hours_secondary,A,4,creativity,Human,,less than 1 hour,,55,2.1061,0.4652,1.9803,2.2318,
-fig6_hours_secondary,A,4,creativity,AI,,less than 1 hour,,62,2.1667,0.5852,2.0181,2.3153,
-fig6_hours_secondary,A,4,creativity,Human,,10 hours,,55,2.1394,0.5488,1.991,2.2878,
-fig6_hours_secondary,A,4,creativity,AI,,10 hours,,62,2.2527,0.574,2.1069,2.3985,
-fig6_hours_secondary,A,4,creativity,Human,,100 hours,,55,2.0848,0.504,1.9486,2.2211,
-fig6_hours_secondary,A,4,creativity,AI,,100 hours,,62,2.2392,0.5778,2.0925,2.386,
-fig6_hours_secondary,B,5,creativity,Human,,less than 1 hour,,32,2.0799,0.3875,1.9402,2.2196,
-fig6_hours_secondary,B,5,creativity,AI,,less than 1 hour,,30,2.0389,0.4046,1.8878,2.19,
-fig6_hours_secondary,B,5,creativity,Human,,10 hours,,35,2.2698,0.5044,2.0966,2.4431,
-fig6_hours_secondary,B,5,creativity,AI,,10 hours,,33,1.8653,0.3735,1.7329,1.9977,
-fig6_hours_secondary,B,5,creativity,Human,,100 hours,,31,2.1559,0.503,1.9714,2.3404,
-fig6_hours_secondary,B,5,creativity,AI,,100 hours,,36,2.1327,0.4269,1.9883,2.2772,
-fig7_explanations_secondary,A,3,creativity,Human,,,,122,1.7274,,0.5775,3.5842,
-fig7_explanations_secondary,A,3,creativity,AI,,,,113,5.9362,,3.5155,8.8575,
-fig7_explanations_secondary,A,3,transformativeness,Human,,,,122,0.6755,,0.3222,1.0838,
-fig7_explanations_secondary,A,3,transformativeness,AI,,,,113,2.2468,,1.0123,4.2425,
-fig7_explanations_secondary,A,3,essence_change,Human,,,,122,0.3839,,0.1376,0.6859,
-fig7_explanations_secondary,A,3,essence_change,AI,,,,113,2.2741,,0.976,4.2546,
-fig7_explanations_secondary,B,4,creativity,Human,,,,55,1.5167,,0.5061,2.8283,
-fig7_explanations_secondary,B,4,creativity,AI,,,,62,6.5412,,3.4946,9.9462,
-fig7_explanations_secondary,B,4,transformativeness,Human,,,,55,1.3001,,0.4301,2.3913,
-fig7_explanations_secondary,B,4,transformativeness,AI,,,,62,2.975,,0.9597,5.5871,
-fig7_explanations_secondary,B,4,essence_change,Human,,,,55,1.0111,,0.4044,1.8182,
-fig7_explanations_secondary,B,4,essence_change,AI,,,,62,3.4946,,1.0753,6.6308,
-fig7_explanations_secondary,C,5,creativity,Human,,,,98,2.5583,,1.4212,3.9116,
-fig7_explanations_secondary,C,5,creativity,AI,,,,99,10.6061,,7.688,14.0853,
-fig7_explanations_secondary,C,5,transformativeness,Human,,,,98,0.8547,,0.3636,1.4076,
-fig7_explanations_secondary,C,5,transformativeness,AI,,,,99,2.4639,,1.6206,3.3776,
-fig7_explanations_secondary,C,5,essence_change,Human,,,,98,1.1377,,0.4535,1.9406,
-fig7_explanations_secondary,C,5,essence_change,AI,,,,99,2.5253,,1.6835,3.4792,
-figS_meaning_originals,,1,creativity,From their ratings,,,,111,65.5195,,54.987,74.8848,
-figS_meaning_originals,,1,creativity,From what they wrote,,,,111,60.5195,,50.5848,71.415,
-figS_meaning_originals,,1,creativity,"From what they wrote, leaving out any mention of prompting or a machine",,,,107,49.93,,38.5611,61.2905,
-figS_meaning_originals,,1,effort,From their ratings,,,,111,77.1753,,67.6001,85.9158,
-figS_meaning_originals,,1,effort,From what they wrote,,,,111,79.9351,,70.9816,88.2472,
-figS_meaning_originals,,1,effort,"From what they wrote, leaving out any mention of prompting or a machine",,,,101,73.0556,,63.1956,82.6091,
-figS_meaning_originals,,2,creativity,From their ratings,,,,85,62.9568,,50.5615,74.5287,
-figS_meaning_originals,,2,creativity,From what they wrote,,,,85,61.1296,,48.9479,73.0897,
-figS_meaning_originals,,2,creativity,"From what they wrote, leaving out any mention of prompting or a machine",,,,83,58.7791,,45.5116,71.2121,
-figS_meaning_originals,,2,effort,From their ratings,,,,85,67.7187,,55.6297,78.5396,
-figS_meaning_originals,,2,effort,From what they wrote,,,,85,74.3632,,62.6913,84.3168,
-figS_meaning_originals,,2,effort,"From what they wrote, leaving out any mention of prompting or a machine",,,,83,66.1628,,53.8173,77.5429,
-figS_picture_match_originals,,1,creativity,Human,,,,56,51.25,,44.817,58.3929,
-figS_picture_match_originals,,1,creativity,AI,,,,55,52.7273,,45.4545,59.2727,
-figS_picture_match_originals,,1,effort,Human,,,,56,37.6786,,32.4955,43.3929,
-figS_picture_match_originals,,1,effort,AI,,,,55,26.0,,21.0909,30.7318,
-figS_picture_match_originals,,2,creativity,Human,,,,43,48.062,,39.2765,57.1059,
-figS_picture_match_originals,,2,creativity,AI,,,,42,50.0,,41.5344,58.2011,
-figS_picture_match_originals,,2,effort,Human,,,,43,26.8229,,19.5311,34.9889,
-figS_picture_match_originals,,2,effort,AI,,,,42,27.9255,,21.8652,34.2267,
+fig7_secondary,A,3,creativity,Human,,,None,122,1.1566,0.5047,1.0661,1.247,1.1566
+fig7_secondary,A,3,creativity,AI,,,None,113,1.0867,0.3504,1.0214,1.152,1.0867
+fig7_secondary,A,3,creativity,Human,,,Slight,122,1.8782,0.5751,1.7751,1.9813,1.8778
+fig7_secondary,A,3,creativity,AI,,,Slight,113,1.7572,0.4832,1.6672,1.8473,1.7567
+fig7_secondary,A,3,creativity,Human,,,Dramatic,122,3.5631,0.7089,3.4361,3.6902,3.5631
+fig7_secondary,A,3,creativity,AI,,,Dramatic,113,3.4097,0.6285,3.2926,3.5269,3.4097
+fig7_secondary,A,4,creativity,Human,,,None,55,1.1576,0.4212,1.0437,1.2714,1.1548
+fig7_secondary,A,4,creativity,AI,,,None,62,1.2876,0.6346,1.1265,1.4488,1.2874
+fig7_secondary,A,4,creativity,Human,,,Slight,55,1.9152,0.6169,1.7484,2.0819,1.9124
+fig7_secondary,A,4,creativity,AI,,,Slight,62,1.9435,0.6822,1.7703,2.1168,1.9433
+fig7_secondary,A,4,creativity,Human,,,Dramatic,55,3.2576,0.7157,3.0641,3.451,3.2548
+fig7_secondary,A,4,creativity,AI,,,Dramatic,62,3.4274,0.6958,3.2507,3.6041,3.4272
+fig7_secondary,A,5,creativity,Human,,,None,98,1.2245,0.5244,1.1194,1.3296,1.2189
+fig7_secondary,A,5,creativity,AI,,,None,99,1.1128,0.2403,1.0649,1.1607,1.1147
+fig7_secondary,A,5,creativity,Human,,,Slight,98,1.9677,0.5996,1.8475,2.0879,1.962
+fig7_secondary,A,5,creativity,AI,,,Slight,99,1.7054,0.5985,1.586,1.8248,1.705
+fig7_secondary,A,5,creativity,Human,,,Dramatic,98,3.3231,0.7776,3.1672,3.479,3.3166
+fig7_secondary,A,5,creativity,AI,,,Dramatic,99,3.2273,0.7451,3.0787,3.3759,3.2175
+fig7_secondary,B,3,transformativeness,Human,,,None,122,1.0556,0.2219,1.0158,1.0953,1.0219
+fig7_secondary,B,3,transformativeness,AI,,,None,113,1.0374,0.1657,1.0065,1.0683,1.0047
+fig7_secondary,B,3,transformativeness,Human,,,Slight,122,2.0138,0.5214,1.9203,2.1072,1.964
+fig7_secondary,B,3,transformativeness,AI,,,Slight,113,1.9325,0.5082,1.8378,2.0272,1.8837
+fig7_secondary,B,3,transformativeness,Human,,,Dramatic,122,3.6959,0.7313,3.5648,3.827,3.6959
+fig7_secondary,B,3,transformativeness,AI,,,Dramatic,113,3.6204,0.7274,3.4848,3.7559,3.6204
+fig7_secondary,B,4,transformativeness,Human,,,None,55,1.0618,0.2012,1.0074,1.1162,1.039
+fig7_secondary,B,4,transformativeness,AI,,,None,62,1.0473,0.1529,1.0085,1.0861,1.0258
+fig7_secondary,B,4,transformativeness,Human,,,Slight,55,2.1388,0.5958,1.9777,2.2999,2.1208
+fig7_secondary,B,4,transformativeness,AI,,,Slight,62,1.9339,0.5566,1.7925,2.0752,1.9196
+fig7_secondary,B,4,transformativeness,Human,,,Dramatic,55,3.4121,0.6967,3.2238,3.6005,3.4097
+fig7_secondary,B,4,transformativeness,AI,,,Dramatic,62,3.4919,0.7345,3.3054,3.6785,3.4917
+fig7_secondary,B,5,transformativeness,Human,,,None,98,1.0548,0.1359,1.0275,1.082,1.0325
+fig7_secondary,B,5,transformativeness,AI,,,None,99,1.0899,0.4238,1.0054,1.1744,1.0733
+fig7_secondary,B,5,transformativeness,Human,,,Slight,98,2.0003,0.572,1.8857,2.115,1.9695
+fig7_secondary,B,5,transformativeness,AI,,,Slight,99,1.8387,0.6146,1.7161,1.9613,1.8156
+fig7_secondary,B,5,transformativeness,Human,,,Dramatic,98,3.5391,0.7817,3.3824,3.6958,3.5337
+fig7_secondary,B,5,transformativeness,AI,,,Dramatic,99,3.4293,0.769,3.2759,3.5827,3.4246
+fig7_secondary,C,3,essence_change,Human,,,None,122,1.0574,0.2147,1.0189,1.0959,1.0574
+fig7_secondary,C,3,essence_change,AI,,,None,113,1.0381,0.1549,1.0092,1.0669,1.0381
+fig7_secondary,C,3,essence_change,Human,,,Slight,122,2.047,0.5222,1.9534,2.1406,2.0474
+fig7_secondary,C,3,essence_change,AI,,,Slight,113,1.9128,0.5787,1.8049,2.0207,1.9122
+fig7_secondary,C,3,essence_change,Human,,,Dramatic,122,3.6943,0.7503,3.5598,3.8288,3.6943
+fig7_secondary,C,3,essence_change,AI,,,Dramatic,113,3.6327,0.7122,3.5,3.7655,3.6327
+fig7_secondary,C,4,essence_change,Human,,,None,55,1.0424,0.1611,0.9989,1.086,1.0401
+fig7_secondary,C,4,essence_change,AI,,,None,62,1.086,0.2678,1.018,1.154,1.0859
+fig7_secondary,C,4,essence_change,Human,,,Slight,55,2.1455,0.6261,1.9762,2.3147,2.1431
+fig7_secondary,C,4,essence_change,AI,,,Slight,62,1.9543,0.593,1.8037,2.1049,1.9542
+fig7_secondary,C,4,essence_change,Human,,,Dramatic,55,3.5667,0.6816,3.3824,3.7509,3.5643
+fig7_secondary,C,4,essence_change,AI,,,Dramatic,62,3.6478,0.6134,3.4921,3.8036,3.6477
+fig7_secondary,C,5,essence_change,Human,,,None,98,1.0918,0.2579,1.0401,1.1435,1.088
+fig7_secondary,C,5,essence_change,AI,,,None,99,1.0673,0.2061,1.0262,1.1084,1.0669
+fig7_secondary,C,5,essence_change,Human,,,Slight,98,2.0731,0.6007,1.9527,2.1936,2.069
+fig7_secondary,C,5,essence_change,AI,,,Slight,99,1.8855,0.6221,1.7614,2.0096,1.8847
+fig7_secondary,C,5,essence_change,Human,,,Dramatic,98,3.6241,0.7409,3.4756,3.7727,3.6191
+fig7_secondary,C,5,essence_change,AI,,,Dramatic,99,3.5539,0.7303,3.4082,3.6995,3.5467
+fig8_hours_secondary,A,4,creativity,Human,,less than 1 hour,,55,2.1061,0.4652,1.9803,2.2318,
+fig8_hours_secondary,A,4,creativity,AI,,less than 1 hour,,62,2.1667,0.5852,2.0181,2.3153,
+fig8_hours_secondary,A,4,creativity,Human,,10 hours,,55,2.1394,0.5488,1.991,2.2878,
+fig8_hours_secondary,A,4,creativity,AI,,10 hours,,62,2.2527,0.574,2.1069,2.3985,
+fig8_hours_secondary,A,4,creativity,Human,,100 hours,,55,2.0848,0.504,1.9486,2.2211,
+fig8_hours_secondary,A,4,creativity,AI,,100 hours,,62,2.2392,0.5778,2.0925,2.386,
+fig8_hours_secondary,B,5,creativity,Human,,less than 1 hour,,32,2.0799,0.3875,1.9402,2.2196,
+fig8_hours_secondary,B,5,creativity,AI,,less than 1 hour,,30,2.0389,0.4046,1.8878,2.19,
+fig8_hours_secondary,B,5,creativity,Human,,10 hours,,35,2.2698,0.5044,2.0966,2.4431,
+fig8_hours_secondary,B,5,creativity,AI,,10 hours,,33,1.8653,0.3735,1.7329,1.9977,
+fig8_hours_secondary,B,5,creativity,Human,,100 hours,,31,2.1559,0.503,1.9714,2.3404,
+fig8_hours_secondary,B,5,creativity,AI,,100 hours,,36,2.1327,0.4269,1.9883,2.2772,
+fig9_explanations_secondary,A,3,creativity,Human,,,,122,1.7274,,0.5775,3.5842,
+fig9_explanations_secondary,A,3,creativity,AI,,,,113,5.9362,,3.5155,8.8575,
+fig9_explanations_secondary,A,3,transformativeness,Human,,,,122,0.6755,,0.3222,1.0838,
+fig9_explanations_secondary,A,3,transformativeness,AI,,,,113,2.2468,,1.0123,4.2425,
+fig9_explanations_secondary,A,3,essence_change,Human,,,,122,0.3839,,0.1376,0.6859,
+fig9_explanations_secondary,A,3,essence_change,AI,,,,113,2.2741,,0.976,4.2546,
+fig9_explanations_secondary,B,4,creativity,Human,,,,55,1.5167,,0.5061,2.8283,
+fig9_explanations_secondary,B,4,creativity,AI,,,,62,6.5412,,3.4946,9.9462,
+fig9_explanations_secondary,B,4,transformativeness,Human,,,,55,1.3001,,0.4301,2.3913,
+fig9_explanations_secondary,B,4,transformativeness,AI,,,,62,2.975,,0.9597,5.5871,
+fig9_explanations_secondary,B,4,essence_change,Human,,,,55,1.0111,,0.4044,1.8182,
+fig9_explanations_secondary,B,4,essence_change,AI,,,,62,3.4946,,1.0753,6.6308,
+fig9_explanations_secondary,C,5,creativity,Human,,,,98,2.5583,,1.4212,3.9116,
+fig9_explanations_secondary,C,5,creativity,AI,,,,99,10.6061,,7.688,14.0853,
+fig9_explanations_secondary,C,5,transformativeness,Human,,,,98,0.8547,,0.3636,1.4076,
+fig9_explanations_secondary,C,5,transformativeness,AI,,,,99,2.4639,,1.6206,3.3776,
+fig9_explanations_secondary,C,5,essence_change,Human,,,,98,1.1377,,0.4535,1.9406,
+fig9_explanations_secondary,C,5,essence_change,AI,,,,99,2.5253,,1.6835,3.4792,
+fig6_meaning_originals,,1,creativity,From their ratings,,,,111,65.5195,,54.987,74.8848,
+fig6_meaning_originals,,1,creativity,From what they wrote,,,,111,60.5195,,50.5848,71.415,
+fig6_meaning_originals,,1,creativity,"From what they wrote, leaving out any mention of prompting or a machine",,,,107,49.93,,38.5611,61.2905,
+fig6_meaning_originals,,1,effort,From their ratings,,,,111,77.1753,,67.6001,85.9158,
+fig6_meaning_originals,,1,effort,From what they wrote,,,,111,79.9351,,70.9816,88.2472,
+fig6_meaning_originals,,1,effort,"From what they wrote, leaving out any mention of prompting or a machine",,,,101,73.0556,,63.1956,82.6091,
+fig6_meaning_originals,,2,creativity,From their ratings,,,,85,62.9568,,50.5615,74.5287,
+fig6_meaning_originals,,2,creativity,From what they wrote,,,,85,61.1296,,48.9479,73.0897,
+fig6_meaning_originals,,2,creativity,"From what they wrote, leaving out any mention of prompting or a machine",,,,83,58.7791,,45.5116,71.2121,
+fig6_meaning_originals,,2,effort,From their ratings,,,,85,67.7187,,55.6297,78.5396,
+fig6_meaning_originals,,2,effort,From what they wrote,,,,85,74.3632,,62.6913,84.3168,
+fig6_meaning_originals,,2,effort,"From what they wrote, leaving out any mention of prompting or a machine",,,,83,66.1628,,53.8173,77.5429,
+fig5_picture_match_originals,,1,creativity,Human,,,,56,51.25,,44.817,58.3929,
+fig5_picture_match_originals,,1,creativity,AI,,,,55,52.7273,,45.4545,59.2727,
+fig5_picture_match_originals,,1,effort,Human,,,,56,37.6786,,32.4955,43.3929,
+fig5_picture_match_originals,,1,effort,AI,,,,55,26.0,,21.0909,30.7318,
+fig5_picture_match_originals,,2,creativity,Human,,,,43,48.062,,39.2765,57.1059,
+fig5_picture_match_originals,,2,creativity,AI,,,,42,50.0,,41.5344,58.2011,
+fig5_picture_match_originals,,2,effort,Human,,,,43,26.8229,,19.5311,34.9889,
+fig5_picture_match_originals,,2,effort,AI,,,,42,27.9255,,21.8652,34.2267,
 figS_meaning_secondary,,3,creativity,From their ratings,,,,235,55.3242,,47.9715,62.5475,
 figS_meaning_secondary,,3,creativity,From what they wrote,,,,235,54.0041,,46.2439,61.734,
 figS_meaning_secondary,,3,creativity,"From what they wrote, leaving out any mention of prompting or a machine",,,,235,49.5575,,41.9778,57.0497,

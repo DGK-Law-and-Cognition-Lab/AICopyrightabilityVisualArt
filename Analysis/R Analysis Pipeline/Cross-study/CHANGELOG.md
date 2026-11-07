@@ -2,6 +2,10 @@
 
 The edit history of the source file in this folder. The source file carries none itself.
 
+## 2026-11-06 (last), two explanation figures move to the main text
+
+At the lead author's request, the CLIP and meaning figures for the originals become main-text Figures 5 and 6, beside Figure 4 in Part A. File names carry the main-text figure numbers, so the later figures are renamed (`fig5_secondary` to `fig7_secondary`, `fig6_hours_secondary` to `fig8_hours_secondary`, `fig7_explanations_secondary` to `fig9_explanations_secondary`) with byte-identical content. The meaning figure for the secondary works stays in the Supplement.
+
 ## 2026-11-06 (late), the explanation figures made readable
 
 The lead author found the Supplementary figures hard to read. They showed a difference score in standard deviations (CLIP) and an AUC comparison of three prediction models (meaning).
