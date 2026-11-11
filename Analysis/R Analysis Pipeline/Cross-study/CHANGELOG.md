@@ -2,6 +2,15 @@
 
 The edit history of the source file in this folder. The source file carries none itself.
 
+## 2026-11-11, the explanation figures for the originals return to the Supplement
+
+K. J. Holyoak's edit of the 6 November draft cut the measures beyond the word lists from the main text, and the lead author agreed. In `paper_figures/make_paper_figures.py`:
+
+- The CLIP and meaning figures for the originals become Supplementary figures again, as `figS_picture_match_originals` and `figS_meaning_originals`.
+- The later main-text figures take back their earlier numbers: `fig7_secondary` becomes `fig5_secondary`, `fig8_hours_secondary` becomes `fig6_hours_secondary` and `fig9_explanations_secondary` becomes `fig7_explanations_secondary`.
+- At his request, the bar charts no longer print a value on each bar; `output/figure_values.csv` still holds every plotted value.
+- Figures 1 to 3 and the violin figures are byte-identical to before. No analysis changed.
+
 ## 2026-11-06 (last), two explanation figures move to the main text
 
 At the lead author's request, the CLIP and meaning figures for the originals become main-text Figures 5 and 6, beside Figure 4 in Part A. File names carry the main-text figure numbers, so the later figures are renamed (`fig5_secondary` to `fig7_secondary`, `fig6_hours_secondary` to `fig8_hours_secondary`, `fig7_explanations_secondary` to `fig9_explanations_secondary`) with byte-identical content. The meaning figure for the secondary works stays in the Supplement.

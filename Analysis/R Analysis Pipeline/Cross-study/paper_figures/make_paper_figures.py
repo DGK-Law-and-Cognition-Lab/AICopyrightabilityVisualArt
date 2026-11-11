@@ -4,12 +4,12 @@
 What this script does
 ---------------------
 It reads each study's trial-level file (``Study N/studyN_long_with_text.csv``),
-averages each participant's ratings within each condition, and draws nine main-text
-figures, one per claim, and one Supplementary figure, each as a PDF and a PNG in
-``output/``. File names carry the main-text figure numbers. Figures 4 and 9 read the
-text battery's table of what the written explanations mentioned
-(``Cross-study/text_battery/tables/text_battery_prevalence.csv``); Figures 5 and 6 and
-the Supplementary figure read ``Cross-study/image_grounding/`` and
+averages each participant's ratings within each condition, and draws seven main-text
+figures, one per claim, and three Supplementary figures, each as a PDF and a PNG in
+``output/``. Main-text file names carry the figure numbers; Supplementary ones start
+``figS_``. Figures 4 and 7 read the text battery's table of what the written
+explanations mentioned (``Cross-study/text_battery/tables/text_battery_prevalence.csv``);
+the Supplementary figures read ``Cross-study/image_grounding/`` and
 ``Cross-study/label_from_meaning/``:
 
 * ``fig1_stimuli``: three of the ten originals, each beside its Slight and
@@ -21,29 +21,32 @@ the Supplementary figure read ``Cross-study/image_grounding/`` and
 * ``fig4_explanations_originals``: Studies 1 and 2, the share of written
   explanations of each rating that mention prompting or a machine, under
   each label (bars with 95 percent intervals).
-* ``fig5_picture_match_originals``: Studies 1 and 2, how often CLIP picked out
-  the picture an explanation was written about, from the ten originals, under
-  each label (chance is 1 in 10).
-* ``fig6_meaning_originals``: Studies 1 and 2, for each rating, how often a
-  model tells apart a pair of participants, one from each label, from their
-  ratings, from what they wrote, and from what they wrote leaving out any
-  mention of prompting or a machine (the AUC as a percentage; 50 is guessing).
-  The bars start at 50.
-* ``fig7_secondary``: Studies 3, 4 and 5, ratings of the secondary works at
+* ``fig5_secondary``: Studies 3, 4 and 5, ratings of the secondary works at
   each edit level, under the two labels: one row per rating (A creativity,
   B transformativeness, C essence change), one column per study.
-* ``fig8_hours_secondary``: creativity of the secondary works by stated hours:
+* ``fig6_hours_secondary``: creativity of the secondary works by stated hours:
   Study 4, hours stated for making the original; Study 5, hours stated for
   making the secondary work.
-* ``fig9_explanations_secondary``: as Figure 4, for the secondary works of
+* ``fig7_explanations_secondary``: as Figure 4, for the secondary works of
   Studies 3, 4 and 5, on the same 0 to 60 percent scale.
-* ``figS_meaning_secondary`` (Supplementary): as Figure 6, for the three ratings
-  of the secondary works in Studies 3 to 5. The grounding of secondary works
-  gets no figure: the labels did not differ there.
+* ``figS_picture_match_originals`` (Supplementary): Studies 1 and 2, how often
+  CLIP picked out the picture an explanation was written about, from the ten
+  originals, under each label (chance is 1 in 10).
+* ``figS_meaning_originals`` (Supplementary): Studies 1 and 2, for each rating,
+  how often a model tells apart a pair of participants, one from each label,
+  from their ratings, from what they wrote, and from what they wrote leaving out
+  any mention of prompting or a machine (the AUC as a percentage; 50 is
+  guessing). The bars start at 50.
+* ``figS_meaning_secondary`` (Supplementary): as ``figS_meaning_originals``, for
+  the three ratings of the secondary works in Studies 3 to 5. The grounding of
+  secondary works gets no figure: the labels did not differ there.
+
+The bar figures print no value above a bar; ``output/figure_values.csv`` holds
+every plotted value.
 
 The two labels are named on every figure by what they said about the original:
 "Human-generated original" (Alex made it with design and sketching tools) and
-"AI-generated original" (he made it by prompting an AI system). Figures 2, 3, 7 and 8
+"AI-generated original" (he made it by prompting an AI system). Figures 2, 3, 5 and 6
 put the condition on the horizontal axis and the rating (1 to 5) on the
 vertical axis. Each violin shows how the participants' mean ratings spread,
 the small dots are those participants, and the large marker with its bar is the
@@ -357,7 +360,7 @@ def fig_secondary(data):
         for c, (pipe, rows, labcol) in enumerate(data):
             ax = axes[r, c]
             cells = participant_means(rows, [labcol, "modification"], measure=measure)
-            paired_violins(ax, cells, LEVELS, lambda lab, cond: (lab, cond), "fig7_secondary", letter,
+            paired_violins(ax, cells, LEVELS, lambda lab, cond: (lab, cond), "fig5_secondary", letter,
                            PAPER_STUDY[pipe], measure, "edit_level", connect=True)
             ax.set_xticklabels([LEVEL_TEXT[l] for l in LEVELS] if r == 2 else [])
             if r == 0:
@@ -367,7 +370,7 @@ def fig_secondary(data):
     axes[2, 1].set_xlabel("Edit level of the secondary work")
     add_legend(fig, 1.0)
     fig.subplots_adjust(left=0.10, right=0.99, top=0.92, bottom=0.08, wspace=0.12, hspace=0.18)
-    save(fig, "fig7_secondary")
+    save(fig, "fig5_secondary")
 
 
 def fig_hours_secondary(s4, s5):
@@ -377,7 +380,7 @@ def fig_hours_secondary(s4, s5):
     times = ["less than 1 hour", "10 hours", "100 hours"]
     for ax, rows, labcol, timecol, study, xlabel, letter in specs:
         cells = participant_means(rows, [labcol, timecol], measure="creativity")
-        paired_violins(ax, cells, times, lambda lab, c: (lab, c), "fig8_hours_secondary", letter, study, "creativity",
+        paired_violins(ax, cells, times, lambda lab, c: (lab, c), "fig6_hours_secondary", letter, study, "creativity",
                        "stated_hours", connect=True)
         ax.set_xticklabels(["Under 1 hour", "10 hours", "100 hours"])
         ax.set_xlabel(xlabel)
@@ -386,7 +389,7 @@ def fig_hours_secondary(s4, s5):
     axes[0].set_ylabel("Mean creativity rating (1 to 5)")
     add_legend(fig, 1.01)
     fig.subplots_adjust(left=0.10, right=0.99, top=0.80, bottom=0.18, wspace=0.12)
-    save(fig, "fig8_hours_secondary")
+    save(fig, "fig6_hours_secondary")
 
 
 def read_explanation_shares():
@@ -421,8 +424,6 @@ def explanation_bars(fig_name, studies, measures, width_frac):
                 m, lo, hi, n_p, n_e = shares[key]
                 ax.bar(i + dx, m, width=0.36, color=BAR_FACE[lab], edgecolor="#4d4d4d", linewidth=0.7, zorder=3)
                 ax.plot([i + dx, i + dx], [lo, hi], color="black", lw=0.8, zorder=4)
-                ax.text(i + dx, hi + 1.2, f"{m:.0f}" if m >= 9.5 else f"{m:.1f}", ha="center", va="bottom",
-                        fontsize=7, color="#333333")
                 VALUES.append({"figure": fig_name, "panel": letter, "study_paper": study, "rating": measure,
                                "label": lab, "n_participants": n_p, "mean": round(m, 4), "sd": "",
                                "ci95_low": round(lo, 4), "ci95_high": round(hi, 4)})
@@ -455,7 +456,7 @@ def fig_explanations_originals():
 
 
 def fig_explanations_secondary():
-    explanation_bars("fig9_explanations_secondary", [3, 4, 5], ["creativity", "transformativeness", "essence_change"], 1.0)
+    explanation_bars("fig7_explanations_secondary", [3, 4, 5], ["creativity", "transformativeness", "essence_change"], 1.0)
 
 
 # ------------------------------------- the measures beyond the word lists (Supplement)
@@ -517,8 +518,6 @@ def fig_meaning(name, cells, width_frac):
             ax.bar(i + dx, est - 50, bottom=50, width=0.24, color=face, hatch=hatch, edgecolor="#4d4d4d",
                    linewidth=0.7, zorder=3)
             ax.plot([i + dx, i + dx], [lo, hi], color="black", lw=0.8, zorder=4)
-            ax.text(i + dx, (hi + 0.8) if est >= 50 else (lo - 0.8), f"{est:.0f}",
-                    ha="center", va="bottom" if est >= 50 else "top", fontsize=6.8, color="#333333")
             VALUES.append({"figure": name, "panel": "", "study_paper": st, "rating": m, "label": label,
                            "n_participants": n, "mean": round(est, 4), "sd": "", "ci95_low": round(lo, 4),
                            "ci95_high": round(hi, 4)})
@@ -534,8 +533,8 @@ def fig_meaning(name, cells, width_frac):
 
 def fig_picture_match_originals():
     """How often CLIP found the picture an explanation was written about, among the ten originals,
-    under each label (Human gray, AI white, as in Figures 4 and 9)."""
-    name = "fig5_picture_match_originals"
+    under each label (Human gray, AI white, as in Figures 4 and 7)."""
+    name = "figS_picture_match_originals"
     rows = _rows("Cross-study/image_grounding/tables/image_grounding_hits_by_label.csv")
     fig, ax = plt.subplots(figsize=(WIDTH * 0.72, 66 * MM))
     for i, (st, m) in enumerate(ORIGINAL_CELLS):
@@ -548,7 +547,6 @@ def fig_picture_match_originals():
             est, lo, hi = 100 * float(r["hit_rate"]), 100 * float(r["ci_lo"]), 100 * float(r["ci_hi"])
             ax.bar(i + dx, est, width=0.36, color=BAR_FACE[lab], edgecolor="#4d4d4d", linewidth=0.7, zorder=3)
             ax.plot([i + dx, i + dx], [lo, hi], color="black", lw=0.8, zorder=4)
-            ax.text(i + dx, hi + 1.2, f"{est:.0f}", ha="center", va="bottom", fontsize=7, color="#333333")
             VALUES.append({"figure": name, "panel": "", "study_paper": st, "rating": m, "label": lab,
                            "n_participants": int(r["participants"]), "mean": round(est, 4), "sd": "",
                            "ci95_low": round(lo, 4), "ci95_high": round(hi, 4)})
@@ -594,7 +592,7 @@ def write_values():
         key = None
         if v["figure"] == "fig3_study2":
             key = ("fig3_study2", v["rating"], v["label"], v["stated_hours"])
-        elif v["figure"] == "fig7_secondary":
+        elif v["figure"] == "fig5_secondary":
             key = ("second", v["study_paper"], v["rating"], v["label"], v["edit_level"])
         v["model_estimate"] = round(est[key], 4) if key in est else ""
     cols = ["figure", "panel", "study_paper", "rating", "label", "rating_asked", "stated_hours", "edit_level",
@@ -616,11 +614,11 @@ def main():
     fig_secondary(second)
     fig_hours_secondary(data[4], data[5])
     fig_explanations_secondary()
-    fig_meaning("fig6_meaning_originals", ORIGINAL_CELLS, 0.72)
+    fig_meaning("figS_meaning_originals", ORIGINAL_CELLS, 0.72)
     fig_picture_match_originals()
     fig_meaning("figS_meaning_secondary", SECONDARY_CELLS, 1.0)
     write_values()
-    print(f"wrote 9 main-text figures, 1 Supplementary figure and figure_values.csv to {OUT}")
+    print(f"wrote 7 main-text figures, 3 Supplementary figures and figure_values.csv to {OUT}")
 
 
 if __name__ == "__main__":
